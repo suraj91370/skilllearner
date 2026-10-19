@@ -370,7 +370,7 @@
                 <div class="dropdown-menu-box">
                     <a href="{{ url('/plans') }}#basic" class="dropdown-item-link">BASIC</a>
                     <a href="{{ url('/plans') }}#advance" class="dropdown-item-link">ADVANCE</a>
-                    <a href="{{ url('/plans') }}#permium" class="dropdown-item-link">PREMIUM</a>
+                    <a href="{{ url('/plans') }}#premium" class="dropdown-item-link">PREMIUM</a>
                     <a href="{{ url('/plans') }}#growth" class="dropdown-item-link">GROWTH</a>
                     <a href="{{ url('/plans') }}#infinity" class="dropdown-item-link">INFINITY</a>
                 </div>
@@ -413,7 +413,7 @@
             <div class="mobile-accordion-content" id="mobileCoursePackageContent">
                 <a href="{{ url('/plans') }}#basic" class="mobile-sub-item">BASIC</a>
                 <a href="{{ url('/plans') }}#advance" class="mobile-sub-item">ADVANCE</a>
-                <a href="{{ url('/plans') }}#permium" class="mobile-sub-item">PREMIUM</a>
+                <a href="{{ url('/plans') }}#premium" class="mobile-sub-item">PREMIUM</a>
                 <a href="{{ url('/plans') }}#growth" class="mobile-sub-item">GROWTH</a>
                 <a href="{{ url('/plans') }}#infinity" class="mobile-sub-item">INFINITY</a>
             </div>

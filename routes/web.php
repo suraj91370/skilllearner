@@ -8,11 +8,11 @@ function initCareerFixxSession() {
     if (!session()->has('user')) {
         session(['user' => [
             'name' => 'Suraj Sharma',
-            'email' => 'suraj@careerfixx.test',
+            'email' => 'suraj@skillleaner.test',
             'phone' => '+91 98765 43210',
-            'affiliate_id' => 'CFX-8821',
-            'sponsor_id' => 'CFX-ADMIN',
-            'active_package' => 'Prime Package',
+            'affiliate_id' => 'SKL-8821',
+            'sponsor_id' => 'SKL-ADMIN',
+            'active_package' => 'Advance Package',
             'wallet_balance' => 14200,
             'today_earning' => 2200,
             'weekly_earning' => 7400,
@@ -23,10 +23,10 @@ function initCareerFixxSession() {
 
     if (!session()->has('commissions')) {
         session(['commissions' => [
-            ['name' => 'Amit Verma', 'package' => 'Prime Package', 'amount' => 2200, 'type' => 'Direct (Tier-1)', 'time' => '10 mins ago', 'status' => 'Credited'],
-            ['name' => 'Priya Nair', 'package' => 'Standard Package', 'amount' => 1200, 'type' => 'Direct (Tier-1)', 'time' => '2 hours ago', 'status' => 'Credited'],
-            ['name' => 'Karan Joshi', 'package' => 'Legacy Package', 'amount' => 800, 'type' => 'Passive (Tier-2)', 'time' => 'Yesterday', 'status' => 'Credited'],
-            ['name' => 'Sneha Patel', 'package' => 'Mini Package', 'amount' => 500, 'type' => 'Direct (Tier-1)', 'time' => '2 days ago', 'status' => 'Credited']
+            ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 2200, 'type' => 'Direct (Tier-1)', 'time' => '10 mins ago', 'status' => 'Credited'],
+            ['name' => 'Priya Nair', 'package' => 'Basic Package', 'amount' => 1200, 'type' => 'Direct (Tier-1)', 'time' => '2 hours ago', 'status' => 'Credited'],
+            ['name' => 'Karan Joshi', 'package' => 'Infinity Package', 'amount' => 800, 'type' => 'Passive (Tier-2)', 'time' => 'Yesterday', 'status' => 'Credited'],
+            ['name' => 'Sneha Patel', 'package' => 'Growth Package', 'amount' => 500, 'type' => 'Direct (Tier-1)', 'time' => '2 days ago', 'status' => 'Credited']
         ]]);
     }
 
@@ -42,70 +42,44 @@ function initCareerFixxSession() {
 function getPackages() {
     return [
         [
-            'id' => 'mini',
-            'name' => 'Mini Package',
-            'price' => 999,
-            'old_price' => 1999,
-            'direct_comm' => 500,
-            'passive_comm' => 100,
-            'badge' => 'BEGINNER',
-            'featured' => false,
-            'courses_included' => ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English']
-        ],
-        [
             'id' => 'basic',
             'name' => 'Basic Package',
-            'price' => 1499,
-            'old_price' => 2999,
-            'direct_comm' => 800,
-            'passive_comm' => 150,
+            'image' => 'images/packages/basic.jpg',
             'badge' => 'STARTER',
             'featured' => false,
-            'courses_included' => ['All Mini Courses', 'Social Media Growth', 'Content Creation Secrets']
+            'courses_included' => ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals']
         ],
         [
-            'id' => 'standard',
-            'name' => 'Standard Package',
-            'price' => 1999,
-            'old_price' => 3999,
-            'direct_comm' => 1200,
-            'passive_comm' => 200,
+            'id' => 'advance',
+            'name' => 'Advance Package',
+            'image' => 'images/packages/advance.jpg',
             'badge' => 'POPULAR',
-            'featured' => false,
-            'courses_included' => ['All Basic & Mini Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation']
+            'featured' => true,
+            'courses_included' => ['All Basic Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation']
         ],
         [
-            'id' => 'prime',
-            'name' => 'Prime Package',
-            'price' => 3499,
-            'old_price' => 6999,
-            'direct_comm' => 2200,
-            'passive_comm' => 400,
-            'badge' => 'MOST POPULAR (BEST VALUE)',
-            'featured' => true,
-            'courses_included' => ['All Standard & Mini Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Converting Sales Funnel Script']
+            'id' => 'premium',
+            'name' => 'Premium Package',
+            'image' => 'images/packages/premium.jpg',
+            'badge' => 'BEST VALUE',
+            'featured' => false,
+            'courses_included' => ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development']
+        ],
+        [
+            'id' => 'growth',
+            'name' => 'Growth Package',
+            'image' => 'images/packages/growth.jpg',
+            'badge' => 'HIGH GROWTH',
+            'featured' => false,
+            'courses_included' => ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads']
         ],
         [
             'id' => 'infinity',
             'name' => 'Infinity Package',
-            'price' => 4999,
-            'old_price' => 9999,
-            'direct_comm' => 3200,
-            'passive_comm' => 600,
-            'badge' => 'ADVANCED PRO',
-            'featured' => false,
-            'courses_included' => ['All Prime Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads']
-        ],
-        [
-            'id' => 'legacy',
-            'name' => 'Legacy Package',
-            'price' => 6999,
-            'old_price' => 13999,
-            'direct_comm' => 4500,
-            'passive_comm' => 800,
+            'image' => 'images/packages/infinity.jpg',
             'badge' => 'ALL ACCESS LIFETIME',
             'featured' => false,
-            'courses_included' => ['Full Lifetime Access Pass', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'Highest 70% Commission Tier', 'Instant Fast-Track Bank Payouts']
+            'courses_included' => ['Full Lifetime Access Pass', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Support']
         ]
     ];
 }
@@ -199,7 +173,7 @@ Route::get('/simulate-sale', function () {
     $names = ['Rohan Das', 'Ananya Gupta', 'Vikas Reddy', 'Manish Mehra', 'Deepak Soni'];
     array_unshift($commissions, [
         'name' => $names[array_rand($names)],
-        'package' => 'Prime Package',
+        'package' => 'Advance Package',
         'amount' => $saleAmount,
         'type' => 'Direct (Tier-1)',
         'time' => 'Just now',
@@ -243,9 +217,9 @@ Route::post('/register-user', function (Request $request) {
         'name' => $request->input('name', 'New Affiliate'),
         'email' => $request->input('email', 'student@example.com'),
         'phone' => $request->input('phone', '+91 90000 00000'),
-        'affiliate_id' => 'CFX-' . rand(1000, 9999),
-        'sponsor_id' => $request->input('sponsor_id', 'CFX-ADMIN'),
-        'active_package' => $request->input('package', 'Prime Package'),
+        'affiliate_id' => 'SKL-' . rand(1000, 9999),
+        'sponsor_id' => $request->input('sponsor_id', 'SKL-ADMIN'),
+        'active_package' => $request->input('package', 'Advance Package'),
         'wallet_balance' => 0,
         'today_earning' => 0,
         'weekly_earning' => 0,

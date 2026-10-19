@@ -49,28 +49,28 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
         @foreach ($packages as $pkg)
-            <div class="glass {{ $pkg['featured'] ? 'popular' : '' }}" style="padding: 2.2rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; {{ $pkg['featured'] ? 'border: 2px solid #818cf8; background: linear-gradient(180deg, rgba(99, 102, 241, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);' : '' }}">
-                <div style="position: absolute; top: -13px; right: 25px; background: var(--primary-gradient); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+            <div class="glass {{ $pkg['featured'] ? 'popular' : '' }}" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; {{ $pkg['featured'] ? 'border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);' : '' }}">
+                <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
                     {{ $pkg['badge'] }}
                 </div>
-                <h3 style="font-size: 1.5rem;">{{ $pkg['name'] }}</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; margin: 0.8rem 0 1.2rem;">
-                    ₹{{ number_format($pkg['price']) }} <s style="font-size: 1.1rem; color: #64748b; margin-left: 8px; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</s>
+                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="{{ asset($pkg['image']) }}" alt="{{ $pkg['name'] }}" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-                <div style="background: rgba(16, 185, 129, 0.08); border: 1px dashed rgba(16, 185, 129, 0.35); padding: 12px; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.88rem;">
-                    <div>Direct Commission: <strong style="color: var(--success);">₹{{ number_format($pkg['direct_comm']) }}</strong></div>
-                    <div>Passive Tier-2: <strong style="color: var(--success);">₹{{ number_format($pkg['passive_comm']) }}</strong></div>
-                </div>
+
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.8rem;">{{ $pkg['name'] }}</h3>
+
                 <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
                     @foreach ($pkg['courses_included'] as $c)
                         <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: var(--success); font-weight: bold;">✓</span> {{ $c }}
+                            <span style="color: #05B396; font-weight: bold;">✓</span> {{ $c }}
                         </li>
                     @endforeach
                 </ul>
-                <button onclick="openCheckout('{{ $pkg['name'] }}', {{ $pkg['price'] }})" class="btn {{ $pkg['featured'] ? 'btn-primary' : 'btn-secondary' }}">
+
+                <a href="{{ url('/register?package=' . urlencode($pkg['name'])) }}" class="btn {{ $pkg['featured'] ? 'btn-primary' : 'btn-secondary' }}" style="text-align: center; width: 100%; padding: 0.85rem; font-weight: 700;">
                     Enroll in {{ $pkg['name'] }}
-                </button>
+                </a>
             </div>
         @endforeach
     </div>
