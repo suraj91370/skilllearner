@@ -44,7 +44,7 @@
             justify-content: space-between; 
             align-items: center; 
             border-bottom: 1px solid var(--border-glass); 
-            background: rgba(7, 10, 18, 0.92); 
+            background: #b8e1d3; 
             backdrop-filter: blur(16px); 
         }
 
@@ -53,13 +53,13 @@
         
         nav.menu { display: flex; gap: 2rem; align-items: center; }
         nav.menu > a { 
-            color: var(--text-body); 
+            color: #000000; 
             text-decoration: none; 
             font-size: 1rem; 
             font-weight: 600; 
             transition: color 0.2s ease; 
         }
-        nav.menu > a:hover, nav.menu > a.active { color: #fff; }
+        nav.menu > a:hover, nav.menu > a.active { color: #000000; }
 
         /* Course Package Dropdown (Desktop Hover) */
         .nav-dropdown {
@@ -71,7 +71,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: #c084fc;
+            color: #000000;
             text-decoration: none;
             font-size: 1rem;
             font-weight: 600;
@@ -133,7 +133,7 @@
         }
 
         .dropdown-item-link:hover {
-            color: #9333ea;
+            color: #05B396;
             background: #f5f3ff;
             padding-left: 1.9rem;
         }
@@ -288,7 +288,7 @@
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.65rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: pointer; text-decoration: none; border: none; transition: all 0.25s ease; }
         .btn-primary { background: var(--primary-gradient); color: #fff; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(99, 102, 241, 0.55); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid var(--border-glass); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.07); color: #000000; border: 1px solid var(--border-glass); }
         .btn-secondary:hover { background: rgba(255, 255, 255, 0.14); }
         .btn-success { background: var(--secondary-gradient); color: #fff; }
 
@@ -351,7 +351,7 @@
     <!-- Top Navigation Bar -->
     <header class="nav">
         <a href="{{ url('/') }}" class="brand" style="display: flex; align-items: center; text-decoration: none;">
-            <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" class="brand-logo" style="height: 52px; width: auto; object-fit: contain;">
+            <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" class="brand-logo" style="height: 60px; width: auto; object-fit: contain;">
         </a>
 
         <!-- Desktop Navigation Menu -->
@@ -382,7 +382,7 @@
         <!-- Desktop Action Buttons -->
         <div class="nav-btns">
             <a href="{{ url('/dashboard') }}" class="btn btn-secondary">My Account</a>
-            <a href="{{ url('/register') }}?ref={{ session('user.affiliate_id', 'CFX-ADMIN') }}" class="btn btn-primary">Enroll Now</a>
+            {{-- <a href="{{ url('/register') }}?ref={{ session('user.affiliate_id', 'CFX-ADMIN') }}" class="btn btn-primary">Enroll Now</a> --}}
         </div>
 
         <!-- Mobile Hamburger Toggle Button -->
