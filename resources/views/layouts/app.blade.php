@@ -350,9 +350,8 @@
 
     <!-- Top Navigation Bar -->
     <header class="nav">
-        <a href="{{ url('/') }}" class="brand">
-            <span class="brand-badge">CFX</span>
-            <span>Career<strong class="text-gradient">Fixx</strong></span>
+        <a href="{{ url('/') }}" class="brand" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" class="brand-logo" style="height: 52px; width: auto; object-fit: contain;">
         </a>
 
         <!-- Desktop Navigation Menu -->
@@ -397,6 +396,9 @@
     <!-- Mobile Slide-In Drawer Navigation -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
+        <div style="margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
+            <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" style="height: 42px; width: auto; object-fit: contain;">
+        </div>
         <a href="{{ url('/') }}" class="mobile-nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
         <a href="{{ url('/about') }}" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
         
