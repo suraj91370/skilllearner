@@ -45,7 +45,7 @@ function getPackages() {
             'id' => 'basic',
             'name' => 'Basic Package',
             'image' => 'images/packages/basic.jpg',
-            'badge' => 'STARTER',
+            'badge' => '',
             'featured' => false,
             'courses_included' => ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals']
         ],
