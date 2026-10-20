@@ -310,8 +310,8 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
         </nav>
 
         <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
-            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
             <a href="/my-account" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">My Account</a>
+            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
         </div>
 
         <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
@@ -436,73 +436,322 @@ const packages = [
 
 // --- 4.1 Home Page Content ---
 const homeContent = `
-<section class="container" style="text-align: center; padding-top: 4rem; padding-bottom: 3rem;">
-    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); padding: 6px 16px; border-radius: 30px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 700; color: #05B396;">
-        ★ India's #1 Skill & Affiliate Platform
+<!-- Hero Section -->
+<section class="hero" style="text-align: center; padding: 5rem 2rem 4rem; max-width: 1150px; margin: 0 auto;">
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
+        <span>★ India's #1 Skill &amp; Affiliate Platform</span>
     </div>
     <h1 style="font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;">
         Learn, Create, <br><span class="text-gradient">Monetize.</span>
     </h1>
-    <p style="color: var(--text-body); font-size: 1.15rem; max-width: 720px; margin: 0 auto 2.5rem;">
+    <p style="color: var(--text-body); font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem;">
         Master AI, Digital Marketing, Video Editing, and High-Ticket Freelancing with practical, project-based video masterclasses while building your passive income stream.
     </p>
     <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
-        <a href="/plans" class="btn btn-primary" style="padding: 1rem 2.2rem; font-size: 1.05rem;">Explore Packages ➔</a>
-        <a href="/classroom" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.05rem;">Preview Classroom</a>
+        <a href="/courses" class="btn btn-primary" style="background: #05B396; padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">Explore Courses ➔</a>
+        <a href="/plans" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a>
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;">
-        <div>
-            <h3 style="font-size: 2.2rem; font-weight: 800; color: #05B396;">12,500+</h3>
+    <div style="display: flex; justify-content: center; gap: 3.5rem; margin-top: 4.5rem; flex-wrap: wrap;">
+        <div class="stat-item">
+            <h3 style="font-size: 2.2rem; font-weight: 800;">12,500+</h3>
             <p style="color: var(--text-body); font-size: 0.9rem;">Enrolled Students</p>
         </div>
-        <div>
-            <h3 style="font-size: 2.2rem; font-weight: 800; color: #05B396;">₹45 Lakh+</h3>
-            <p style="color: var(--text-body); font-size: 0.9rem;">Affiliate Payouts</p>
+        <div class="stat-item">
+            <h3 style="font-size: 2.2rem; font-weight: 800;">₹45 Lakh+</h3>
+            <p style="color: var(--text-body); font-size: 0.9rem;">Commissions Paid</p>
         </div>
-        <div>
-            <h3 style="font-size: 2.2rem; font-weight: 800; color: #05B396;">4.9 / 5</h3>
+        <div class="stat-item">
+            <h3 style="font-size: 2.2rem; font-weight: 800;">4.9 / 5</h3>
             <p style="color: var(--text-body); font-size: 0.9rem;">Student Rating</p>
         </div>
-        <div>
-            <h3 style="font-size: 2.2rem; font-weight: 800; color: #05B396;">70%</h3>
+        <div class="stat-item">
+            <h3 style="font-size: 2.2rem; font-weight: 800;">70%</h3>
             <p style="color: var(--text-body); font-size: 0.9rem;">Direct Commission</p>
         </div>
     </div>
 </section>
 
 <!-- Packages Showcase -->
-<section class="container" id="packages" style="padding-top: 2rem;">
+<section class="container" id="packages">
     <div style="text-align: center; margin-bottom: 3.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: #05B396; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages &amp; Tiers</div>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages &amp; Tiers</div>
         <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">Select Your Learning Track</h2>
         <p style="color: var(--text-body); max-width: 620px; margin: 0 auto;">Every package unlocks premium high-yield skills along with direct and passive referral commission rights.</p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-        ${packages.map(pkg => `
-            <div id="${pkg.id}" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; ${pkg.featured ? 'border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);' : ''}">
-                ${pkg.badge ? `<div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">${pkg.badge}</div>` : ''}
-
-                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px;">
-                    <img src="${pkg.image}" alt="${pkg.name}" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                </div>
-
-                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.8rem;">${pkg.name}</h3>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    ${pkg.courses.map(c => `
-                        <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #05B396; font-weight: bold;">✓</span> ${c}
-                        </li>
-                    `).join('')}
-                </ul>
-
-                <a href="/register?package=${encodeURIComponent(pkg.name)}" class="btn ${pkg.featured ? 'btn-primary' : 'btn-secondary'}" style="text-align: center; width: 100%; padding: 0.85rem; font-weight: 700;">
-                    Buy Now ➔
-                </a>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
+        <!-- Basic -->
+        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
+            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                <img src="/images/packages/basic.jpg" alt="Basic Package" style="max-height: 210px; width: auto; object-fit: contain;">
             </div>
-        `).join('')}
+            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Basic Package</h3>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹2,999</span>
+            </div>
+            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Canva Pro Mastery</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> MS Excel Essentials</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Basic Spoken English</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Social Media Fundamentals</li>
+            </ul>
+            <a href="/buy-now?package=basic" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
+        </div>
+
+        <!-- Advance -->
+        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);">
+            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">POPULAR</div>
+            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                <img src="/images/packages/advance.jpg" alt="Advance Package" style="max-height: 210px; width: auto; object-fit: contain;">
+            </div>
+            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Advance Package</h3>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹2,499</span>
+                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹4,999</span>
+            </div>
+            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere &amp; CapCut)</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation Blueprint</li>
+            </ul>
+            <a href="/buy-now?package=advance" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
+        </div>
+
+        <!-- Premium -->
+        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
+            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">BEST VALUE</div>
+            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                <img src="/images/packages/premium.jpg" alt="Premium Package" style="max-height: 210px; width: auto; object-fit: contain;">
+            </div>
+            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Premium Package</h3>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹3,999</span>
+                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹7,999</span>
+            </div>
+            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Advance Courses</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Facebook &amp; Instagram Paid Ads</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> AI &amp; ChatGPT Monetization Kit</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> WordPress Web Development</li>
+            </ul>
+            <a href="/buy-now?package=premium" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
+        </div>
+
+        <!-- Growth -->
+        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
+            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">HIGH GROWTH</div>
+            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                <img src="/images/packages/growth.jpg" alt="Growth Package" style="max-height: 210px; width: auto; object-fit: contain;">
+            </div>
+            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Growth Package</h3>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹5,999</span>
+                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹11,999</span>
+            </div>
+            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Premium Courses</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Complete Funnel Building</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> High-Ticket Sales Closing</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Google &amp; YouTube Ads</li>
+            </ul>
+            <a href="/buy-now?package=growth" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
+        </div>
+
+        <!-- Infinity -->
+        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
+            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">ALL ACCESS LIFETIME</div>
+            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                <img src="/images/packages/infinity.jpg" alt="Infinity Package" style="max-height: 210px; width: auto; object-fit: contain;">
+            </div>
+            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Infinity Package</h3>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹9,999</span>
+                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹19,999</span>
+            </div>
+            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Full Lifetime Access Pass</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> UI/UX Design Masterclass</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> 1-on-1 Mentorship &amp; Live Masterminds</li>
+                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> VIP Community &amp; Direct Support</li>
+            </ul>
+            <a href="/buy-now?package=infinity" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
+        </div>
+    </div>
+</section>
+
+<!-- Course Curriculum & Descriptions -->
+<section class="container" style="padding-top: 0; padding-bottom: 5rem;">
+    <div style="text-align: center; margin-bottom: 3.5rem;">
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Curriculum &amp; Syllabuses</div>
+        <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">High-Yield Skill Courses</h2>
+        <p style="color: var(--text-body); max-width: 600px; margin: 0 auto;">Read full course descriptions, learning modules, and enroll directly with one click.</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <!-- Course 1 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>🚀</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">6h 40m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">BESTSELLER</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">AFFILIATE BUSINESS</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">High-Ticket Affiliate Marketing Masterclass</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">18 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/affiliate-marketing-masterclass" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>🤖</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 15m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">TRENDING</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">ARTIFICIAL INTELLIGENCE</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">AI, ChatGPT &amp; Automation Cashflow</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance services in minutes.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">14 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,299</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/ai-chatgpt-automation" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>🎬</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">8h 20m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HOT SKILL</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">VIDEO &amp; MEDIA</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Short-Form Video Editing (CapCut &amp; Premiere Pro)</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">22 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/short-form-video-editing" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>📈</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 50m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HIGH ROI</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">PERFORMANCE MARKETING</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Meta Ads Mastery: Facebook &amp; Instagram Leads</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Run profitable Facebook &amp; Instagram ads for real estate, e-commerce, coaching, and lead gen.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">16 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,699</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/meta-ads-mastery" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=meta-ads-mastery" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 5 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>💻</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">7h 30m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">MOST PRACTICAL</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">WEB DESIGN</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">WordPress &amp; Landing Page Design No-Code</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Build high-converting sales pages, company websites, and portfolios using Elementor without coding.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">20 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/wordpress-landing-page-design" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=wordpress-landing-page-design" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 6 -->
+        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                <span>⭐</span>
+                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">4h 10m</span>
+                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">FAST GROWTH</span>
+            </div>
+            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">SOCIAL MEDIA</span>
+                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Personal Branding &amp; Instagram Reel Blueprint</h4>
+                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Build authority, attract inbound client inquiries, and grow your Instagram followers organically.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-body);">12 Lessons</span>
+                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹999</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                        <a href="/courses/personal-branding-instagram-reels" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
+                        <a href="/buy-now?course=personal-branding-instagram-reels" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="/courses" class="btn btn-secondary" style="padding: 0.9rem 2.2rem; font-size: 1rem; font-weight: 700;">
+            View All Courses With Full Syllabuses ➔
+        </a>
     </div>
 </section>
 `;
