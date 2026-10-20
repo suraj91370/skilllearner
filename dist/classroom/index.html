@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom LMS — Skillleaner</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #070a12;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(99, 102, 241, 0.35);
+            --text-title: #f8fafc;
+            --text-body: #94a3b8;
+            --primary: #05B396;
+            --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
+            --secondary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --success: #10b981;
+            --gold: #f59e0b;
+            --danger: #ef4444;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --shadow-glow: 0 0 35px rgba(5, 179, 150, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
+        .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
+        
+        /* Navigation Bar (Desktop) */
+        header.nav { 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            padding: 1rem 2.5rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-glass); 
+            background: #b8e1d3; 
+            backdrop-filter: blur(16px); 
+        }
+
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+            color: #000; 
+            font-size: 1.35rem; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+        }
+        .brand-logo-img { height: 44px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
+        .nav-links a { 
+            color: #000000; 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 600; 
+            transition: color 0.2s; 
+        }
+        .nav-links a:hover, .nav-links a.active { color: #05B396; }
+
+        /* Course Package Hover Dropdown (Desktop) */
+        .dropdown-wrapper { position: relative; display: inline-block; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #000000 !important; font-weight: 600; font-size: 0.95rem; }
+        .dropdown-trigger:hover { color: #05B396 !important; }
+        .dropdown-menu-box {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            min-width: 170px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .dropdown-wrapper:hover .dropdown-menu-box { display: block; }
+        .dropdown-item-link {
+            display: block;
+            padding: 0.65rem 1.2rem;
+            color: #f8fafc !important;
+            font-size: 0.88rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+        .dropdown-item-link:hover {
+            background: rgba(5, 179, 150, 0.18);
+            color: #05B396 !important;
+            padding-left: 1.45rem;
+        }
+
+        /* Buttons */
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding: 0.65rem 1.35rem; 
+            border-radius: var(--radius-md); 
+            font-weight: 700; 
+            text-decoration: none; 
+            font-size: 0.92rem; 
+            cursor: pointer; 
+            border: none; 
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .btn-primary { 
+            background: var(--primary-gradient); 
+            color: #fff; 
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.35); 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 22px rgba(5, 179, 150, 0.5); 
+        }
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text-title); 
+            border: 1px solid var(--border-glass); 
+        }
+        .btn-secondary:hover { 
+            background: rgba(255, 255, 255, 0.12); 
+            transform: translateY(-2px); 
+        }
+
+        /* Mobile Hamburger & Slide-in Drawer */
+        .mobile-toggle-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .mobile-toggle-btn span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: #000;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+        }
+        .mobile-overlay.active { display: block; }
+        .mobile-drawer {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 280px; height: 100%;
+            background: #0b1120;
+            border-left: 1px solid var(--border-glass);
+            z-index: 1002;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+        .mobile-drawer.active { right: 0; }
+        .mobile-nav-link {
+            color: #f8fafc;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: block;
+            padding: 0.6rem 0;
+        }
+        .mobile-accordion-btn {
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            font-size: 1.05rem;
+            font-weight: 700;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            cursor: pointer;
+        }
+        .mobile-accordion-content {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding-left: 1rem;
+            margin-top: 0.2rem;
+        }
+        .mobile-accordion-content.open { display: flex; }
+        .mobile-sub-item {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0;
+        }
+        .mobile-sub-item:hover { color: #05B396; }
+
+        @media (max-width: 900px) {
+            .nav-links, .nav-actions { display: none !important; }
+            .mobile-toggle-btn { display: flex; }
+            header.nav { padding: 0.8rem 1.2rem; }
+        }
+
+        /* Layout & Common */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+        }
+        .form-control:focus {
+            border-color: #05B396;
+            box-shadow: 0 0 10px rgba(5, 179, 150, 0.3);
+        }
+        .form-group { margin-bottom: 1.2rem; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="nav">
+        <a href="/" class="brand">
+            <img src="/images/logo.png" alt="Skillleaner" class="brand-logo-img">
+        </a>
+        
+        <nav class="nav-links">
+            <a href="/" class="">Home</a>
+            
+            <!-- Desktop Course Package Dropdown -->
+            <div class="dropdown-wrapper">
+                <a href="/plans" class="dropdown-trigger ">
+                    Course Package <span style="font-size: 0.75rem;">▾</span>
+                </a>
+                <div class="dropdown-menu-box">
+                    <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
+                    <a href="/plans#advance" class="dropdown-item-link">ADVANCE</a>
+                    <a href="/plans#premium" class="dropdown-item-link">PREMIUM</a>
+                    <a href="/plans#growth" class="dropdown-item-link">GROWTH</a>
+                    <a href="/plans#infinity" class="dropdown-item-link">INFINITY</a>
+                </div>
+            </div>
+
+            <a href="/plans" class="">All Plans</a>
+            <a href="/classroom" class="active">Classroom</a>
+        </nav>
+
+        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
+            <a href="/register" class="btn btn-primary">Enroll Now</a>
+            <a href="/dashboard" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">Student Portal</a>
+        </div>
+
+        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 36px; width: auto;">
+            <button id="mobileCloseBtn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+        </div>
+        
+        <a href="/" class="mobile-nav-link">Home</a>
+        
+        <!-- Mobile Accordion for Course Package -->
+        <div>
+            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn">
+                Course Package <span>▾</span>
+            </button>
+            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
+
+        <a href="/plans" class="mobile-nav-link">All Plans</a>
+        <a href="/classroom" class="mobile-nav-link">Classroom LMS</a>
+        <a href="/dashboard" class="mobile-nav-link">Student Dashboard</a>
+        <a href="/register" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Enroll Now</a>
+    </div>
+
+    <main class="main-content">
+        
+<section class="container" style="padding-top: 2rem;">
+    <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">LMS CLASSROOM</span>
+            <h2 id="activeLessonTitle" style="font-size: 1.8rem; margin-top: 0.4rem;">01. Introduction to High-Ticket Affiliate Funnels</h2>
+        </div>
+        <button onclick="alert('🏆 Certificate Generated! \nIssued to: Suraj Sharma\nCourse: Affiliate Mastery\nStatus: 100% Completed')" class="btn btn-secondary">
+            📜 Claim Course Certificate
+        </button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 2rem;">
+        <div>
+            <div class="player-container" style="position: relative; background: #000; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16 / 9; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); border: 1px solid var(--border-glass);">
+                <video id="videoPlayer" controls poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80" style="width: 100%; height: 100%; object-fit: cover;">
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="glass" style="margin-top: 1.5rem; padding: 1.8rem; border-radius: var(--radius-md);">
+                <h4 style="margin-bottom: 0.6rem;">Lesson Overview &amp; Resources</h4>
+                <p style="color: var(--text-body); font-size: 0.95rem; margin-bottom: 1rem;">Learn the exact system used by top affiliates to close ₹20,000+ per week directly from organic social media traffic without paid ads.</p>
+                <button onclick="alert('Download started: Affiliate_Blueprint_PDF.zip')" class="btn btn-secondary" style="font-size: 0.85rem;">
+                    📥 Download Lesson PDF &amp; Scripts
+                </button>
+            </div>
+        </div>
+
+        <!-- Playlist -->
+        <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md); height: fit-content;">
+            <h4 style="margin-bottom: 1.2rem; font-size: 1.1rem;">Course Modules (18 Lessons)</h4>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                <div style="padding: 0.8rem; background: rgba(5, 179, 150, 0.15); border: 1px solid #05B396; border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 0.82rem; color: #05B396; font-weight: 700;">LESSON 1 (PLAYING)</div>
+                    <div style="font-size: 0.92rem; font-weight: 600; margin-top: 2px;">Intro &amp; Strategy Setup</div>
+                </div>
+                <div style="padding: 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 0.82rem; color: var(--text-body);">LESSON 2 (14:30)</div>
+                    <div style="font-size: 0.92rem; font-weight: 600; margin-top: 2px;">Organic Lead Funnel Architecture</div>
+                </div>
+                <div style="padding: 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 0.82rem; color: var(--text-body);">LESSON 3 (22:15)</div>
+                    <div style="font-size: 0.92rem; font-weight: 600; margin-top: 2px;">High-Ticket Direct DM Closing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
+        <div class="container">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 40px; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">Skillleaner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <p>© 2026 Skillleaner. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const accordionBtn = document.getElementById('mobileCoursePackageBtn');
+            const accordionContent = document.getElementById('mobileCoursePackageContent');
+
+            function toggleMenu() {
+                mobileOverlay.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+            }
+
+            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', toggleMenu);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMenu);
+
+            if (accordionBtn && accordionContent) {
+                accordionBtn.addEventListener('click', () => {
+                    accordionContent.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

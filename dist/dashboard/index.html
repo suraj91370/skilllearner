@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard — Skillleaner</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #070a12;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(99, 102, 241, 0.35);
+            --text-title: #f8fafc;
+            --text-body: #94a3b8;
+            --primary: #05B396;
+            --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
+            --secondary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --success: #10b981;
+            --gold: #f59e0b;
+            --danger: #ef4444;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --shadow-glow: 0 0 35px rgba(5, 179, 150, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
+        .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
+        
+        /* Navigation Bar (Desktop) */
+        header.nav { 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            padding: 1rem 2.5rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-glass); 
+            background: #b8e1d3; 
+            backdrop-filter: blur(16px); 
+        }
+
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+            color: #000; 
+            font-size: 1.35rem; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+        }
+        .brand-logo-img { height: 44px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
+        .nav-links a { 
+            color: #000000; 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 600; 
+            transition: color 0.2s; 
+        }
+        .nav-links a:hover, .nav-links a.active { color: #05B396; }
+
+        /* Course Package Hover Dropdown (Desktop) */
+        .dropdown-wrapper { position: relative; display: inline-block; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #000000 !important; font-weight: 600; font-size: 0.95rem; }
+        .dropdown-trigger:hover { color: #05B396 !important; }
+        .dropdown-menu-box {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            min-width: 170px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .dropdown-wrapper:hover .dropdown-menu-box { display: block; }
+        .dropdown-item-link {
+            display: block;
+            padding: 0.65rem 1.2rem;
+            color: #f8fafc !important;
+            font-size: 0.88rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+        .dropdown-item-link:hover {
+            background: rgba(5, 179, 150, 0.18);
+            color: #05B396 !important;
+            padding-left: 1.45rem;
+        }
+
+        /* Buttons */
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding: 0.65rem 1.35rem; 
+            border-radius: var(--radius-md); 
+            font-weight: 700; 
+            text-decoration: none; 
+            font-size: 0.92rem; 
+            cursor: pointer; 
+            border: none; 
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .btn-primary { 
+            background: var(--primary-gradient); 
+            color: #fff; 
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.35); 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 22px rgba(5, 179, 150, 0.5); 
+        }
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text-title); 
+            border: 1px solid var(--border-glass); 
+        }
+        .btn-secondary:hover { 
+            background: rgba(255, 255, 255, 0.12); 
+            transform: translateY(-2px); 
+        }
+
+        /* Mobile Hamburger & Slide-in Drawer */
+        .mobile-toggle-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .mobile-toggle-btn span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: #000;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+        }
+        .mobile-overlay.active { display: block; }
+        .mobile-drawer {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 280px; height: 100%;
+            background: #0b1120;
+            border-left: 1px solid var(--border-glass);
+            z-index: 1002;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+        .mobile-drawer.active { right: 0; }
+        .mobile-nav-link {
+            color: #f8fafc;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: block;
+            padding: 0.6rem 0;
+        }
+        .mobile-accordion-btn {
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            font-size: 1.05rem;
+            font-weight: 700;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            cursor: pointer;
+        }
+        .mobile-accordion-content {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding-left: 1rem;
+            margin-top: 0.2rem;
+        }
+        .mobile-accordion-content.open { display: flex; }
+        .mobile-sub-item {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0;
+        }
+        .mobile-sub-item:hover { color: #05B396; }
+
+        @media (max-width: 900px) {
+            .nav-links, .nav-actions { display: none !important; }
+            .mobile-toggle-btn { display: flex; }
+            header.nav { padding: 0.8rem 1.2rem; }
+        }
+
+        /* Layout & Common */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+        }
+        .form-control:focus {
+            border-color: #05B396;
+            box-shadow: 0 0 10px rgba(5, 179, 150, 0.3);
+        }
+        .form-group { margin-bottom: 1.2rem; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="nav">
+        <a href="/" class="brand">
+            <img src="/images/logo.png" alt="Skillleaner" class="brand-logo-img">
+        </a>
+        
+        <nav class="nav-links">
+            <a href="/" class="">Home</a>
+            
+            <!-- Desktop Course Package Dropdown -->
+            <div class="dropdown-wrapper">
+                <a href="/plans" class="dropdown-trigger ">
+                    Course Package <span style="font-size: 0.75rem;">▾</span>
+                </a>
+                <div class="dropdown-menu-box">
+                    <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
+                    <a href="/plans#advance" class="dropdown-item-link">ADVANCE</a>
+                    <a href="/plans#premium" class="dropdown-item-link">PREMIUM</a>
+                    <a href="/plans#growth" class="dropdown-item-link">GROWTH</a>
+                    <a href="/plans#infinity" class="dropdown-item-link">INFINITY</a>
+                </div>
+            </div>
+
+            <a href="/plans" class="">All Plans</a>
+            <a href="/classroom" class="">Classroom</a>
+        </nav>
+
+        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
+            <a href="/register" class="btn btn-primary">Enroll Now</a>
+            <a href="/dashboard" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">Student Portal</a>
+        </div>
+
+        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 36px; width: auto;">
+            <button id="mobileCloseBtn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+        </div>
+        
+        <a href="/" class="mobile-nav-link">Home</a>
+        
+        <!-- Mobile Accordion for Course Package -->
+        <div>
+            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn">
+                Course Package <span>▾</span>
+            </button>
+            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
+
+        <a href="/plans" class="mobile-nav-link">All Plans</a>
+        <a href="/classroom" class="mobile-nav-link">Classroom LMS</a>
+        <a href="/dashboard" class="mobile-nav-link">Student Dashboard</a>
+        <a href="/register" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Enroll Now</a>
+    </div>
+
+    <main class="main-content">
+        
+<section class="container" style="padding-top: 2rem;">
+    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 2.2rem;">
+        <!-- Sidebar -->
+        <aside class="glass" style="padding: 1.8rem; border-radius: var(--radius-md); height: fit-content;">
+            <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem;">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800;">
+                    S
+                </div>
+                <div>
+                    <h4 style="font-size: 1rem;">Suraj Sharma</h4>
+                    <span style="font-size: 0.75rem; color: var(--success); font-weight: 700;">● Verified ✅</span>
+                </div>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                <li><a href="/dashboard" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; background: rgba(5, 179, 150, 0.15); border-color: #05B396; color: #05B396;">📊 Overview &amp; Wallet</a></li>
+                <li><a href="/classroom" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🎓 My Courses</a></li>
+                <li><a href="javascript:void(0)" onclick="alert('Payout request submitted for ₹5,000!')" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">💸 Request Payout</a></li>
+                <li><a href="/" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🏠 Main Website</a></li>
+            </ul>
+        </aside>
+
+        <!-- Dashboard Content -->
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 style="font-size: 2rem; font-weight: 800;">Affiliate Command Center</h2>
+                    <p style="color: var(--text-body);">Active Tier: <strong style="color: #05B396;">Advance Package</strong> | Referral Code: <code>SKL-8821</code></p>
+                </div>
+            </div>
+
+            <!-- Earnings Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem;">
+                <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.85rem; color: var(--text-body);">Wallet Balance</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #10b981; margin-top: 4px;">₹14,200</div>
+                </div>
+                <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.85rem; color: var(--text-body);">Today's Earnings</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-top: 4px;">₹2,200</div>
+                </div>
+                <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.85rem; color: var(--text-body);">Weekly Earnings</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-top: 4px;">₹7,400</div>
+                </div>
+                <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.85rem; color: var(--text-body);">All-Time Earnings</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #05B396; margin-top: 4px;">₹48,600</div>
+                </div>
+            </div>
+
+            <!-- Referral Link Box -->
+            <div class="glass" style="padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+                <h4 style="margin-bottom: 0.6rem;">Your Affiliate Referral Link</h4>
+                <div style="display: flex; gap: 0.8rem;">
+                    <input type="text" readonly value="https://skillleaner.com/register?ref=SKL-8821" class="form-control" style="margin-top: 0; background: rgba(0,0,0,0.3); font-weight: 600;">
+                    <button class="btn btn-primary" onclick="navigator.clipboard.writeText('https://skillleaner.com/register?ref=SKL-8821'); alert('Copied to clipboard!');">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
+        <div class="container">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 40px; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">Skillleaner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <p>© 2026 Skillleaner. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const accordionBtn = document.getElementById('mobileCoursePackageBtn');
+            const accordionContent = document.getElementById('mobileCoursePackageContent');
+
+            function toggleMenu() {
+                mobileOverlay.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+            }
+
+            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', toggleMenu);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMenu);
+
+            if (accordionBtn && accordionContent) {
+                accordionBtn.addEventListener('click', () => {
+                    accordionContent.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
