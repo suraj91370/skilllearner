@@ -19,8 +19,8 @@
             --border-accent: rgba(99, 102, 241, 0.35);
             --text-title: #f8fafc;
             --text-body: #94a3b8;
-            --primary: #a855f7;
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            --primary: #05B396;
+            --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
             --secondary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --success: #10b981;
             --gold: #f59e0b;

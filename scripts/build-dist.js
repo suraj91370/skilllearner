@@ -305,8 +305,8 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
                 </div>
             </div>
 
-            <a href="/plans" class="${activePage === 'plans' ? 'active' : ''}">All Plans</a>
-            <a href="/classroom" class="${activePage === 'classroom' ? 'active' : ''}">Classroom</a>
+            <a href="/about" class="${activePage === 'about' ? 'active' : ''}">About</a>
+            <a href="/contact" class="${activePage === 'contact' ? 'active' : ''}">Contact</a>
         </nav>
 
         <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
@@ -348,8 +348,8 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
             </div>
         </div>
 
-        <a href="/plans" class="mobile-nav-link">All Plans</a>
-        <a href="/classroom" class="mobile-nav-link">Classroom LMS</a>
+        <a href="/about" class="mobile-nav-link">About</a>
+        <a href="/contact" class="mobile-nav-link">Contact</a>
         <a href="/my-account" class="mobile-nav-link">My Account / Login</a>
         <a href="/buy-now" class="btn btn-primary" style="margin-top: 1rem; width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
     </div>
@@ -438,10 +438,10 @@ const packages = [
 const homeContent = `
 <section class="container" style="text-align: center; padding-top: 4rem; padding-bottom: 3rem;">
     <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); padding: 6px 16px; border-radius: 30px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 700; color: #05B396;">
-        <span style="font-size: 1.1rem;">🔥</span> Next-Gen Skill & Career Platform
+        ★ India's #1 Skill & Affiliate Platform
     </div>
-    <h1 style="font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 1.2rem; letter-spacing: -1px;">
-        Build High-Income Digital Skills &amp; <span style="background: linear-gradient(135deg, #05B396, #0284c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Monetize in 2026</span>
+    <h1 style="font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;">
+        Learn, Create, <br><span class="text-gradient">Monetize.</span>
     </h1>
     <p style="color: var(--text-body); font-size: 1.15rem; max-width: 720px; margin: 0 auto 2.5rem;">
         Master AI, Digital Marketing, Video Editing, and High-Ticket Freelancing with practical, project-based video masterclasses while building your passive income stream.
