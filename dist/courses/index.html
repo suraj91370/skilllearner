@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses & Syllabuses — Skillleaner</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #070a12;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(99, 102, 241, 0.35);
+            --text-title: #f8fafc;
+            --text-body: #94a3b8;
+            --primary: #05B396;
+            --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
+            --secondary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --success: #10b981;
+            --gold: #f59e0b;
+            --danger: #ef4444;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --shadow-glow: 0 0 35px rgba(5, 179, 150, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
+        .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
+        
+        /* Navigation Bar (Desktop) */
+        header.nav { 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            padding: 1rem 2.5rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-glass); 
+            background: #b8e1d3; 
+            backdrop-filter: blur(16px); 
+        }
+
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+            color: #000; 
+            font-size: 1.35rem; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+        }
+        .brand-logo-img { height: 44px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
+        .nav-links a { 
+            color: #000000; 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 600; 
+            transition: color 0.2s; 
+        }
+        .nav-links a:hover, .nav-links a.active { color: #05B396; }
+
+        /* Course Package Hover Dropdown (Desktop) */
+        .dropdown-wrapper { position: relative; display: inline-block; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #000000 !important; font-weight: 600; font-size: 0.95rem; }
+        .dropdown-trigger:hover { color: #05B396 !important; }
+        .dropdown-menu-box {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            min-width: 170px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .dropdown-wrapper:hover .dropdown-menu-box { display: block; }
+        .dropdown-item-link {
+            display: block;
+            padding: 0.65rem 1.2rem;
+            color: #f8fafc !important;
+            font-size: 0.88rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+        .dropdown-item-link:hover {
+            background: rgba(5, 179, 150, 0.18);
+            color: #05B396 !important;
+            padding-left: 1.45rem;
+        }
+
+        /* Buttons */
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding: 0.65rem 1.35rem; 
+            border-radius: var(--radius-md); 
+            font-weight: 700; 
+            text-decoration: none; 
+            font-size: 0.92rem; 
+            cursor: pointer; 
+            border: none; 
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .btn-primary { 
+            background: var(--primary-gradient); 
+            color: #fff; 
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.35); 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 22px rgba(5, 179, 150, 0.5); 
+        }
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text-title); 
+            border: 1px solid var(--border-glass); 
+        }
+        .btn-secondary:hover { 
+            background: rgba(255, 255, 255, 0.12); 
+            transform: translateY(-2px); 
+        }
+
+        /* Mobile Hamburger & Slide-in Drawer */
+        .mobile-toggle-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .mobile-toggle-btn span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: #000;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+        }
+        .mobile-overlay.active { display: block; }
+        .mobile-drawer {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 280px; height: 100%;
+            background: #0b1120;
+            border-left: 1px solid var(--border-glass);
+            z-index: 1002;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+        .mobile-drawer.active { right: 0; }
+        .mobile-nav-link {
+            color: #f8fafc;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: block;
+            padding: 0.6rem 0;
+        }
+        .mobile-accordion-btn {
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            font-size: 1.05rem;
+            font-weight: 700;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            cursor: pointer;
+        }
+        .mobile-accordion-content {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding-left: 1rem;
+            margin-top: 0.2rem;
+        }
+        .mobile-accordion-content.open { display: flex; }
+        .mobile-sub-item {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0;
+        }
+        .mobile-sub-item:hover { color: #05B396; }
+
+        @media (max-width: 900px) {
+            .nav-links, .nav-actions { display: none !important; }
+            .mobile-toggle-btn { display: flex; }
+            header.nav { padding: 0.8rem 1.2rem; }
+        }
+
+        /* Layout & Common */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+        }
+        .form-control:focus {
+            border-color: #05B396;
+            box-shadow: 0 0 10px rgba(5, 179, 150, 0.3);
+        }
+        .form-group { margin-bottom: 1.2rem; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="nav">
+        <a href="/" class="brand">
+            <img src="/images/logo.png" alt="Skillleaner" class="brand-logo-img">
+        </a>
+        
+        <nav class="nav-links">
+            <a href="/" class="">Home</a>
+            <a href="/courses" class="active">Courses</a>
+            
+            <!-- Desktop Course Package Dropdown -->
+            <div class="dropdown-wrapper">
+                <a href="/plans" class="dropdown-trigger ">
+                    Course Package <span style="font-size: 0.75rem;">▾</span>
+                </a>
+                <div class="dropdown-menu-box">
+                    <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
+                    <a href="/plans#advance" class="dropdown-item-link">ADVANCE</a>
+                    <a href="/plans#premium" class="dropdown-item-link">PREMIUM</a>
+                    <a href="/plans#growth" class="dropdown-item-link">GROWTH</a>
+                    <a href="/plans#infinity" class="dropdown-item-link">INFINITY</a>
+                </div>
+            </div>
+
+            <a href="/plans" class="">All Plans</a>
+            <a href="/classroom" class="">Classroom</a>
+        </nav>
+
+        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
+            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+            <a href="/my-account" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">My Account</a>
+        </div>
+
+        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 36px; width: auto;">
+            <button id="mobileCloseBtn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+        </div>
+        
+        <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/courses" class="mobile-nav-link">Courses</a>
+        
+        <!-- Mobile Accordion for Course Package -->
+        <div>
+            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn">
+                Course Package <span>▾</span>
+            </button>
+            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
+
+        <a href="/plans" class="mobile-nav-link">All Plans</a>
+        <a href="/classroom" class="mobile-nav-link">Classroom LMS</a>
+        <a href="/my-account" class="mobile-nav-link">My Account / Login</a>
+        <a href="/buy-now" class="btn btn-primary" style="margin-top: 1rem; width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
+    </div>
+
+    <main class="main-content">
+        
+<section style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.12) 0%, rgba(7, 10, 18, 0) 100%); padding: 4.5rem 2rem 3rem; text-align: center;">
+    <div class="container" style="max-width: 950px; padding: 0; margin: 0 auto;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.4rem;">
+            <span>🎓 2026 High-Income Skill Masterclasses</span>
+        </div>
+        <h1 style="font-size: 3.2rem; font-weight: 800; line-height: 1.2; letter-spacing: -1px; margin-bottom: 1.2rem;">
+            Explore Courses with <br><span class="text-gradient">Detailed Descriptions &amp; Syllabuses</span>
+        </h1>
+        <p style="color: var(--text-body); font-size: 1.15rem; max-width: 700px; margin: 0 auto 2.2rem; line-height: 1.6;">
+            Learn practical, high-income skills directly from industry experts. Every course includes step-by-step video training, downloadable blueprints, and lifetime mentor support.
+        </p>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2.2rem;">
+        
+        <!-- Course 1 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🚀</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">BESTSELLER</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 6h 40m • 18 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">AFFILIATE BUSINESS</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">High-Ticket Affiliate Marketing Masterclass</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels without paid ads.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,499</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,999</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN ADVANCE</span>
+                    </div>
+                    <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🤖</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">TRENDING</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 5h 15m • 14 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">ARTIFICIAL INTELLIGENCE</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">AI, ChatGPT &amp; Automation Cashflow</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance services in minutes.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,299</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,499</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN PREMIUM</span>
+                    </div>
+                    <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🎬</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">HOT SKILL</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 8h 20m • 22 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">VIDEO &amp; MEDIA</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">Short-Form Video Editing (CapCut &amp; Premiere Pro)</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,499</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,999</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN ADVANCE</span>
+                    </div>
+                    <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
+        <div class="container">
+            <img src="/images/logo.png" alt="Skillleaner" style="height: 40px; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">Skillleaner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <p>© 2026 Skillleaner. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const accordionBtn = document.getElementById('mobileCoursePackageBtn');
+            const accordionContent = document.getElementById('mobileCoursePackageContent');
+
+            function toggleMenu() {
+                mobileOverlay.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+            }
+
+            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', toggleMenu);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMenu);
+
+            if (accordionBtn && accordionContent) {
+                accordionBtn.addEventListener('click', () => {
+                    accordionContent.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

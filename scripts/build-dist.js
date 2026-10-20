@@ -289,6 +289,7 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
         
         <nav class="nav-links">
             <a href="/" class="${activePage === 'home' ? 'active' : ''}">Home</a>
+            <a href="/courses" class="${activePage === 'courses' ? 'active' : ''}">Courses</a>
             
             <!-- Desktop Course Package Dropdown -->
             <div class="dropdown-wrapper">
@@ -309,8 +310,8 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
         </nav>
 
         <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
-            <a href="/register" class="btn btn-primary">Enroll Now</a>
-            <a href="/dashboard" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">Student Portal</a>
+            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+            <a href="/my-account" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">My Account</a>
         </div>
 
         <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
@@ -331,6 +332,7 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
         </div>
         
         <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/courses" class="mobile-nav-link">Courses</a>
         
         <!-- Mobile Accordion for Course Package -->
         <div>
@@ -348,8 +350,8 @@ const getHtml = (title, content, activePage = '') => `<!DOCTYPE html>
 
         <a href="/plans" class="mobile-nav-link">All Plans</a>
         <a href="/classroom" class="mobile-nav-link">Classroom LMS</a>
-        <a href="/dashboard" class="mobile-nav-link">Student Dashboard</a>
-        <a href="/register" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Enroll Now</a>
+        <a href="/my-account" class="mobile-nav-link">My Account / Login</a>
+        <a href="/buy-now" class="btn btn-primary" style="margin-top: 1rem; width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
     </div>
 
     <main class="main-content">
@@ -497,7 +499,7 @@ const homeContent = `
                 </ul>
 
                 <a href="/register?package=${encodeURIComponent(pkg.name)}" class="btn ${pkg.featured ? 'btn-primary' : 'btn-secondary'}" style="text-align: center; width: 100%; padding: 0.85rem; font-weight: 700;">
-                    Enroll in ${pkg.name}
+                    Buy Now ➔
                 </a>
             </div>
         `).join('')}
@@ -534,7 +536,7 @@ const plansContent = `
                 </ul>
 
                 <a href="/register?package=${encodeURIComponent(pkg.name)}" class="btn ${pkg.featured ? 'btn-primary' : 'btn-secondary'}" style="text-align: center; width: 100%; padding: 0.85rem; font-weight: 700;">
-                    Enroll in ${pkg.name}
+                    Buy Now ➔
                 </a>
             </div>
         `).join('')}
@@ -912,11 +914,345 @@ const dashboardContent = `
 </section>
 `;
 
+
+// --- 4.6 Login Page Content ---
+const loginContent = `
+<div style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 2.8rem 1.5rem; text-align: center;">
+    <h1 style="font-size: 2.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.4rem; letter-spacing: -0.5px;">Login &amp; Register</h1>
+    <p style="font-size: 0.92rem; color: #64748b; font-weight: 600;">
+        <a href="/" style="color: #64748b; text-decoration: none; transition: color 0.2s;">Home</a>
+        <span style="margin: 0 8px; color: #94a3b8;">&gt;</span>
+        <span style="color: #0f172a;">Login &amp; Register</span>
+    </p>
+</div>
+
+<section style="background: #ffffff; padding: 4rem 1.5rem; min-height: 560px; display: flex; align-items: center; justify-content: center;">
+    <div style="max-width: 1080px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;" class="login-grid-wrapper">
+        
+        <!-- Left: Illustration -->
+        <div style="display: flex; justify-content: center; align-items: center;" class="login-illustration-col">
+            <svg viewBox="0 0 520 420" width="100%" height="auto" style="max-width: 480px; display: block;" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="260" cy="385" rx="220" ry="14" fill="#f1f5f9"/>
+                <line x1="80" y1="385" x2="480" y2="385" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round"/>
+
+                <g id="plant-group">
+                    <path d="M 430 385 L 430 350 Q 425 320 410 290 Q 425 315 432 350 Z" fill="#1e293b"/>
+                    <path d="M 430 350 Q 450 310 460 270 Q 448 300 435 345 Z" fill="#334155"/>
+                    <path d="M 425 340 Q 395 310 380 270 Q 405 295 423 335 Z" fill="#0f172a"/>
+                    <path d="M 428 330 Q 415 280 430 240 Q 438 275 431 325 Z" fill="#1e293b"/>
+                    <path d="M 433 330 Q 455 290 470 250 Q 455 285 436 325 Z" fill="#475569"/>
+                    <polygon points="410,350 450,350 444,385 416,385" fill="#3b82f6"/>
+                    <polygon points="405,345 455,345 450,352 410,352" fill="#2563eb"/>
+                </g>
+
+                <g id="boxes-group" opacity="0.6">
+                    <rect x="330" y="325" width="60" height="60" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <line x1="330" y1="345" x2="390" y2="345" stroke="#e2e8f0" stroke-width="1.5"/>
+                    <rect x="355" y="295" width="55" height="30" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                </g>
+
+                <g id="browser-window-group" transform="translate(190, 80)">
+                    <rect x="0" y="0" width="220" height="160" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="drop-shadow(0 10px 20px rgba(0,0,0,0.06))"/>
+                    <line x1="0" y1="26" x2="220" y2="26" stroke="#f1f5f9" stroke-width="1.5"/>
+                    <circle cx="15" cy="13" r="3" fill="#94a3b8"/>
+                    <circle cx="26" cy="13" r="3" fill="#cbd5e1"/>
+                    <circle cx="37" cy="13" r="3" fill="#e2e8f0"/>
+
+                    <circle cx="110" cy="55" r="24" fill="none" stroke="#e2e8f0" stroke-dasharray="2,3" stroke-width="1.5"/>
+                    <path d="M 103 52 L 103 45 A 7 7 0 0 1 117 45 L 117 52" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                    <rect x="99" y="52" width="22" height="17" rx="3" fill="#3b82f6"/>
+                    <circle cx="110" cy="59" r="2" fill="#ffffff"/>
+                    <line x1="110" y1="61" x2="110" y2="65" stroke="#ffffff" stroke-width="1.5"/>
+
+                    <rect x="25" y="88" width="170" height="22" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                    <text x="110" y="103" font-size="8.5" fill="#334155" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="600">username@gmail.com</text>
+
+                    <rect x="25" y="118" width="170" height="22" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                    <text x="110" y="133" font-size="11" fill="#64748b" text-anchor="middle" font-family="'Inter', sans-serif" letter-spacing="2">••••••••</text>
+                </g>
+
+                <g id="student-group">
+                    <rect x="100" y="300" width="75" height="85" rx="6" fill="#3b82f6"/>
+                    <rect x="106" y="380" width="8" height="10" fill="#1e293b"/>
+                    <rect x="161" y="380" width="8" height="10" fill="#1e293b"/>
+
+                    <path d="M 125 305 L 145 375 L 170 380 L 155 385 L 138 380 Z" fill="#0f172a"/>
+                    <path d="M 115 280 Q 105 320 120 360 L 135 365 L 145 385 L 125 388 L 110 360 Z" fill="#1e293b"/>
+                    <path d="M 143 382 L 160 384 L 160 388 L 140 388 Z" fill="#334155"/>
+                    <path d="M 122 384 L 140 386 L 140 390 L 120 390 Z" fill="#334155"/>
+
+                    <path d="M 108 220 Q 115 195 130 195 Q 145 195 152 220 L 158 290 Q 135 305 105 290 Z" fill="#0f172a"/>
+
+                    <path d="M 130 225 Q 150 250 170 260 L 165 270 Q 145 260 125 240 Z" fill="#fed7aa"/>
+                    <path d="M 125 215 Q 140 215 145 235 L 130 240 Z" fill="#0f172a"/>
+
+                    <polygon points="160,250 195,250 190,290 155,290" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1"/>
+                    <circle cx="175" cy="270" r="3" fill="#ffffff" opacity="0.8"/>
+                    <polygon points="152,290 198,290 205,295 150,295" fill="#94a3b8"/>
+
+                    <rect x="130" y="175" width="12" height="22" fill="#fed7aa"/>
+                    <circle cx="136" cy="165" r="16" fill="#fed7aa"/>
+                    <circle cx="143" cy="164" r="1.5" fill="#0f172a"/>
+                    <path d="M 140 171 Q 144 174 148 171" fill="none" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
+
+                    <path d="M 122 165 Q 120 148 135 148 Q 152 148 150 162 Q 136 154 122 165 Z" fill="#0f172a"/>
+                    <circle cx="123" cy="148" r="8" fill="#0f172a"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Right: Login Card -->
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <div class="login-card-box" style="background: #ffffff; border-radius: 16px; padding: 2.8rem 2.4rem; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 1px solid #f1f5f9; width: 100%; max-width: 480px;">
+                <form onsubmit="event.preventDefault(); window.location.href='/dashboard';">
+                    
+                    <div style="margin-bottom: 1.4rem;">
+                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">
+                            Username or email <span style="color: #ef4444;">*</span>
+                        </label>
+                        <input type="text" id="loginUsernameInput" required style="width: 100%; padding: 0.85rem 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none;" placeholder="suraj@skillleaner.test" value="suraj@skillleaner.test">
+                    </div>
+
+                    <div style="margin-bottom: 1.3rem;">
+                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">
+                            Password <span style="color: #ef4444;">*</span>
+                        </label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <input type="password" id="loginPasswordInput" required style="width: 100%; padding: 0.85rem 1.1rem; padding-right: 48px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none;" placeholder="••••••••" value="password123">
+                            <button type="button" onclick="const p = document.getElementById('loginPasswordInput'); p.type = p.type === 'password' ? 'text' : 'password';" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: #64748b; padding: 6px; display: flex;">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; font-size: 0.88rem;">
+                        <label style="display: flex; align-items: center; gap: 8px; color: #64748b; cursor: pointer; user-select: none;">
+                            <input type="checkbox" checked style="accent-color: #05B396; width: 16px; height: 16px;">
+                            Remember me
+                        </label>
+                        <a href="javascript:void(0)" onclick="alert('Password reset link will be sent to your registered email.')" style="color: #64748b; text-decoration: none;">
+                            Forgot your password ?
+                        </a>
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 0.92rem 1.5rem; font-size: 1.05rem; font-weight: 700; color: #ffffff; background: #05B396; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 18px rgba(219, 39, 119, 0.35); display: flex; align-items: center; justify-content: center;">
+                        Log In &nbsp;➔
+                    </button>
+
+                    <div style="text-align: center; margin-top: 1.6rem; font-size: 0.92rem; color: #64748b;">
+                        Don't have an account yet? 
+                        <a href="/register" style="color: #05B396; font-weight: 700; text-decoration: none;">
+                            Register Now →
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+`;
+
+
+// Courses Page Content
+const coursesContent = `
+<section style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.12) 0%, rgba(7, 10, 18, 0) 100%); padding: 4.5rem 2rem 3rem; text-align: center;">
+    <div class="container" style="max-width: 950px; padding: 0; margin: 0 auto;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.4rem;">
+            <span>🎓 2026 High-Income Skill Masterclasses</span>
+        </div>
+        <h1 style="font-size: 3.2rem; font-weight: 800; line-height: 1.2; letter-spacing: -1px; margin-bottom: 1.2rem;">
+            Explore Courses with <br><span class="text-gradient">Detailed Descriptions &amp; Syllabuses</span>
+        </h1>
+        <p style="color: var(--text-body); font-size: 1.15rem; max-width: 700px; margin: 0 auto 2.2rem; line-height: 1.6;">
+            Learn practical, high-income skills directly from industry experts. Every course includes step-by-step video training, downloadable blueprints, and lifetime mentor support.
+        </p>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2.2rem;">
+        
+        <!-- Course 1 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🚀</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">BESTSELLER</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 6h 40m • 18 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">AFFILIATE BUSINESS</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">High-Ticket Affiliate Marketing Masterclass</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels without paid ads.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,499</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,999</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN ADVANCE</span>
+                    </div>
+                    <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🤖</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">TRENDING</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 5h 15m • 14 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">ARTIFICIAL INTELLIGENCE</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">AI, ChatGPT &amp; Automation Cashflow</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance services in minutes.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,299</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,499</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN PREMIUM</span>
+                    </div>
+                    <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="glass" style="border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+            <div style="height: 190px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="font-size: 4.8rem;">🎬</div>
+                <span style="position: absolute; top: 14px; left: 16px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">HOT SKILL</span>
+                <span style="position: absolute; bottom: 12px; right: 14px; background: rgba(0, 0, 0, 0.75); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #fff;">⏱ 8h 20m • 22 Lessons</span>
+            </div>
+            <div style="padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">VIDEO &amp; MEDIA</span>
+                    <h3 style="font-size: 1.32rem; font-weight: 800; margin: 0.5rem 0 0.8rem; color: #f8fafc;">Short-Form Video Editing (CapCut &amp; Premiere Pro)</h3>
+                    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.2rem;">Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 1.45rem; font-weight: 800; color: #ffffff;">₹1,499</span>
+                            <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹3,999</span>
+                        </div>
+                        <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">INCLUDED IN ADVANCE</span>
+                    </div>
+                    <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary" style="background: #05B396; width: 100%; padding: 0.8rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+`;
+
+// Buy Now Page Content
+const buyNowContent = `
+<section style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.14) 0%, rgba(7, 10, 18, 0) 100%); padding: 3rem 1.5rem 2rem; text-align: center;">
+    <div class="container" style="max-width: 800px; padding: 0;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">
+            <span>⚡ Instant Enrollment &amp; Access</span>
+        </div>
+        <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
+            Complete Your <span class="text-gradient">Purchase</span>
+        </h1>
+        <p style="color: var(--text-body); font-size: 1.05rem;">
+            You are 1 minute away from lifetime video masterclasses, community mentorship, and direct learning access.
+        </p>
+    </div>
+</section>
+
+<section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
+    <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
+        
+        <!-- Order Summary Card -->
+        <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
+            <span style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">
+                MOST POPULAR
+            </span>
+
+            <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
+                <div style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                    <img src="/images/packages/advance.jpg" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div>
+                    <div style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase;">SKILLLEANER BUNDLE</div>
+                    <h3 style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">Advance Package</h3>
+                    <div style="font-size: 0.85rem; color: #94a3b8;">4 Full Masterclasses Included</div>
+                </div>
+            </div>
+
+            <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
+                Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.
+            </p>
+
+            <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.4rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.5rem;">
+                    <span>Original Course Fee</span>
+                    <span style="text-decoration: line-through;">₹4,999</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #05B396; margin-bottom: 0.5rem;">
+                    <span>Limited Student Discount</span>
+                    <span>-₹2,500</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.8rem;">
+                    <span>GST &amp; Platform Access</span>
+                    <span style="color: #22c55e; font-weight: 700;">FREE (₹0)</span>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline;">
+                    <span style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Total Payable Today</span>
+                    <span style="font-size: 1.9rem; font-weight: 800; color: #05B396;">₹2,499</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="glass" style="padding: 2.4rem; border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
+            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">Student Enrollment &amp; Payment</h3>
+            <p style="color: var(--text-body); font-size: 0.88rem; margin-bottom: 1.8rem;">Enter your details to unlock your learning dashboard.</p>
+            
+            <form onsubmit="event.preventDefault(); window.location.href='/classroom';">
+                <div style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">Student Full Name *</label>
+                    <input type="text" required value="Suraj Sharma" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                </div>
+                <div style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">WhatsApp Number *</label>
+                    <input type="tel" required value="+91 98765 43210" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                </div>
+                <div style="margin-bottom: 1.4rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">Email Address *</label>
+                    <input type="email" required value="suraj@skillleaner.test" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.05rem; font-size: 1.15rem; font-weight: 800; background: #05B396; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; color: #fff;">
+                    Complete Order &amp; Buy Now ➔
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
+`;
+
 // 5. Output pages to dist
 const pages = [
     { path: 'index.html', html: getHtml('Skillleaner — Build Skills, Build Future', homeContent, 'home') },
     { path: 'plans.html', html: getHtml('Packages & Plans', plansContent, 'plans') },
     { path: 'plans/index.html', html: getHtml('Packages & Plans', plansContent, 'plans') },
+    { path: 'courses.html', html: getHtml('All Courses & Syllabuses', coursesContent, 'courses') },
+    { path: 'courses/index.html', html: getHtml('All Courses & Syllabuses', coursesContent, 'courses') },
+    { path: 'buy-now.html', html: getHtml('Buy Now & Instant Enrollment', buyNowContent, 'buy-now') },
+    { path: 'buy-now/index.html', html: getHtml('Buy Now & Instant Enrollment', buyNowContent, 'buy-now') },
     { path: 'programs/index.html', html: getHtml('Packages & Plans', plansContent, 'plans') },
     { path: 'register.html', html: getHtml('Enroll in Skillleaner', registerContent, 'register') },
     { path: 'register/index.html', html: getHtml('Enroll in Skillleaner', registerContent, 'register') },
@@ -924,6 +1260,10 @@ const pages = [
     { path: 'classroom/index.html', html: getHtml('Classroom LMS', classroomContent, 'classroom') },
     { path: 'dashboard.html', html: getHtml('Student Dashboard', dashboardContent, 'dashboard') },
     { path: 'dashboard/index.html', html: getHtml('Student Dashboard', dashboardContent, 'dashboard') },
+    { path: 'login.html', html: getHtml('Login & Register', loginContent, 'login') },
+    { path: 'login/index.html', html: getHtml('Login & Register', loginContent, 'login') },
+    { path: 'my-account.html', html: getHtml('My Account', loginContent, 'login') },
+    { path: 'my-account/index.html', html: getHtml('My Account', loginContent, 'login') },
 ];
 
 pages.forEach(p => {

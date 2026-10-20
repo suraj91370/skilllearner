@@ -21,7 +21,8 @@
                 <li><a href="{{ url('/classroom') }}" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🎓 My Courses</a></li>
                 <li><a href="javascript:void(0)" onclick="openModal('payoutModal')" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">💸 Request Payout</a></li>
                 <li><a href="javascript:void(0)" onclick="alert('KYC is active under Aadhaar: XXXXXXXX4819 and PAN: ABCDE1234F')" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🛡️ KYC Documents</a></li>
-                <li><a href="{{ url('/reset-demo') }}" onclick="return confirm('Reset all demo state?')" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; color: #f87171;">🔄 Reset Account</a></li>
+                <li><a href="{{ url('/logout') }}" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; color: #ef4444;">🚪 Logout</a></li>
+                <li><a href="{{ url('/reset-demo') }}" onclick="return confirm('Reset all demo state?')" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; color: #94a3b8; font-size: 0.85rem;">🔄 Reset Account</a></li>
             </ul>
         </aside>
 

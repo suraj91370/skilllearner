@@ -3,24 +3,25 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-// Helper to guarantee default session data for instant testing
-function initCareerFixxSession() {
-    if (!session()->has('user')) {
-        session(['user' => [
-            'name' => 'Suraj Sharma',
-            'email' => 'suraj@skillleaner.test',
-            'phone' => '+91 98765 43210',
-            'affiliate_id' => 'SKL-8821',
-            'sponsor_id' => 'SKL-ADMIN',
-            'active_package' => 'Advance Package',
-            'wallet_balance' => 14200,
-            'today_earning' => 2200,
-            'weekly_earning' => 7400,
-            'total_earning' => 48600,
-            'kyc_status' => 'Verified ✅'
-        ]]);
-    }
+// Demo User Data Definition
+function getDemoUserData() {
+    return [
+        'name' => 'Suraj Sharma',
+        'email' => 'suraj@skillleaner.test',
+        'phone' => '+91 98765 43210',
+        'affiliate_id' => 'SKL-8821',
+        'sponsor_id' => 'SKL-ADMIN',
+        'active_package' => 'Advance Package',
+        'wallet_balance' => 14200,
+        'today_earning' => 2200,
+        'weekly_earning' => 7400,
+        'total_earning' => 48600,
+        'kyc_status' => 'Verified ✅'
+    ];
+}
 
+// Default Commissions & Payouts for logged in user
+function initDefaultCommissions() {
     if (!session()->has('commissions')) {
         session(['commissions' => [
             ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 2200, 'type' => 'Direct (Tier-1)', 'time' => '10 mins ago', 'status' => 'Credited'],
@@ -38,61 +39,262 @@ function initCareerFixxSession() {
     }
 }
 
-// Packages Data
+// Packages Data with Prices and Descriptions
 function getPackages() {
     return [
         [
             'id' => 'basic',
             'name' => 'Basic Package',
+            'price' => 1499,
+            'old_price' => 2999,
             'image' => 'images/packages/basic.jpg',
-            'badge' => '',
+            'badge' => 'STARTER',
             'featured' => false,
+            'desc' => 'Foundational skill track to get started in the digital economy with Canva, Excel, English and Social Media basics.',
             'courses_included' => ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals']
         ],
         [
             'id' => 'advance',
             'name' => 'Advance Package',
+            'price' => 2499,
+            'old_price' => 4999,
             'image' => 'images/packages/advance.jpg',
-            'badge' => 'POPULAR',
+            'badge' => 'MOST POPULAR',
             'featured' => true,
-            'courses_included' => ['All Basic Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation']
+            'desc' => 'Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.',
+            'courses_included' => ['All Basic Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint']
         ],
         [
             'id' => 'premium',
             'name' => 'Premium Package',
+            'price' => 3999,
+            'old_price' => 7999,
             'image' => 'images/packages/premium.jpg',
             'badge' => 'BEST VALUE',
             'featured' => false,
+            'desc' => 'High-yield monetization bundle with Facebook & Instagram paid ads, AI ChatGPT automation kit, and no-code WordPress design.',
             'courses_included' => ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development']
         ],
         [
             'id' => 'growth',
             'name' => 'Growth Package',
+            'price' => 5999,
+            'old_price' => 11999,
             'image' => 'images/packages/growth.jpg',
             'badge' => 'HIGH GROWTH',
             'featured' => false,
+            'desc' => 'Scale your revenue with high-ticket sales closing, complete sales funnel architecture, and Google & YouTube advertising.',
             'courses_included' => ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads']
         ],
         [
             'id' => 'infinity',
             'name' => 'Infinity Package',
+            'price' => 9999,
+            'old_price' => 19999,
             'image' => 'images/packages/infinity.jpg',
             'badge' => 'ALL ACCESS LIFETIME',
             'featured' => false,
+            'desc' => 'VIP pass granting unlimited lifetime access to all current and future masterclasses, 1-on-1 mentorship, and weekly mastermind sessions.',
             'courses_included' => ['Full Lifetime Access Pass', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Support']
         ]
     ];
 }
 
-// Courses Data
+// Rich Courses Data with Detailed Descriptions and Syllabuses
 function getCourses() {
     return [
-        ['id' => 1, 'title' => 'High-Ticket Affiliate Marketing Masterclass', 'cat' => 'Affiliate Business', 'lessons' => 18, 'duration' => '6h 40m', 'icon' => '🚀'],
-        ['id' => 2, 'title' => 'AI, ChatGPT & Automation Cashflow', 'cat' => 'Artificial Intelligence', 'lessons' => 14, 'duration' => '5h 15m', 'icon' => '🤖'],
-        ['id' => 3, 'title' => 'Short-Form Video Editing (CapCut & Premiere Pro)', 'cat' => 'Video & Media', 'lessons' => 22, 'duration' => '8h 20m', 'icon' => '🎬'],
-        ['id' => 4, 'title' => 'Meta Ads Mastery: Facebook & Instagram Leads', 'cat' => 'Performance Marketing', 'lessons' => 16, 'duration' => '5h 50m', 'icon' => '📈'],
-        ['id' => 5, 'title' => 'WordPress & Landing Page Design No-Code', 'cat' => 'Web Design', 'lessons' => 20, 'duration' => '7h 30m', 'icon' => '💻'],
-        ['id' => 6, 'title' => 'Personal Branding & Instagram Reel Blueprint', 'cat' => 'Social Media', 'lessons' => 12, 'duration' => '4h 10m', 'icon' => '⭐']
+        [
+            'id' => 1,
+            'slug' => 'affiliate-marketing-masterclass',
+            'title' => 'High-Ticket Affiliate Marketing Masterclass',
+            'cat' => 'Affiliate Business',
+            'badge' => 'BESTSELLER',
+            'lessons' => 18,
+            'duration' => '6h 40m',
+            'icon' => '🚀',
+            'image' => 'images/packages/advance.jpg',
+            'price' => 1499,
+            'old_price' => 3999,
+            'package' => 'Advance Package',
+            'tagline' => 'Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels.',
+            'desc' => 'This comprehensive masterclass takes you from complete beginner to high-earning affiliate entrepreneur. Discover how to identify high-converting offers, build automated lead generation funnels without spending on ads, leverage WhatsApp for fast conversions, and scale your personal brand with proven frameworks.',
+            'what_you_learn' => [
+                'How to pick high-ticket digital products with 70%+ commission rates',
+                'Organic lead generation secrets on Instagram & LinkedIn without paid ads',
+                'Copy-paste WhatsApp DM scripts that close 1 in 3 prospects',
+                'Automated sales funnels that work 24/7 on autopilot',
+                'Psychology of persuasion & objection handling for Indian audiences',
+                'How to scale from ₹10,000 to ₹1,00,000 monthly income step-by-step'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: Affiliate Business Foundations', 'lessons' => ['The 2026 Affiliate Landscape in India', 'Selecting High-Converting Digital Niches', 'Setting Up Your Affiliate Command Center']],
+                ['title' => 'Module 2: Organic Traffic Mastery', 'lessons' => ['Instagram Bio & Profile Optimization', 'The Viral 30-Second Reel Script Formula', 'Organic Story Selling Framework']],
+                ['title' => 'Module 3: Lead Magnets & WhatsApp Funnels', 'lessons' => ['Building High-Converting WhatsApp Broadcasts', 'Lead Qualification & First 5-Minute Rules', 'Automated Greeting & Follow-Up Sequences']],
+                ['title' => 'Module 4: High-Ticket Sales Closing', 'lessons' => ['Overcoming "Paisa Nahi Hai" & Trust Objections', 'Live Mock Sales Call Breakdown', 'Daily 2-Hour Action Routine for Guaranteed Results']]
+            ],
+            'requirements' => ['A smartphone or laptop with internet connection', 'Basic understanding of WhatsApp and Instagram', 'No prior marketing or technical experience required'],
+            'instructor' => 'Aryan Verma — Senior Growth Strategist & 7-Figure Affiliate Mentor'
+        ],
+        [
+            'id' => 2,
+            'slug' => 'ai-chatgpt-automation',
+            'title' => 'AI, ChatGPT & Automation Cashflow',
+            'cat' => 'Artificial Intelligence',
+            'badge' => 'TRENDING',
+            'lessons' => 14,
+            'duration' => '5h 15m',
+            'icon' => '🤖',
+            'image' => 'images/packages/premium.jpg',
+            'price' => 1299,
+            'old_price' => 3499,
+            'package' => 'Premium Package',
+            'tagline' => 'Harness ChatGPT, Midjourney, Claude & automation bots to deliver paid freelance services in minutes.',
+            'desc' => 'Turn artificial intelligence into an unstoppable income engine. Learn secret prompt engineering recipes, automated content workflows, and modern AI tools that allow you to deliver copy, design, video scripts, and data analysis 10x faster than traditional agencies.',
+            'what_you_learn' => [
+                'Master advanced prompt engineering for ChatGPT, Claude, and Perplexity',
+                'Generate hyper-realistic viral visuals with Midjourney and Ideogram',
+                'Automate repetitive workflows using Zapier & Make.com with zero code',
+                'Package AI-powered services to charge ₹15,000+ per freelance client',
+                'Build AI voiceovers and cloned video avatars for brand marketing',
+                'Create custom GPTs and monetize them as specialized business tools'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: The AI Paradigm & Prompt Engineering', 'lessons' => ['Understanding Large Language Models in Practice', 'The 6-Step System Prompt Formula', 'Prompt Injection & Precision Output Rules']],
+                ['title' => 'Module 2: Visual & Multimedia AI Tools', 'lessons' => ['Midjourney & Ideogram Commercial Design', 'AI Voice Cloning with ElevenLabs', 'Automated Faceless Video Generation with Runway & CapCut']],
+                ['title' => 'Module 3: Workflow Automation Without Code', 'lessons' => ['Connecting ChatGPT to Google Sheets via Zapier', 'Automated Social Media Scheduling Pipelines', 'Automated Email Client Onboarding']],
+                ['title' => 'Module 4: Monetization & Client Acquisition', 'lessons' => ['5 High-Demand AI Services You Can Sell Today', 'Pitching Local Businesses on AI Efficiency', 'Pricing and Packaging Your AI Solutions']]
+            ],
+            'requirements' => ['Free ChatGPT account and modern browser', 'Curiosity to experiment with prompts and automation', 'No coding or math background needed'],
+            'instructor' => 'Neha Kapoor — AI Product Consultant & Workflow Architect'
+        ],
+        [
+            'id' => 3,
+            'slug' => 'short-form-video-editing',
+            'title' => 'Short-Form Video Editing (CapCut & Premiere Pro)',
+            'cat' => 'Video & Media',
+            'badge' => 'HOT SKILL',
+            'lessons' => 22,
+            'duration' => '8h 20m',
+            'icon' => '🎬',
+            'image' => 'images/packages/advance.jpg',
+            'price' => 1499,
+            'old_price' => 3999,
+            'package' => 'Advance Package',
+            'tagline' => 'Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.',
+            'desc' => 'Short-form content is the highest-demand digital marketing skill today. Master pacing, dynamic keyframing, trending sound design, hypnotic B-rolls, Alex Hormozi-style captions, and sound effects to charge premium rates per 60-second video.',
+            'what_you_learn' => [
+                'CapCut Desktop & Mobile complete end-to-end masterclass',
+                'Adobe Premiere Pro timeline, color grading, and speed ramping workflows',
+                'The 2-Second Hook: Visual retention hacks that keep watch time above 90%',
+                'Animated kinetic typography & viral subtitle styling',
+                'Cinematic sound design: risers, whooshes, pop effects, and music curation',
+                'How to land international editing clients paying $300-$1000/month on retainer'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: Software Setup & Workflow Essentials', 'lessons' => ['CapCut PC Interface & Shortcuts Mastery', 'Premiere Pro Workspace Optimization', 'Importing, Cutting & Assembly Timelines']],
+                ['title' => 'Module 2: Retention Editing & Visual Hooks', 'lessons' => ['The Psychology of Visual Hooks', 'Dynamic Zoom-Ins & Camera Shakes', 'Seamless B-Roll Overlays and Transitions']],
+                ['title' => 'Module 3: Animated Subtitles & Motion Graphics', 'lessons' => ['Creating Custom Hormozi Style Captions', 'Text Animations, Glows & Emoji Placement', 'Tracking Text to Moving Subjects']],
+                ['title' => 'Module 4: Sound Design & High-Paying Clients', 'lessons' => ['Layering Audio: Music, SFX & Clean Dialogue', 'Exporting for Maximum Instagram/YouTube Quality', 'Building a 1-Minute Showreel to Sign Retainer Clients']]
+            ],
+            'requirements' => ['A laptop/PC (or modern smartphone) with CapCut or Premiere Pro installed', 'Headphones for sound design practice', 'No prior editing knowledge necessary'],
+            'instructor' => 'Rohan Sen — Viral Content Editor for 2M+ Follower Creators'
+        ],
+        [
+            'id' => 4,
+            'slug' => 'meta-ads-mastery',
+            'title' => 'Meta Ads Mastery: Facebook & Instagram Leads',
+            'cat' => 'Performance Marketing',
+            'badge' => 'HIGH ROI',
+            'lessons' => 16,
+            'duration' => '5h 50m',
+            'icon' => '📈',
+            'image' => 'images/packages/premium.jpg',
+            'price' => 1699,
+            'old_price' => 4499,
+            'package' => 'Premium Package',
+            'tagline' => 'Run profitable Facebook & Instagram ads for real estate, e-commerce, coaching, and lead gen.',
+            'desc' => 'Learn how to generate qualified leads at ₹10 to ₹30 using Ads Manager. Discover custom audiences, lookalikes, creative testing, CBO budget scaling, and conversion API integration without wasting ad budget on ineffective boosts.',
+            'what_you_learn' => [
+                'Set up Meta Business Manager, Pixels, and Conversion API with zero errors',
+                'The 3:2:2 Dynamic Creative Testing framework that finds winning ads fast',
+                'Hyper-targeted audience research for Tier-1, Tier-2, and Tier-3 Indian cities',
+                'Creating high-CTR video and image ad creatives that stop the scroll',
+                'Campaign budget optimization (CBO) scaling strategies from ₹500 to ₹50,000/day',
+                'How to land and retain performance marketing agency clients'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: Business Manager & Tracking Architecture', 'lessons' => ['Meta Business Suite & Asset Verification', 'Pixel Setup & Domain Verification Explained', 'Setting Up Custom Aggregated Events']],
+                ['title' => 'Module 2: Creative & Copy Strategy', 'lessons' => ['Writing Copy for the Problem-Agitate-Solve Framework', 'High-Converting Canva Ad Design Templates', 'Hook Rate & Hold Rate Analytics']],
+                ['title' => 'Module 3: Campaign Setup & Audience Targeting', 'lessons' => ['Broad vs Advantage+ vs Detailed Targeting', 'Instant Form Lead Campaigns for WhatsApp Integration', 'Retargeting Warm Funnel Audiences']],
+                ['title' => 'Module 4: Scaling & Agency Blueprint', 'lessons' => ['Identifying Creative Fatigue Before ROAS Drops', 'Vertical vs Horizontal Scaling Rules', 'Agency Pitch Deck & Contract Templates']]
+            ],
+            'requirements' => ['A computer with Chrome browser and a Facebook account', 'A minimal testing budget (optional, not needed to learn)', 'Basic analytical mindset'],
+            'instructor' => 'Kunal Joshi — Ex-Growth Lead managing ₹2 Crore+ Annual Ad Spend'
+        ],
+        [
+            'id' => 5,
+            'slug' => 'wordpress-landing-page-design',
+            'title' => 'WordPress & Landing Page Design No-Code',
+            'cat' => 'Web Design',
+            'badge' => 'MOST PRACTICAL',
+            'lessons' => 20,
+            'duration' => '7h 30m',
+            'icon' => '💻',
+            'image' => 'images/packages/premium.jpg',
+            'price' => 1499,
+            'old_price' => 3999,
+            'package' => 'Premium Package',
+            'tagline' => 'Build high-converting sales pages, company websites, and portfolios using Elementor without coding.',
+            'desc' => 'Website design is an evergreen skill that commands instant respect and high client budgets. Learn to build modern, mobile-responsive, lightning-fast landing pages with Elementor, integrate payment gateways like Razorpay/Stripe, and deliver full websites in under 48 hours.',
+            'what_you_learn' => [
+                'Domain, hosting, and WordPress installation from scratch',
+                'Elementor Pro drag-and-drop page builder complete deep-dive',
+                'Modern UI principles: visual hierarchy, spacing, typography, and color harmony',
+                'Building mobile-first layouts that convert at 15%+',
+                'Connecting contact forms, WhatsApp chat widgets, and Razorpay payment buttons',
+                'Speed optimization: caching, CDN setup, image compression for 90+ PageSpeed'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: WordPress Foundations', 'lessons' => ['Domain & Cpanel/Hosting Configuration', 'WordPress Dashboard & Core Settings', 'Essential Plugins for Security & Speed']],
+                ['title' => 'Module 2: Elementor Pro Design Mastery', 'lessons' => ['Containers, Flexbox & Grid in Elementor', 'Designing Sticky Headers & Mega Menus', 'Interactive Animations & Scroll Effects']],
+                ['title' => 'Module 3: High-Converting Sales Funnels', 'lessons' => ['Anatomy of a 7-Figure Course Landing Page', 'Checkout Page Design with Payment Integrations', 'Setting Up Thank You & Upsell Pages']],
+                ['title' => 'Module 4: Speed, Launch & Client Delivery', 'lessons' => ['Mobile Viewport Optimization & Breakpoints', 'Speed Optimization with LiteSpeed & WebP', 'Exporting & Transferring Sites to Paying Clients']]
+            ],
+            'requirements' => ['A PC or Laptop with internet connectivity', 'No HTML, CSS or coding background required', 'Free local development tools provided in the course'],
+            'instructor' => 'Pooja Singhal — UI Designer & Freelance Web Architect'
+        ],
+        [
+            'id' => 6,
+            'slug' => 'personal-branding-instagram-reels',
+            'title' => 'Personal Branding & Instagram Reel Blueprint',
+            'cat' => 'Social Media',
+            'badge' => 'FAST GROWTH',
+            'lessons' => 12,
+            'duration' => '4h 10m',
+            'icon' => '⭐',
+            'image' => 'images/packages/basic.jpg',
+            'price' => 999,
+            'old_price' => 2499,
+            'package' => 'Basic Package',
+            'tagline' => 'Build authority, attract inbound client inquiries, and grow your Instagram followers organically.',
+            'desc' => 'In today’s creator economy, your personal brand is your greatest asset. Learn how to position yourself as an authority, script viral reels that generate thousands of views, build deep trust with your followers, and convert DMs into high-paying clients and passive income.',
+            'what_you_learn' => [
+                'The Niche Positioning Formula: Stand out in a crowded market',
+                'Camera confidence: Speaking smoothly without stuttering or scripts',
+                'Instagram algorithm secret signals: Saves, shares, and watch time hacks',
+                'The 3-post weekly content system that saves 15+ hours',
+                'How to monetize an account with less than 1,000 followers',
+                'Landing brand sponsorships, affiliate commissions, and coaching clients'
+            ],
+            'modules' => [
+                ['title' => 'Module 1: Brand Positioning & Profile Makeover', 'lessons' => ['Finding Your Unique Value Proposition (UVP)', 'Writing an Unignorable Instagram Bio & Linktree', 'Designing Branded Highlight Covers in Canva']],
+                ['title' => 'Module 2: Scripting & Video Presentation', 'lessons' => ['Teleprompter Apps & Camera Framing Rules', 'Hook, Story, Offer: The 3-Part Reel Framework', 'Batch Recording 10 Reels in One Afternoon']],
+                ['title' => 'Module 3: Algorithm Tactics & Engagement', 'lessons' => ['Optimal Posting Times and Hashtag Strategy', 'Story Sequences that Generate 20+ Daily DMs', 'Community Building and Collaborations']],
+                ['title' => 'Module 4: Inbound Monetization', 'lessons' => ['The DM Cash Machine: Turning Comments into Buyers', 'Pricing Your 1-on-1 Consultation Calls', 'Long-Term Brand Equity and Authority Building']]
+            ],
+            'requirements' => ['Smartphone with camera and Instagram app', 'Desire to build a recognizable personal brand', 'No fancy studio equipment needed'],
+            'instructor' => 'Vikram Malhotra — Creator Growth Coach with 350K+ Audience'
+        ]
     ];
 }
 
@@ -100,16 +302,14 @@ function getCourses() {
 
 // 1. Homepage
 Route::get('/', function () {
-    initCareerFixxSession();
     return view('home', [
         'packages' => getPackages(),
         'courses' => getCourses()
     ]);
 });
 
-// 2. Packages & Pricing Page (also supports /programs)
+// 2. Packages & Pricing Page
 Route::get('/plans', function () {
-    initCareerFixxSession();
     return view('plans', [
         'packages' => getPackages()
     ]);
@@ -120,7 +320,6 @@ Route::get('/programs', function () {
 
 // 3. About Us Page
 Route::get('/about', function () {
-    initCareerFixxSession();
     return view('home', [
         'packages' => getPackages(),
         'courses' => getCourses()
@@ -129,37 +328,86 @@ Route::get('/about', function () {
 
 // 4. Contact Us Page
 Route::get('/contact', function () {
-    initCareerFixxSession();
     return view('home', [
         'packages' => getPackages(),
         'courses' => getCourses()
     ]);
 });
 
-// 5. Affiliate Command Center / Dashboard
+// 5. Login & My Account (No direct login)
+Route::get('/login', function () {
+    if (session()->has('user')) {
+        return redirect('/dashboard');
+    }
+    return view('login');
+});
+
+Route::get('/my-account', function () {
+    if (session()->has('user')) {
+        return redirect('/dashboard');
+    }
+    return view('login');
+});
+
+Route::post('/login', function (Request $request) {
+    $username = trim($request->input('username', ''));
+    $password = trim($request->input('password', ''));
+
+    if (empty($username) || empty($password)) {
+        return back()->with('error', 'Please enter your username/email and password.');
+    }
+
+    $userData = getDemoUserData();
+    if ($username !== 'suraj@skillleaner.test') {
+        $userData['email'] = $username;
+        $cleanName = ucfirst(explode('@', $username)[0]);
+        if (!empty($cleanName)) {
+            $userData['name'] = $cleanName;
+        }
+    }
+
+    session(['user' => $userData]);
+    initDefaultCommissions();
+
+    return redirect('/dashboard')->with('alert', 'welcome');
+});
+
+// 6. Logout
+Route::get('/logout', function () {
+    session()->forget('user');
+    return redirect('/login')->with('info', 'You have been logged out.');
+});
+
+// 7. Affiliate Command Center / Dashboard (Protected: requires login)
 Route::get('/dashboard', function () {
-    initCareerFixxSession();
+    if (!session()->has('user')) {
+        return redirect('/login')->with('info', 'Please log in to access your My Account dashboard.');
+    }
+    initDefaultCommissions();
     return view('dashboard', [
         'commissions' => session('commissions', []),
         'payouts' => session('payouts', [])
     ]);
 });
 
-// 6. Video Classroom (LMS)
+// 8. Video Classroom LMS (Protected: requires login)
 Route::get('/classroom', function () {
-    initCareerFixxSession();
+    if (!session()->has('user')) {
+        return redirect('/login')->with('info', 'Please log in to access your classroom courses.');
+    }
     return view('classroom');
 });
 
-// 7. Registration Page
+// 9. Registration Page
 Route::get('/register', function () {
-    initCareerFixxSession();
     return view('register');
 });
 
-// 8. Action: Simulate Sale (+₹2,200)
+// 10. Action: Simulate Sale (+₹2,200)
 Route::get('/simulate-sale', function () {
-    initCareerFixxSession();
+    if (!session()->has('user')) {
+        return redirect('/login');
+    }
     $saleAmount = 2200;
     
     $user = session('user');
@@ -184,9 +432,11 @@ Route::get('/simulate-sale', function () {
     return redirect('/dashboard')->with('alert', 'sale_added');
 });
 
-// 9. Action: Payout Request
+// 11. Action: Payout Request
 Route::post('/payout-request', function (Request $request) {
-    initCareerFixxSession();
+    if (!session()->has('user')) {
+        return redirect('/login');
+    }
     $amount = (float)$request->input('payout_amount', 0);
     $details = htmlspecialchars($request->input('payout_details', ''));
 
@@ -211,7 +461,7 @@ Route::post('/payout-request', function (Request $request) {
     return redirect('/dashboard')->with('alert', 'payout_error');
 });
 
-// 10. Action: Register User
+// 12. Action: Register User
 Route::post('/register-user', function (Request $request) {
     session(['user' => [
         'name' => $request->input('name', 'New Affiliate'),
@@ -226,12 +476,117 @@ Route::post('/register-user', function (Request $request) {
         'total_earning' => 0,
         'kyc_status' => 'Pending Verification'
     ]]);
+    initDefaultCommissions();
 
     return redirect('/dashboard')->with('alert', 'welcome');
 });
 
-// 11. Action: Reset Demo
+// 13. Action: Reset Demo
 Route::get('/reset-demo', function () {
     session()->forget(['user', 'commissions', 'payouts']);
-    return redirect('/')->with('alert', 'welcome');
+    return redirect('/login')->with('info', 'Demo state reset. Please log in.');
+});
+
+
+// --- Courses Catalog & Descriptions ---
+Route::get('/courses', function () {
+    return view('courses', [
+        'courses' => getCourses(),
+        'packages' => getPackages()
+    ]);
+});
+
+// Single Course Description & Syllabus Detail
+Route::get('/courses/{slug}', function ($slug) {
+    $courses = getCourses();
+    $course = collect($courses)->firstWhere('slug', $slug);
+    if (!$course) {
+        return redirect('/courses');
+    }
+    return view('course-detail', [
+        'course' => $course,
+        'packages' => getPackages()
+    ]);
+});
+
+// Dedicated Buy Now Checkout Page
+Route::get('/buy-now', function (Request $request) {
+    $courses = getCourses();
+    $packages = getPackages();
+    
+    $courseSlug = $request->query('course');
+    $packageId = $request->query('package');
+
+    $selectedCourse = $courses[0];
+    $selectedPackage = $packages[1]; // Advance Package
+    $type = 'package';
+
+    if ($courseSlug) {
+        $found = collect($courses)->firstWhere('slug', $courseSlug);
+        if ($found) {
+            $selectedCourse = $found;
+            $type = 'course';
+        }
+    } elseif ($packageId) {
+        $found = collect($packages)->first(function ($p) use ($packageId) {
+            return strtolower($p['id']) === strtolower($packageId) || strtolower($p['name']) === strtolower($packageId);
+        });
+        if ($found) {
+            $selectedPackage = $found;
+            $type = 'package';
+        }
+    }
+
+    return view('buy-now', [
+        'courses' => $courses,
+        'packages' => $packages,
+        'selectedCourse' => $selectedCourse,
+        'selectedPackage' => $selectedPackage,
+        'type' => $type
+    ]);
+});
+
+// Action: Process Buy Now
+Route::post('/process-buy-now', function (Request $request) {
+    $itemType = $request->input('item_type', 'package');
+    $itemId = $request->input('item_id', 'advance');
+    $name = $request->input('name', 'Suraj Kumar');
+    $email = $request->input('email', 'student@skillleaner.test');
+    $phone = $request->input('phone', '+91 98765 43210');
+    $sponsorId = $request->input('sponsor_id', 'SKL-ADMIN');
+
+    $packages = getPackages();
+    $courses = getCourses();
+
+    $activePackageName = 'Advance Package';
+    if ($itemType === 'package') {
+        $found = collect($packages)->first(function ($p) use ($itemId) {
+            return strtolower($p['id']) === strtolower($itemId) || strtolower($p['name']) === strtolower($itemId);
+        });
+        if ($found) {
+            $activePackageName = $found['name'];
+        }
+    } else {
+        $found = collect($courses)->firstWhere('slug', $itemId);
+        if ($found) {
+            $activePackageName = $found['package'];
+        }
+    }
+
+    session(['user' => [
+        'name' => $name,
+        'email' => $email,
+        'phone' => $phone,
+        'affiliate_id' => 'SKL-' . rand(1000, 9999),
+        'sponsor_id' => $sponsorId,
+        'active_package' => $activePackageName,
+        'wallet_balance' => 0,
+        'today_earning' => 0,
+        'weekly_earning' => 0,
+        'total_earning' => 0,
+        'kyc_status' => 'Pending Verification'
+    ]]);
+    initDefaultCommissions();
+
+    return redirect('/classroom')->with('alert', 'welcome');
 });

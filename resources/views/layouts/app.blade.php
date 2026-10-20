@@ -357,6 +357,7 @@
         <!-- Desktop Navigation Menu -->
         <nav class="menu">
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
+            <a href="{{ url('/courses') }}" class="{{ request()->is('courses*') ? 'active' : '' }}">Courses</a>
             <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
 
             <!-- Course Package Dropdown with Arrow (Matching User's Image) -->
@@ -380,9 +381,14 @@
         </nav>
 
         <!-- Desktop Action Buttons -->
-        <div class="nav-btns">
-            <a href="{{ url('/dashboard') }}" class="btn btn-secondary">My Account</a>
-            {{-- <a href="{{ url('/register') }}?ref={{ session('user.affiliate_id', 'CFX-ADMIN') }}" class="btn btn-primary">Enroll Now</a> --}}
+        <div class="nav-btns" style="display: flex; gap: 0.65rem; align-items: center;">
+            @if (session()->has('user'))
+                <a href="{{ url('/dashboard') }}" class="btn btn-secondary">My Account</a>
+                <a href="{{ url('/logout') }}" class="btn btn-secondary" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.25); padding: 0.55rem 0.85rem;" title="Logout">Logout</a>
+            @else
+                <a href="{{ url('/my-account') }}" class="btn btn-secondary">My Account</a>
+                <a href="{{ url('/buy-now') }}" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+            @endif
         </div>
 
         <!-- Mobile Hamburger Toggle Button -->
@@ -400,6 +406,7 @@
             <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" style="height: 42px; width: auto; object-fit: contain;">
         </div>
         <a href="{{ url('/') }}" class="mobile-nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+        <a href="{{ url('/courses') }}" class="mobile-nav-link {{ request()->is('courses*') ? 'active' : '' }}">Courses</a>
         <a href="{{ url('/about') }}" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
         
         <!-- Mobile Accordion for Course Package -->
@@ -422,8 +429,13 @@
         <a href="{{ url('/contact') }}" class="mobile-nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact</a>
 
         <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
-            <a href="{{ url('/dashboard') }}" class="btn btn-secondary" style="width: 100%;">My Account</a>
-            <a href="{{ url('/register') }}?ref={{ session('user.affiliate_id', 'CFX-ADMIN') }}" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+            @if (session()->has('user'))
+                <a href="{{ url('/dashboard') }}" class="btn btn-secondary" style="width: 100%;">My Account ({{ session('user.name') }})</a>
+                <a href="{{ url('/logout') }}" class="btn btn-secondary" style="width: 100%; color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">Logout</a>
+            @else
+                <a href="{{ url('/my-account') }}" class="btn btn-secondary" style="width: 100%;">My Account</a>
+                <a href="{{ url('/buy-now') }}" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
+            @endif
         </div>
     </div>
 

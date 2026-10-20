@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'CareerFixx — Learn, Create, Monetize')
+@section('title', 'Skillleaner — Learn, Create, Monetize')
 
 @section('content')
 <!-- Hero Section -->
 <section class="hero" style="text-align: center; padding: 5rem 2rem 4rem; max-width: 1150px; margin: 0 auto;">
-    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.3); color: #a5b4fc; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
-        <span>⭐ India's #1 Skill & Affiliate Platform</span>
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
+        <span>★ India's #1 Skill & Affiliate Platform</span>
     </div>
     <h1 style="font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;">
         Learn, Create, <br><span class="text-gradient">Monetize.</span>
@@ -15,8 +15,8 @@
         Master AI, Digital Marketing, Video Editing, and High-Ticket Freelancing with practical, project-based video masterclasses while building your passive income stream.
     </p>
     <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
-        <a href="{{ url('/plans') }}" class="btn btn-primary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages ➔</a>
-        <a href="{{ url('/classroom') }}" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Preview Classroom</a>
+        <a href="{{ url('/courses') }}" class="btn btn-primary" style="background: #05B396; padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">Explore Courses ➔</a>
+        <a href="{{ url('/plans') }}" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a>
     </div>
 
     <div style="display: flex; justify-content: center; gap: 3.5rem; margin-top: 4.5rem; flex-wrap: wrap;">
@@ -60,9 +60,13 @@
                     <img src="{{ asset($pkg['image']) }}" alt="{{ $pkg['name'] }}" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
 
-                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.8rem;">{{ $pkg['name'] }}</h3>
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">{{ $pkg['name'] }}</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹{{ number_format($pkg['price']) }}</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹{{ number_format($pkg['old_price']) }}</span>
+                </div>
 
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
                     @foreach ($pkg['courses_included'] as $c)
                         <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
                             <span style="color: #05B396; font-weight: bold;">✓</span> {{ $c }}
@@ -70,39 +74,67 @@
                     @endforeach
                 </ul>
 
-                <a href="{{ url('/register?package=' . urlencode($pkg['name'])) }}" class="btn {{ $pkg['featured'] ? 'btn-primary' : 'btn-secondary' }}" style="text-align: center; width: 100%; padding: 0.85rem; font-weight: 700;">
-                    Enroll in {{ $pkg['name'] }}
-                </a>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="{{ url('/buy-now?package=' . $pkg['id']) }}" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
             </div>
         @endforeach
     </div>
 </section>
 
-<!-- Course Curriculum -->
-<section class="container" style="padding-top: 0;">
+<!-- Course Curriculum & Descriptions -->
+<section class="container" style="padding-top: 0; padding-bottom: 5rem;">
     <div style="text-align: center; margin-bottom: 3.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Curriculum</div>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Curriculum & Syllabuses</div>
         <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">High-Yield Skill Courses</h2>
+        <p style="color: var(--text-body); max-width: 600px; margin: 0 auto;">Read full course descriptions, learning modules, and enroll directly with one click.</p>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem;">
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
         @foreach ($courses as $c)
-            <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column;">
+            <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
                 <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
                     <span>{{ $c['icon'] }}</span>
                     <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">{{ $c['duration'] }}</span>
+                    @if(!empty($c['badge']))
+                        <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">{{ $c['badge'] }}</span>
+                    @endif
                 </div>
-                <div style="padding: 1.4rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <span style="font-size: 0.75rem; color: #818cf8; font-weight: 700; text-transform: uppercase;">{{ $c['cat'] }}</span>
-                        <h4 style="font-size: 1.15rem; margin-top: 0.4rem;">{{ $c['title'] }}</h4>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">{{ $c['cat'] }}</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">{{ $c['title'] }}</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            {{ $c['tagline'] }}
+                        </p>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.4rem; border-top: 1px solid var(--border-glass); padding-top: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">{{ $c['lessons'] }} Lessons</span>
-                        <a href="{{ url('/classroom') }}" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.85rem;">Watch Demo</a>
+
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">{{ $c['lessons'] }} Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹{{ number_format($c['price']) }}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="{{ url('/courses/' . $c['slug']) }}" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="{{ url('/buy-now?course=' . $c['slug']) }}" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         @endforeach
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="{{ url('/courses') }}" class="btn btn-secondary" style="padding: 0.9rem 2.2rem; font-size: 1rem; font-weight: 700;">
+            View All Courses With Full Syllabuses ➔
+        </a>
     </div>
 </section>
 @endsection
