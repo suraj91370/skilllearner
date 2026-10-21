@@ -108,8 +108,12 @@ async function isLocalServerReachable() {
 
 function postProcessHtml(rawHtml) {
     return rawHtml
-        .replace(/http:\/\/127\.0\.0\.1:8001/g, '')
-        .replace(/http:\/\/localhost:8001/g, '')
+        .replace(/http:\/\/127\.0\.0\.1:8001\//g, '/')
+        .replace(/http:\/\/localhost:8001\//g, '/')
+        .replace(/http:\/\/127\.0\.0\.1:8001/g, '/')
+        .replace(/http:\/\/localhost:8001/g, '/')
+        .replace(/href=""/g, 'href="/"')
+        .replace(/href=''/g, "href='/'")
         .replace(/method="POST"\s+action="\/login"/gi, 'onsubmit="event.preventDefault(); window.location.href=\'/my-courses\';"')
         .replace(/action="\/login"\s+method="POST"/gi, 'onsubmit="event.preventDefault(); window.location.href=\'/my-courses\';"')
         .replace(/method="POST"\s+action="\/register-user"/gi, 'onsubmit="event.preventDefault(); window.location.href=\'/dashboard\';"')
