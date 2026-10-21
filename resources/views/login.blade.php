@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login & Register — Skillleaner')
+@section('title', 'Login & Register — SkillLearner')
 
 @section('content')
 <!-- Page Banner Header -->
@@ -148,7 +148,7 @@
                         <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">
                             Username or email <span style="color: #ef4444;">*</span>
                         </label>
-                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="suraj@skillleaner.test" value="{{ old('username', 'suraj@skillleaner.test') }}">
+                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="vansh@skilllearner.com" value="{{ old('username', 'vansh@skilllearner.com') }}">
                     </div>
 
                     <!-- Password with Eye Toggle -->
@@ -178,7 +178,7 @@
                         </a>
                     </div>
 
-                    <!-- Vibrant Gradient Login Button (Matches Uploaded Screenshot) -->
+                    <!-- Vibrant Emerald Login Button -->
                     <button type="submit" class="gradient-login-btn">
                         Log In &nbsp;➔
                     </button>
@@ -192,8 +192,8 @@
                     </div>
 
                     <!-- Demo 1-Click Fill Helper -->
-                    <div style="margin-top: 1.4rem; padding: 0.75rem 1rem; background: rgba(5, 179, 150, 0.08); border: 1px dashed rgba(5, 179, 150, 0.35); border-radius: 8px; font-size: 0.8rem; text-align: center; color: #047857;">
-                        💡 <strong>Demo Login:</strong> Pre-filled with demo affiliate account. Click <strong>Log In ➔</strong> to enter.
+                    <div style="margin-top: 1.4rem; padding: 0.75rem 1rem; background: rgba(5, 179, 150, 0.08); border: 1px dashed rgba(5, 179, 150, 0.35); border-radius: 8px; font-size: 0.8rem; text-align: center; color: #05B396;">
+                        💡 <strong>Student Demo Login:</strong> Pre-filled with Vansh Tandon's account. Click <strong>Log In ➔</strong> to enter.
                     </div>
                 </form>
             </div>
@@ -223,18 +223,18 @@
         box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15);
     }
 
-    /* Gradient Login Button - Matching the Pink-Magenta-to-Orange in the Image */
+    /* Gradient Login Button - Emerald SkillLearner */
     .gradient-login-btn {
         width: 100%;
         padding: 0.92rem 1.5rem;
         font-size: 1.05rem;
         font-weight: 700;
         color: #ffffff;
-        background: #05B396;
+        background: linear-gradient(135deg, #05B396 0%, #048873 100%);
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        box-shadow: 0 4px 18px rgba(219, 39, 119, 0.35);
+        box-shadow: 0 4px 18px rgba(5, 179, 150, 0.35);
         transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         display: flex;
         align-items: center;
@@ -243,7 +243,7 @@
 
     .gradient-login-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(219, 39, 119, 0.5);
+        box-shadow: 0 6px 24px rgba(5, 179, 150, 0.5);
         opacity: 0.96;
     }
 

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Enroll in Skillleaner')
+@section('title', 'Enroll in SkillLearner')
 
 @section('content')
 <section class="container" style="max-width: 760px; padding: 3rem 1.5rem;">
     <div class="glass" style="padding: 2.5rem; border-radius: var(--radius-lg); text-align: center;">
         
-        <img src="{{ asset('images/logo.png') }}" alt="Skillleaner" style="height: 58px; width: auto; margin-bottom: 0.8rem; object-fit: contain;">
+        <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="height: 58px; width: auto; margin-bottom: 0.8rem; object-fit: contain;">
         
-        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem;">Enroll in Skillleaner</h2>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem;">Enroll in SkillLearner</h2>
         <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 2rem;">Activate lifetime access to skill video masterclasses, community mentorship, and learning resources.</p>
 
         <form method="POST" action="{{ url('/register-user') }}">

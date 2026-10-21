@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Packages & Plans — Skillleaner')
+@section('title', 'Packages & Plans — SkillLearner')
 
 @section('content')
 <section class="container" style="padding-top: 3rem; padding-bottom: 4rem;">
     <div style="text-align: center; margin-bottom: 2.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: #05B396; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">SKILLLEANER PACKAGES</div>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: #05B396; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">SKILLLEARNER PACKAGES</div>
         <h2 style="font-size: 2.6rem; font-weight: 800; letter-spacing: -0.5px;">All Course Bundles & Tracks</h2>
         <p style="color: var(--text-body); max-width: 620px; margin: 0 auto 1.5rem;">
             Choose your desired bundle to gain lifetime access to masterclasses, action blueprints, and community mentorship.

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Buy Now & Instant Enrollment — Skillleaner')
+@section('title', 'Buy Now & Instant Enrollment — SkillLearner')
 
 @section('content')
 <!-- Checkout Hero Banner -->
@@ -54,7 +54,7 @@
 
                     <div>
                         <div id="displayItemCategory" style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">
-                            {{ $type === 'course' ? $selectedCourse['cat'] : 'SKILLLEANER BUNDLE' }}
+                            {{ $type === 'course' ? $selectedCourse['cat'] : 'SKILLLEARNER BUNDLE' }}
                         </div>
                         <h3 id="displayItemTitle" style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">
                             {{ $type === 'course' ? $selectedCourse['title'] : $selectedPackage['name'] }}
@@ -265,8 +265,8 @@
                             Scan QR with <strong>GPay, PhonePe, Paytm, or CRED</strong>
                         </div>
                         <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); padding: 5px 12px; border-radius: 6px; font-size: 0.82rem; color: #05B396; font-weight: 700;">
-                            <span>UPI: skillleaner.pay@okaxis</span>
-                            <button type="button" onclick="navigator.clipboard.writeText('skillleaner.pay@okaxis'); alert('UPI ID copied to clipboard!')" style="background: none; border: none; color: #05B396; cursor: pointer; font-size: 0.82rem; text-decoration: underline;">Copy</button>
+                            <span>UPI: skilllearner.pay@okaxis</span>
+                            <button type="button" onclick="navigator.clipboard.writeText('skilllearner.pay@okaxis'); alert('UPI ID copied to clipboard!')" style="background: none; border: none; color: #05B396; cursor: pointer; font-size: 0.82rem; text-decoration: underline;">Copy</button>
                         </div>
                     </div>
 
@@ -427,7 +427,7 @@
             document.getElementById('formItemId').value = 'advance';
             document.getElementById('displayItemBadge').innerText = pkg.badge;
             document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
-            document.getElementById('displayItemCategory').innerText = 'SKILLLEANER BUNDLE';
+            document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
             document.getElementById('displayItemTitle').innerText = pkg.name;
             document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
             document.getElementById('displayItemDesc').innerText = pkg.desc;

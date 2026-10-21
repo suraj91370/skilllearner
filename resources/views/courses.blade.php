@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'All Courses & High-Yield Skills — Skillleaner')
+@section('title', 'All Courses & High-Yield Skills — SkillLearner')
 
 @section('content')
 <!-- Courses Hero Section -->

@@ -139,7 +139,7 @@
                         Upon completing all video modules and quizzes, you will receive an official, verifiable digital certificate of completion with your unique student ID.
                     </p>
                     <span style="display: inline-block; background: rgba(5, 179, 150, 0.15); color: #05B396; font-weight: 700; font-size: 0.82rem; padding: 4px 10px; border-radius: 4px;">
-                        ISO & Skillleaner Certified
+                        ISO & SkillLearner Certified
                     </span>
                 </div>
             </div>
