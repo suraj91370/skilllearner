@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skillleaner — Build Skills, Build Future — Skillleaner</title>
+    <title>SkillLearner — Learn, Create, Monetize</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -16,7 +16,7 @@
             --bg-card: rgba(15, 23, 42, 0.75);
             --bg-card-hover: rgba(30, 41, 59, 0.85);
             --border-glass: rgba(255, 255, 255, 0.08);
-            --border-accent: rgba(99, 102, 241, 0.35);
+            --border-accent: rgba(5, 179, 150, 0.35);
             --text-title: #f8fafc;
             --text-body: #94a3b8;
             --primary: #05B396;
@@ -31,233 +31,737 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
+        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
         .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
         
         /* Navigation Bar (Desktop) */
         header.nav { 
             position: sticky; 
             top: 0; 
-            z-index: 999; 
-            padding: 1rem 2.5rem; 
+            z-index: 1050; 
+            padding: 0.85rem 2.5rem; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 1px solid var(--border-glass); 
-            background: #b8e1d3; 
-            backdrop-filter: blur(16px); 
+            border-bottom: 1px solid #f1f5f9; 
+            background: #ffffff; 
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
         }
 
-        .brand { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            text-decoration: none; 
-            color: #000; 
-            font-size: 1.35rem; 
-            font-weight: 800; 
-            letter-spacing: -0.5px; 
-        }
-        .brand-logo-img { height: 44px; width: auto; object-fit: contain; }
-        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
-        .nav-links a { 
-            color: #000000; 
+        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+        .brand-logo-img { height: 48px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+        
+        nav.menu { display: flex; gap: 1.8rem; align-items: center; }
+        nav.menu > a { 
+            color: #334155; 
             text-decoration: none; 
             font-size: 0.95rem; 
             font-weight: 600; 
-            transition: color 0.2s; 
+            transition: color 0.2s ease; 
         }
-        .nav-links a:hover, .nav-links a.active { color: #05B396; }
+        nav.menu > a:hover, nav.menu > a.active { color: #05B396; }
 
-        /* Course Package Hover Dropdown (Desktop) */
-        .dropdown-wrapper { position: relative; display: inline-block; }
-        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #000000 !important; font-weight: 600; font-size: 0.95rem; }
-        .dropdown-trigger:hover { color: #05B396 !important; }
+        /* Course Package Dropdown (Desktop Hover) */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-trigger:hover {
+            color: #05B396;
+        }
+
+        .dropdown-trigger svg.chevron {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            stroke: #05B396;
+        }
+
+        .nav-dropdown:hover .dropdown-trigger svg.chevron {
+            transform: rotate(180deg);
+        }
+
         .dropdown-menu-box {
-            display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(15, 23, 42, 0.96);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 0.5rem 0;
-            min-width: 170px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            min-width: 210px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 0.9rem 0;
+            margin-top: 0.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
+            border: 1px solid #f1f5f9;
         }
-        .dropdown-wrapper:hover .dropdown-menu-box { display: block; }
+
+        .nav-dropdown:hover .dropdown-menu-box {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         .dropdown-item-link {
             display: block;
-            padding: 0.65rem 1.2rem;
-            color: #f8fafc !important;
-            font-size: 0.88rem !important;
-            font-weight: 700 !important;
+            padding: 0.65rem 1.4rem;
+            color: #0f172a;
+            font-size: 0.92rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            transition: all 0.2s;
+            text-decoration: none;
+            transition: all 0.15s ease;
         }
+
         .dropdown-item-link:hover {
-            background: rgba(5, 179, 150, 0.18);
-            color: #05B396 !important;
-            padding-left: 1.45rem;
+            background: #f0fdfa;
+            color: #05B396;
+            padding-left: 1.6rem;
         }
 
-        /* Buttons */
-        .btn { 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            padding: 0.65rem 1.35rem; 
-            border-radius: var(--radius-md); 
-            font-weight: 700; 
-            text-decoration: none; 
-            font-size: 0.92rem; 
-            cursor: pointer; 
-            border: none; 
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        .btn-primary { 
-            background: var(--primary-gradient); 
-            color: #fff; 
-            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.35); 
-        }
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 22px rgba(5, 179, 150, 0.5); 
-        }
-        .btn-secondary { 
-            background: rgba(255, 255, 255, 0.05); 
-            color: var(--text-title); 
-            border: 1px solid var(--border-glass); 
-        }
-        .btn-secondary:hover { 
-            background: rgba(255, 255, 255, 0.12); 
-            transform: translateY(-2px); 
+        /* Top Right Icons & User Pill (Matches Home Page Emerald Theme) */
+        .sl-circle-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #05B396;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 179, 150, 0.08);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(5, 179, 150, 0.18);
+            transition: transform 0.2s;
+            flex-shrink: 0;
         }
 
-        /* Mobile Hamburger & Slide-in Drawer */
-        .mobile-toggle-btn {
+        .sl-circle-badge:hover {
+            transform: scale(1.06);
+        }
+
+        .notification-bell-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #475569;
+            padding: 4px;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .notification-bell-btn:hover {
+            color: #05B396;
+        }
+
+        .bell-count-badge {
+            background: #05B396;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 12px;
+            margin-left: 2px;
+            line-height: 1.2;
+        }
+
+        /* User Profile Pill Button */
+        .user-menu-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .user-pill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px 4px 5px;
+            border-radius: 50px;
+            border: 1.5px solid #05B396;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(5, 179, 150, 0.15);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .user-pill-btn:hover {
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .user-pill-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(5, 179, 150, 0.4);
+        }
+
+        .user-pill-name {
+            color: #05B396;
+            font-weight: 700;
+            font-size: 0.92rem;
+            white-space: nowrap;
+        }
+
+        /* User Dropdown Card */
+        .user-dropdown-card {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            min-width: 200px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
+            padding: 0.6rem 0;
+            z-index: 1065;
+            display: none;
+            animation: fadeInDown 0.2s ease;
+        }
+
+        .user-dropdown-card.active {
+            display: block;
+        }
+
+        .dropdown-link-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.65rem 1.4rem;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .dropdown-link-item:hover {
+            background: #f0fdfa;
+            color: #05B396;
+        }
+
+        .dropdown-link-item svg {
+            color: #64748b;
+            transition: color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .dropdown-link-item:hover svg {
+            color: #05B396;
+        }
+
+        /* ==========================================================
+           MOBILE TOGGLE BUTTON & SLIDE-IN DRAWER
+           ========================================================== */
+        .mobile-toggle {
             display: none;
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 6px;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
             gap: 5px;
+            z-index: 1060;
+            position: relative;
+            pointer-events: auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
-        .mobile-toggle-btn span {
-            display: block;
-            width: 24px;
+
+        .mobile-toggle:hover {
+            background: rgba(5, 179, 150, 0.08);
+        }
+
+        .mobile-toggle .bar {
+            width: 22px;
             height: 2.5px;
-            background: #000;
+            background-color: #0f172a;
             border-radius: 2px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            pointer-events: none;
         }
+
+        /* Hamburger to X Transformation */
+        .mobile-toggle.active .bar:nth-child(1) { 
+            transform: translateY(7.5px) rotate(45deg); 
+            background-color: #05B396; 
+        }
+        .mobile-toggle.active .bar:nth-child(2) { 
+            opacity: 0; 
+            transform: scale(0.2); 
+        }
+        .mobile-toggle.active .bar:nth-child(3) { 
+            transform: translateY(-7.5px) rotate(-45deg); 
+            background-color: #05B396; 
+        }
+
         .mobile-overlay {
-            display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.65);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.55);
             backdrop-filter: blur(4px);
-            z-index: 1001;
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .mobile-overlay.active { display: block; }
+
+        .mobile-overlay.active { 
+            opacity: 1; 
+            visibility: visible; 
+            pointer-events: auto; 
+        }
+
         .mobile-drawer {
             position: fixed;
-            top: 0; right: -300px;
-            width: 280px; height: 100%;
-            background: #0b1120;
-            border-left: 1px solid var(--border-glass);
-            z-index: 1002;
-            padding: 2rem 1.5rem;
+            top: 0;
+            right: -340px;
+            width: 86%;
+            max-width: 330px;
+            height: 100vh;
+            background: #ffffff;
+            border-left: 1px solid #e2e8f0;
+            z-index: 1045;
+            padding: 4.8rem 1.2rem 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
-            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 0.35rem;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.18);
         }
+
         .mobile-drawer.active { right: 0; }
-        .mobile-nav-link {
-            color: #f8fafc;
+
+        /* Mobile Portal Link Items */
+        .mobile-portal-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.65rem 0.9rem;
+            color: #334155;
+            font-size: 0.92rem;
+            font-weight: 600;
             text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 700;
-            display: block;
-            padding: 0.6rem 0;
+            border-radius: 10px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
         }
+
+        .mobile-portal-link .mob-icon {
+            width: 18px;
+            height: 18px;
+            color: #64748b;
+            flex-shrink: 0;
+            transition: color 0.15s ease;
+        }
+
+        .mobile-portal-link:hover, .mobile-portal-link.active {
+            background: #f0fdfa;
+            color: #05B396;
+            font-weight: 700;
+            border-left-color: #05B396;
+        }
+
+        .mobile-portal-link:hover .mob-icon, .mobile-portal-link.active .mob-icon {
+            color: #05B396;
+        }
+
+        .mobile-nav-link {
+            color: #334155;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 0.65rem 0.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: block;
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link.active { color: #05B396; }
+
         .mobile-accordion-btn {
+            width: 100%;
             background: transparent;
             border: none;
-            color: #f8fafc;
-            font-size: 1.05rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            font-size: 0.95rem;
             font-weight: 700;
-            width: 100%;
+            padding: 0.65rem 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.6rem 0;
             cursor: pointer;
+            text-align: left;
         }
+
+        .mobile-accordion-btn svg { transition: transform 0.25s ease; stroke: #05B396; }
+        .mobile-accordion-btn.open svg { transform: rotate(180deg); }
+
         .mobile-accordion-content {
             display: none;
             flex-direction: column;
-            gap: 0.4rem;
-            padding-left: 1rem;
-            margin-top: 0.2rem;
-        }
-        .mobile-accordion-content.open { display: flex; }
-        .mobile-sub-item {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin: 0.3rem 0 0.6rem;
             padding: 0.4rem 0;
         }
+
+        .mobile-accordion-content.open { display: flex; }
+
+        .mobile-sub-item {
+            padding: 0.55rem 1.2rem;
+            color: #0f172a;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
         .mobile-sub-item:hover { color: #05B396; }
 
-        @media (max-width: 900px) {
-            .nav-links, .nav-actions { display: none !important; }
-            .mobile-toggle-btn { display: flex; }
-            header.nav { padding: 0.8rem 1.2rem; }
+        /* Buttons & Utility */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.65rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: pointer; text-decoration: none; border: none; transition: all 0.25s ease; }
+        .btn-primary { background: #05B396; color: #fff; }
+        .btn-secondary { background: rgba(0, 0, 0, 0.05); color: #000; border: 1px solid rgba(0,0,0,0.1); }
+        .btn-success { background: var(--secondary-gradient); color: #fff; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Modals */
+        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-box { width: 100%; max-width: 520px; padding: 2.2rem; border-radius: 16px; position: relative; background: #ffffff; border: 1px solid #e2e8f0; }
+        .close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #64748b; font-size: 1.6rem; cursor: pointer; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
+        .form-control { width: 100%; padding: 0.8rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none; }
+        .form-control:focus { border-color: #05B396; box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15); }
+
+        .nav-right-actions {
+            display: flex;
+            gap: 0.85rem;
+            align-items: center;
         }
 
-        /* Layout & Common */
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
-        .form-control {
-            width: 100%;
-            padding: 0.85rem 1.1rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-glass);
-            border-radius: 10px;
-            color: #fff;
-            outline: none;
-            font-size: 0.95rem;
-            margin-top: 0.35rem;
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            header.nav { padding: 0.75rem 1.2rem; }
+            nav.menu { display: none; }
+            .mobile-toggle { display: flex; }
+            .container { padding: 2.2rem 1rem; }
         }
-        .form-control:focus {
-            border-color: #05B396;
-            box-shadow: 0 0 10px rgba(5, 179, 150, 0.3);
+
+        @media (max-width: 640px) {
+            header.nav { padding: 0.65rem 0.85rem; }
+            .brand-logo-img { height: 38px; }
+            .nav-right-actions { gap: 0.45rem; }
+            .sl-circle-badge { width: 32px; height: 32px; }
+            .notification-bell-btn svg { width: 18px; height: 18px; }
+            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
+            .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
+            .user-pill-avatar { width: 26px; height: 26px; }
+            .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
+            .user-dropdown-card { right: 0; min-width: 195px; }
         }
-        .form-group { margin-bottom: 1.2rem; }
+
+        @media (max-width: 420px) {
+            header.nav { padding: 0.55rem 0.6rem; }
+            .brand-logo-img { height: 32px; }
+            .nav-right-actions { gap: 0.35rem; }
+            .user-pill-name { max-width: 55px; font-size: 0.78rem; }
+            .sl-circle-badge { width: 28px; height: 28px; }
+            .sl-circle-badge span { font-size: 0.72rem; }
+            .bell-count-badge { display: none; }
+            .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
+            .mobile-toggle .bar { width: 20px; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
+    <script id="browser-logger-active">
+(function() {
+    const ENDPOINT = '/_boost/browser-logs';
+    const logQueue = [];
+    let flushTimeout = null;
+    const captureTypes = ["error","warning","info","log","debug","table"];
+
+    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+    // Store original console methods
+    const originalConsole = {
+        log: console.log,
+        debug: console.debug,
+        info: console.info,
+        error: console.error,
+        warn: console.warn,
+        table: console.table
+    };
+
+    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
+    function toSafeValue(value, seen) {
+        if (value === null || typeof value !== 'object') {
+            return value;
+        }
+        if (value instanceof Error) {
+            return { name: value.name, message: value.message, stack: value.stack };
+        }
+        // Date has no own enumerable keys, so the walk below would collapse it to {}.
+        if (value instanceof Date) {
+            return value.toISOString();
+        }
+        if (seen.has(value)) {
+            return '[Circular]';
+        }
+        seen.add(value);
+        if (Array.isArray(value)) {
+            return value.map((item) => toSafeValue(item, seen));
+        }
+        const plain = {};
+        for (const key of Object.keys(value)) {
+            if (key === 'toJSON') continue;
+            try {
+                plain[key] = toSafeValue(value[key], seen);
+            } catch (e) {
+                plain[key] = '[Unreadable]';
+            }
+        }
+        return plain;
+    }
+
+    // Helper to safely stringify values
+    function safeStringify(obj) {
+        return JSON.stringify(toSafeValue(obj, new WeakSet()));
+    }
+
+    // Normalize log type for consistency (e.g., 'warn' to 'warning')
+    function normalizeType(type) {
+        return type === 'warn' ? 'warning' : type;
+    }
+
+    // Determine if a log type should be captured based on configured levels
+    function shouldCapture(type) {
+        return captureTypes.includes(normalizeType(type));
+    }
+
+    // Batch and send logs
+    function flushLogs() {
+        if (logQueue.length === 0) return;
+
+        const batch = logQueue.splice(0, logQueue.length);
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ logs: batch })
+        }).catch(err => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error('Failed to send logs:', err);
+        });
+    }
+
+    // Debounced flush (100ms)
+    function scheduleFlush() {
+        if (flushTimeout) clearTimeout(flushTimeout);
+        flushTimeout = setTimeout(flushLogs, 100);
+    }
+
+    // Intercept console methods
+    ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
+        console[method] = function(...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+                if (!shouldCapture(method)) {
+                    return;
+                }
+
+                logQueue.push({
+                    type: method,
+                    timestamp: new Date().toISOString(),
+                    data: args.map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            } catch (e) {
+                // Fail silently
+            }
+        };
+    });
+
+    // Global error handlers for uncaught errors
+    const originalOnError = window.onerror;
+    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+        try {
+            if (shouldCapture('error')) {
+                logQueue.push({
+                    type: 'uncaught_error',
+                    timestamp: new Date().toISOString(),
+                    data: [{
+                        message: errorMsg,
+                        filename: url,
+                        lineno: lineNumber,
+                        colno: colNumber,
+                        error: error ? {
+                            name: error.name,
+                            message: error.message,
+                            stack: error.stack
+                        } : null
+                    }],
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            }
+
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Call original handler if it exists
+        if (originalOnError && typeof originalOnError === 'function') {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+        }
+
+        // Let the error continue to propagate
+        return false;
+    }
+    window.addEventListener('error', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'window_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    error: event.error ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the error continue to propagate
+        return false;
+    });
+    window.addEventListener('unhandledrejection', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: 'Unhandled Promise Rejection',
+                    reason: toSafeValue(event.reason, new WeakSet())
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the rejection continue to propagate
+        return false;
+    });
+
+    // Flush on page unload
+    window.addEventListener('beforeunload', () => {
+        if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+        }
+    });
+})();
+</script>
 </head>
 <body>
-    <!-- Navbar -->
+
+    <!-- Notification Alert Banners -->
+    
+    <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
-        <a href="/" class="brand">
-            <img src="/images/logo.png" alt="Skillleaner" class="brand-logo-img">
+        <!-- Logo: SkillLearner Official Logo -->
+        <a href="" class="brand" aria-label="SkillLearner Home">
+            <img src="/images/logo.png" alt="SkillLearner" class="brand-logo-img">
         </a>
-        
-        <nav class="nav-links">
-            <a href="/" class="active">Home</a>
-            <a href="/courses" class="">Courses</a>
-            
-            <!-- Desktop Course Package Dropdown -->
-            <div class="dropdown-wrapper">
+
+        <!-- Desktop Navigation Menu (Matching Image 1: Home, About, Course Package, Contact, Courses, Job) -->
+        <nav class="menu">
+            <a href="" class="active">Home</a>
+            <a href="/about" class="">About</a>
+
+            <!-- Course Package Dropdown -->
+            <div class="nav-dropdown">
                 <a href="/plans" class="dropdown-trigger ">
-                    Course Package <span style="font-size: 0.75rem;">▾</span>
+                    <span>Course Package</span>
+                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                 </a>
                 <div class="dropdown-menu-box">
                     <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
@@ -268,61 +772,73 @@
                 </div>
             </div>
 
-            <a href="/about" class="">About</a>
             <a href="/contact" class="">Contact</a>
+            <a href="/courses" class="">Courses</a>
+            <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
         </nav>
 
-        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
-            <a href="/my-account" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">My Account</a>
-            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+        <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
+        <div class="nav-right-actions">
+                            <a href="/my-account" class="btn btn-secondary" style="color: #0f172a; border-color: #cbd5e1; font-weight: 700;">My Account</a>
+                <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+            
+            <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleMobileMenu(event)">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
-
-        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
     </header>
 
-    <!-- Mobile Drawer Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <!-- Mobile Slide-In Drawer Navigation Backdrop -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeMobileMenu()"></div>
 
-    <!-- Mobile Drawer -->
+    <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
-            <img src="/images/logo.png" alt="Skillleaner" style="height: 36px; width: auto;">
-            <button id="mobileCloseBtn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+        <!-- Drawer Header with Logo & Close Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+            <a href="" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="/images/logo.png" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+            </a>
+            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
-        
-        <a href="/" class="mobile-nav-link">Home</a>
-        <a href="/courses" class="mobile-nav-link">Courses</a>
-        
-        <!-- Mobile Accordion for Course Package -->
-        <div>
-            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn">
-                Course Package <span>▾</span>
-            </button>
-            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
-                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
-                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
-                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
-                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+
+                    <!-- Guest Navigation Links -->
+            <a href="" class="mobile-nav-link active">Home</a>
+            <a href="/about" class="mobile-nav-link ">About</a>
+            <a href="/courses" class="mobile-nav-link ">Courses</a>
+            
+            <div>
+                <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
+                    <span>Course Package</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                    <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                    <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                    <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                    <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                    <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+                </div>
             </div>
-        </div>
 
-        <a href="/about" class="mobile-nav-link">About</a>
-        <a href="/contact" class="mobile-nav-link">Contact</a>
-        <a href="/my-account" class="mobile-nav-link">My Account / Login</a>
-        <a href="/buy-now" class="btn btn-primary" style="margin-top: 1rem; width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
-    </div>
+            <a href="/contact" class="mobile-nav-link ">Contact</a>
 
-    <main class="main-content">
-        
-<!-- Hero Section -->
+            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
+                <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
+            </div>
+            </div>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Hero Section -->
 <section class="hero" style="text-align: center; padding: 5rem 2rem 4rem; max-width: 1150px; margin: 0 auto;">
     <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
-        <span>★ India's #1 Skill &amp; Affiliate Platform</span>
+        <span>★ India's #1 Skill & Affiliate Platform</span>
     </div>
     <h1 style="font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;">
         Learn, Create, <br><span class="text-gradient">Monetize.</span>
@@ -358,278 +874,397 @@
 <!-- Packages Showcase -->
 <section class="container" id="packages">
     <div style="text-align: center; margin-bottom: 3.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages &amp; Tiers</div>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages & Tiers</div>
         <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">Select Your Learning Track</h2>
         <p style="color: var(--text-body); max-width: 620px; margin: 0 auto;">Every package unlocks premium high-yield skills along with direct and passive referral commission rights.</p>
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
-        <!-- Basic -->
-        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
-            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
-                <img src="/images/packages/basic.jpg" alt="Basic Package" style="max-height: 210px; width: auto; object-fit: contain;">
-            </div>
-            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Basic Package</h3>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹2,999</span>
-            </div>
-            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Canva Pro Mastery</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> MS Excel Essentials</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Basic Spoken English</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Social Media Fundamentals</li>
-            </ul>
-            <a href="/buy-now?package=basic" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
-        </div>
+                    <div class="glass " style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; ">
+                                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                        STARTER
+                    </div>
+                                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="/images/packages/basic.jpg" alt="Basic Package" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
+                </div>
 
-        <!-- Advance -->
-        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);">
-            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">POPULAR</div>
-            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
-                <img src="/images/packages/advance.jpg" alt="Advance Package" style="max-height: 210px; width: auto; object-fit: contain;">
-            </div>
-            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Advance Package</h3>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹2,499</span>
-                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹4,999</span>
-            </div>
-            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere &amp; CapCut)</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation Blueprint</li>
-            </ul>
-            <a href="/buy-now?package=advance" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
-        </div>
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Basic Package</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹2,999</span>
+                </div>
 
-        <!-- Premium -->
-        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
-            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">BEST VALUE</div>
-            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
-                <img src="/images/packages/premium.jpg" alt="Premium Package" style="max-height: 210px; width: auto; object-fit: contain;">
-            </div>
-            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Premium Package</h3>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹3,999</span>
-                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹7,999</span>
-            </div>
-            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Advance Courses</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Facebook &amp; Instagram Paid Ads</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> AI &amp; ChatGPT Monetization Kit</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> WordPress Web Development</li>
-            </ul>
-            <a href="/buy-now?package=premium" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
-        </div>
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Canva Pro Mastery
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> MS Excel Essentials
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Basic Spoken English
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Social Media Fundamentals
+                        </li>
+                                    </ul>
 
-        <!-- Growth -->
-        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
-            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">HIGH GROWTH</div>
-            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
-                <img src="/images/packages/growth.jpg" alt="Growth Package" style="max-height: 210px; width: auto; object-fit: contain;">
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="/buy-now?package=basic" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
             </div>
-            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Growth Package</h3>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹5,999</span>
-                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹11,999</span>
-            </div>
-            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> All Premium Courses</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Complete Funnel Building</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> High-Ticket Sales Closing</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Google &amp; YouTube Ads</li>
-            </ul>
-            <a href="/buy-now?package=growth" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
-        </div>
+                    <div class="glass popular" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);">
+                                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                        MOST POPULAR
+                    </div>
+                                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="/images/packages/advance.jpg" alt="Advance Package" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
+                </div>
 
-        <!-- Infinity -->
-        <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative;">
-            <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">ALL ACCESS LIFETIME</div>
-            <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
-                <img src="/images/packages/infinity.jpg" alt="Infinity Package" style="max-height: 210px; width: auto; object-fit: contain;">
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Advance Package</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹2,499</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹4,999</span>
+                </div>
+
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere &amp; CapCut)
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation Blueprint
+                        </li>
+                                    </ul>
+
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="/buy-now?package=advance" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
             </div>
-            <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Infinity Package</h3>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹9,999</span>
-                <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹19,999</span>
+                    <div class="glass " style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; ">
+                                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                        BEST VALUE
+                    </div>
+                                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="/images/packages/premium.jpg" alt="Premium Package" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
+                </div>
+
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Premium Package</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹3,999</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹7,999</span>
+                </div>
+
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> All Advance Courses
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Facebook &amp; Instagram Paid Ads
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> AI &amp; ChatGPT Monetization Kit
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> WordPress Web Development
+                        </li>
+                                    </ul>
+
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="/buy-now?package=premium" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
             </div>
-            <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> Full Lifetime Access Pass</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> UI/UX Design Masterclass</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> 1-on-1 Mentorship &amp; Live Masterminds</li>
-                <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;"><span style="color: #05B396; font-weight: bold;">✓</span> VIP Community &amp; Direct Support</li>
-            </ul>
-            <a href="/buy-now?package=infinity" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">Buy Now ➔</a>
-        </div>
-    </div>
+                    <div class="glass " style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; ">
+                                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                        HIGH GROWTH
+                    </div>
+                                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="/images/packages/growth.jpg" alt="Growth Package" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
+                </div>
+
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Growth Package</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹5,999</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹11,999</span>
+                </div>
+
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> All Premium Courses
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Complete Funnel Building
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> High-Ticket Sales Closing
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Google &amp; YouTube Ads
+                        </li>
+                                    </ul>
+
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="/buy-now?package=growth" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
+            </div>
+                    <div class="glass " style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; ">
+                                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                        ALL ACCESS LIFETIME
+                    </div>
+                                
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+                    <img src="/images/packages/infinity.jpg" alt="Infinity Package" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
+                </div>
+
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">Infinity Package</h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹9,999</span>
+                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹19,999</span>
+                </div>
+
+                <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> Full Lifetime Access Pass
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> UI/UX Design Masterclass
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> 1-on-1 Mentorship &amp; Weekly Live Masterminds
+                        </li>
+                                            <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #05B396; font-weight: bold;">✓</span> VIP Community &amp; Support
+                        </li>
+                                    </ul>
+
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="/buy-now?package=infinity" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                        Buy Now ➔
+                    </a>
+                </div>
+            </div>
+            </div>
 </section>
 
 <!-- Course Curriculum & Descriptions -->
 <section class="container" style="padding-top: 0; padding-bottom: 5rem;">
     <div style="text-align: center; margin-bottom: 3.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Curriculum &amp; Syllabuses</div>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Curriculum & Syllabuses</div>
         <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">High-Yield Skill Courses</h2>
         <p style="color: var(--text-body); max-width: 600px; margin: 0 auto;">Read full course descriptions, learning modules, and enroll directly with one click.</p>
     </div>
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
-        <!-- Course 1 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>🚀</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">6h 40m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">BESTSELLER</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">AFFILIATE BUSINESS</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">High-Ticket Affiliate Marketing Masterclass</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">18 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>🚀</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">6h 40m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">BESTSELLER</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Affiliate Business</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">High-Ticket Affiliate Marketing Masterclass</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket affiliate funnels.
+                        </p>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/affiliate-marketing-masterclass" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Course 2 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>🤖</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 15m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">TRENDING</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">ARTIFICIAL INTELLIGENCE</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">AI, ChatGPT &amp; Automation Cashflow</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance services in minutes.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">14 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,299</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/ai-chatgpt-automation" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">18 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/affiliate-marketing-masterclass" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>🤖</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 15m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">TRENDING</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Artificial Intelligence</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">AI, ChatGPT &amp; Automation Cashflow</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance services in minutes.
+                        </p>
+                    </div>
 
-        <!-- Course 3 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>🎬</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">8h 20m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HOT SKILL</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">VIDEO &amp; MEDIA</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Short-Form Video Editing (CapCut &amp; Premiere Pro)</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">22 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/short-form-video-editing" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">14 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,299</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/ai-chatgpt-automation" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>🎬</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">8h 20m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HOT SKILL</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Video &amp; Media</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Short-Form Video Editing (CapCut &amp; Premiere Pro)</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the first 2 seconds.
+                        </p>
+                    </div>
 
-        <!-- Course 4 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>📈</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 50m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HIGH ROI</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">PERFORMANCE MARKETING</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Meta Ads Mastery: Facebook &amp; Instagram Leads</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Run profitable Facebook &amp; Instagram ads for real estate, e-commerce, coaching, and lead gen.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">16 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,699</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/meta-ads-mastery" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=meta-ads-mastery" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">22 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/short-form-video-editing" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>📈</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h 50m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HIGH ROI</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Performance Marketing</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Meta Ads Mastery: Facebook &amp; Instagram Leads</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Run profitable Facebook &amp; Instagram ads for real estate, e-commerce, coaching, and lead gen.
+                        </p>
+                    </div>
 
-        <!-- Course 5 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>💻</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">7h 30m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">MOST PRACTICAL</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">WEB DESIGN</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">WordPress &amp; Landing Page Design No-Code</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Build high-converting sales pages, company websites, and portfolios using Elementor without coding.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">20 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/wordpress-landing-page-design" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=wordpress-landing-page-design" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">16 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,699</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/meta-ads-mastery" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=meta-ads-mastery" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>💻</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">7h 30m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">MOST PRACTICAL</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Web Design</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">WordPress &amp; Landing Page Design No-Code</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Build high-converting sales pages, company websites, and portfolios using Elementor without coding.
+                        </p>
+                    </div>
 
-        <!-- Course 6 -->
-        <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-            <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                <span>⭐</span>
-                <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">4h 10m</span>
-                <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">FAST GROWTH</span>
-            </div>
-            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">SOCIAL MEDIA</span>
-                    <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Personal Branding &amp; Instagram Reel Blueprint</h4>
-                    <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">Build authority, attract inbound client inquiries, and grow your Instagram followers organically.</p>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-body);">12 Lessons</span>
-                        <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹999</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                        <a href="/courses/personal-branding-instagram-reels" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">Description</a>
-                        <a href="/buy-now?course=personal-branding-instagram-reels" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">Buy Now ➔</a>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">20 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/wordpress-landing-page-design" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=wordpress-landing-page-design" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+                    <div class="glass" style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
+                <div style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
+                    <span>⭐</span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">4h 10m</span>
+                                            <span style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">FAST GROWTH</span>
+                                    </div>
+                
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Social Media</span>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">Personal Branding &amp; Instagram Reel Blueprint</h4>
+                        <p style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+                            Build authority, attract inbound client inquiries, and grow your Instagram followers organically.
+                        </p>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-body);">12 Lessons</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹999</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <a href="/courses/personal-branding-instagram-reels" class="btn btn-secondary" style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
+                                Description
+                            </a>
+                            <a href="/buy-now?course=personal-branding-instagram-reels" class="btn btn-primary" style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
+                                Buy Now ➔
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
 
     <div style="text-align: center; margin-top: 3rem;">
         <a href="/courses" class="btn btn-secondary" style="padding: 0.9rem 2.2rem; font-size: 1rem; font-weight: 700;">
@@ -637,41 +1272,174 @@
         </a>
     </div>
 </section>
-
     </main>
 
+    <!-- Footer matching AWS Live -->
     <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
-        <div class="container">
-            <img src="/images/logo.png" alt="Skillleaner" style="height: 40px; margin-bottom: 1rem;">
-            <p style="margin-bottom: 1rem;">Skillleaner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
-            <p>© 2026 Skillleaner. All Rights Reserved.</p>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <img src="/images/logo.png" alt="SkillLearner" style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Razorpay Simulated Modal (Available Globally) -->
+    <div id="razorpayModal" class="modal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('razorpayModal')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem;">
+                <span style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
+                <h3 style="font-size: 1.25rem;">Secure Checkout</h3>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.04); padding: 1rem; border-radius: 8px; margin-bottom: 1.4rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span id="rzpPackage" style="font-weight: 700; color: #0f172a;">Advance Package</span>
+                    <span id="rzpPrice" style="color: #10b981; font-weight: 800; font-size: 1.1rem;">₹3,499</span>
+                </div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access</div>
+            </div>
+
+            <form onsubmit="handleMockPayment(event)">
+                <div class="form-group">
+                    <label>Select Payment Option</label>
+                    <select class="form-control">
+                        <option>UPI (Google Pay, PhonePe, Paytm)</option>
+                        <option>Debit / Credit Card</option>
+                        <option>Net Banking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>UPI ID or Phone Number</label>
+                    <input type="text" class="form-control" placeholder="yourname@okhdfcbank" required>
+                </div>
+                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
+                    Pay & Complete Enrollment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileBtn = document.getElementById('mobileMenuBtn');
-            const mobileOverlay = document.getElementById('mobileOverlay');
-            const mobileDrawer = document.getElementById('mobileDrawer');
-            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-            const accordionBtn = document.getElementById('mobileCoursePackageBtn');
-            const accordionContent = document.getElementById('mobileCoursePackageContent');
-
-            function toggleMenu() {
-                mobileOverlay.classList.toggle('active');
-                mobileDrawer.classList.toggle('active');
+        // Global Mobile Navigation Handlers
+        window.toggleMobileMenu = function(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
             }
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            
+            const isOpen = drawer && drawer.classList.contains('active');
+            
+            if (isOpen) {
+                window.closeMobileMenu();
+            } else {
+                window.openMobileMenu();
+            }
+        };
 
-            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
-            if (mobileOverlay) mobileOverlay.addEventListener('click', toggleMenu);
-            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMenu);
+        window.openMobileMenu = function() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            if (btn) btn.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            if (drawer) drawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
 
-            if (accordionBtn && accordionContent) {
-                accordionBtn.addEventListener('click', () => {
-                    accordionContent.classList.toggle('open');
-                });
+        window.closeMobileMenu = function() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            if (btn) btn.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            if (drawer) drawer.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        window.toggleMobileAccordion = function(e) {
+            if (e) e.preventDefault();
+            const btn = document.getElementById('mobileCoursePackageBtn');
+            const content = document.getElementById('mobileCoursePackageContent');
+            if (btn) btn.classList.toggle('open');
+            if (content) content.classList.toggle('open');
+        };
+
+        window.mobileSwitchPortalTab = function(tabId) {
+            window.closeMobileMenu();
+            if (window.location.pathname.includes('/dashboard')) {
+                if (typeof window.switchPortalTab === 'function') {
+                    window.switchPortalTab(tabId);
+                }
+            } else {
+                window.location.href = "/dashboard?tab=" + tabId;
+            }
+        };
+
+        // Close drawer on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.closeMobileMenu();
+                const card = document.getElementById('userDropdownCard');
+                if (card) card.classList.remove('active');
             }
         });
+
+        // User Profile Dropdown Toggle (Image 2)
+        function toggleUserMenu(e) {
+            e.stopPropagation();
+            const card = document.getElementById('userDropdownCard');
+            if (card) card.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking anywhere outside
+        document.addEventListener('click', (e) => {
+            const card = document.getElementById('userDropdownCard');
+            const btn = document.getElementById('userMenuBtn');
+            if (card && card.classList.contains('active')) {
+                if (btn && !btn.contains(e.target) && !card.contains(e.target)) {
+                    card.classList.remove('active');
+                }
+            }
+        });
+
+        // Modal Handlers
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('active');
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        }
+
+        function openCheckout(name, price) {
+            const pkg = document.getElementById('rzpPackage');
+            const pr = document.getElementById('rzpPrice');
+            if (pkg) pkg.innerText = name;
+            if (pr) pr.innerText = '₹' + Number(price).toLocaleString('en-IN');
+            openModal('razorpayModal');
+        }
+
+        function handleMockPayment(e) {
+            e.preventDefault();
+            const btn = document.getElementById('rzpSubmitBtn');
+            btn.innerText = 'Connecting to Razorpay...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert('🎉 Payment Successful!\nPackage activated and sponsor commission credited.');
+                closeModal('razorpayModal');
+                btn.innerText = 'Pay & Complete Enrollment';
+                btn.disabled = false;
+                window.location.href = "/dashboard?alert=welcome";
+            }, 1500);
+        }
     </script>
-</body>
+    </body>
 </html>

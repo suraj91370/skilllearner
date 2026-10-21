@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Now & Instant Enrollment — Skillleaner</title>
+    <title>Buy Now &amp; Instant Enrollment — SkillLearner</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -16,7 +16,7 @@
             --bg-card: rgba(15, 23, 42, 0.75);
             --bg-card-hover: rgba(30, 41, 59, 0.85);
             --border-glass: rgba(255, 255, 255, 0.08);
-            --border-accent: rgba(99, 102, 241, 0.35);
+            --border-accent: rgba(5, 179, 150, 0.35);
             --text-title: #f8fafc;
             --text-body: #94a3b8;
             --primary: #05B396;
@@ -31,233 +31,781 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
+        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
         .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
         
         /* Navigation Bar (Desktop) */
         header.nav { 
             position: sticky; 
             top: 0; 
-            z-index: 999; 
-            padding: 1rem 2.5rem; 
+            z-index: 1050; 
+            padding: 0.85rem 2.5rem; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 1px solid var(--border-glass); 
-            background: #b8e1d3; 
-            backdrop-filter: blur(16px); 
+            border-bottom: 1px solid #f1f5f9; 
+            background: #ffffff; 
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
         }
 
-        .brand { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            text-decoration: none; 
-            color: #000; 
-            font-size: 1.35rem; 
-            font-weight: 800; 
-            letter-spacing: -0.5px; 
-        }
-        .brand-logo-img { height: 44px; width: auto; object-fit: contain; }
-        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
-        .nav-links a { 
-            color: #000000; 
+        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+        .brand-logo-img { height: 48px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+        
+        nav.menu { display: flex; gap: 1.8rem; align-items: center; }
+        nav.menu > a { 
+            color: #334155; 
             text-decoration: none; 
             font-size: 0.95rem; 
             font-weight: 600; 
-            transition: color 0.2s; 
+            transition: color 0.2s ease; 
         }
-        .nav-links a:hover, .nav-links a.active { color: #05B396; }
+        nav.menu > a:hover, nav.menu > a.active { color: #05B396; }
 
-        /* Course Package Hover Dropdown (Desktop) */
-        .dropdown-wrapper { position: relative; display: inline-block; }
-        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #000000 !important; font-weight: 600; font-size: 0.95rem; }
-        .dropdown-trigger:hover { color: #05B396 !important; }
+        /* Course Package Dropdown (Desktop Hover) */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-trigger:hover {
+            color: #05B396;
+        }
+
+        .dropdown-trigger svg.chevron {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            stroke: #05B396;
+        }
+
+        .nav-dropdown:hover .dropdown-trigger svg.chevron {
+            transform: rotate(180deg);
+        }
+
         .dropdown-menu-box {
-            display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(15, 23, 42, 0.96);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 0.5rem 0;
-            min-width: 170px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            min-width: 210px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 0.9rem 0;
+            margin-top: 0.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
+            border: 1px solid #f1f5f9;
         }
-        .dropdown-wrapper:hover .dropdown-menu-box { display: block; }
+
+        .nav-dropdown:hover .dropdown-menu-box {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         .dropdown-item-link {
             display: block;
-            padding: 0.65rem 1.2rem;
-            color: #f8fafc !important;
-            font-size: 0.88rem !important;
-            font-weight: 700 !important;
+            padding: 0.65rem 1.4rem;
+            color: #0f172a;
+            font-size: 0.92rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            transition: all 0.2s;
+            text-decoration: none;
+            transition: all 0.15s ease;
         }
+
         .dropdown-item-link:hover {
-            background: rgba(5, 179, 150, 0.18);
-            color: #05B396 !important;
-            padding-left: 1.45rem;
+            background: #f0fdfa;
+            color: #05B396;
+            padding-left: 1.6rem;
         }
 
-        /* Buttons */
-        .btn { 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            padding: 0.65rem 1.35rem; 
-            border-radius: var(--radius-md); 
-            font-weight: 700; 
-            text-decoration: none; 
-            font-size: 0.92rem; 
-            cursor: pointer; 
-            border: none; 
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        .btn-primary { 
-            background: var(--primary-gradient); 
-            color: #fff; 
-            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.35); 
-        }
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 22px rgba(5, 179, 150, 0.5); 
-        }
-        .btn-secondary { 
-            background: rgba(255, 255, 255, 0.05); 
-            color: var(--text-title); 
-            border: 1px solid var(--border-glass); 
-        }
-        .btn-secondary:hover { 
-            background: rgba(255, 255, 255, 0.12); 
-            transform: translateY(-2px); 
+        /* Top Right Icons & User Pill (Matches Home Page Emerald Theme) */
+        .sl-circle-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #05B396;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 179, 150, 0.08);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(5, 179, 150, 0.18);
+            transition: transform 0.2s;
+            flex-shrink: 0;
         }
 
-        /* Mobile Hamburger & Slide-in Drawer */
-        .mobile-toggle-btn {
+        .sl-circle-badge:hover {
+            transform: scale(1.06);
+        }
+
+        .notification-bell-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #475569;
+            padding: 4px;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .notification-bell-btn:hover {
+            color: #05B396;
+        }
+
+        .bell-count-badge {
+            background: #05B396;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 12px;
+            margin-left: 2px;
+            line-height: 1.2;
+        }
+
+        /* User Profile Pill Button */
+        .user-menu-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .user-pill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px 4px 5px;
+            border-radius: 50px;
+            border: 1.5px solid #05B396;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(5, 179, 150, 0.15);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .user-pill-btn:hover {
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .user-pill-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(5, 179, 150, 0.4);
+        }
+
+        .user-pill-name {
+            color: #05B396;
+            font-weight: 700;
+            font-size: 0.92rem;
+            white-space: nowrap;
+        }
+
+        /* User Dropdown Card */
+        .user-dropdown-card {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            min-width: 200px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
+            padding: 0.6rem 0;
+            z-index: 1065;
+            display: none;
+            animation: fadeInDown 0.2s ease;
+        }
+
+        .user-dropdown-card.active {
+            display: block;
+        }
+
+        .dropdown-link-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.65rem 1.4rem;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .dropdown-link-item:hover {
+            background: #f0fdfa;
+            color: #05B396;
+        }
+
+        .dropdown-link-item svg {
+            color: #64748b;
+            transition: color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .dropdown-link-item:hover svg {
+            color: #05B396;
+        }
+
+        /* ==========================================================
+           MOBILE TOGGLE BUTTON & SLIDE-IN DRAWER
+           ========================================================== */
+        .mobile-toggle {
             display: none;
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 6px;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
             gap: 5px;
+            z-index: 1060;
+            position: relative;
+            pointer-events: auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
-        .mobile-toggle-btn span {
-            display: block;
-            width: 24px;
+
+        .mobile-toggle:hover {
+            background: rgba(5, 179, 150, 0.08);
+        }
+
+        .mobile-toggle .bar {
+            width: 22px;
             height: 2.5px;
-            background: #000;
+            background-color: #0f172a;
             border-radius: 2px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            pointer-events: none;
         }
+
+        /* Hamburger to X Transformation */
+        .mobile-toggle.active .bar:nth-child(1) { 
+            transform: translateY(7.5px) rotate(45deg); 
+            background-color: #05B396; 
+        }
+        .mobile-toggle.active .bar:nth-child(2) { 
+            opacity: 0; 
+            transform: scale(0.2); 
+        }
+        .mobile-toggle.active .bar:nth-child(3) { 
+            transform: translateY(-7.5px) rotate(-45deg); 
+            background-color: #05B396; 
+        }
+
         .mobile-overlay {
-            display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.65);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.55);
             backdrop-filter: blur(4px);
-            z-index: 1001;
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .mobile-overlay.active { display: block; }
+
+        .mobile-overlay.active { 
+            opacity: 1; 
+            visibility: visible; 
+            pointer-events: auto; 
+        }
+
         .mobile-drawer {
             position: fixed;
-            top: 0; right: -300px;
-            width: 280px; height: 100%;
-            background: #0b1120;
-            border-left: 1px solid var(--border-glass);
-            z-index: 1002;
-            padding: 2rem 1.5rem;
+            top: 0;
+            right: -340px;
+            width: 86%;
+            max-width: 330px;
+            height: 100vh;
+            background: #ffffff;
+            border-left: 1px solid #e2e8f0;
+            z-index: 1045;
+            padding: 4.8rem 1.2rem 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
-            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 0.35rem;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.18);
         }
+
         .mobile-drawer.active { right: 0; }
-        .mobile-nav-link {
-            color: #f8fafc;
+
+        /* Mobile Portal Link Items */
+        .mobile-portal-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.65rem 0.9rem;
+            color: #334155;
+            font-size: 0.92rem;
+            font-weight: 600;
             text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 700;
-            display: block;
-            padding: 0.6rem 0;
+            border-radius: 10px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
         }
+
+        .mobile-portal-link .mob-icon {
+            width: 18px;
+            height: 18px;
+            color: #64748b;
+            flex-shrink: 0;
+            transition: color 0.15s ease;
+        }
+
+        .mobile-portal-link:hover, .mobile-portal-link.active {
+            background: #f0fdfa;
+            color: #05B396;
+            font-weight: 700;
+            border-left-color: #05B396;
+        }
+
+        .mobile-portal-link:hover .mob-icon, .mobile-portal-link.active .mob-icon {
+            color: #05B396;
+        }
+
+        .mobile-nav-link {
+            color: #334155;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 0.65rem 0.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: block;
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link.active { color: #05B396; }
+
         .mobile-accordion-btn {
+            width: 100%;
             background: transparent;
             border: none;
-            color: #f8fafc;
-            font-size: 1.05rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            font-size: 0.95rem;
             font-weight: 700;
-            width: 100%;
+            padding: 0.65rem 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.6rem 0;
             cursor: pointer;
+            text-align: left;
         }
+
+        .mobile-accordion-btn svg { transition: transform 0.25s ease; stroke: #05B396; }
+        .mobile-accordion-btn.open svg { transform: rotate(180deg); }
+
         .mobile-accordion-content {
             display: none;
             flex-direction: column;
-            gap: 0.4rem;
-            padding-left: 1rem;
-            margin-top: 0.2rem;
-        }
-        .mobile-accordion-content.open { display: flex; }
-        .mobile-sub-item {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin: 0.3rem 0 0.6rem;
             padding: 0.4rem 0;
         }
+
+        .mobile-accordion-content.open { display: flex; }
+
+        .mobile-sub-item {
+            padding: 0.55rem 1.2rem;
+            color: #0f172a;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
         .mobile-sub-item:hover { color: #05B396; }
 
-        @media (max-width: 900px) {
-            .nav-links, .nav-actions { display: none !important; }
-            .mobile-toggle-btn { display: flex; }
-            header.nav { padding: 0.8rem 1.2rem; }
+        /* Buttons & Utility */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.65rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: pointer; text-decoration: none; border: none; transition: all 0.25s ease; }
+        .btn-primary { background: #05B396; color: #fff; }
+        .btn-secondary { background: rgba(0, 0, 0, 0.05); color: #000; border: 1px solid rgba(0,0,0,0.1); }
+        .btn-success { background: var(--secondary-gradient); color: #fff; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Modals */
+        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-box { width: 100%; max-width: 520px; padding: 2.2rem; border-radius: 16px; position: relative; background: #ffffff; border: 1px solid #e2e8f0; }
+        .close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #64748b; font-size: 1.6rem; cursor: pointer; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
+        .form-control { width: 100%; padding: 0.8rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none; }
+        .form-control:focus { border-color: #05B396; box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15); }
+
+        .nav-right-actions {
+            display: flex;
+            gap: 0.85rem;
+            align-items: center;
         }
 
-        /* Layout & Common */
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
-        .form-control {
-            width: 100%;
-            padding: 0.85rem 1.1rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-glass);
-            border-radius: 10px;
-            color: #fff;
-            outline: none;
-            font-size: 0.95rem;
-            margin-top: 0.35rem;
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            header.nav { padding: 0.75rem 1.2rem; }
+            nav.menu { display: none; }
+            .mobile-toggle { display: flex; }
+            .container { padding: 2.2rem 1rem; }
         }
-        .form-control:focus {
-            border-color: #05B396;
-            box-shadow: 0 0 10px rgba(5, 179, 150, 0.3);
+
+        @media (max-width: 640px) {
+            header.nav { padding: 0.65rem 0.85rem; }
+            .brand-logo-img { height: 38px; }
+            .nav-right-actions { gap: 0.45rem; }
+            .sl-circle-badge { width: 32px; height: 32px; }
+            .notification-bell-btn svg { width: 18px; height: 18px; }
+            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
+            .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
+            .user-pill-avatar { width: 26px; height: 26px; }
+            .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
+            .user-dropdown-card { right: 0; min-width: 195px; }
         }
-        .form-group { margin-bottom: 1.2rem; }
+
+        @media (max-width: 420px) {
+            header.nav { padding: 0.55rem 0.6rem; }
+            .brand-logo-img { height: 32px; }
+            .nav-right-actions { gap: 0.35rem; }
+            .user-pill-name { max-width: 55px; font-size: 0.78rem; }
+            .sl-circle-badge { width: 28px; height: 28px; }
+            .sl-circle-badge span { font-size: 0.72rem; }
+            .bell-count-badge { display: none; }
+            .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
+            .mobile-toggle .bar { width: 20px; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
+    <style>
+    .checkout-tab-btn {
+        flex: 1;
+        padding: 0.8rem 1rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-glass);
+        color: #94a3b8;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .checkout-tab-btn.active, .checkout-tab-btn:hover {
+        background: #05B396;
+        color: #ffffff;
+        border-color: #05B396;
+        box-shadow: 0 4px 15px rgba(5, 179, 150, 0.25);
+    }
+
+    .pay-method-tab {
+        flex: 1;
+        padding: 0.65rem 0.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-glass);
+        color: #94a3b8;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .pay-method-tab.active {
+        background: rgba(5, 179, 150, 0.15);
+        color: #05B396;
+        border-color: #05B396;
+    }
+
+    @media (max-width: 900px) {
+        section .container > div[style*="grid-template-columns: 1.15fr 1fr"] {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+<script id="browser-logger-active">
+(function() {
+    const ENDPOINT = '/_boost/browser-logs';
+    const logQueue = [];
+    let flushTimeout = null;
+    const captureTypes = ["error","warning","info","log","debug","table"];
+
+    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+    // Store original console methods
+    const originalConsole = {
+        log: console.log,
+        debug: console.debug,
+        info: console.info,
+        error: console.error,
+        warn: console.warn,
+        table: console.table
+    };
+
+    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
+    function toSafeValue(value, seen) {
+        if (value === null || typeof value !== 'object') {
+            return value;
+        }
+        if (value instanceof Error) {
+            return { name: value.name, message: value.message, stack: value.stack };
+        }
+        // Date has no own enumerable keys, so the walk below would collapse it to {}.
+        if (value instanceof Date) {
+            return value.toISOString();
+        }
+        if (seen.has(value)) {
+            return '[Circular]';
+        }
+        seen.add(value);
+        if (Array.isArray(value)) {
+            return value.map((item) => toSafeValue(item, seen));
+        }
+        const plain = {};
+        for (const key of Object.keys(value)) {
+            if (key === 'toJSON') continue;
+            try {
+                plain[key] = toSafeValue(value[key], seen);
+            } catch (e) {
+                plain[key] = '[Unreadable]';
+            }
+        }
+        return plain;
+    }
+
+    // Helper to safely stringify values
+    function safeStringify(obj) {
+        return JSON.stringify(toSafeValue(obj, new WeakSet()));
+    }
+
+    // Normalize log type for consistency (e.g., 'warn' to 'warning')
+    function normalizeType(type) {
+        return type === 'warn' ? 'warning' : type;
+    }
+
+    // Determine if a log type should be captured based on configured levels
+    function shouldCapture(type) {
+        return captureTypes.includes(normalizeType(type));
+    }
+
+    // Batch and send logs
+    function flushLogs() {
+        if (logQueue.length === 0) return;
+
+        const batch = logQueue.splice(0, logQueue.length);
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ logs: batch })
+        }).catch(err => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error('Failed to send logs:', err);
+        });
+    }
+
+    // Debounced flush (100ms)
+    function scheduleFlush() {
+        if (flushTimeout) clearTimeout(flushTimeout);
+        flushTimeout = setTimeout(flushLogs, 100);
+    }
+
+    // Intercept console methods
+    ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
+        console[method] = function(...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+                if (!shouldCapture(method)) {
+                    return;
+                }
+
+                logQueue.push({
+                    type: method,
+                    timestamp: new Date().toISOString(),
+                    data: args.map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            } catch (e) {
+                // Fail silently
+            }
+        };
+    });
+
+    // Global error handlers for uncaught errors
+    const originalOnError = window.onerror;
+    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+        try {
+            if (shouldCapture('error')) {
+                logQueue.push({
+                    type: 'uncaught_error',
+                    timestamp: new Date().toISOString(),
+                    data: [{
+                        message: errorMsg,
+                        filename: url,
+                        lineno: lineNumber,
+                        colno: colNumber,
+                        error: error ? {
+                            name: error.name,
+                            message: error.message,
+                            stack: error.stack
+                        } : null
+                    }],
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            }
+
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Call original handler if it exists
+        if (originalOnError && typeof originalOnError === 'function') {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+        }
+
+        // Let the error continue to propagate
+        return false;
+    }
+    window.addEventListener('error', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'window_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    error: event.error ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the error continue to propagate
+        return false;
+    });
+    window.addEventListener('unhandledrejection', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: 'Unhandled Promise Rejection',
+                    reason: toSafeValue(event.reason, new WeakSet())
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the rejection continue to propagate
+        return false;
+    });
+
+    // Flush on page unload
+    window.addEventListener('beforeunload', () => {
+        if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+        }
+    });
+})();
+</script>
 </head>
 <body>
-    <!-- Navbar -->
+
+    <!-- Notification Alert Banners -->
+    
+    <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
-        <a href="/" class="brand">
-            <img src="/images/logo.png" alt="Skillleaner" class="brand-logo-img">
+        <!-- Logo: SkillLearner Official Logo -->
+        <a href="" class="brand" aria-label="SkillLearner Home">
+            <img src="/images/logo.png" alt="SkillLearner" class="brand-logo-img">
         </a>
-        
-        <nav class="nav-links">
-            <a href="/" class="">Home</a>
-            <a href="/courses" class="">Courses</a>
-            
-            <!-- Desktop Course Package Dropdown -->
-            <div class="dropdown-wrapper">
+
+        <!-- Desktop Navigation Menu (Matching Image 1: Home, About, Course Package, Contact, Courses, Job) -->
+        <nav class="menu">
+            <a href="" class="">Home</a>
+            <a href="/about" class="">About</a>
+
+            <!-- Course Package Dropdown -->
+            <div class="nav-dropdown">
                 <a href="/plans" class="dropdown-trigger ">
-                    Course Package <span style="font-size: 0.75rem;">▾</span>
+                    <span>Course Package</span>
+                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                 </a>
                 <div class="dropdown-menu-box">
                     <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
@@ -268,61 +816,74 @@
                 </div>
             </div>
 
-            <a href="/about" class="">About</a>
             <a href="/contact" class="">Contact</a>
+            <a href="/courses" class="">Courses</a>
+            <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
         </nav>
 
-        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
-            <a href="/my-account" class="btn btn-secondary" style="color: #000; border-color: rgba(0,0,0,0.15);">My Account</a>
-            <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+        <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
+        <div class="nav-right-actions">
+                            <a href="/my-account" class="btn btn-secondary" style="color: #0f172a; border-color: #cbd5e1; font-weight: 700;">My Account</a>
+                <a href="/buy-now" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+            
+            <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleMobileMenu(event)">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
-
-        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
     </header>
 
-    <!-- Mobile Drawer Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <!-- Mobile Slide-In Drawer Navigation Backdrop -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeMobileMenu()"></div>
 
-    <!-- Mobile Drawer -->
+    <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
-            <img src="/images/logo.png" alt="Skillleaner" style="height: 36px; width: auto;">
-            <button id="mobileCloseBtn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+        <!-- Drawer Header with Logo & Close Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+            <a href="" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="/images/logo.png" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+            </a>
+            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
-        
-        <a href="/" class="mobile-nav-link">Home</a>
-        <a href="/courses" class="mobile-nav-link">Courses</a>
-        
-        <!-- Mobile Accordion for Course Package -->
-        <div>
-            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn">
-                Course Package <span>▾</span>
-            </button>
-            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
-                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
-                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
-                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
-                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+
+                    <!-- Guest Navigation Links -->
+            <a href="" class="mobile-nav-link ">Home</a>
+            <a href="/about" class="mobile-nav-link ">About</a>
+            <a href="/courses" class="mobile-nav-link ">Courses</a>
+            
+            <div>
+                <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
+                    <span>Course Package</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                    <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                    <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                    <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                    <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                    <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+                </div>
             </div>
-        </div>
 
-        <a href="/about" class="mobile-nav-link">About</a>
-        <a href="/contact" class="mobile-nav-link">Contact</a>
-        <a href="/my-account" class="mobile-nav-link">My Account / Login</a>
-        <a href="/buy-now" class="btn btn-primary" style="margin-top: 1rem; width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
-    </div>
+            <a href="/contact" class="mobile-nav-link ">Contact</a>
 
-    <main class="main-content">
-        
+            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
+                <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
+            </div>
+            </div>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Checkout Hero Banner -->
 <section style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.14) 0%, rgba(7, 10, 18, 0) 100%); padding: 3rem 1.5rem 2rem; text-align: center;">
     <div class="container" style="max-width: 800px; padding: 0;">
         <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">
-            <span>⚡ Instant Enrollment &amp; Access</span>
+            <span>⚡ Instant Enrollment & Access</span>
         </div>
         <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
             Complete Your <span class="text-gradient">Purchase</span>
@@ -333,112 +894,566 @@
     </div>
 </section>
 
+<!-- 2-Column Buy Now Checkout Section -->
 <section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
     <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
         
-        <!-- Order Summary Card -->
-        <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
-            <span style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">
-                MOST POPULAR
-            </span>
+        <!-- Left Column: Order Summary & Item Description -->
+        <div>
+            
+            <!-- Item Selector Tabs (Course vs Package) -->
+            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                <button type="button" onclick="switchCheckoutMode('package')" id="tabBtnPackage" class="checkout-tab-btn active">
+                    📦 Package Bundle (Best Value)
+                </button>
+                <button type="button" onclick="switchCheckoutMode('course')" id="tabBtnCourse" class="checkout-tab-btn ">
+                    🎓 Single Course Masterclass
+                </button>
+            </div>
 
-            <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
-                <div style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
-                    <img src="/images/packages/advance.jpg" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
+            <!-- Active Item Summary Card -->
+            <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
+                
+                <span id="displayItemBadge" style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                    MOST POPULAR
+                </span>
+
+                <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
+                    <!-- Visual Icon / Image -->
+                    <div id="displayVisualWrapper" style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; font-size: 2.6rem; flex-shrink: 0;">
+                                                    <img src="/images/packages/advance.jpg" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
+                                            </div>
+
+                    <div>
+                        <div id="displayItemCategory" style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">
+                            SKILLLEARNER BUNDLE
+                        </div>
+                        <h3 id="displayItemTitle" style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">
+                            Advance Package
+                        </h3>
+                        <div id="displayItemMeta" style="font-size: 0.85rem; color: #94a3b8;">
+                            4 Full Courses Included
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase;">SKILLLEANER BUNDLE</div>
-                    <h3 style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">Advance Package</h3>
-                    <div style="font-size: 0.85rem; color: #94a3b8;">4 Full Masterclasses Included</div>
+
+                <!-- Description Snippet -->
+                <p id="displayItemDesc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
+                    Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.
+                </p>
+
+                <!-- What is Included In This Purchase -->
+                <div style="margin-bottom: 1.8rem;">
+                    <div style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.6px; margin-bottom: 0.6rem;">
+                        Included with this order:
+                    </div>
+                    <ul id="displayInclusionsList" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                                                                    <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses
+                                </li>
+                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere &amp; CapCut)
+                                </li>
+                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula
+                                </li>
+                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation Blueprint
+                                </li>
+                                                                        </ul>
+                </div>
+
+                <!-- Price Breakdown Table -->
+                <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.4rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.5rem;">
+                        <span>Original Course Fee</span>
+                        <span id="displayOldPrice" style="text-decoration: line-through;">₹4,999</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #05B396; margin-bottom: 0.5rem;">
+                        <span>Limited Student Discount</span>
+                        <span id="displayDiscount">-₹2,500</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.8rem;">
+                        <span>GST & Platform Access</span>
+                        <span style="color: #22c55e; font-weight: 700;">FREE (₹0)</span>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline;">
+                        <span style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Total Payable Today</span>
+                        <span id="displayPrice" style="font-size: 1.9rem; font-weight: 800; color: #05B396;">
+                            ₹2,499
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Trust Badges -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center;">
+                <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🔒</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">256-Bit SSL</div>
+                    <div style="font-size: 0.72rem; color: #94a3b8;">Encrypted Checkout</div>
+                </div>
+                <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">⚡</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Instant Access</div>
+                    <div style="font-size: 0.72rem; color: #94a3b8;">Classroom Unlocked</div>
+                </div>
+                <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">📜</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Certification</div>
+                    <div style="font-size: 0.72rem; color: #94a3b8;">Official ISO Credential</div>
                 </div>
             </div>
 
-            <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
-                Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.
-            </p>
-
-            <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.4rem;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.5rem;">
-                    <span>Original Course Fee</span>
-                    <span style="text-decoration: line-through;">₹4,999</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #05B396; margin-bottom: 0.5rem;">
-                    <span>Limited Student Discount</span>
-                    <span>-₹2,500</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.8rem;">
-                    <span>GST &amp; Platform Access</span>
-                    <span style="color: #22c55e; font-weight: 700;">FREE (₹0)</span>
-                </div>
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline;">
-                    <span style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Total Payable Today</span>
-                    <span style="font-size: 1.9rem; font-weight: 800; color: #05B396;">₹2,499</span>
-                </div>
-            </div>
         </div>
 
-        <!-- Checkout Form -->
-        <div class="glass" style="padding: 2.4rem; border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">Student Enrollment &amp; Payment</h3>
-            <p style="color: var(--text-body); font-size: 0.88rem; margin-bottom: 1.8rem;">Enter your details to unlock your learning dashboard.</p>
+        <!-- Right Column: Student Details & Payment Form -->
+        <div class="glass" style="padding: 2.4rem; border-radius: var(--radius-lg); position: sticky; top: 100px; border: 1px solid var(--border-glass);">
             
-            <form onsubmit="event.preventDefault(); window.location.href='/classroom';">
-                <div style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">Student Full Name *</label>
-                    <input type="text" required value="Suraj Sharma" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">
+                Student Enrollment & Payment
+            </h3>
+            <p style="color: var(--text-body); font-size: 0.88rem; margin-bottom: 1.8rem;">
+                Enter your details to generate your student ID and unlock your learning dashboard.
+            </p>
+
+            <form method="POST" action="/process-buy-now" id="checkoutForm">
+                <input type="hidden" name="_token" value="c1UgyH89mM8PHrOzjfmMsbALZ0BIQaGnf1qhBQ2d" autocomplete="off">                
+                <!-- Hidden inputs for active selection -->
+                <input type="hidden" name="item_type" id="formItemType" value="package">
+                <input type="hidden" name="item_id" id="formItemId" value="advance">
+
+                <!-- Full Name -->
+                <div class="form-group" style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                        Student Full Name <span style="color: #ef4444;">*</span>
+                    </label>
+                    <input type="text" name="name" required class="form-control" placeholder="Suraj Kumar" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
                 </div>
-                <div style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">WhatsApp Number *</label>
-                    <input type="tel" required value="+91 98765 43210" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+
+                <!-- WhatsApp Number -->
+                <div class="form-group" style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                        WhatsApp Number <span style="color: #ef4444;">*</span>
+                    </label>
+                    <input type="tel" name="phone" required class="form-control" placeholder="9876543210" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
                 </div>
-                <div style="margin-bottom: 1.4rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">Email Address *</label>
-                    <input type="email" required value="suraj@skillleaner.test" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+
+                <!-- Email Address -->
+                <div class="form-group" style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                        Email Address (for LMS Login) <span style="color: #ef4444;">*</span>
+                    </label>
+                    <input type="email" name="email" required class="form-control" placeholder="suraj@example.com" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
                 </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.05rem; font-size: 1.15rem; font-weight: 800; background: #05B396; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; color: #fff;">
-                    Complete Order &amp; Buy Now ➔
+
+                <!-- State / City -->
+                <div class="form-group" style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                        Your State
+                    </label>
+                    <select name="state" class="form-control" style="background: #0f172a; border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                        <option value="Maharashtra" selected>Maharashtra</option>
+                        <option value="Delhi">Delhi NCR</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Other">Other State</option>
+                    </select>
+                </div>
+
+                <!-- Sponsor Referral ID -->
+                <div class="form-group" style="margin-bottom: 1.6rem;">
+                    <label style="font-size: 0.86rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.4rem; display: block;">
+                        Sponsor / Referral ID (Auto-Locked)
+                    </label>
+                    <input type="text" name="sponsor_id" readonly value="SKL-ADMIN" class="form-control" style="background: rgba(5, 179, 150, 0.08); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; font-weight: 800; padding: 0.75rem 1rem; border-radius: 8px; width: 100%;">
+                </div>
+
+                <!-- Payment Method Simulator Tabs -->
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.4rem; margin-bottom: 1.6rem;">
+                    <label style="font-size: 0.88rem; font-weight: 800; color: #ffffff; margin-bottom: 0.8rem; display: block;">
+                        Select Payment Option
+                    </label>
+
+                    <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
+                        <button type="button" onclick="selectPaymentMethod('upi')" id="payTabUpi" class="pay-method-tab active">
+                            <span>📲 UPI / QR</span>
+                        </button>
+                        <button type="button" onclick="selectPaymentMethod('card')" id="payTabCard" class="pay-method-tab">
+                            <span>💳 Card</span>
+                        </button>
+                        <button type="button" onclick="selectPaymentMethod('netbanking')" id="payTabNb" class="pay-method-tab">
+                            <span>🏦 NetBanking</span>
+                        </button>
+                    </div>
+
+                    <!-- UPI Content -->
+                    <div id="methodContentUpi" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem; text-align: center;">
+                        <div style="display: flex; justify-content: center; margin-bottom: 0.8rem;">
+                            <!-- Simulated Visual UPI QR Code -->
+                            <div style="background: #ffffff; padding: 12px; border-radius: 12px; display: inline-block;">
+                                <svg width="130" height="130" viewBox="0 0 100 100">
+                                    <rect width="100" height="100" fill="#ffffff"/>
+                                    <!-- QR Corners -->
+                                    <rect x="5" y="5" width="28" height="28" fill="#0f172a" rx="2"/>
+                                    <rect x="9" y="9" width="20" height="20" fill="#ffffff" rx="1"/>
+                                    <rect x="13" y="13" width="12" height="12" fill="#05B396" rx="1"/>
+
+                                    <rect x="67" y="5" width="28" height="28" fill="#0f172a" rx="2"/>
+                                    <rect x="71" y="9" width="20" height="20" fill="#ffffff" rx="1"/>
+                                    <rect x="75" y="13" width="12" height="12" fill="#05B396" rx="1"/>
+
+                                    <rect x="5" y="67" width="28" height="28" fill="#0f172a" rx="2"/>
+                                    <rect x="9" y="71" width="20" height="20" fill="#ffffff" rx="1"/>
+                                    <rect x="13" y="75" width="12" height="12" fill="#05B396" rx="1"/>
+
+                                    <!-- QR Data Patterns -->
+                                    <rect x="40" y="8" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="52" y="8" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="40" y="20" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="50" y="24" width="8" height="8" fill="#0f172a"/>
+                                    <rect x="12" y="42" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="24" y="46" width="8" height="8" fill="#0f172a"/>
+                                    <rect x="42" y="42" width="16" height="16" fill="#05B396" rx="2"/>
+                                    <rect x="68" y="42" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="80" y="46" width="8" height="8" fill="#0f172a"/>
+                                    <rect x="42" y="68" width="8" height="8" fill="#0f172a"/>
+                                    <rect x="56" y="72" width="6" height="6" fill="#0f172a"/>
+                                    <rect x="72" y="72" width="16" height="16" fill="#0f172a"/>
+                                    <rect x="44" y="86" width="10" height="6" fill="#05B396"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.5rem;">
+                            Scan QR with <strong>GPay, PhonePe, Paytm, or CRED</strong>
+                        </div>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); padding: 5px 12px; border-radius: 6px; font-size: 0.82rem; color: #05B396; font-weight: 700;">
+                            <span>UPI: skilllearner.pay@okaxis</span>
+                            <button type="button" onclick="navigator.clipboard.writeText('skilllearner.pay@okaxis'); alert('UPI ID copied to clipboard!')" style="background: none; border: none; color: #05B396; cursor: pointer; font-size: 0.82rem; text-decoration: underline;">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Card Content -->
+                    <div id="methodContentCard" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
+                        <input type="text" placeholder="Card Number (4000 1234 5678 9010)" class="form-control" style="margin-bottom: 0.8rem; font-size: 0.88rem; width: 100%;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                            <input type="text" placeholder="MM / YY" class="form-control" style="font-size: 0.88rem; width: 100%;">
+                            <input type="password" placeholder="CVV" maxlength="3" class="form-control" style="font-size: 0.88rem; width: 100%;">
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Content -->
+                    <div id="methodContentNetbanking" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
+                        <select class="form-control" style="font-size: 0.88rem; width: 100%; background: #0f172a;">
+                            <option>HDFC Bank</option>
+                            <option>State Bank of India (SBI)</option>
+                            <option>ICICI Bank</option>
+                            <option>Axis Bank</option>
+                            <option>Kotak Mahindra Bank</option>
+                            <option>Punjab National Bank</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Submit Buy Now Button -->
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.05rem 1.5rem; font-size: 1.15rem; font-weight: 800; background: #05B396; border-radius: 10px; box-shadow: 0 6px 22px rgba(5, 179, 150, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span>Complete Order & Buy Now ➔</span>
                 </button>
+
+                <p style="text-align: center; font-size: 0.78rem; color: #94a3b8; margin-top: 1rem;">
+                    🔒 Instant activation: You will be immediately redirected to your video classroom and student dashboard.
+                </p>
+
             </form>
+
         </div>
 
     </div>
 </section>
 
+
     </main>
 
+    <!-- Footer matching AWS Live -->
     <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
-        <div class="container">
-            <img src="/images/logo.png" alt="Skillleaner" style="height: 40px; margin-bottom: 1rem;">
-            <p style="margin-bottom: 1rem;">Skillleaner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
-            <p>© 2026 Skillleaner. All Rights Reserved.</p>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <img src="/images/logo.png" alt="SkillLearner" style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Razorpay Simulated Modal (Available Globally) -->
+    <div id="razorpayModal" class="modal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('razorpayModal')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem;">
+                <span style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
+                <h3 style="font-size: 1.25rem;">Secure Checkout</h3>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.04); padding: 1rem; border-radius: 8px; margin-bottom: 1.4rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span id="rzpPackage" style="font-weight: 700; color: #0f172a;">Advance Package</span>
+                    <span id="rzpPrice" style="color: #10b981; font-weight: 800; font-size: 1.1rem;">₹3,499</span>
+                </div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access</div>
+            </div>
+
+            <form onsubmit="handleMockPayment(event)">
+                <div class="form-group">
+                    <label>Select Payment Option</label>
+                    <select class="form-control">
+                        <option>UPI (Google Pay, PhonePe, Paytm)</option>
+                        <option>Debit / Credit Card</option>
+                        <option>Net Banking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>UPI ID or Phone Number</label>
+                    <input type="text" class="form-control" placeholder="yourname@okhdfcbank" required>
+                </div>
+                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
+                    Pay & Complete Enrollment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileBtn = document.getElementById('mobileMenuBtn');
-            const mobileOverlay = document.getElementById('mobileOverlay');
-            const mobileDrawer = document.getElementById('mobileDrawer');
-            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-            const accordionBtn = document.getElementById('mobileCoursePackageBtn');
-            const accordionContent = document.getElementById('mobileCoursePackageContent');
-
-            function toggleMenu() {
-                mobileOverlay.classList.toggle('active');
-                mobileDrawer.classList.toggle('active');
+        // Global Mobile Navigation Handlers
+        window.toggleMobileMenu = function(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
             }
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            
+            const isOpen = drawer && drawer.classList.contains('active');
+            
+            if (isOpen) {
+                window.closeMobileMenu();
+            } else {
+                window.openMobileMenu();
+            }
+        };
 
-            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
-            if (mobileOverlay) mobileOverlay.addEventListener('click', toggleMenu);
-            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMenu);
+        window.openMobileMenu = function() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            if (btn) btn.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            if (drawer) drawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
 
-            if (accordionBtn && accordionContent) {
-                accordionBtn.addEventListener('click', () => {
-                    accordionContent.classList.toggle('open');
-                });
+        window.closeMobileMenu = function() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            if (btn) btn.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            if (drawer) drawer.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        window.toggleMobileAccordion = function(e) {
+            if (e) e.preventDefault();
+            const btn = document.getElementById('mobileCoursePackageBtn');
+            const content = document.getElementById('mobileCoursePackageContent');
+            if (btn) btn.classList.toggle('open');
+            if (content) content.classList.toggle('open');
+        };
+
+        window.mobileSwitchPortalTab = function(tabId) {
+            window.closeMobileMenu();
+            if (window.location.pathname.includes('/dashboard')) {
+                if (typeof window.switchPortalTab === 'function') {
+                    window.switchPortalTab(tabId);
+                }
+            } else {
+                window.location.href = "/dashboard?tab=" + tabId;
+            }
+        };
+
+        // Close drawer on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.closeMobileMenu();
+                const card = document.getElementById('userDropdownCard');
+                if (card) card.classList.remove('active');
             }
         });
+
+        // User Profile Dropdown Toggle (Image 2)
+        function toggleUserMenu(e) {
+            e.stopPropagation();
+            const card = document.getElementById('userDropdownCard');
+            if (card) card.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking anywhere outside
+        document.addEventListener('click', (e) => {
+            const card = document.getElementById('userDropdownCard');
+            const btn = document.getElementById('userMenuBtn');
+            if (card && card.classList.contains('active')) {
+                if (btn && !btn.contains(e.target) && !card.contains(e.target)) {
+                    card.classList.remove('active');
+                }
+            }
+        });
+
+        // Modal Handlers
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('active');
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        }
+
+        function openCheckout(name, price) {
+            const pkg = document.getElementById('rzpPackage');
+            const pr = document.getElementById('rzpPrice');
+            if (pkg) pkg.innerText = name;
+            if (pr) pr.innerText = '₹' + Number(price).toLocaleString('en-IN');
+            openModal('razorpayModal');
+        }
+
+        function handleMockPayment(e) {
+            e.preventDefault();
+            const btn = document.getElementById('rzpSubmitBtn');
+            btn.innerText = 'Connecting to Razorpay...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert('🎉 Payment Successful!\nPackage activated and sponsor commission credited.');
+                closeModal('razorpayModal');
+                btn.innerText = 'Pay & Complete Enrollment';
+                btn.disabled = false;
+                window.location.href = "/dashboard?alert=welcome";
+            }, 1500);
+        }
     </script>
+    <script>
+    const packagesData = {
+        'basic': {
+            name: 'Basic Package',
+            price: 1499,
+            oldPrice: 2999,
+            badge: 'STARTER',
+            image: "/images/packages/basic.jpg",
+            desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
+            inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
+        },
+        'advance': {
+            name: 'Advance Package',
+            price: 2499,
+            oldPrice: 4999,
+            badge: 'MOST POPULAR',
+            image: "/images/packages/advance.jpg",
+            desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
+            inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
+        },
+        'premium': {
+            name: 'Premium Package',
+            price: 3999,
+            oldPrice: 7999,
+            badge: 'BEST VALUE',
+            image: "/images/packages/premium.jpg",
+            desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
+            inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
+        },
+        'growth': {
+            name: 'Growth Package',
+            price: 5999,
+            oldPrice: 11999,
+            badge: 'HIGH GROWTH',
+            image: "/images/packages/growth.jpg",
+            desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
+            inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
+        },
+        'infinity': {
+            name: 'Infinity Package',
+            price: 9999,
+            oldPrice: 19999,
+            badge: 'VIP ALL ACCESS',
+            image: "/images/packages/infinity.jpg",
+            desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
+            inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
+        }
+    };
+
+    function selectPaymentMethod(method) {
+        document.querySelectorAll('.pay-method-tab').forEach(b => b.classList.remove('active'));
+        document.getElementById('payTabUpi').classList.toggle('active', method === 'upi');
+        document.getElementById('payTabCard').classList.toggle('active', method === 'card');
+        document.getElementById('payTabNb').classList.toggle('active', method === 'netbanking');
+
+        document.getElementById('methodContentUpi').style.display = method === 'upi' ? 'block' : 'none';
+        document.getElementById('methodContentCard').style.display = method === 'card' ? 'block' : 'none';
+        document.getElementById('methodContentNetbanking').style.display = method === 'netbanking' ? 'block' : 'none';
+    }
+
+    function switchCheckoutMode(mode) {
+        document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
+        document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
+        document.getElementById('formItemType').value = mode;
+
+        if (mode === 'package') {
+            const pkg = packagesData['advance'];
+            document.getElementById('formItemId').value = 'advance';
+            document.getElementById('displayItemBadge').innerText = pkg.badge;
+            document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
+            document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
+            document.getElementById('displayItemTitle').innerText = pkg.name;
+            document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
+            document.getElementById('displayItemDesc').innerText = pkg.desc;
+            document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
+            document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
+            document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
+
+            let incHtml = '';
+            pkg.inclusions.forEach(item => {
+                incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
+            });
+            document.getElementById('displayInclusionsList').innerHTML = incHtml;
+        } else {
+            // Course Mode - Default to Affiliate Marketing
+            document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
+            document.getElementById('displayItemBadge').innerText = 'BESTSELLER';
+            document.getElementById('displayVisualWrapper').innerHTML = `<span style="font-size:2.6rem;">🚀</span>`;
+            document.getElementById('displayItemCategory').innerText = 'AFFILIATE BUSINESS';
+            document.getElementById('displayItemTitle').innerText = 'High-Ticket Affiliate Marketing Masterclass';
+            document.getElementById('displayItemMeta').innerText = '18 Lessons • 6h 40m Video Runtime';
+            document.getElementById('displayItemDesc').innerText = 'Master high-ticket affiliate funnels, organic lead generation on Instagram and LinkedIn, copy-paste WhatsApp DM scripts, and scaling to ₹50,000+ monthly.';
+            document.getElementById('displayOldPrice').innerText = '₹3,999';
+            document.getElementById('displayDiscount').innerText = '-₹2,500';
+            document.getElementById('displayPrice').innerText = '₹1,499';
+
+            let incHtml = `
+                <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> 18 High-Def Masterclass Lessons</li>
+                <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Downloadable Funnel Blueprints & Scripts</li>
+                <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Verified Digital Certificate of Completion</li>
+                <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Lifetime Access on All Devices</li>
+            `;
+            document.getElementById('displayInclusionsList').innerHTML = incHtml;
+        }
+    }
+</script>
 </body>
 </html>
