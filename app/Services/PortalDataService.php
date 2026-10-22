@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Course;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class PortalDataService
 {
     public static function getDemoUserData(): array
@@ -23,7 +27,31 @@ class PortalDataService
 
     public static function ensureUserSession(): void
     {
-        if (! session()->has('user')) {
+        if (Auth::check()) {
+            /** @var User $user */
+            $user = Auth::user();
+            session(['user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone ?? '+91 98765 43210',
+                'affiliate_id' => $user->affiliate_id ?? 'SL-'.$user->id,
+                'sponsor_id' => $user->sponsor_id ?? 'SL-ADMIN',
+                'active_package' => $user->active_package ?? 'Advance Package',
+                'wallet_balance' => (float) $user->wallet_balance,
+                'today_earning' => (float) $user->today_earning,
+                'weekly_earning' => (float) $user->weekly_earning,
+                'total_earning' => (float) $user->total_earning,
+                'kyc_status' => $user->kyc_status ?? 'Verified ✅',
+            ]]);
+        } elseif (! session()->has('user')) {
+            $demoUser = User::where('email', 'vansh@skilllearner.com')->first();
+            if ($demoUser) {
+                Auth::login($demoUser);
+                self::ensureUserSession();
+
+                return;
+            }
             session(['user' => self::getDemoUserData()]);
         }
         self::initDefaultCommissions();
@@ -31,6 +59,37 @@ class PortalDataService
 
     public static function initDefaultCommissions(): void
     {
+        if (Auth::check()) {
+            /** @var User $user */
+            $user = Auth::user();
+            $commissions = $user->commissions()->get();
+            if ($commissions->isNotEmpty()) {
+                session(['commissions' => $commissions->map(function ($c) {
+                    return [
+                        'name' => $c->buyer_name,
+                        'package' => $c->package_name,
+                        'amount' => (float) $c->amount,
+                        'type' => $c->commission_type,
+                        'time' => $c->created_at ? $c->created_at->diffForHumans() : 'Recently',
+                        'status' => $c->status,
+                    ];
+                })->toArray()]);
+            }
+
+            $payouts = $user->payouts()->get();
+            if ($payouts->isNotEmpty()) {
+                session(['payouts' => $payouts->map(function ($p) {
+                    return [
+                        'id' => $p->payout_code,
+                        'amount' => (float) $p->amount,
+                        'method' => $p->payment_method,
+                        'status' => $p->status,
+                        'date' => $p->created_at ? $p->created_at->format('Y-m-d') : date('Y-m-d'),
+                    ];
+                })->toArray()]);
+            }
+        }
+
         if (! session()->has('commissions')) {
             session(['commissions' => [
                 ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 2200, 'type' => 'Direct (Tier-1)', 'time' => '10 mins ago', 'status' => 'Credited'],
@@ -50,6 +109,25 @@ class PortalDataService
 
     public static function getEnrolledCourses(): array
     {
+        $dbCourses = Course::all();
+        if ($dbCourses->isNotEmpty()) {
+            return $dbCourses->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'slug' => $c->slug,
+                    'title' => $c->title,
+                    'instructor' => $c->instructor,
+                    'instructor_avatar' => $c->instructor_avatar,
+                    'banner_title' => $c->banner_title,
+                    'banner_tag' => $c->banner_tag,
+                    'accent' => $c->accent,
+                    'gradient' => $c->gradient,
+                    'lessons' => $c->lessons,
+                    'duration' => $c->duration,
+                ];
+            })->toArray();
+        }
+
         return [
             [
                 'id' => 1,

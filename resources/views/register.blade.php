@@ -11,6 +11,12 @@
         <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem;">Enroll in SkillLearner</h2>
         <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 2rem;">Activate lifetime access to skill video masterclasses, community mentorship, and learning resources.</p>
 
+        @if ($errors->any())
+            <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 0.85rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; text-align: left;">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ url('/register-user') }}">
             @csrf
             

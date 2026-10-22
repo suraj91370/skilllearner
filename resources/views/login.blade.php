@@ -134,6 +134,12 @@
                     </div>
                 @endif
 
+                @if ($errors->any())
+                    <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.85rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
                 @if (session('info'))
                     <div style="background: #f0fdf4; border-left: 4px solid #05B396; color: #166534; padding: 0.85rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
                         {{ session('info') }}

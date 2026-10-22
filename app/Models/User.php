@@ -10,7 +10,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable([
+    'name',
+    'email',
+    'phone',
+    'password',
+    'affiliate_id',
+    'sponsor_id',
+    'active_package',
+    'wallet_balance',
+    'today_earning',
+    'weekly_earning',
+    'total_earning',
+    'kyc_status',
+    'avatar',
+    'role',
+])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -27,6 +42,32 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'wallet_balance' => 'decimal:2',
+            'today_earning' => 'decimal:2',
+            'weekly_earning' => 'decimal:2',
+            'total_earning' => 'decimal:2',
         ];
+    }
+
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class)->latest();
+    }
+
+    public function payouts()
+    {
+        return $this->hasMany(Payout::class)->latest();
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'user_courses')
+            ->withPivot('progress_percent', 'completed_at')
+            ->withTimestamps();
+    }
+
+    public function kyc()
+    {
+        return $this->hasOne(KycVerification::class);
     }
 }
