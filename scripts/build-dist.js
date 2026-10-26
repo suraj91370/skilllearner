@@ -97,7 +97,7 @@ function writeHtmlFiles(subPath, html) {
 async function isLocalServerReachable() {
     try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 1200);
+        const timeout = setTimeout(() => controller.abort(), 5000);
         const res = await fetch('http://127.0.0.1:8001/', { signal: controller.signal });
         clearTimeout(timeout);
         return res.ok;

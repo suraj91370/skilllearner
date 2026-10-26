@@ -19,9 +19,6 @@
                     <h2 style="font-size: 1.8rem; font-weight: 800; color: #0f172a;">Affiliate Command Center</h2>
                     <p style="color: #64748b; font-size: 0.92rem;">Active Tier: <strong style="color: #05B396;">{{ session('user.active_package', 'Advance Package') }}</strong> | Referral ID: <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; color: #0f172a; font-weight: 700;">{{ session('user.affiliate_id', 'SL-8821') }}</code></p>
                 </div>
-                <a href="{{ url('/simulate-sale') }}" class="btn btn-primary" style="background: linear-gradient(135deg, #05B396 0%, #048873 100%);">
-                    ⚡ Simulate ₹2,200 New Sale
-                </a>
             </div>
 
             <!-- Earnings Grid (Responsive 4 cols desktop, 2 cols mobile) -->
