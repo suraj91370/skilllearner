@@ -222,6 +222,39 @@
             white-space: nowrap;
         }
 
+        /* Profile SVG Button (Guest Account Dropdown Trigger) */
+        .profile-svg-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1.5px solid #05B396;
+            background: #ffffff;
+            color: #05B396;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .profile-svg-btn:hover {
+            background: #05B396;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .profile-svg-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            transition: stroke 0.2s ease;
+        }
+
         /* User Dropdown Card */
         .user-dropdown-card {
             position: absolute;
@@ -491,6 +524,8 @@
             .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
             .user-pill-avatar { width: 26px; height: 26px; }
             .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
+            .profile-svg-btn { width: 34px; height: 34px; }
+            .profile-svg-btn svg { width: 18px; height: 18px; }
             .user-dropdown-card { right: 0; min-width: 195px; }
         }
 
@@ -499,6 +534,8 @@
             .brand-logo-img { height: 32px; }
             .nav-right-actions { gap: 0.35rem; }
             .user-pill-name { max-width: 55px; font-size: 0.78rem; }
+            .profile-svg-btn { width: 32px; height: 32px; }
+            .profile-svg-btn svg { width: 17px; height: 17px; }
             .sl-circle-badge { width: 28px; height: 28px; }
             .sl-circle-badge span { font-size: 0.72rem; }
             .bell-count-badge { display: none; }
@@ -678,8 +715,46 @@
                     </div>
                 </div>
             @else
-                <a href="{{ url('/my-account') }}" class="btn btn-secondary" style="color: #0f172a; border-color: #cbd5e1; font-weight: 700;">My Account</a>
-                <a href="{{ url('/buy-now') }}" class="btn btn-primary" style="background: #05B396; font-weight: 800;">Buy Now</a>
+                <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
+                <div class="user-menu-wrapper">
+                    <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)" aria-label="My Account" title="My Account">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+
+                    <!-- Guest Account Dropdown Card -->
+                    <div class="user-dropdown-card" id="guestUserDropdownCard">
+                        <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">My Account</div>
+                        <a href="{{ url('/my-account') }}" class="dropdown-link-item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10 17 15 12 10 7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            <span>Login / My Account</span>
+                        </a>
+                        <a href="{{ url('/register') }}" class="dropdown-link-item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <line x1="19" y1="8" x2="19" y2="14"></line>
+                                <line x1="22" y1="11" x2="16" y2="11"></line>
+                            </svg>
+                            <span>Register</span>
+                        </a>
+                        <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
+                        <a href="{{ url('/buy-now') }}" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <span>Buy Now</span>
+                        </a>
+                    </div>
+                </div>
             @endif
 
             <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
@@ -710,15 +785,10 @@
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="{{ session('user.name', 'Vansh Tandon') }}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; flex-shrink: 0;">
                 <div style="min-width: 0; flex: 1;">
                     <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ session('user.name', 'Vansh Tandon') }}</div>
-                    <div style="font-size: 0.72rem; color: #05B396; font-weight: 700;">{{ session('user.affiliate_id', 'SL-8821') }} • Verified ✅</div>
+                    <div style="font-size: 0.72rem; color: #05B396; font-weight: 700;">Verified ✅</div>
                     <div style="font-size: 0.75rem; color: #048873; font-weight: 700; margin-top: 2px;">Wallet: ₹{{ number_format(session('user.wallet_balance', 14200)) }}</div>
                 </div>
             </div>
-
-            <!-- Quick Action: Simulate Sale -->
-            <a href="{{ url('/simulate-sale') }}" class="btn btn-primary" style="width: 100%; padding: 0.55rem; font-size: 0.82rem; background: linear-gradient(135deg, #05B396 0%, #048873 100%); margin-bottom: 0.8rem; border-radius: 8px;">
-                ⚡ Simulate ₹2,200 New Sale
-            </a>
 
             <!-- Section Title: Student Portal Tabs -->
             <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
@@ -1053,14 +1123,27 @@
                 window.closeMobileMenu();
                 const card = document.getElementById('userDropdownCard');
                 if (card) card.classList.remove('active');
+                const guestCard = document.getElementById('guestUserDropdownCard');
+                if (guestCard) guestCard.classList.remove('active');
             }
         });
 
-        // User Profile Dropdown Toggle (Image 2)
+        // User Profile Dropdown Toggle
         function toggleUserMenu(e) {
             e.stopPropagation();
+            const guestCard = document.getElementById('guestUserDropdownCard');
+            if (guestCard) guestCard.classList.remove('active');
             const card = document.getElementById('userDropdownCard');
             if (card) card.classList.toggle('active');
+        }
+
+        // Guest Profile Dropdown Toggle (Image 1)
+        function toggleGuestUserMenu(e) {
+            e.stopPropagation();
+            const card = document.getElementById('userDropdownCard');
+            if (card) card.classList.remove('active');
+            const guestCard = document.getElementById('guestUserDropdownCard');
+            if (guestCard) guestCard.classList.toggle('active');
         }
 
         // Close dropdown when clicking anywhere outside
@@ -1070,6 +1153,14 @@
             if (card && card.classList.contains('active')) {
                 if (btn && !btn.contains(e.target) && !card.contains(e.target)) {
                     card.classList.remove('active');
+                }
+            }
+
+            const guestCard = document.getElementById('guestUserDropdownCard');
+            const guestBtn = document.getElementById('guestUserMenuBtn');
+            if (guestCard && guestCard.classList.contains('active')) {
+                if (guestBtn && !guestBtn.contains(e.target) && !guestCard.contains(e.target)) {
+                    guestCard.classList.remove('active');
                 }
             }
         });

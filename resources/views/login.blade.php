@@ -200,7 +200,7 @@
                     </button>
 
                     <!-- Demo 1-Click Credentials Bar -->
-                    <div style="margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid #f1f5f9; text-align: center;">
+                    {{-- <div style="margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid #f1f5f9; text-align: center;">
                         <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.55rem;">
                             1-Click Test Credentials
                         </div>
@@ -215,15 +215,15 @@
                                 🎓 Student
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Register Link -->
-                    <div style="text-align: center; margin-top: 1.3rem; font-size: 0.92rem; color: #64748b;">
+                    {{-- <div style="text-align: center; margin-top: 1.3rem; font-size: 0.92rem; color: #64748b;">
                         Don't have an account yet? 
                         <a href="{{ url('/register') }}" style="color: #05B396; font-weight: 700; text-decoration: none; margin-left: 4px;">
                             Register Now →
                         </a>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
         </div>
