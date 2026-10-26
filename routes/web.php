@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateTrainingController;
 use App\Http\Controllers\AuthController;
@@ -36,6 +37,7 @@ if (! function_exists('getDemoUserData')) {
             'weekly_earning' => 7400,
             'total_earning' => 48600,
             'kyc_status' => 'Verified ✅',
+            'role' => 'user',
         ];
     }
 }
@@ -555,6 +557,23 @@ Route::get('/team-leaderboard', [LeaderboardController::class, 'teamLeaderboard'
 Route::get('/qualification', [QualificationController::class, 'index'])->name('portal.qualification');
 Route::get('/certificates', [CertificateController::class, 'index'])->name('portal.certificates');
 
+// 7.1 Admin & Super Admin Management Routes (Protected by role middleware)
+Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
+    Route::get('/kyc-requests', [AdminController::class, 'kycRequests'])->name('admin.kyc');
+    Route::post('/kyc/{kyc}/approve', [AdminController::class, 'approveKyc'])->name('admin.kyc.approve');
+    Route::post('/kyc/{kyc}/reject', [AdminController::class, 'rejectKyc'])->name('admin.kyc.reject');
+    Route::get('/payout-requests', [AdminController::class, 'payoutRequests'])->name('admin.payouts');
+    Route::post('/payout/{payout}/status', [AdminController::class, 'updatePayoutStatus'])->name('admin.payouts.status');
+});
+
+// Super Admin Only System Settings
+Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
+    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::post('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+});
+
 // 8. Video Classroom LMS (Protected: requires login)
 Route::get('/classroom', function () {
     if (! session()->has('user')) {
@@ -697,6 +716,8 @@ Route::post('/process-buy-now', function (Request $request) {
         'weekly_earning' => (float) $user->weekly_earning,
         'total_earning' => (float) $user->total_earning,
         'kyc_status' => $user->kyc_status ?? 'Pending Verification',
+        'avatar' => $user->avatar,
+        'role' => $user->role ?? 'user',
     ]]);
     initDefaultCommissions();
 

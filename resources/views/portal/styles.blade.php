@@ -30,6 +30,83 @@
         top: 90px;
     }
 
+    /* Role Header in Sidebar */
+    .sidebar-role-header {
+        padding: 0.85rem 1.1rem;
+        margin: 0.35rem 0.8rem 0.65rem 0.8rem;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .sidebar-role-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border-radius: 20px;
+        width: fit-content;
+    }
+
+    .sidebar-role-badge.super-admin {
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+    }
+
+    .sidebar-role-badge.admin {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
+    }
+
+    .sidebar-role-badge.user {
+        background: rgba(5, 179, 150, 0.12);
+        color: #05B396;
+        border: 1px solid rgba(5, 179, 150, 0.35);
+    }
+
+    .sidebar-role-user-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sidebar-section-label {
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: #94a3b8;
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+        padding: 0.65rem 1.4rem 0.2rem 1.4rem;
+        margin-top: 0.35rem;
+    }
+
+    .sidebar-item-badge-pill {
+        margin-left: auto;
+        font-size: 0.68rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 10px;
+        background: rgba(5, 179, 150, 0.12);
+        color: #05B396;
+    }
+
+    .sidebar-item-badge-pill.super {
+        background: rgba(124, 58, 237, 0.14);
+        color: #7c3aed;
+    }
+
     .portal-sidebar-nav {
         display: flex;
         flex-direction: column;
@@ -48,12 +125,82 @@
         transition: all 0.15s ease;
     }
 
+    /* SVG icon safeguards */
+    .side-icon,
+    svg.side-icon,
     .sidebar-item .side-icon {
-        width: 19px;
-        height: 19px;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        max-width: 18px !important;
+        min-height: 18px !important;
+        max-height: 18px !important;
         color: #475569;
         flex-shrink: 0;
         transition: color 0.15s ease;
+    }
+
+    /* Admin Management Components */
+    .admin-stat-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 1.1rem 1.3rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+    .admin-stat-label {
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        color: #64748b;
+        margin-bottom: 0.35rem;
+    }
+    .admin-stat-val {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #0f172a;
+        line-height: 1.1;
+        margin-bottom: 0.25rem;
+    }
+    .admin-stat-sub {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    .admin-filter-pill {
+        display: inline-block;
+        padding: 0.45rem 0.95rem;
+        border-radius: 20px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .admin-filter-pill:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+    }
+    .admin-filter-pill.active {
+        background: #05B396;
+        color: #ffffff;
+    }
+    .clean-form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 0.92rem;
+        color: #0f172a;
+        background: #ffffff;
+        box-sizing: border-box;
+        outline: none;
+        transition: border 0.2s;
+    }
+    .clean-form-input:focus {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
     }
 
     /* Soft mint hover state */
@@ -80,7 +227,7 @@
 
     /* Mobile Quick Tab Slider */
     .mobile-portal-nav {
-        display: none;
+        display: none !important;
         margin-bottom: 1.5rem;
     }
 
@@ -451,7 +598,7 @@
         }
 
         .mobile-portal-nav {
-            display: block;
+            display: block !important;
         }
 
         .courses-cards-grid {

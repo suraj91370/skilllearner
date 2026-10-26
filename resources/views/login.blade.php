@@ -146,20 +146,30 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ url('/login') }}">
+                <!-- Single Unified Login Header -->
+                <div style="margin-bottom: 1.8rem;">
+                    <h2 style="font-size: 1.7rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">
+                        Log In to SkillLearner
+                    </h2>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
+                        Welcome back! Enter your credentials to access your portal.
+                    </p>
+                </div>
+
+                <form method="POST" action="{{ url('/login') }}" id="loginForm">
                     @csrf
                     
                     <!-- Username or Email -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
                             Username or email <span style="color: #ef4444;">*</span>
                         </label>
-                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="vansh@skilllearner.com" value="{{ old('username', 'vansh@skilllearner.com') }}">
+                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="user@skilllearner.com" value="{{ old('username', 'user@skilllearner.com') }}">
                     </div>
 
                     <!-- Password with Eye Toggle -->
-                    <div style="margin-bottom: 1.3rem;">
-                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
                             Password <span style="color: #ef4444;">*</span>
                         </label>
                         <div style="position: relative; display: flex; align-items: center;">
@@ -174,7 +184,7 @@
                     </div>
 
                     <!-- Remember me & Forgot Password -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; font-size: 0.88rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.6rem; font-size: 0.88rem;">
                         <label style="display: flex; align-items: center; gap: 8px; color: #64748b; cursor: pointer; user-select: none; font-weight: 500;">
                             <input type="checkbox" name="remember" checked style="accent-color: #05B396; width: 16px; height: 16px; border-radius: 4px; cursor: pointer;">
                             Remember me
@@ -184,22 +194,35 @@
                         </a>
                     </div>
 
-                    <!-- Vibrant Emerald Login Button -->
-                    <button type="submit" class="gradient-login-btn">
+                    <!-- Single Standard Login Button -->
+                    <button type="submit" id="loginSubmitBtn" class="gradient-login-btn user">
                         Log In &nbsp;➔
                     </button>
 
+                    <!-- Demo 1-Click Credentials Bar -->
+                    <div style="margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid #f1f5f9; text-align: center;">
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.55rem;">
+                            1-Click Test Credentials
+                        </div>
+                        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                            <button type="button" onclick="fillDemo('superadmin@skilllearner.com', 'password123')" class="demo-chip-btn super" title="Fill Super Admin Credentials">
+                                👑 Super Admin
+                            </button>
+                            <button type="button" onclick="fillDemo('admin@skilllearner.com', 'password123')" class="demo-chip-btn admin" title="Fill Admin Credentials">
+                                🛡️ Admin
+                            </button>
+                            <button type="button" onclick="fillDemo('user@skilllearner.com', 'password123')" class="demo-chip-btn user" title="Fill Student Credentials">
+                                🎓 Student
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Register Link -->
-                    <div style="text-align: center; margin-top: 1.6rem; font-size: 0.92rem; color: #64748b;">
+                    <div style="text-align: center; margin-top: 1.3rem; font-size: 0.92rem; color: #64748b;">
                         Don't have an account yet? 
                         <a href="{{ url('/register') }}" style="color: #05B396; font-weight: 700; text-decoration: none; margin-left: 4px;">
                             Register Now →
                         </a>
-                    </div>
-
-                    <!-- Demo 1-Click Fill Helper -->
-                    <div style="margin-top: 1.4rem; padding: 0.75rem 1rem; background: rgba(5, 179, 150, 0.08); border: 1px dashed rgba(5, 179, 150, 0.35); border-radius: 8px; font-size: 0.8rem; text-align: center; color: #05B396;">
-                        💡 <strong>Student Demo Login:</strong> Pre-filled with Vansh Tandon's account. Click <strong>Log In ➔</strong> to enter.
                     </div>
                 </form>
             </div>
@@ -210,6 +233,126 @@
 
 @push('styles')
 <style>
+    /* Role Selector Cards */
+    .role-selector-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .role-selector-card {
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.65rem 0.55rem;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .role-selector-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .role-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2px;
+    }
+
+    .role-card-icon {
+        font-size: 1rem;
+    }
+
+    .role-card-badge {
+        font-size: 0.62rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 1px 5px;
+        border-radius: 6px;
+        letter-spacing: 0.4px;
+    }
+
+    .role-card-badge.super {
+        background: rgba(124, 58, 237, 0.15);
+        color: #7c3aed;
+    }
+
+    .role-card-badge.admin {
+        background: rgba(2, 132, 199, 0.15);
+        color: #0284c7;
+    }
+
+    .role-card-badge.user {
+        background: rgba(5, 179, 150, 0.15);
+        color: #05B396;
+    }
+
+    .role-card-title {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .role-card-sub {
+        font-size: 0.68rem;
+        color: #64748b;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Active Tab Styles */
+    .role-selector-card.super-admin.active {
+        background: #faf5ff;
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
+    }
+
+    .role-selector-card.admin.active {
+        background: #f0f9ff;
+        border-color: #0284c7;
+        box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
+    }
+
+    .role-selector-card.user.active {
+        background: #f0fdfa;
+        border-color: #05B396;
+        box-shadow: 0 0 0 2px rgba(5, 179, 150, 0.25);
+    }
+
+    /* Role Callout Banner */
+    .role-info-callout {
+        margin-top: 0.75rem;
+        padding: 0.75rem 0.9rem;
+        border-radius: 10px;
+        transition: all 0.25s ease;
+    }
+
+    .role-info-callout.super {
+        background: #faf5ff;
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        color: #6b21a8;
+    }
+
+    .role-info-callout.admin {
+        background: #f0f9ff;
+        border: 1px solid rgba(2, 132, 199, 0.3);
+        color: #0369a1;
+    }
+
+    .role-info-callout.user {
+        background: #f0fdfa;
+        border: 1px solid rgba(5, 179, 150, 0.3);
+        color: #065f46;
+    }
+
     /* Clean Inputs */
     .clean-form-input {
         width: 100%;
@@ -229,11 +372,11 @@
         box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15);
     }
 
-    /* Gradient Login Button - Emerald SkillLearner */
+    /* Gradient Login Button */
     .gradient-login-btn {
         width: 100%;
         padding: 0.92rem 1.5rem;
-        font-size: 1.05rem;
+        font-size: 1.02rem;
         font-weight: 700;
         color: #ffffff;
         background: linear-gradient(135deg, #05B396 0%, #048873 100%);
@@ -247,9 +390,23 @@
         justify-content: center;
     }
 
+    .gradient-login-btn.super {
+        background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+        box-shadow: 0 4px 18px rgba(124, 58, 237, 0.35);
+    }
+
+    .gradient-login-btn.admin {
+        background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
+        box-shadow: 0 4px 18px rgba(2, 132, 199, 0.35);
+    }
+
+    .gradient-login-btn.user {
+        background: linear-gradient(135deg, #05B396 0%, #048873 100%);
+        box-shadow: 0 4px 18px rgba(5, 179, 150, 0.35);
+    }
+
     .gradient-login-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(5, 179, 150, 0.5);
         opacity: 0.96;
     }
 
@@ -262,11 +419,62 @@
             order: 2;
         }
     }
+
+    .demo-chip-btn {
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 5px 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .demo-chip-btn.super {
+        background: #f5f3ff;
+        color: #7c3aed;
+        border-color: #ddd6fe;
+    }
+    .demo-chip-btn.super:hover {
+        background: #ede9fe;
+        transform: translateY(-1px);
+    }
+    .demo-chip-btn.admin {
+        background: #f0f9ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+    }
+    .demo-chip-btn.admin:hover {
+        background: #e0f2fe;
+        transform: translateY(-1px);
+    }
+    .demo-chip-btn.user {
+        background: #f0fdfa;
+        color: #05B396;
+        border-color: #a7f3d0;
+    }
+    .demo-chip-btn.user:hover {
+        background: #ccfbf1;
+        transform: translateY(-1px);
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+    function fillDemo(username, password) {
+        document.getElementById('loginUsernameInput').value = username;
+        document.getElementById('loginPasswordInput').value = password;
+    }
+
+    function selectRole(role) {
+        if (role === 'super_admin') fillDemo('superadmin@skilllearner.com', 'password123');
+        if (role === 'admin') fillDemo('admin@skilllearner.com', 'password123');
+        if (role === 'user') fillDemo('user@skilllearner.com', 'password123');
+    }
+
     function togglePasswordVisibility() {
         const passwordInput = document.getElementById('loginPasswordInput');
         const eyeIcon = document.getElementById('eyeIcon');

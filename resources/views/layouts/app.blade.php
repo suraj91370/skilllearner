@@ -510,10 +510,19 @@
             from { opacity: 0; transform: translateY(-8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        body.is-portal-page {
+            background-color: #f8fafc !important;
+            color: #0f172a;
+        }
     </style>
+    @php
+        $isPortalOrAdmin = request()->is('admin*') || request()->is('my-courses*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('kyc*') || request()->is('affiliate*') || request()->is('token*') || request()->is('marketing*') || request()->is('my-payout*') || request()->is('leaderboard*') || request()->is('team-leaderboard*') || request()->is('qualification*') || request()->is('certificates*') || request()->is('social-community*');
+    @endphp
+    @include('portal.styles')
     @stack('styles')
 </head>
-<body>
+<body class="{{ $isPortalOrAdmin ? 'is-portal-page' : '' }}">
 
     <!-- Notification Alert Banners -->
     @if(session('alert') === 'sale_added')
@@ -582,14 +591,46 @@
                 </div>
 
                 <!-- User Profile Pill Button with Dropdown -->
+                @php
+                    $hUserRole = Auth::user()?->role ?? session('user.role', 'user');
+                    if (in_array($hUserRole, ['affiliate', 'student'])) { $hUserRole = 'user'; }
+                @endphp
                 <div class="user-menu-wrapper">
                     <button class="user-pill-btn" id="userMenuBtn" onclick="toggleUserMenu(event)">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="{{ session('user.name', 'Vansh Tandon') }}" class="user-pill-avatar">
-                        <span class="user-pill-name">{{ session('user.name', 'Vansh Tandon') }}</span>
+                        <img src="{{ session('user.avatar', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80') }}" alt="{{ session('user.name', 'User') }}" class="user-pill-avatar">
+                        <span class="user-pill-name">{{ session('user.name', 'User') }}</span>
+                        @if ($hUserRole === 'super_admin')
+                            <span style="font-size: 0.65rem; background: #7c3aed; color: #fff; font-weight: 800; padding: 2px 6px; border-radius: 10px;">SUPER</span>
+                        @elseif ($hUserRole === 'admin')
+                            <span style="font-size: 0.65rem; background: #0284c7; color: #fff; font-weight: 800; padding: 2px 6px; border-radius: 10px;">ADMIN</span>
+                        @endif
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div class="user-dropdown-card" id="userDropdownCard">
+                        @if ($hUserRole === 'super_admin' || $hUserRole === 'admin')
+                            <div style="font-size: 0.68rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.4rem 1rem 0.2rem 1rem;">Admin Controls</div>
+                            <a href="{{ url('/admin/users') }}" class="dropdown-link-item" style="color: #7c3aed; font-weight: 700;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                <span>All Users &amp; Roles</span>
+                            </a>
+                            <a href="{{ url('/admin/kyc-requests') }}" class="dropdown-link-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m9 15 2 2 4-4"/></svg>
+                                <span>KYC Approvals</span>
+                            </a>
+                            <a href="{{ url('/admin/payout-requests') }}" class="dropdown-link-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 14v4"/><path d="m10 16 2-2 2 2"/></svg>
+                                <span>Payout Approvals</span>
+                            </a>
+                            @if ($hUserRole === 'super_admin')
+                                <a href="{{ url('/admin/settings') }}" class="dropdown-link-item" style="color: #05B396;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                    <span>System Settings</span>
+                                </a>
+                            @endif
+                            <div style="border-top: 1px solid #f1f5f9; margin: 0.4rem 0;"></div>
+                        @endif
+
                         <a href="{{ url('/profile') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -624,13 +665,6 @@
                                 <line x1="2" y1="10" x2="22" y2="10"></line>
                             </svg>
                             <span>My Payout</span>
-                        </a>
-                        <a href="javascript:void(0)" onclick="alert('Freelance client portal unlocks after completing course modules.')" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3"></circle>
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                            </svg>
-                            <span>Freelance</span>
                         </a>
                         <div style="border-top: 1px solid #f1f5f9; margin: 0.4rem 0;"></div>
                         <a href="{{ url('/logout') }}" class="dropdown-link-item" style="color: #ef4444;">
@@ -905,6 +939,7 @@
         @yield('content')
     </main>
 
+    @if (! $isPortalOrAdmin)
     <!-- Footer matching AWS Live -->
     <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
@@ -913,6 +948,7 @@
             <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>
     </footer>
+    @endif
 
     <!-- Razorpay Simulated Modal (Available Globally) -->
     <div id="razorpayModal" class="modal">

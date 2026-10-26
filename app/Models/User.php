@@ -70,4 +70,28 @@ class User extends Authenticatable
     {
         return $this->hasOne(KycVerification::class);
     }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'super_admin']);
+    }
+
+    public function isUser(): bool
+    {
+        return in_array($this->role, ['user', 'affiliate', 'student']);
+    }
+
+    public function getRoleBadgeAttribute(): string
+    {
+        return match ($this->role) {
+            'super_admin' => 'Super Admin',
+            'admin' => 'Admin',
+            default => 'Student / Affiliate',
+        };
+    }
 }

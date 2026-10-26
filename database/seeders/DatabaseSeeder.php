@@ -323,10 +323,42 @@ class DatabaseSeeder extends Seeder
             $courseModels[$course['slug']] = Course::updateOrCreate(['slug' => $course['slug']], $course);
         }
 
-        // 3. Seed Default Demo User (Vansh Tandon)
-        $user = User::updateOrCreate(
-            ['email' => 'vansh@skilllearner.com'],
+        // 3. Seed Users with 3 Distinct Roles (Super Admin, Admin, and User/Affiliate)
+        $usersData = [
             [
+                'email' => 'superadmin@skilllearner.com',
+                'name' => 'Alex Rivera',
+                'phone' => '+91 99999 00001',
+                'password' => Hash::make('password123'),
+                'affiliate_id' => 'SL-SUPER',
+                'sponsor_id' => 'SL-FOUNDER',
+                'active_package' => 'Infinity Package',
+                'wallet_balance' => 95000.00,
+                'today_earning' => 12000.00,
+                'weekly_earning' => 35000.00,
+                'total_earning' => 185000.00,
+                'kyc_status' => 'Verified ✅',
+                'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+                'role' => 'super_admin',
+            ],
+            [
+                'email' => 'admin@skilllearner.com',
+                'name' => 'Pooja Sharma',
+                'phone' => '+91 99999 00002',
+                'password' => Hash::make('password123'),
+                'affiliate_id' => 'SL-ADMIN01',
+                'sponsor_id' => 'SL-SUPER',
+                'active_package' => 'Premium Package',
+                'wallet_balance' => 42000.00,
+                'today_earning' => 4500.00,
+                'weekly_earning' => 16000.00,
+                'total_earning' => 92000.00,
+                'kyc_status' => 'Verified ✅',
+                'avatar' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80',
+                'role' => 'admin',
+            ],
+            [
+                'email' => 'vansh@skilllearner.com',
                 'name' => 'Vansh Tandon',
                 'phone' => '+91 98765 43210',
                 'password' => Hash::make('password123'),
@@ -338,12 +370,35 @@ class DatabaseSeeder extends Seeder
                 'weekly_earning' => 7400.00,
                 'total_earning' => 48600.00,
                 'kyc_status' => 'Verified ✅',
-                'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-                'role' => 'affiliate',
-            ]
-        );
+                'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+                'role' => 'user',
+            ],
+            [
+                'email' => 'user@skilllearner.com',
+                'name' => 'Vansh Tandon',
+                'phone' => '+91 98765 43211',
+                'password' => Hash::make('password123'),
+                'affiliate_id' => 'SL-7719',
+                'sponsor_id' => 'SL-ADMIN',
+                'active_package' => 'Advance Package',
+                'wallet_balance' => 8400.00,
+                'today_earning' => 1400.00,
+                'weekly_earning' => 5200.00,
+                'total_earning' => 31200.00,
+                'kyc_status' => 'Verified ✅',
+                'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+                'role' => 'user',
+            ],
+        ];
 
-        // 4. Enroll User in Courses
+        $seededUsers = [];
+        foreach ($usersData as $uData) {
+            $seededUsers[] = User::updateOrCreate(['email' => $uData['email']], $uData);
+        }
+
+        $user = $seededUsers[2]; // Default student user
+
+        // 4. Enroll All Users in Courses
         $progressMap = [
             'basic-business-automation' => 65,
             'basic-facebook-ads-course' => 40,
@@ -359,15 +414,17 @@ class DatabaseSeeder extends Seeder
             'affiliate-marketing-masterclass' => 100,
         ];
 
-        foreach ($courseModels as $slug => $cModel) {
-            $progress = $progressMap[$slug] ?? 20;
-            UserCourse::updateOrCreate(
-                ['user_id' => $user->id, 'course_id' => $cModel->id],
-                [
-                    'progress_percent' => $progress,
-                    'completed_at' => $progress >= 100 ? now()->subDays(rand(2, 20)) : null,
-                ]
-            );
+        foreach ($seededUsers as $u) {
+            foreach ($courseModels as $slug => $cModel) {
+                $progress = $progressMap[$slug] ?? 20;
+                UserCourse::updateOrCreate(
+                    ['user_id' => $u->id, 'course_id' => $cModel->id],
+                    [
+                        'progress_percent' => $progress,
+                        'completed_at' => $progress >= 100 ? now()->subDays(rand(2, 20)) : null,
+                    ]
+                );
+            }
         }
 
         // 5. Seed Commissions for User

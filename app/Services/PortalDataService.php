@@ -22,6 +22,8 @@ class PortalDataService
             'weekly_earning' => 7400,
             'total_earning' => 48600,
             'kyc_status' => 'Verified ✅',
+            'role' => 'user',
+            'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
         ];
     }
 
@@ -43,6 +45,8 @@ class PortalDataService
                 'weekly_earning' => (float) $user->weekly_earning,
                 'total_earning' => (float) $user->total_earning,
                 'kyc_status' => $user->kyc_status ?? 'Verified ✅',
+                'avatar' => $user->avatar ?? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+                'role' => $user->role ?? 'user',
             ]]);
         } elseif (! session()->has('user')) {
             $demoUser = User::where('email', 'vansh@skilllearner.com')->first();
