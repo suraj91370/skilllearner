@@ -255,6 +255,31 @@
             transition: stroke 0.2s ease;
         }
 
+        /* Website Nav Toggle Button (Mobile Logged In) */
+        .website-nav-toggle-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(5, 179, 150, 0.4);
+            background: #f0fdfa;
+            color: #05B396;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);
+        }
+
+        .website-nav-toggle-btn:hover, .website-nav-toggle-btn.active {
+            background: #05B396;
+            color: #ffffff;
+            border-color: #05B396;
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.28);
+        }
+
         /* User Dropdown Card */
         .user-dropdown-card {
             position: absolute;
@@ -526,6 +551,8 @@
             .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
             .profile-svg-btn { width: 34px; height: 34px; }
             .profile-svg-btn svg { width: 18px; height: 18px; }
+            .website-nav-toggle-btn { display: inline-flex; width: 34px; height: 34px; }
+            .website-nav-toggle-btn svg { width: 18px; height: 18px; }
             .user-dropdown-card { right: 0; min-width: 195px; }
         }
 
@@ -536,6 +563,8 @@
             .user-pill-name { max-width: 55px; font-size: 0.78rem; }
             .profile-svg-btn { width: 32px; height: 32px; }
             .profile-svg-btn svg { width: 17px; height: 17px; }
+            .website-nav-toggle-btn { width: 32px; height: 32px; }
+            .website-nav-toggle-btn svg { width: 17px; height: 17px; }
             .sl-circle-badge { width: 28px; height: 28px; }
             .sl-circle-badge span { font-size: 0.72rem; }
             .bell-count-badge { display: none; }
@@ -714,6 +743,15 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Website Pages Menu Button (Mobile view for logged in users) -->
+                <button class="website-nav-toggle-btn" id="websiteNavToggleBtn" onclick="window.toggleWebsiteDrawer(event)" aria-label="Website Pages" title="Explore Website Pages">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </button>
             @else
                 <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
                 <div class="user-menu-wrapper">
@@ -744,15 +782,6 @@
                             </svg>
                             <span>Register</span>
                         </a>
-                        <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
-                        <a href="{{ url('/buy-now') }}" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                            <span>Buy Now</span>
-                        </a>
                     </div>
                 </div>
             @endif
@@ -767,7 +796,7 @@
     </header>
 
     <!-- Mobile Slide-In Drawer Navigation Backdrop -->
-    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeMobileMenu()"></div>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeAllMobileDrawers()"></div>
 
     <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
@@ -780,16 +809,6 @@
         </div>
 
         @if (session()->has('user'))
-            <!-- Logged In Student Profile Summary Box -->
-            <div style="background: #f0fdfa; border: 1.5px solid #a7f3d0; border-radius: 14px; padding: 0.85rem; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 10px;">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="{{ session('user.name', 'Vansh Tandon') }}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; flex-shrink: 0;">
-                <div style="min-width: 0; flex: 1;">
-                    <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ session('user.name', 'Vansh Tandon') }}</div>
-                    <div style="font-size: 0.72rem; color: #05B396; font-weight: 700;">Verified ✅</div>
-                    <div style="font-size: 0.75rem; color: #048873; font-weight: 700; margin-top: 2px;">Wallet: ₹{{ number_format(session('user.wallet_balance', 14200)) }}</div>
-                </div>
-            </div>
-
             <!-- Section Title: Student Portal Tabs -->
             <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
                 STUDENT PORTAL (15 SECTIONS)
@@ -938,34 +957,8 @@
                         <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
                     </svg>
                     <span>Certificate</span>
+                </a>
             </div>
-
-            <!-- Website Navigation Accordion -->
-            <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.6px; text-transform: uppercase; margin: 1.2rem 0 0.35rem; padding-left: 0.3rem;">
-                WEBSITE PAGES
-            </div>
-
-            <a href="{{ url('/') }}" class="mobile-nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-            <a href="{{ url('/about') }}" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
-            <a href="{{ url('/courses') }}" class="mobile-nav-link {{ request()->is('courses*') ? 'active' : '' }}">Courses Catalog</a>
-
-            <div>
-                <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
-                    <span>Course Packages</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                    <a href="{{ url('/plans') }}#basic" class="mobile-sub-item">BASIC</a>
-                    <a href="{{ url('/plans') }}#advance" class="mobile-sub-item">ADVANCE</a>
-                    <a href="{{ url('/plans') }}#premium" class="mobile-sub-item">PREMIUM</a>
-                    <a href="{{ url('/plans') }}#growth" class="mobile-sub-item">GROWTH</a>
-                    <a href="{{ url('/plans') }}#infinity" class="mobile-sub-item">INFINITY</a>
-                </div>
-            </div>
-
-            <a href="{{ url('/contact') }}" class="mobile-nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact Us</a>
 
             <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">
                 <a href="{{ url('/logout') }}" class="btn btn-secondary" style="width: 100%; color: #ef4444; border-color: rgba(239, 68, 68, 0.3); font-weight: 700;">
@@ -999,9 +992,47 @@
 
             <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
                 <a href="{{ url('/my-account') }}" class="btn btn-secondary" style="width: 100%;">My Account</a>
-                <a href="{{ url('/buy-now') }}" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
             </div>
         @endif
+    </div>
+
+    <!-- Mobile Slide-In Drawer Navigation Menu for Website Pages -->
+    <div class="mobile-drawer website-drawer" id="websiteDrawer">
+        <!-- Drawer Header with Logo & Close Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+            <a href="{{ url('/') }}" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+            </a>
+            <button type="button" onclick="window.closeWebsiteDrawer()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+        </div>
+
+        <div style="font-size: 0.72rem; font-weight: 800; color: #05B396; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.5rem; padding-left: 0.3rem; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>WEBSITE PAGES</span>
+        </div>
+
+        <a href="{{ url('/') }}" class="mobile-nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+        <a href="{{ url('/about') }}" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
+        <a href="{{ url('/courses') }}" class="mobile-nav-link {{ request()->is('courses*') ? 'active' : '' }}">Courses Catalog</a>
+
+        <div>
+            <button class="mobile-accordion-btn" id="websiteCoursePackageBtn" onclick="window.toggleWebsiteAccordion(event)">
+                <span>Course Packages</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div class="mobile-accordion-content" id="websiteCoursePackageContent">
+                <a href="{{ url('/plans') }}#basic" class="mobile-sub-item">BASIC</a>
+                <a href="{{ url('/plans') }}#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="{{ url('/plans') }}#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="{{ url('/plans') }}#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="{{ url('/plans') }}#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
+
+        <a href="{{ url('/contact') }}" class="mobile-nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact Us</a>
+        <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="mobile-nav-link">Jobs Board</a>
     </div>
 
     <!-- Main Content Area -->
@@ -1074,6 +1105,7 @@
             if (isOpen) {
                 window.closeMobileMenu();
             } else {
+                window.closeWebsiteDrawer();
                 window.openMobileMenu();
             }
         };
@@ -1093,9 +1125,56 @@
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
             if (btn) btn.classList.remove('active');
-            if (overlay) overlay.classList.remove('active');
             if (drawer) drawer.classList.remove('active');
-            document.body.style.overflow = '';
+            const websiteDrawer = document.getElementById('websiteDrawer');
+            if (!websiteDrawer || !websiteDrawer.classList.contains('active')) {
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Website Drawer Handlers
+        window.toggleWebsiteDrawer = function(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const drawer = document.getElementById('websiteDrawer');
+            const isOpen = drawer && drawer.classList.contains('active');
+            if (isOpen) {
+                window.closeWebsiteDrawer();
+            } else {
+                window.closeMobileMenu();
+                window.openWebsiteDrawer();
+            }
+        };
+
+        window.openWebsiteDrawer = function() {
+            const btn = document.getElementById('websiteNavToggleBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('websiteDrawer');
+            if (btn) btn.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            if (drawer) drawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeWebsiteDrawer = function() {
+            const btn = document.getElementById('websiteNavToggleBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('websiteDrawer');
+            if (btn) btn.classList.remove('active');
+            if (drawer) drawer.classList.remove('active');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            if (!mobileDrawer || !mobileDrawer.classList.contains('active')) {
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.closeAllMobileDrawers = function() {
+            window.closeMobileMenu();
+            window.closeWebsiteDrawer();
         };
 
         window.toggleMobileAccordion = function(e) {
@@ -1106,8 +1185,16 @@
             if (content) content.classList.toggle('open');
         };
 
+        window.toggleWebsiteAccordion = function(e) {
+            if (e) e.preventDefault();
+            const btn = document.getElementById('websiteCoursePackageBtn');
+            const content = document.getElementById('websiteCoursePackageContent');
+            if (btn) btn.classList.toggle('open');
+            if (content) content.classList.toggle('open');
+        };
+
         window.mobileSwitchPortalTab = function(tabId) {
-            window.closeMobileMenu();
+            window.closeAllMobileDrawers();
             if (window.location.pathname.includes('/dashboard')) {
                 if (typeof window.switchPortalTab === 'function') {
                     window.switchPortalTab(tabId);
@@ -1120,7 +1207,7 @@
         // Close drawer on ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                window.closeMobileMenu();
+                window.closeAllMobileDrawers();
                 const card = document.getElementById('userDropdownCard');
                 if (card) card.classList.remove('active');
                 const guestCard = document.getElementById('guestUserDropdownCard');
