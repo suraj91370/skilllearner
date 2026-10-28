@@ -15,7 +15,9 @@ use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\TokenPurchaseController;
+use App\Http\Controllers\VideoController;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -568,11 +570,25 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/payout/{payout}/status', [AdminController::class, 'updatePayoutStatus'])->name('admin.payouts.status');
 });
 
-// Super Admin Only System Settings
+// Super Admin Only System Settings & Video Management
 Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+
+    // Video Management & Show/Hide Control
+    Route::get('/videos', [VideoController::class, 'index'])->name('admin.videos');
+    Route::post('/videos', [VideoController::class, 'store'])->name('admin.videos.store');
+    Route::put('/videos/{video}', [VideoController::class, 'update'])->name('admin.videos.update');
+    Route::post('/videos/{video}/toggle-visibility', [VideoController::class, 'toggleVisibility'])->name('admin.videos.toggle-visibility');
+    Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('admin.videos.destroy');
+
+    // Course Management & Show/Hide Control
+    Route::get('/courses', [AdminController::class, 'courses'])->name('admin.courses');
+    Route::post('/courses/{course}/toggle-visibility', [AdminController::class, 'toggleCourseVisibility'])->name('admin.courses.toggle-visibility');
 });
+
+// Student & User Videos Hub (Shows only visible videos)
+Route::get('/videos', [VideoController::class, 'userIndex'])->name('portal.videos');
 
 // 8. Video Classroom LMS (Protected: requires login)
 Route::get('/classroom', function () {
@@ -580,7 +596,11 @@ Route::get('/classroom', function () {
         return redirect('/login')->with('info', 'Please log in to access your classroom courses.');
     }
 
-    return view('classroom');
+    $visibleVideos = Video::visible()->orderBy('sort_order')->get();
+
+    return view('classroom', [
+        'videos' => $visibleVideos,
+    ]);
 });
 
 // 9. Registration Page & Action

@@ -111,9 +111,13 @@ class PortalDataService
         }
     }
 
-    public static function getEnrolledCourses(): array
+    public static function getEnrolledCourses(bool $onlyVisible = true): array
     {
-        $dbCourses = Course::all();
+        $query = Course::query();
+        if ($onlyVisible) {
+            $query->where('is_visible', true);
+        }
+        $dbCourses = $query->get();
         if ($dbCourses->isNotEmpty()) {
             return $dbCourses->map(function ($c) {
                 return [
@@ -128,6 +132,7 @@ class PortalDataService
                     'gradient' => $c->gradient,
                     'lessons' => $c->lessons,
                     'duration' => $c->duration,
+                    'is_visible' => (bool) $c->is_visible,
                 ];
             })->toArray();
         }

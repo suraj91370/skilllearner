@@ -101,6 +101,22 @@
                         </div>
                     </div>
 
+                    <!-- Video Option & Show/Hide Card -->
+                    <div style="background: #ffffff; border: 1.5px solid #e0e7ff; border-radius: 18px; padding: 1.5rem; box-shadow: 0 4px 16px rgba(79, 70, 229, 0.05);">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;">
+                            <span style="font-size: 1.2rem;">🎥</span>
+                            <h4 style="color: #4338ca; font-size: 1rem; font-weight: 800; margin: 0;">
+                                Video Option &amp; Show/Hide
+                            </h4>
+                        </div>
+                        <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1rem; line-height: 1.45;">
+                            Add new training videos and toggle whether they are shown or hidden for student accounts.
+                        </p>
+                        <a href="{{ url('/admin/videos') }}" style="display: block; text-align: center; background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); color: #ffffff; padding: 0.65rem 1rem; border-radius: 8px; font-weight: 800; text-decoration: none; font-size: 0.85rem; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);">
+                            Manage Videos &amp; Visibility ➔
+                        </a>
+                    </div>
+
                     <!-- Reset Demo State Card -->
                     <div style="background: #ffffff; border: 1.5px solid #fee2e2; border-radius: 18px; padding: 1.5rem;">
                         <h4 style="color: #991b1b; font-size: 0.98rem; font-weight: 800; margin-bottom: 0.5rem;">
