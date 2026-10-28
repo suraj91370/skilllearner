@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\KycVerification;
 use App\Models\Payout;
 use App\Models\User;
 use App\Services\PortalDataService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -220,5 +222,72 @@ class AdminController extends Controller
         session(['platform_settings' => $validated]);
 
         return back()->with('success', 'Platform settings updated successfully by Super Admin.');
+    }
+
+    /**
+     * Display Course Management and Show/Hide control (Super Admin Only).
+     */
+    public function courses(Request $request): View
+    {
+        PortalDataService::ensureUserSession();
+
+        $filter = $request->query('filter', 'all');
+        $search = trim((string) $request->query('search', ''));
+
+        $query = Course::query()->latest();
+
+        if ($filter === 'visible') {
+            $query->where('is_visible', true);
+        } elseif ($filter === 'hidden') {
+            $query->where('is_visible', false);
+        }
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('instructor', 'like', "%{$search}%")
+                    ->orWhere('package_name', 'like', "%{$search}%");
+            });
+        }
+
+        $courses = $query->get();
+
+        $counts = [
+            'total' => Course::count(),
+            'visible' => Course::where('is_visible', true)->count(),
+            'hidden' => Course::where('is_visible', false)->count(),
+        ];
+
+        return view('admin.courses', [
+            'courses' => $courses,
+            'counts' => $counts,
+            'currentFilter' => $filter,
+            'search' => $search,
+            'active' => 'admin-courses',
+        ]);
+    }
+
+    /**
+     * Toggle Show / Hide visibility of a Course for users (Super Admin Only).
+     */
+    public function toggleCourseVisibility(Request $request, Course $course): JsonResponse|RedirectResponse
+    {
+        $newStatus = ! $course->is_visible;
+        $course->update(['is_visible' => $newStatus]);
+
+        $statusText = $newStatus ? 'Visible to Users (Shown in My Course)' : 'Hidden from Users (Removed from My Course)';
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'course_id' => $course->id,
+                'is_visible' => $newStatus,
+                'status_text' => $statusText,
+                'message' => "Course '{$course->title}' is now {$statusText}.",
+            ]);
+        }
+
+        return back()->with('success', "Course '{$course->title}' is now {$statusText}.");
     }
 }

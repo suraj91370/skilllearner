@@ -76,6 +76,26 @@
             </a>
 
             @if ($isSuperAdmin)
+                <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
+                <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Course Option</span>
+                    <span class="sidebar-item-badge-pill super">Show/Hide</span>
+                </a>
+
+                <!-- Video Option & Show/Hide Control (Super Admin ONLY) -->
+                <a href="{{ url('/admin/videos') }}" class="sidebar-item {{ $currentActive === 'admin-videos' ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    <span>Video Option</span>
+                    <span class="sidebar-item-badge-pill super">Show/Hide</span>
+                </a>
+
                 {{-- System Settings (Super Admin ONLY) --}}
                 <a href="{{ url('/admin/settings') }}" class="sidebar-item {{ $currentActive === 'admin-settings' ? 'active' : '' }}">
                     <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -100,6 +120,16 @@
                 <line x1="12" y1="18" x2="12.01" y2="18"></line>
             </svg>
             <span>My Course</span>
+        </a>
+
+        <!-- Videos (Masterclasses) -->
+        <a href="{{ url('/videos') }}" class="sidebar-item {{ $currentActive === 'videos' ? 'active' : '' }}">
+            <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
+            <span>Videos</span>
+            <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Watch</span>
         </a>
         
         <!-- Dashboard -->

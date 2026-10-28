@@ -9,6 +9,7 @@ use App\Models\Package;
 use App\Models\Payout;
 use App\Models\User;
 use App\Models\UserCourse;
+use App\Models\Video;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -483,5 +484,73 @@ class DatabaseSeeder extends Seeder
                 'remarks' => 'Documents verified by admin on '.now()->subDays(30)->format('d M Y'),
             ]
         );
+
+        // 8. Seed Videos with Show / Hide state
+        $videos = [
+            [
+                'title' => '01. Introduction to High-Ticket Affiliate Funnels',
+                'description' => 'Comprehensive orientation on setting up affiliate links, understanding tier commissions, and mapping out your first ₹50,000 month.',
+                'video_url' => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80',
+                'duration' => '18m 40s',
+                'category' => 'Affiliate Training',
+                'badge' => 'Essential',
+                'is_visible' => true,
+                'views_count' => 1420,
+                'sort_order' => 1,
+            ],
+            [
+                'title' => '02. Setting Up an Instagram Bio That Converts',
+                'description' => 'A step-by-step masterclass on optimizing your social profile bio, highlights, and link-in-bio for maximum inbound student inquiries.',
+                'video_url' => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=80',
+                'duration' => '24m 15s',
+                'category' => 'Organic Growth',
+                'badge' => 'High Converting',
+                'is_visible' => true,
+                'views_count' => 980,
+                'sort_order' => 2,
+            ],
+            [
+                'title' => '03. The 30-Second Reel Script Formula',
+                'description' => 'The viral short-video hook script used by top affiliates to generate 100,000+ views organically without paid advertising.',
+                'video_url' => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&auto=format&fit=crop&q=80',
+                'duration' => '14m 50s',
+                'category' => 'Video Editing & Reels',
+                'badge' => 'Viral Strategy',
+                'is_visible' => true,
+                'views_count' => 2150,
+                'sort_order' => 3,
+            ],
+            [
+                'title' => '04. WhatsApp DM Closing Scripts for Beginners',
+                'description' => 'Exact word-for-word conversational scripts and voice-note templates to turn warm leads into enrolled students effortlessly.',
+                'video_url' => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=800&auto=format&fit=crop&q=80',
+                'duration' => '28m 30s',
+                'category' => 'Sales Closing',
+                'badge' => 'Top Rated',
+                'is_visible' => true,
+                'views_count' => 3400,
+                'sort_order' => 4,
+            ],
+            [
+                'title' => '05. Secret Super Admin 6-Figure Scaling Blueprint',
+                'description' => 'Advanced strategies for scaling beyond ₹2,00,000/month with team duplication and automated follow-up funnels. Hidden by default for exclusive access.',
+                'video_url' => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&auto=format&fit=crop&q=80',
+                'duration' => '36m 10s',
+                'category' => 'Pro Masterclass',
+                'badge' => 'Hidden (Demo)',
+                'is_visible' => false,
+                'views_count' => 120,
+                'sort_order' => 5,
+            ],
+        ];
+
+        foreach ($videos as $v) {
+            Video::updateOrCreate(['title' => $v['title']], $v);
+        }
     }
 }

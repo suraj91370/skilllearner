@@ -36,22 +36,35 @@
             </div>
         </div>
 
-        <!-- Playlist -->
+        <!-- Playlist (Visible Videos Only) -->
         <div class="glass" style="padding: 1.4rem; border-radius: var(--radius-md); height: fit-content;">
-            <h4 style="margin-bottom: 1rem; font-size: 1.05rem;">Course Lessons (4 Modules)</h4>
+            <h4 style="margin-bottom: 1rem; font-size: 1.05rem;">
+                Course Lessons @if(isset($videos)) ({{ count($videos) }} Available) @endif
+            </h4>
             <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                <button onclick="changeLesson('01. Introduction to High-Ticket Affiliate Funnels', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
-                    ▶ 01. High-Ticket Funnel Intro
-                </button>
-                <button onclick="changeLesson('02. Setting Up an Instagram Bio That Converts', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
-                    ▶ 02. Instagram Bio Optimization
-                </button>
-                <button onclick="changeLesson('03. The 30-Second Reel Script Formula', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
-                    ▶ 03. Viral 30-Sec Reel Script
-                </button>
-                <button onclick="changeLesson('04. WhatsApp DM Closing Scripts for Beginners', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
-                    ▶ 04. DM Closing Scripts
-                </button>
+                @if(isset($videos) && count($videos) > 0)
+                    @foreach($videos as $v)
+                        <button onclick="changeLesson('{{ addslashes($v->title) }}', '{{ $v->video_url }}')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;">
+                                ▶ {{ $v->title }}
+                            </span>
+                            <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">{{ $v->duration }}</span>
+                        </button>
+                    @endforeach
+                @else
+                    <button onclick="changeLesson('01. Introduction to High-Ticket Affiliate Funnels', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
+                        ▶ 01. High-Ticket Funnel Intro
+                    </button>
+                    <button onclick="changeLesson('02. Setting Up an Instagram Bio That Converts', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
+                        ▶ 02. Instagram Bio Optimization
+                    </button>
+                    <button onclick="changeLesson('03. The 30-Second Reel Script Formula', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
+                        ▶ 03. Viral 30-Sec Reel Script
+                    </button>
+                    <button onclick="changeLesson('04. WhatsApp DM Closing Scripts for Beginners', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4')" class="btn btn-secondary" style="text-align: left; justify-content: flex-start; font-size: 0.85rem;">
+                        ▶ 04. DM Closing Scripts
+                    </button>
+                @endif
             </div>
         </div>
     </div>
