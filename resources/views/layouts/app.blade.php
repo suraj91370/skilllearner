@@ -31,7 +31,15 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
+        html, body { 
+            background-color: var(--bg-body); 
+            color: var(--text-title); 
+            line-height: 1.6; 
+            overflow-x: hidden !important; 
+            max-width: 100vw !important;
+            width: 100%;
+            position: relative;
+        }
         .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
         
         /* Navigation Bar (Desktop) */
@@ -46,6 +54,9 @@
             border-bottom: 1px solid #f1f5f9; 
             background: #ffffff; 
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
 
         .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
@@ -533,43 +544,49 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
-            header.nav { padding: 0.75rem 1.2rem; }
+            header.nav { 
+                padding: 0.65rem 1rem; 
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+            }
             nav.menu { display: none; }
             .mobile-toggle { display: flex; }
             .container { padding: 2.2rem 1rem; }
         }
 
         @media (max-width: 640px) {
-            header.nav { padding: 0.65rem 0.85rem; }
-            .brand-logo-img { height: 38px; }
-            .nav-right-actions { gap: 0.45rem; }
-            .sl-circle-badge { width: 32px; height: 32px; }
+            header.nav { 
+                padding: 0.5rem 0.65rem !important; 
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            .brand-logo-img { height: 32px; max-width: 125px; }
+            .nav-right-actions { gap: 0.4rem !important; flex-shrink: 0; }
+            .sl-circle-badge { display: none !important; }
+            .website-nav-toggle-btn { display: none !important; }
             .notification-bell-btn svg { width: 18px; height: 18px; }
-            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
-            .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
-            .user-pill-avatar { width: 26px; height: 26px; }
-            .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
-            .profile-svg-btn { width: 34px; height: 34px; }
-            .profile-svg-btn svg { width: 18px; height: 18px; }
-            .website-nav-toggle-btn { display: inline-flex; width: 34px; height: 34px; }
-            .website-nav-toggle-btn svg { width: 18px; height: 18px; }
+            .bell-count-badge { font-size: 0.62rem; padding: 1px 4px; }
+            .user-pill-btn { padding: 3px 8px 3px 4px !important; gap: 5px !important; }
+            .user-pill-avatar { width: 24px; height: 24px; }
+            .user-pill-name { max-width: 60px !important; font-size: 0.8rem !important; }
+            .user-pill-btn span[style*="background: #7c3aed"],
+            .user-pill-btn span[style*="background: #0284c7"] {
+                display: none !important;
+            }
+            .profile-svg-btn { width: 32px; height: 32px; }
             .user-dropdown-card { right: 0; min-width: 195px; }
         }
 
-        @media (max-width: 420px) {
-            header.nav { padding: 0.55rem 0.6rem; }
-            .brand-logo-img { height: 32px; }
-            .nav-right-actions { gap: 0.35rem; }
-            .user-pill-name { max-width: 55px; font-size: 0.78rem; }
-            .profile-svg-btn { width: 32px; height: 32px; }
-            .profile-svg-btn svg { width: 17px; height: 17px; }
-            .website-nav-toggle-btn { width: 32px; height: 32px; }
-            .website-nav-toggle-btn svg { width: 17px; height: 17px; }
-            .sl-circle-badge { width: 28px; height: 28px; }
-            .sl-circle-badge span { font-size: 0.72rem; }
-            .bell-count-badge { display: none; }
-            .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
-            .mobile-toggle .bar { width: 20px; }
+        @media (max-width: 380px) {
+            header.nav { padding: 0.45rem 0.5rem !important; }
+            .brand-logo-img { height: 28px; max-width: 105px; }
+            .nav-right-actions { gap: 0.25rem !important; }
+            .user-pill-name { display: none !important; }
+            .user-pill-btn { padding: 2px 4px !important; border-radius: 50% !important; }
+            .mobile-toggle { width: 32px; height: 32px; padding: 4px; }
         }
 
         @keyframes fadeInDown {
@@ -809,9 +826,73 @@
         </div>
 
         @if (session()->has('user'))
+            @php
+                $drawerUserRole = Auth::user()?->role ?? session('user.role', 'user');
+                if (in_array($drawerUserRole, ['affiliate', 'student'])) { $drawerUserRole = 'user'; }
+                $drawerIsSuper = ($drawerUserRole === 'super_admin');
+                $drawerIsAdmin = in_array($drawerUserRole, ['super_admin', 'admin']);
+            @endphp
+
+            {{-- Super Admin & Admin Mobile Drawer Controls --}}
+            @if ($drawerIsAdmin)
+                <div style="font-size: 0.72rem; font-weight: 800; color: #7c3aed; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span>👑 ADMINISTRATION</span>
+                    @if ($drawerIsSuper)
+                        <span style="background: #7c3aed; color: #fff; font-size: 0.62rem; font-weight: 800; padding: 1px 7px; border-radius: 10px;">SUPER ADMIN</span>
+                    @endif
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px dashed #cbd5e1;">
+                    @if ($drawerIsSuper)
+                        <!-- Course Option Show / Hide -->
+                        <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}" style="border-left-color: #7c3aed;">
+                            <svg class="mob-icon" style="color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                            <span style="font-weight: 700; color: #7c3aed;">Course Option (Show/Hide)</span>
+                        </a>
+
+                        <!-- Video Option Show / Hide -->
+                        <a href="{{ url('/admin/videos') }}" class="mobile-portal-link {{ request()->is('admin/videos*') ? 'active' : '' }}" style="border-left-color: #7c3aed;">
+                            <svg class="mob-icon" style="color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            <span style="font-weight: 700; color: #7c3aed;">Video Option (Show/Hide)</span>
+                        </a>
+                    @endif
+
+                    <a href="{{ url('/admin/users') }}" class="mobile-portal-link {{ request()->is('admin/users*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>Users &amp; Roles</span>
+                    </a>
+                    <a href="{{ url('/admin/kyc-requests') }}" class="mobile-portal-link {{ request()->is('admin/kyc-requests*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m9 15 2 2 4-4"/>
+                        </svg>
+                        <span>KYC Approvals</span>
+                    </a>
+                    <a href="{{ url('/admin/payout-requests') }}" class="mobile-portal-link {{ request()->is('admin/payout-requests*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 14v4"/><path d="m10 16 2-2 2 2"/>
+                        </svg>
+                        <span>Payout Approvals</span>
+                    </a>
+                    @if ($drawerIsSuper)
+                        <a href="{{ url('/admin/settings') }}" class="mobile-portal-link {{ request()->is('admin/settings*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            <span>System Settings</span>
+                        </a>
+                    @endif
+                </div>
+            @endif
+
             <!-- Section Title: Student Portal Tabs -->
             <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
-                STUDENT PORTAL (15 SECTIONS)
+                STUDENT PORTAL &amp; LEARNING
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 2px;">
@@ -824,7 +905,15 @@
                     <span>My Course</span>
                 </a>
 
-                <!-- 2. Dashboard -->
+                <!-- 2. Videos -->
+                <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') ? 'active' : '' }}">
+                    <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                    </svg>
+                    <span>Videos (Masterclasses)</span>
+                </a>
+
+                <!-- 3. Dashboard -->
                 <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
                     <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>

@@ -7,15 +7,29 @@
         background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
         min-height: calc(100vh - 80px);
         padding: 2.2rem 2rem 5rem;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     .portal-main-grid {
         max-width: 1440px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 260px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         gap: 2.2rem;
         align-items: start;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .portal-content-area {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     /* Left Sidebar Card (Matches Home Page Emerald Theme) */
@@ -147,6 +161,8 @@
         border-radius: 14px;
         padding: 1.1rem 1.3rem;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        box-sizing: border-box;
+        overflow: hidden;
     }
     .admin-stat-label {
         font-size: 0.72rem;
@@ -229,14 +245,23 @@
     .mobile-portal-nav {
         display: none !important;
         margin-bottom: 1.5rem;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
     .mobile-nav-header-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-bottom: 0.65rem;
         padding: 0 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .mobile-nav-title {
@@ -260,6 +285,7 @@
         font-weight: 700;
         cursor: pointer;
         transition: background 0.15s;
+        flex-shrink: 0;
     }
 
     .mobile-open-drawer-btn:hover {
@@ -273,6 +299,9 @@
         padding-bottom: 6px;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     .mobile-tabs-scroll::-webkit-scrollbar { display: none; }
 
@@ -584,21 +613,38 @@
 
     @media (max-width: 992px) {
         .student-portal-wrapper {
-            padding: 1.2rem 1rem 4rem;
+            padding: 1.2rem 1rem 4rem !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
         }
 
         .portal-main-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 1rem !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        .portal-content-area {
+            min-width: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
         }
 
         /* Hide desktop sidebar on mobile, show quick horizontal slider */
         .portal-sidebar-card {
-            display: none;
+            display: none !important;
         }
 
         .mobile-portal-nav {
             display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .courses-cards-grid {
@@ -608,6 +654,23 @@
     }
 
     @media (max-width: 600px) {
+        .portal-greeting-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.85rem !important;
+        }
+
+        .portal-greeting-row button,
+        .portal-greeting-row a {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .admin-stats-grid {
+            grid-template-columns: 1fr !important;
+        }
+
         .referral-box-row {
             flex-direction: column;
         }
@@ -618,12 +681,14 @@
 
     @media (max-width: 580px) {
         .student-portal-wrapper {
-            padding: 0.85rem 0.75rem 3.5rem;
+            padding: 0.85rem 0.65rem 3.5rem !important;
         }
 
         .welcome-heading {
-            font-size: 1.35rem;
-            margin-bottom: 1rem;
+            font-size: clamp(1.2rem, 4.5vw, 1.45rem) !important;
+            margin-bottom: 0.85rem !important;
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
         }
 
         .course-filter-pills {

@@ -10,43 +10,52 @@
 @endphp
 
 <!-- Top Mobile Quick Tab Slider (Visible on Mobile/Tablet <= 992px) -->
-<div class="mobile-portal-nav" style="display: none;">
-    <div class="mobile-nav-header-row">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="mobile-nav-title">PORTAL NAVIGATION</span>
+<div class="mobile-portal-nav">
+    <div class="mobile-nav-header-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0;">
+            <span class="mobile-nav-title" style="white-space: nowrap;">PORTAL NAVIGATION</span>
             @if ($isSuperAdmin)
-                <span style="background: #7c3aed; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px;">SUPER ADMIN</span>
+                <span style="background: #7c3aed; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap;">👑 SUPER ADMIN</span>
             @elseif ($isAdmin)
-                <span style="background: #0284c7; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px;">ADMIN</span>
+                <span style="background: #0284c7; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap;">ADMIN</span>
             @else
-                <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px;">STUDENT</span>
+                <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap;">STUDENT</span>
             @endif
         </div>
+        <button type="button" onclick="window.toggleMobileMenu(event)" class="mobile-open-drawer-btn" style="border: 1px solid #cbd5e1; background: #ffffff; color: #475569; font-size: 0.76rem; padding: 3px 9px; border-radius: 6px; font-weight: 700; cursor: pointer; flex-shrink: 0;">
+            ☰ All Menu
+        </button>
     </div>
-    <div class="mobile-tabs-scroll">
+    <div class="mobile-tabs-scroll" style="width: 100%; max-width: 100%; box-sizing: border-box;">
         {{-- ================= ADMIN TABS ================= --}}
         @if ($isAdmin)
-            <a href="{{ url('/admin/users') }}" class="m-portal-tab {{ $currentActive === 'admin-users' ? 'active' : '' }}" style="border-left: 2px solid #7c3aed;">
+            @if ($isSuperAdmin)
+                <!-- Super Admin Course Option (Show/Hide) -->
+                <a href="{{ url('/admin/courses') }}" class="m-portal-tab {{ $currentActive === 'admin-courses' ? 'active' : '' }}" style="{{ $currentActive === 'admin-courses' ? '' : 'border: 1.5px solid #7c3aed; color: #7c3aed; background: #faf5ff;' }}">
+                    <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Course Option (Show/Hide)</span>
+                </a>
+
+                <!-- Super Admin Video Option (Show/Hide) -->
+                <a href="{{ url('/admin/videos') }}" class="m-portal-tab {{ $currentActive === 'admin-videos' ? 'active' : '' }}" style="{{ $currentActive === 'admin-videos' ? '' : 'border: 1.5px solid #7c3aed; color: #7c3aed; background: #faf5ff;' }}">
+                    <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                    <span>Video Option (Show/Hide)</span>
+                </a>
+            @endif
+
+            <a href="{{ url('/admin/users') }}" class="m-portal-tab {{ $currentActive === 'admin-users' ? 'active' : '' }}">
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <span>Users</span>
             </a>
             <a href="{{ url('/admin/kyc-requests') }}" class="m-portal-tab {{ $currentActive === 'admin-kyc' ? 'active' : '' }}">
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m9 15 2 2 4-4"/></svg>
-                <span>KYC Approvals</span>
+                <span>KYC</span>
             </a>
             <a href="{{ url('/admin/payout-requests') }}" class="m-portal-tab {{ $currentActive === 'admin-payouts' ? 'active' : '' }}">
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 14v4"/><path d="m10 16 2-2 2 2"/></svg>
                 <span>Payouts</span>
             </a>
             @if ($isSuperAdmin)
-                <a href="{{ url('/admin/courses') }}" class="m-portal-tab {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
-                    <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    <span>Courses Control</span>
-                </a>
-                <a href="{{ url('/admin/videos') }}" class="m-portal-tab {{ $currentActive === 'admin-videos' ? 'active' : '' }}">
-                    <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                    <span>Videos</span>
-                </a>
                 <a href="{{ url('/admin/settings') }}" class="m-portal-tab {{ $currentActive === 'admin-settings' ? 'active' : '' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     <span>Settings</span>

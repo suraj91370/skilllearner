@@ -20,7 +20,7 @@
                     <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(124, 58, 237, 0.12); color: #7c3aed; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.4rem;">
                         👑 SUPER ADMIN EXCLUSIVE ACCESS
                     </div>
-                    <h2 class="welcome-heading" style="font-size: 1.6rem; margin-bottom: 0.25rem;">
+                    <h2 class="welcome-heading" style="font-size: clamp(1.2rem, 4.5vw, 1.6rem); word-break: break-word; overflow-wrap: anywhere; margin-bottom: 0.25rem;">
                         🎥 Video Option &amp; Show/Hide Control
                     </h2>
                     <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
@@ -53,7 +53,7 @@
             </div>
 
             <!-- Stat Cards Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
+            <div class="admin-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
                 <!-- Total Videos -->
                 <div class="admin-stat-card">
                     <div class="admin-stat-label">TOTAL VIDEOS IN SYSTEM</div>
@@ -126,7 +126,8 @@
                         </button>
                     </div>
                 @else
-                    <div style="overflow-x: auto;">
+                    <!-- Desktop Table View (Hidden on mobile < 768px) -->
+                    <div class="admin-videos-desktop-table" style="overflow-x: auto;">
                         <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
                             <thead>
                                 <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; color: #475569; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">
@@ -238,6 +239,75 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Mobile Cards View (Visible on mobile <= 768px, No Horizontal Scroll Needed) -->
+                    <div class="admin-videos-mobile-list">
+                        @foreach($videos as $v)
+                            <div id="video-mcard-{{ $v->id }}" style="background: #ffffff; border: 1.5px solid {{ $v->is_visible ? '#e2e8f0' : '#fde68a' }}; border-radius: 14px; padding: 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 0.85rem;">
+                                <!-- Top Row: Thumb + Title -->
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <div style="position: relative; width: 84px; height: 50px; border-radius: 8px; overflow: hidden; background: #000; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                                        <img src="{{ $v->thumbnail_url ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200' }}" alt="{{ $v->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <button type="button" onclick="previewVideo('{{ addslashes($v->title) }}', '{{ $v->embed_url }}', {{ $v->is_iframe ? 'true' : 'false' }})" style="position: absolute; inset: 0; margin: auto; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,0.7); border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Preview Video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"></polygon></svg>
+                                        </button>
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <h4 style="margin: 0 0 3px; font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.3;">
+                                            {{ $v->title }}
+                                        </h4>
+                                        <div style="font-size: 0.74rem; color: #64748b; display: flex; flex-wrap: wrap; gap: 6px;">
+                                            <span style="background: rgba(124,58,237,0.1); color: #7c3aed; padding: 1px 6px; border-radius: 4px; font-weight: 700;">{{ $v->category }}</span>
+                                            <span>•</span>
+                                            <span>⏱️ {{ $v->duration ?: 'Self-Paced' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Visibility Toggle Strip -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 8px 12px; border-radius: 10px;">
+                                    <div id="video-m-status-badge-{{ $v->id }}">
+                                        @if($v->is_visible)
+                                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 4px 9px; border-radius: 20px; font-size: 0.74rem; font-weight: 800;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                                👁️ Shown to Users
+                                            </span>
+                                        @else
+                                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 4px 9px; border-radius: 20px; font-size: 0.74rem; font-weight: 800;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                                🙈 Hidden from Users
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- 1-Tap Toggle Button for Mobile -->
+                                    <button type="button" 
+                                            onclick="toggleVideoVisibility({{ $v->id }})" 
+                                            id="video-m-toggle-btn-{{ $v->id }}"
+                                            style="background: {{ $v->is_visible ? '#ecfdf5' : '#fef3c7' }}; color: {{ $v->is_visible ? '#059669' : '#b45309' }}; border: 1.5px solid {{ $v->is_visible ? '#a7f3d0' : '#fde68a' }}; padding: 6px 13px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; min-height: 36px;">
+                                        <span id="video-m-btn-text-{{ $v->id }}">{{ $v->is_visible ? 'Switch to Hide' : 'Switch to Show' }}</span>
+                                    </button>
+                                </div>
+
+                                <!-- Action Buttons Row -->
+                                <div style="display: flex; gap: 8px; justify-content: flex-end; padding-top: 0.4rem; border-top: 1px solid #f1f5f9;">
+                                    <button type="button" onclick="previewVideo('{{ addslashes($v->title) }}', '{{ $v->embed_url }}', {{ $v->is_iframe ? 'true' : 'false' }})" style="flex: 1; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700; text-align: center;">
+                                        👁️ Preview
+                                    </button>
+                                    <button type="button" onclick="openEditVideoModal({{ json_encode($v) }})" style="flex: 1; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); color: #7c3aed; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700; text-align: center;">
+                                        ✏️ Edit
+                                    </button>
+                                    <form method="POST" action="{{ url('/admin/videos/'.$v->id) }}" onsubmit="return confirm('Are you sure you want to delete this video?')" style="margin: 0;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" style="background: #fff1f2; border: 1px solid #fecdd3; color: #e11d48; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700;">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @endif
             </div>
@@ -442,8 +512,6 @@
     </div>
 </div>
 
-@include('portal.styles')
-
 @push('styles')
 <style>
     .clean-form-input {
@@ -463,6 +531,20 @@
     .modal-backdrop.active {
         display: flex !important;
     }
+    .admin-videos-mobile-list { display: none; }
+    @media (max-width: 768px) {
+        .admin-videos-desktop-table { display: none !important; }
+        .admin-videos-mobile-list { display: flex !important; flex-direction: column; gap: 0.9rem; padding: 0.85rem; }
+    }
+    @media (max-width: 600px) {
+        .admin-stats-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    @media (min-width: 769px) {
+        .admin-videos-desktop-table { display: block !important; }
+        .admin-videos-mobile-list { display: none !important; }
+    }
 </style>
 @endpush
 
@@ -474,9 +556,14 @@
         const knob = document.getElementById('toggle-knob-' + videoId);
         const badgeContainer = document.getElementById('status-badge-' + videoId);
 
+        const mBtn = document.getElementById('video-m-toggle-btn-' + videoId);
+        const mBtnText = document.getElementById('video-m-btn-text-' + videoId);
+        const mBadge = document.getElementById('video-m-status-badge-' + videoId);
+        const mCard = document.getElementById('video-mcard-' + videoId);
+
         // Optimistic UI feedback
-        btn.style.opacity = '0.6';
-        btn.disabled = true;
+        if (btn) { btn.style.opacity = '0.6'; btn.disabled = true; }
+        if (mBtn) { mBtn.style.opacity = '0.6'; mBtn.disabled = true; }
 
         fetch('{{ url("/admin/videos") }}/' + videoId + '/toggle-visibility', {
             method: 'POST',
@@ -488,26 +575,66 @@
         })
         .then(response => response.json())
         .then(data => {
-            btn.style.opacity = '1';
-            btn.disabled = false;
+            if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
+            if (mBtn) { mBtn.style.opacity = '1'; mBtn.disabled = false; }
 
             if (data.success) {
                 if (data.is_visible) {
-                    btn.style.backgroundColor = '#05B396';
-                    knob.style.left = '25px';
-                    badgeContainer.innerHTML = `
-                        <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
-                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
-                            👁️ Shown
-                        </span>`;
+                    if (btn && knob) {
+                        btn.style.backgroundColor = '#05B396';
+                        knob.style.left = '25px';
+                    }
+                    if (badgeContainer) {
+                        badgeContainer.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                👁️ Shown
+                            </span>`;
+                    }
+                    if (mBtn && mBtnText) {
+                        mBtn.style.background = '#ecfdf5';
+                        mBtn.style.color = '#059669';
+                        mBtn.style.borderColor = '#a7f3d0';
+                        mBtnText.innerText = 'Switch to Hide';
+                    }
+                    if (mBadge) {
+                        mBadge.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 4px 9px; border-radius: 20px; font-size: 0.74rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                👁️ Shown to Users
+                            </span>`;
+                    }
+                    if (mCard) {
+                        mCard.style.borderColor = '#e2e8f0';
+                    }
                 } else {
-                    btn.style.backgroundColor = '#cbd5e1';
-                    knob.style.left = '3px';
-                    badgeContainer.innerHTML = `
-                        <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
-                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
-                            🙈 Hidden
-                        </span>`;
+                    if (btn && knob) {
+                        btn.style.backgroundColor = '#cbd5e1';
+                        knob.style.left = '3px';
+                    }
+                    if (badgeContainer) {
+                        badgeContainer.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                🙈 Hidden
+                            </span>`;
+                    }
+                    if (mBtn && mBtnText) {
+                        mBtn.style.background = '#fef3c7';
+                        mBtn.style.color = '#b45309';
+                        mBtn.style.borderColor = '#fde68a';
+                        mBtnText.innerText = 'Switch to Show';
+                    }
+                    if (mBadge) {
+                        mBadge.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 4px 9px; border-radius: 20px; font-size: 0.74rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                🙈 Hidden from Users
+                            </span>`;
+                    }
+                    if (mCard) {
+                        mCard.style.borderColor = '#fde68a';
+                    }
                 }
                 showLiveToast(data.message, '✅');
             } else {
@@ -515,8 +642,8 @@
             }
         })
         .catch(err => {
-            btn.style.opacity = '1';
-            btn.disabled = false;
+            if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
+            if (mBtn) { mBtn.style.opacity = '1'; mBtn.disabled = false; }
             showLiveToast('Network error while toggling video.', '❌');
             console.error(err);
         });

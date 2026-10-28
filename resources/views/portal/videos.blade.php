@@ -20,7 +20,7 @@
                     <span style="background: rgba(5, 179, 150, 0.12); color: #05B396; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem;">
                         🎓 SKILL MASTERCLASSES &amp; LESSONS
                     </span>
-                    <h2 class="welcome-heading" style="font-size: 1.6rem; margin-bottom: 0.25rem;">
+                    <h2 class="welcome-heading" style="font-size: clamp(1.2rem, 4.5vw, 1.6rem); word-break: break-word; overflow-wrap: anywhere; margin-bottom: 0.25rem;">
                         🎥 Video Training &amp; Masterclasses
                     </h2>
                     <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
@@ -171,8 +171,6 @@
         </main>
     </div>
 </div>
-
-@include('portal.styles')
 
 @push('styles')
 <style>

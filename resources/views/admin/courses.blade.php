@@ -20,7 +20,7 @@
                     <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(124, 58, 237, 0.12); color: #7c3aed; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.4rem;">
                         👑 SUPER ADMIN EXCLUSIVE ACCESS
                     </div>
-                    <h2 class="welcome-heading" style="font-size: 1.6rem; margin-bottom: 0.25rem;">
+                    <h2 class="welcome-heading" style="font-size: clamp(1.2rem, 4.5vw, 1.6rem); word-break: break-word; overflow-wrap: anywhere; margin-bottom: 0.25rem;">
                         📚 Course Management &amp; Show/Hide Control
                     </h2>
                     <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
@@ -46,7 +46,7 @@
             </div>
 
             <!-- Stat Cards Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
+            <div class="admin-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
                 <!-- Total Courses -->
                 <div class="admin-stat-card">
                     <div class="admin-stat-label">TOTAL PLATFORM COURSES</div>
@@ -113,7 +113,8 @@
                         <p style="font-size: 0.88rem; color: #64748b;">Try adjusting your filter or search criteria.</p>
                     </div>
                 @else
-                    <div style="overflow-x: auto;">
+                    <!-- Desktop Table View (Hidden on mobile < 768px) -->
+                    <div class="admin-courses-desktop-table" style="overflow-x: auto;">
                         <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
                             <thead>
                                 <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; color: #475569; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">
@@ -200,13 +201,90 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View (Visible on mobile <= 768px, No Horizontal Scroll Needed) -->
+                    <div class="admin-courses-mobile-list">
+                        @foreach($courses as $c)
+                            <div id="course-mcard-{{ $c->id }}" style="background: #ffffff; border: 1.5px solid {{ $c->is_visible ? '#e2e8f0' : '#fde68a' }}; border-radius: 14px; padding: 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 0.85rem;">
+                                <!-- Top Row: Banner + Title -->
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <div style="width: 58px; height: 42px; border-radius: 8px; background: {{ $c->gradient ?: 'linear-gradient(135deg, #09090b, #1e1b4b)' }}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 800; text-align: center; padding: 4px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                                        {{ strtoupper(substr($c->banner_title ?: $c->title, 0, 8)) }}
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <h4 style="margin: 0 0 3px; font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.3;">
+                                            {{ $c->title }}
+                                        </h4>
+                                        <div style="font-size: 0.74rem; color: #64748b; display: flex; flex-wrap: wrap; gap: 6px;">
+                                            <span>{{ $c->package_name ?: 'All Packages' }}</span>
+                                            <span>•</span>
+                                            <span>{{ $c->lessons }} Lessons</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Instructor & Duration Row -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #475569; background: #f8fafc; padding: 6px 10px; border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                        @if($c->instructor_avatar)
+                                            <img src="{{ $c->instructor_avatar }}" alt="{{ $c->instructor }}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: cover;">
+                                        @endif
+                                        <span style="font-weight: 700;">{{ $c->instructor ?: 'SkillLearner Expert' }}</span>
+                                    </div>
+                                    <span style="color: #64748b;">⏱️ {{ $c->duration ?: 'Self-Paced' }}</span>
+                                </div>
+
+                                <!-- Show/Hide Mobile Control Strip -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.7rem; border-top: 1px solid #f1f5f9;">
+                                    <div id="course-m-status-badge-{{ $c->id }}">
+                                        @if($c->is_visible)
+                                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                                👁️ Shown to Users
+                                            </span>
+                                        @else
+                                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                                🙈 Hidden from Users
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- 1-Tap Toggle Button for Mobile -->
+                                    <button type="button" 
+                                            onclick="toggleCourseVisibility({{ $c->id }})" 
+                                            id="course-m-toggle-btn-{{ $c->id }}"
+                                            style="background: {{ $c->is_visible ? '#ecfdf5' : '#fef3c7' }}; color: {{ $c->is_visible ? '#059669' : '#b45309' }}; border: 1.5px solid {{ $c->is_visible ? '#a7f3d0' : '#fde68a' }}; padding: 7px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; min-height: 38px;">
+                                        <span id="course-m-btn-text-{{ $c->id }}">{{ $c->is_visible ? 'Switch to Hide' : 'Switch to Show' }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </main>
     </div>
 </div>
 
-@include('portal.styles')
+@push('styles')
+<style>
+    .admin-mobile-cards-wrap, .admin-courses-mobile-list { display: none; }
+    @media (max-width: 768px) {
+        .admin-courses-desktop-table { display: none !important; }
+        .admin-courses-mobile-list { display: flex !important; flex-direction: column; gap: 0.9rem; padding: 0.85rem; }
+    }
+    @media (max-width: 600px) {
+        .admin-stats-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    @media (min-width: 769px) {
+        .admin-courses-desktop-table { display: block !important; }
+        .admin-courses-mobile-list { display: none !important; }
+    }
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -215,8 +293,13 @@
         const knob = document.getElementById('course-toggle-knob-' + courseId);
         const badgeContainer = document.getElementById('course-status-badge-' + courseId);
 
-        btn.style.opacity = '0.6';
-        btn.disabled = true;
+        const mBtn = document.getElementById('course-m-toggle-btn-' + courseId);
+        const mBtnText = document.getElementById('course-m-btn-text-' + courseId);
+        const mBadge = document.getElementById('course-m-status-badge-' + courseId);
+        const mCard = document.getElementById('course-mcard-' + courseId);
+
+        if (btn) { btn.style.opacity = '0.6'; btn.disabled = true; }
+        if (mBtn) { mBtn.style.opacity = '0.6'; mBtn.disabled = true; }
 
         fetch('{{ url("/admin/courses") }}/' + courseId + '/toggle-visibility', {
             method: 'POST',
@@ -228,26 +311,66 @@
         })
         .then(response => response.json())
         .then(data => {
-            btn.style.opacity = '1';
-            btn.disabled = false;
+            if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
+            if (mBtn) { mBtn.style.opacity = '1'; mBtn.disabled = false; }
 
             if (data.success) {
                 if (data.is_visible) {
-                    btn.style.backgroundColor = '#05B396';
-                    knob.style.left = '25px';
-                    badgeContainer.innerHTML = `
-                        <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
-                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
-                            👁️ Shown
-                        </span>`;
+                    if (btn && knob) {
+                        btn.style.backgroundColor = '#05B396';
+                        knob.style.left = '25px';
+                    }
+                    if (badgeContainer) {
+                        badgeContainer.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                👁️ Shown
+                            </span>`;
+                    }
+                    if (mBtn && mBtnText) {
+                        mBtn.style.background = '#ecfdf5';
+                        mBtn.style.color = '#059669';
+                        mBtn.style.borderColor = '#a7f3d0';
+                        mBtnText.innerText = 'Switch to Hide';
+                    }
+                    if (mBadge) {
+                        mBadge.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+                                👁️ Shown to Users
+                            </span>`;
+                    }
+                    if (mCard) {
+                        mCard.style.borderColor = '#e2e8f0';
+                    }
                 } else {
-                    btn.style.backgroundColor = '#cbd5e1';
-                    knob.style.left = '3px';
-                    badgeContainer.innerHTML = `
-                        <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
-                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
-                            🙈 Hidden
-                        </span>`;
+                    if (btn && knob) {
+                        btn.style.backgroundColor = '#cbd5e1';
+                        knob.style.left = '3px';
+                    }
+                    if (badgeContainer) {
+                        badgeContainer.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                🙈 Hidden
+                            </span>`;
+                    }
+                    if (mBtn && mBtnText) {
+                        mBtn.style.background = '#fef3c7';
+                        mBtn.style.color = '#b45309';
+                        mBtn.style.borderColor = '#fde68a';
+                        mBtnText.innerText = 'Switch to Show';
+                    }
+                    if (mBadge) {
+                        mBadge.innerHTML = `
+                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #b45309;"></span>
+                                🙈 Hidden from Users
+                            </span>`;
+                    }
+                    if (mCard) {
+                        mCard.style.borderColor = '#fde68a';
+                    }
                 }
                 showCourseLiveToast(data.message, '✅');
             } else {
@@ -255,8 +378,8 @@
             }
         })
         .catch(err => {
-            btn.style.opacity = '1';
-            btn.disabled = false;
+            if (btn) { btn.style.opacity = '1'; btn.disabled = false; }
+            if (mBtn) { mBtn.style.opacity = '1'; mBtn.disabled = false; }
             showCourseLiveToast('Network error while toggling course.', '❌');
             console.error(err);
         });
