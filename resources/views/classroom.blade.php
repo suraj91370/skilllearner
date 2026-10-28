@@ -14,7 +14,7 @@
         </button>
     </div>
 
-    <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 2rem;">
+    <div class="classroom-stage-grid">
         <div>
             <!-- Video Container with Moving Anti-Piracy Watermark -->
             <div class="player-container" style="position: relative; background: #000; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16 / 9; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); border: 1px solid var(--border-glass);">
@@ -70,6 +70,22 @@
     </div>
 </section>
 @endsection
+
+@push('styles')
+<style>
+    .classroom-stage-grid {
+        display: grid;
+        grid-template-columns: 2.2fr 1fr;
+        gap: 2rem;
+    }
+    @media (max-width: 900px) {
+        .classroom-stage-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+        }
+    }
+</style>
+@endpush
 
 @push('scripts')
 <script>

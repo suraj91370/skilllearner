@@ -121,15 +121,18 @@
 
                                 <!-- Super Admin Instant Show / Hide Toggle Button -->
                                 @if(!empty($isSuperAdmin))
-                                    <div style="margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-size: 0.74rem; font-weight: 700; color: #64748b;">
-                                            User Visibility:
-                                        </span>
+                                    <div class="portal-admin-visibility-box" style="margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <span style="font-size: 0.62rem; background: #7c3aed; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; letter-spacing: 0.5px;">ADMIN</span>
+                                            <span style="font-size: 0.76rem; font-weight: 700; color: #64748b;">
+                                                User Visibility:
+                                            </span>
+                                        </div>
                                         <button type="button" 
                                                 onclick="togglePortalCourseVisibility({{ $c['id'] }})"
                                                 id="portal-btn-{{ $c['id'] }}"
-                                                style="background: {{ ($c['is_visible'] ?? true) ? '#ecfdf5' : '#fef3c7' }}; color: {{ ($c['is_visible'] ?? true) ? '#059669' : '#b45309' }}; border: 1px solid {{ ($c['is_visible'] ?? true) ? '#a7f3d0' : '#fde68a' }}; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
-                                            <span id="portal-btn-icon-{{ $c['id'] }}">{{ ($c['is_visible'] ?? true) ? '👁️ Shown' : '🙈 Hidden' }}</span>
+                                                style="background: {{ ($c['is_visible'] ?? true) ? '#ecfdf5' : '#fef3c7' }}; color: {{ ($c['is_visible'] ?? true) ? '#059669' : '#b45309' }}; border: 1.5px solid {{ ($c['is_visible'] ?? true) ? '#a7f3d0' : '#fde68a' }}; padding: 6px 13px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; min-height: 36px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); touch-action: manipulation;">
+                                            <span id="portal-btn-icon-{{ $c['id'] }}">{{ ($c['is_visible'] ?? true) ? '👁️ Shown to Users' : '🙈 Hidden from Users' }}</span>
                                         </button>
                                     </div>
                                 @endif
@@ -141,8 +144,6 @@
         </main>
     </div>
 </div>
-
-@include('portal.styles')
 
 @push('scripts')
 <script>
