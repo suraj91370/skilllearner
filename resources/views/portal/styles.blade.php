@@ -561,12 +561,83 @@
     }
 
     /* Responsive Grid Wrappers */
+   /* 5 Grid Income Cards Container */
+.earnings-grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.1rem;
+    margin-bottom: 2.2rem;
+}
+
+.income-card {
+    background: #ffffff;
+    padding: 1.3rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.income-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.income-card-label {
+    color: #64748b;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.income-card-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+}
+
+.income-card-sub {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+/* Card Accent Borders */
+.border-today { border-left: 4px solid #10b981; }
+.border-blue { border-left: 4px solid #0284c7; }
+.border-purple { border-left: 4px solid #8b5cf6; }
+.border-amber { border-left: 4px solid #f59e0b; }
+.border-teal { border-left: 4px solid #05B396; }
+
+/* Text Colors */
+.text-emerald { color: #10b981; }
+.text-dark { color: #0f172a; }
+.text-purple { color: #8b5cf6; }
+.text-amber { color: #f59e0b; }
+.text-teal { color: #05B396; }
+
+/* Responsive Grid for 5 Cards */
+@media (max-width: 1200px) {
     .earnings-grid-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.2rem;
-        margin-bottom: 2.2rem;
+        grid-template-columns: repeat(3, 1fr);
     }
+}
+
+@media (max-width: 768px) {
+    .earnings-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .earnings-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
 
     .referral-box-row {
         display: flex;

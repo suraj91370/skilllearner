@@ -22,23 +22,41 @@
             </div>
 
             <!-- Earnings Grid (Responsive 4 cols desktop, 2 cols mobile) -->
+                        <!-- 5 Income Metric Cards (Today, Last 7 Day, Last 30 Day, All Time, All Time Passive) -->
             <div class="earnings-grid-container">
-                <div style="background: #ffffff; padding: 1.4rem; border-radius: 14px; border-left: 4px solid #10b981; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                    <h5 style="color: #64748b; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.35rem; font-weight: 700;">TODAY'S EARNING</h5>
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #10b981;">₹{{ number_format(session('user.today_earning', 2200)) }}</div>
+                <!-- 1. Today Income -->
+                <div class="income-card border-today">
+                    <h5 class="income-card-label">TODAY INCOME</h5>
+                    <div class="income-card-value text-emerald">₹{{ number_format(session('user.today_earning', 2200)) }}</div>
+                    <div class="income-card-sub">⚡ Today's Direct Profit</div>
                 </div>
-                <div style="background: #ffffff; padding: 1.4rem; border-radius: 14px; border-left: 4px solid #05B396; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                    <h5 style="color: #64748b; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.35rem; font-weight: 700;">LAST 7 DAYS</h5>
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #0f172a;">₹{{ number_format(session('user.weekly_earning', 7400)) }}</div>
+
+                <!-- 2. Last 7 Day -->
+                <div class="income-card border-blue">
+                    <h5 class="income-card-label">LAST 7 DAY</h5>
+                    <div class="income-card-value text-dark">₹{{ number_format(session('user.weekly_earning', 7400)) }}</div>
+                    <div class="income-card-sub">📅 Last 7 Days Performance</div>
                 </div>
-                <div style="background: #ffffff; padding: 1.4rem; border-radius: 14px; border-left: 4px solid #f59e0b; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                    <h5 style="color: #64748b; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.35rem; font-weight: 700;">TOTAL COMMISSIONS</h5>
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #f59e0b;">₹{{ number_format(session('user.total_earning', 48600)) }}</div>
+
+                <!-- 3. Last 30 Day -->
+                <div class="income-card border-purple">
+                    <h5 class="income-card-label">LAST 30 DAY</h5>
+                    <div class="income-card-value text-purple">₹{{ number_format(session('user.monthly_earning', 21500)) }}</div>
+                    <div class="income-card-sub">📈 Last 30 Days Growth</div>
                 </div>
-                <div style="background: #ffffff; padding: 1.4rem; border-radius: 14px; border-left: 4px solid #10b981; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                    <h5 style="color: #64748b; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.35rem; font-weight: 700;">AVAILABLE WALLET</h5>
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #10b981;">₹{{ number_format(session('user.wallet_balance', 14200)) }}</div>
-                    <a href="{{ url('/my-payout') }}" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; margin-top: 0.6rem; width: 100%; border: 1px solid #e2e8f0; color: #0f172a; text-align: center; text-decoration: none; display: block;">Withdraw Funds</a>
+
+                <!-- 4. All Time Income -->
+                <div class="income-card border-amber">
+                    <h5 class="income-card-label">ALL TIME INCOME</h5>
+                    <div class="income-card-value text-amber">₹{{ number_format(session('user.total_earning', 48600)) }}</div>
+                    <div class="income-card-sub">🏆 Total Direct + Bonus</div>
+                </div>
+
+                <!-- 5. All Time Passive Income -->
+                <div class="income-card border-teal">
+                    <h5 class="income-card-label">ALL TIME PASSIVE INCOME</h5>
+                    <div class="income-card-value text-teal">₹{{ number_format(session('user.passive_earning', 8400)) }}</div>
+                    <div class="income-card-sub">💎 Tier-2 Non-Working Bonus</div>
                 </div>
             </div>
 
