@@ -6,6 +6,7 @@ use App\Http\Controllers\AffiliateTrainingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\MarketingToolController;
@@ -585,7 +586,13 @@ Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     // Course Management & Show/Hide Control
     Route::get('/courses', [AdminController::class, 'courses'])->name('admin.courses');
     Route::post('/courses/{course}/toggle-visibility', [AdminController::class, 'toggleCourseVisibility'])->name('admin.courses.toggle-visibility');
+
+    // Super Admin User/Admin Impersonation ("Login As")
+    Route::get('/impersonate/{user}', [ImpersonateController::class, 'impersonate'])->name('admin.impersonate');
 });
+
+// Leave Impersonation (Return to Super Admin Account)
+Route::get('/impersonate-leave', [ImpersonateController::class, 'leave'])->name('admin.impersonate.leave');
 
 // Student & User Videos Hub (Shows only visible videos)
 Route::get('/videos', [VideoController::class, 'userIndex'])->name('portal.videos');

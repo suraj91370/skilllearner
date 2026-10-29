@@ -171,20 +171,32 @@
                                         @endif
                                     </td>
 
-                                    <!-- Action / Change Role (Super Admin can change role) -->
+                                    <!-- Action / Change Role (Super Admin can change role & Login As) -->
                                     <td style="padding: 0.95rem 1.4rem; text-align: right;">
-                                        @if(session('user.role') === 'super_admin')
-                                            <form method="POST" action="{{ url('/admin/users/'.$u->id.'/role') }}" style="display: inline-flex; align-items: center; gap: 6px;">
-                                                @csrf
-                                                <select name="role" style="font-size: 0.78rem; font-weight: 600; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none;" onchange="this.form.submit()">
-                                                    <option value="super_admin" {{ $u->role === 'super_admin' ? 'selected' : '' }}>👑 Super Admin</option>
-                                                    <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>🛡️ Admin</option>
-                                                    <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>🎓 Student / User</option>
-                                                </select>
-                                            </form>
-                                        @else
-                                            <span style="font-size: 0.78rem; color: #94a3b8; font-style: italic;">Super Admin Only</span>
-                                        @endif
+                                        <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: nowrap;">
+                                            @if(session('user.role') === 'super_admin' && (Auth::id() !== $u->id))
+                                                <a href="{{ route('admin.impersonate', $u->id) }}" 
+                                                   class="btn-impersonate-action"
+                                                   onclick="return confirm('Kya aap {{ $u->name }} ({{ strtoupper($u->role ?? 'User') }}) ke account me login karna chahte hain?');"
+                                                   title="Login directly as {{ $u->name }}">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                                                    <span>Login As</span>
+                                                </a>
+                                            @endif
+
+                                            @if(session('user.role') === 'super_admin')
+                                                <form method="POST" action="{{ url('/admin/users/'.$u->id.'/role') }}" style="display: inline-flex; align-items: center; margin: 0;">
+                                                    @csrf
+                                                    <select name="role" style="font-size: 0.78rem; font-weight: 600; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none; cursor: pointer;" onchange="this.form.submit()">
+                                                        <option value="super_admin" {{ $u->role === 'super_admin' ? 'selected' : '' }}>👑 Super Admin</option>
+                                                        <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>🛡️ Admin</option>
+                                                        <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>🎓 Student / User</option>
+                                                    </select>
+                                                </form>
+                                            @else
+                                                <span style="font-size: 0.78rem; color: #94a3b8; font-style: italic;">Super Admin Only</span>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -251,6 +263,27 @@
     .admin-filter-pill.active {
         background: #05B396;
         color: #ffffff;
+    }
+    .btn-impersonate-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #05B396;
+        color: #ffffff;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 5px 11px;
+        border-radius: 6px;
+        text-decoration: none;
+        box-shadow: 0 1px 4px rgba(5, 179, 150, 0.25);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .btn-impersonate-action:hover {
+        background: #048873;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(5, 179, 150, 0.35);
     }
 </style>
 @endpush

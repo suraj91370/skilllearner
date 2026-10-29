@@ -607,6 +607,26 @@
 </head>
 <body class="{{ $isPortalOrAdmin ? 'is-portal-page' : '' }}">
 
+    <!-- Super Admin Impersonation Alert Banner -->
+    @if(session()->has('impersonated_by'))
+        <div style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: #ffffff; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 99999; box-shadow: 0 4px 15px rgba(225, 29, 72, 0.35); font-size: 0.88rem; border-bottom: 2px solid #fda4af;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span style="background: rgba(255,255,255,0.22); padding: 3px 8px; border-radius: 4px; font-weight: 800; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                    ⚡ Impersonation Active
+                </span>
+                <span>
+                    Logged in as: <strong>{{ auth()->user()?->name ?? session('user.name') }}</strong> 
+                    <span style="opacity: 0.85;">({{ auth()->user()?->email ?? session('user.email') }})</span>
+                    — Role: <strong>{{ strtoupper(auth()->user()?->role ?? session('user.role', 'user')) }}</strong>
+                </span>
+            </div>
+            <a href="{{ route('admin.impersonate.leave') }}" style="background: #ffffff; color: #e11d48; font-weight: 800; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.82rem; box-shadow: 0 2px 8px rgba(0,0,0,0.18); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Exit to Super Admin
+            </a>
+        </div>
+    @endif
+
     <!-- Notification Alert Banners -->
     @if(session('alert') === 'sale_added')
         <div style="background: var(--success); color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
