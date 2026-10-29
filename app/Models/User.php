@@ -21,7 +21,9 @@ use Illuminate\Notifications\Notifiable;
     'wallet_balance',
     'today_earning',
     'weekly_earning',
+    'monthly_earning',
     'total_earning',
+    'passive_earning',
     'kyc_status',
     'avatar',
     'role',
@@ -45,7 +47,9 @@ class User extends Authenticatable
             'wallet_balance' => 'decimal:2',
             'today_earning' => 'decimal:2',
             'weekly_earning' => 'decimal:2',
+            'monthly_earning' => 'decimal:2',
             'total_earning' => 'decimal:2',
+            'passive_earning' => 'decimal:2',
         ];
     }
 
