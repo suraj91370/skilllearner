@@ -33,6 +33,14 @@
         <div class="sidebar-role-user-name" title="{{ session('user.name', 'User') }}">
             {{ session('user.name', 'User') }}
         </div>
+        @if(session()->has('impersonated_by'))
+            <div style="margin-top: 8px;">
+                <a href="{{ route('admin.impersonate.leave') }}" style="display: flex; align-items: center; justify-content: center; gap: 5px; background: #e11d48; color: #ffffff; padding: 5px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 800; text-decoration: none; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.25);">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Exit Impersonation
+                </a>
+            </div>
+        @endif
     </div>
 
     <nav class="portal-sidebar-nav">
