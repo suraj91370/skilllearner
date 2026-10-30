@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'SkillLearner — Learn, Create, Monetize')
+@section('title', 'SkillLearner — Build Skill, Build Future')
 
 @section('content')
 <!-- Hero Section -->
@@ -8,34 +8,19 @@
     <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
         <span>★ India's #1 Skill & Affiliate Platform</span>
     </div>
-    <h1 style="font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;">
-        Learn, Create, <br><span class="text-gradient">Monetize.</span>
+    <h1 class="hero-title" style="color: #0B4F4A;">
+        <span class="title-skill" style="color: #0B4F4A;">Build Skill,</span> <br><span class="title-future" style="color: #0A6B5C;">Build Future.</span>
     </h1>
-    <p style="color: var(--text-body); font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem;">
-        Master AI, Digital Marketing, Video Editing, and High-Ticket Freelancing with practical, project-based video masterclasses while building your passive income stream.
+    <p class="hero-subtitle" style="color: #000000; font-weight: 700; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem;">
+        Unlock your potential with SkillLearner. Explore industry-relevant courses, gain practical knowledge, and develop the skills you need to grow professionally and succeed in the digital world.
     </p>
     <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
         <a href="{{ url('/courses') }}" class="btn btn-primary" style="background: #05B396; padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">Explore Courses ➔</a>
-        <a href="{{ url('/plans') }}" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a>
+        {{-- <a href="{{ url('/plans') }}" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a> --}}
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 3.5rem; margin-top: 4.5rem; flex-wrap: wrap;">
-        <div class="stat-item">
-            <h3 style="font-size: 2.2rem; font-weight: 800;">12,500+</h3>
-            <p style="color: var(--text-body); font-size: 0.9rem;">Enrolled Students</p>
-        </div>
-        <div class="stat-item">
-            <h3 style="font-size: 2.2rem; font-weight: 800;">₹45 Lakh+</h3>
-            <p style="color: var(--text-body); font-size: 0.9rem;">Commissions Paid</p>
-        </div>
-        <div class="stat-item">
-            <h3 style="font-size: 2.2rem; font-weight: 800;">4.9 / 5</h3>
-            <p style="color: var(--text-body); font-size: 0.9rem;">Student Rating</p>
-        </div>
-        <div class="stat-item">
-            <h3 style="font-size: 2.2rem; font-weight: 800;">70%</h3>
-            <p style="color: var(--text-body); font-size: 0.9rem;">Direct Commission</p>
-        </div>
+    <div class="hero-image-wrapper" style="margin-top: 3.5rem; display: flex; justify-content: center;">
+        <img src="{{ asset('images/skill-tree.png') }}" alt="SkillLearner - Build Skills, Build Future" class="hero-tree-img" style="width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain;">
     </div>
 </section>
 
@@ -49,33 +34,23 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
         @foreach ($packages as $pkg)
-            <div class="glass {{ $pkg['featured'] ? 'popular' : '' }}" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; {{ $pkg['featured'] ? 'border: 2px solid #05B396; background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);' : '' }}">
-                @if (!empty($pkg['badge']))
-                    <div style="position: absolute; top: -13px; right: 25px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
-                        {{ $pkg['badge'] }}
-                    </div>
-                @endif
-                
-                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px;">
+            <div class="glass" style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid {{ $pkg['border_color'] ?? 'rgba(255,255,255,0.08)' }}; background: {{ $pkg['bg_gradient'] ?? 'var(--bg-card)' }};">
+                <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, {{ ($pkg['color'] ?? '#05B396') . '26' }} 0%, transparent 70%); border-radius: 14px;">
                     <img src="{{ asset($pkg['image']) }}" alt="{{ $pkg['name'] }}" style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
 
-                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.2rem;">{{ $pkg['name'] }}</h3>
-                <div style="text-align: center; margin-bottom: 1rem;">
-                    <span style="font-size: 1.6rem; font-weight: 800; color: #05B396;">₹{{ number_format($pkg['price']) }}</span>
-                    <span style="font-size: 0.9rem; text-decoration: line-through; color: #64748b; margin-left: 6px;">₹{{ number_format($pkg['old_price']) }}</span>
-                </div>
+                <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">{{ $pkg['name'] }}</h3>
 
                 <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
                     @foreach ($pkg['courses_included'] as $c)
                         <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #05B396; font-weight: bold;">✓</span> {{ $c }}
+                            <span style="color: {{ $pkg['color'] ?? '#05B396' }}; font-weight: bold;">✓</span> {{ $c }}
                         </li>
                     @endforeach
                 </ul>
 
                 <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                    <a href="{{ url('/buy-now?package=' . $pkg['id']) }}" class="btn btn-primary" style="background: #05B396; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800;">
+                    <a href="{{ url('/buy-now?package=' . $pkg['id']) }}" class="btn btn-primary" style="background: {{ $pkg['color'] ?? '#05B396' }}; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px {{ ($pkg['color'] ?? '#05B396') . '40' }};">
                         Buy Now ➔
                     </a>
                 </div>

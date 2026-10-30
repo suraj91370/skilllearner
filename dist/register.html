@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enroll in SkillLearner</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --bg-body: #070a12;
@@ -17,7 +20,7 @@
             --bg-card-hover: rgba(30, 41, 59, 0.85);
             --border-glass: rgba(255, 255, 255, 0.08);
             --border-accent: rgba(5, 179, 150, 0.35);
-            --text-title: #f8fafc;
+            --text-title: #0B4F4A;
             --text-body: #94a3b8;
             --primary: #05B396;
             --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
@@ -30,36 +33,75 @@
             --shadow-glow: 0 0 35px rgba(5, 179, 150, 0.25);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
-        .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-title);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+        }
+
         /* Navigation Bar (Desktop) */
-        header.nav { 
-            position: sticky; 
-            top: 0; 
-            z-index: 1050; 
-            padding: 0.85rem 2.5rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #f1f5f9; 
-            background: #ffffff; 
+        header.nav {
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            padding: 0.85rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            background: #ffffff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
         }
 
-        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-        .brand-logo-img { height: 48px; width: auto; max-width: 220px; object-fit: contain; display: block; }
-        
-        nav.menu { display: flex; gap: 1.8rem; align-items: center; }
-        nav.menu > a { 
-            color: #334155; 
-            text-decoration: none; 
-            font-size: 0.95rem; 
-            font-weight: 600; 
-            transition: color 0.2s ease; 
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            flex-shrink: 0;
         }
-        nav.menu > a:hover, nav.menu > a.active { color: #05B396; }
+
+        .brand-logo-img {
+            width: auto;
+            max-width: 220px;
+            object-fit: contain;
+            display: block;
+        }
+
+        nav.menu {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        nav.menu>a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        nav.menu>a:hover,
+        nav.menu>a.active {
+            color: #05B396;
+        }
 
         /* Course Package Dropdown (Desktop Hover) */
         .nav-dropdown {
@@ -338,17 +380,19 @@
         }
 
         /* Hamburger to X Transformation */
-        .mobile-toggle.active .bar:nth-child(1) { 
-            transform: translateY(7.5px) rotate(45deg); 
-            background-color: #05B396; 
+        .mobile-toggle.active .bar:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+            background-color: #05B396;
         }
-        .mobile-toggle.active .bar:nth-child(2) { 
-            opacity: 0; 
-            transform: scale(0.2); 
+
+        .mobile-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+            transform: scale(0.2);
         }
-        .mobile-toggle.active .bar:nth-child(3) { 
-            transform: translateY(-7.5px) rotate(-45deg); 
-            background-color: #05B396; 
+
+        .mobile-toggle.active .bar:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+            background-color: #05B396;
         }
 
         .mobile-overlay {
@@ -367,10 +411,10 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .mobile-overlay.active { 
-            opacity: 1; 
-            visibility: visible; 
-            pointer-events: auto; 
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
         .mobile-drawer {
@@ -393,7 +437,9 @@
             box-shadow: -15px 0 40px rgba(0, 0, 0, 0.18);
         }
 
-        .mobile-drawer.active { right: 0; }
+        .mobile-drawer.active {
+            right: 0;
+        }
 
         /* Mobile Portal Link Items */
         .mobile-portal-link {
@@ -418,14 +464,16 @@
             transition: color 0.15s ease;
         }
 
-        .mobile-portal-link:hover, .mobile-portal-link.active {
+        .mobile-portal-link:hover,
+        .mobile-portal-link.active {
             background: #f0fdfa;
             color: #05B396;
             font-weight: 700;
             border-left-color: #05B396;
         }
 
-        .mobile-portal-link:hover .mob-icon, .mobile-portal-link.active .mob-icon {
+        .mobile-portal-link:hover .mob-icon,
+        .mobile-portal-link.active .mob-icon {
             color: #05B396;
         }
 
@@ -439,7 +487,10 @@
             display: block;
         }
 
-        .mobile-nav-link:hover, .mobile-nav-link.active { color: #05B396; }
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            color: #05B396;
+        }
 
         .mobile-accordion-btn {
             width: 100%;
@@ -457,8 +508,14 @@
             text-align: left;
         }
 
-        .mobile-accordion-btn svg { transition: transform 0.25s ease; stroke: #05B396; }
-        .mobile-accordion-btn.open svg { transform: rotate(180deg); }
+        .mobile-accordion-btn svg {
+            transition: transform 0.25s ease;
+            stroke: #05B396;
+        }
+
+        .mobile-accordion-btn.open svg {
+            transform: rotate(180deg);
+        }
 
         .mobile-accordion-content {
             display: none;
@@ -469,7 +526,9 @@
             padding: 0.4rem 0;
         }
 
-        .mobile-accordion-content.open { display: flex; }
+        .mobile-accordion-content.open {
+            display: flex;
+        }
 
         .mobile-sub-item {
             padding: 0.55rem 1.2rem;
@@ -479,26 +538,134 @@
             text-decoration: none;
         }
 
-        .mobile-sub-item:hover { color: #05B396; }
+        .mobile-sub-item:hover {
+            color: #05B396;
+        }
 
         /* Buttons & Utility */
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.65rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: pointer; text-decoration: none; border: none; transition: all 0.25s ease; }
-        .btn-primary { background: #05B396; color: #fff; }
-        .btn-secondary { background: rgba(0, 0, 0, 0.05); color: #000; border: 1px solid rgba(0,0,0,0.1); }
-        .btn-success { background: var(--secondary-gradient); color: #fff; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.65rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: all 0.25s ease;
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
-        .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary {
+            background: #05B396;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: var(--secondary-gradient);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #05B396 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.4rem;
+         color: #0B4F4A; }
+        .hero-title .title-skill { color: #0B4F4A; }
+        .hero-title .title-future { color: #0A6B5C; }
+        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
+        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
+        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
 
         /* Modals */
-        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
-        .modal.active { display: flex; }
-        .modal-box { width: 100%; max-width: 520px; padding: 2.2rem; border-radius: 16px; position: relative; background: #ffffff; border: 1px solid #e2e8f0; }
-        .close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #64748b; font-size: 1.6rem; cursor: pointer; }
-        .form-group { margin-bottom: 1.2rem; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
-        .form-control { width: 100%; padding: 0.8rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none; }
-        .form-control:focus { border-color: #05B396; box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15); }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 520px;
+            padding: 2.2rem;
+            border-radius: 16px;
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            color: #0f172a;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #05B396;
+            box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15);
+        }
 
         .nav-right-actions {
             display: flex;
@@ -508,44 +675,167 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
-            header.nav { padding: 0.75rem 1.2rem; }
-            nav.menu { display: none; }
-            .mobile-toggle { display: flex; }
-            .container { padding: 2.2rem 1rem; }
+            header.nav {
+                padding: 0.75rem 1.2rem;
+            }
+
+            nav.menu {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .container {
+                padding: 2.2rem 1rem;
+            }
         }
 
         @media (max-width: 640px) {
-            header.nav { padding: 0.65rem 0.85rem; }
-            .brand-logo-img { height: 38px; }
-            .nav-right-actions { gap: 0.45rem; }
-            .sl-circle-badge { width: 32px; height: 32px; }
-            .notification-bell-btn svg { width: 18px; height: 18px; }
-            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
-            .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
-            .user-pill-avatar { width: 26px; height: 26px; }
-            .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
-            .profile-svg-btn { width: 34px; height: 34px; }
-            .profile-svg-btn svg { width: 18px; height: 18px; }
-            .user-dropdown-card { right: 0; min-width: 195px; }
+            .hero {
+                padding: 3rem 1.25rem 2rem !important;
+            }
+
+            .hero-title {
+                font-size: 2.2rem !important;
+                line-height: 1.2 !important;
+                letter-spacing: -0.8px !important;
+                margin-bottom: 1rem !important;
+            }
+            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
+            .hero-image-wrapper { margin-top: 2rem !important; }
+            .hero-tree-img { border-radius: 12px !important; }
+
+            header.nav {
+                padding: 0.65rem 0.85rem;
+            }
+
+            .brand-logo-img {
+                max-width: 125px;
+            }
+
+            .nav-right-actions {
+                gap: 0.45rem;
+            }
+
+            .sl-circle-badge {
+                width: 32px;
+                height: 32px;
+            }
+
+            .notification-bell-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .bell-count-badge {
+                font-size: 0.65rem;
+                padding: 2px 5px;
+            }
+
+            .user-pill-btn {
+                padding: 3px 10px 3px 4px;
+                gap: 6px;
+            }
+
+            .user-pill-avatar {
+                width: 26px;
+                height: 26px;
+            }
+
+            .user-pill-name {
+                max-width: 78px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.85rem;
+            }
+
+            .profile-svg-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            .profile-svg-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .user-dropdown-card {
+                right: 0;
+                min-width: 195px;
+            }
         }
 
         @media (max-width: 420px) {
-            header.nav { padding: 0.55rem 0.6rem; }
-            .brand-logo-img { height: 32px; }
-            .nav-right-actions { gap: 0.35rem; }
-            .user-pill-name { max-width: 55px; font-size: 0.78rem; }
-            .profile-svg-btn { width: 32px; height: 32px; }
-            .profile-svg-btn svg { width: 17px; height: 17px; }
-            .sl-circle-badge { width: 28px; height: 28px; }
-            .sl-circle-badge span { font-size: 0.72rem; }
-            .bell-count-badge { display: none; }
-            .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
-            .mobile-toggle .bar { width: 20px; }
+            .hero-title {
+                font-size: 1.85rem !important;
+                letter-spacing: -0.5px !important;
+            }
+            .hero-subtitle { font-size: 0.95rem !important; }
+
+            header.nav {
+                padding: 0.55rem 0.6rem;
+            }
+
+            .brand-logo-img {
+                max-width: 105px;
+            }
+
+            .nav-right-actions {
+                gap: 0.35rem;
+            }
+
+            .user-pill-name {
+                max-width: 55px;
+                font-size: 0.78rem;
+            }
+
+            .profile-svg-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .profile-svg-btn svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .sl-circle-badge {
+                width: 28px;
+                height: 28px;
+            }
+
+            .sl-circle-badge span {
+                font-size: 0.72rem;
+            }
+
+            .bell-count-badge {
+                display: none;
+            }
+
+            .mobile-toggle {
+                width: 34px;
+                height: 34px;
+                padding: 4px;
+            }
+
+            .mobile-toggle .bar {
+                width: 20px;
+            }
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         body.is-portal-page {
@@ -553,1019 +843,1033 @@
             color: #0f172a;
         }
     </style>
-        <style>
-    /* ==========================================================
+    <style>
+        /* ==========================================================
        STUDENT PORTAL & DASHBOARD STYLES (MATCHES HOME PAGE THEME)
        ========================================================== */
-    .student-portal-wrapper {
-        background: #f8fafc;
-        background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
-        min-height: calc(100vh - 80px);
-        padding: 2.2rem 2rem 5rem;
-    }
-
-    .portal-main-grid {
-        max-width: 1440px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 2.2rem;
-        align-items: start;
-    }
-
-    /* Left Sidebar Card (Matches Home Page Emerald Theme) */
-    .portal-sidebar-card {
-        background: #ffffff;
-        border: 1.5px solid #a7f3d0;
-        border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
-        overflow: hidden;
-        padding: 0.65rem 0;
-        position: sticky;
-        top: 90px;
-    }
-
-    /* Role Header in Sidebar */
-    .sidebar-role-header {
-        padding: 0.85rem 1.1rem;
-        margin: 0.35rem 0.8rem 0.65rem 0.8rem;
-        border-radius: 12px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .sidebar-role-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.72rem;
-        font-weight: 800;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-        padding: 3px 9px;
-        border-radius: 20px;
-        width: fit-content;
-    }
-
-    .sidebar-role-badge.super-admin {
-        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-        color: #ffffff;
-        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
-    }
-
-    .sidebar-role-badge.admin {
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-        color: #ffffff;
-        box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
-    }
-
-    .sidebar-role-badge.user {
-        background: rgba(5, 179, 150, 0.12);
-        color: #05B396;
-        border: 1px solid rgba(5, 179, 150, 0.35);
-    }
-
-    .sidebar-role-user-name {
-        font-size: 0.88rem;
-        font-weight: 700;
-        color: #0f172a;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .sidebar-section-label {
-        font-size: 0.68rem;
-        font-weight: 800;
-        color: #94a3b8;
-        letter-spacing: 0.9px;
-        text-transform: uppercase;
-        padding: 0.65rem 1.4rem 0.2rem 1.4rem;
-        margin-top: 0.35rem;
-    }
-
-    .sidebar-item-badge-pill {
-        margin-left: auto;
-        font-size: 0.68rem;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 10px;
-        background: rgba(5, 179, 150, 0.12);
-        color: #05B396;
-    }
-
-    .sidebar-item-badge-pill.super {
-        background: rgba(124, 58, 237, 0.14);
-        color: #7c3aed;
-    }
-
-    .portal-sidebar-nav {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 0.74rem 1.4rem;
-        color: #334155;
-        font-size: 0.94rem;
-        font-weight: 600;
-        text-decoration: none;
-        border-left: 4px solid transparent;
-        transition: all 0.15s ease;
-    }
-
-    /* SVG icon safeguards */
-    .side-icon,
-    svg.side-icon,
-    .sidebar-item .side-icon {
-        width: 18px !important;
-        height: 18px !important;
-        min-width: 18px !important;
-        max-width: 18px !important;
-        min-height: 18px !important;
-        max-height: 18px !important;
-        color: #475569;
-        flex-shrink: 0;
-        transition: color 0.15s ease;
-    }
-
-    /* Admin Management Components */
-    .admin-stat-card {
-        background: #ffffff;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 1.1rem 1.3rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    }
-    .admin-stat-label {
-        font-size: 0.72rem;
-        font-weight: 800;
-        letter-spacing: 0.6px;
-        color: #64748b;
-        margin-bottom: 0.35rem;
-    }
-    .admin-stat-val {
-        font-size: 1.8rem;
-        font-weight: 900;
-        color: #0f172a;
-        line-height: 1.1;
-        margin-bottom: 0.25rem;
-    }
-    .admin-stat-sub {
-        font-size: 0.78rem;
-        color: #94a3b8;
-        font-weight: 500;
-    }
-    .admin-filter-pill {
-        display: inline-block;
-        padding: 0.45rem 0.95rem;
-        border-radius: 20px;
-        background: #f1f5f9;
-        color: #475569;
-        font-size: 0.82rem;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    .admin-filter-pill:hover {
-        background: #e2e8f0;
-        color: #0f172a;
-    }
-    .admin-filter-pill.active {
-        background: #05B396;
-        color: #ffffff;
-    }
-    .clean-form-input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
-        font-size: 0.92rem;
-        color: #0f172a;
-        background: #ffffff;
-        box-sizing: border-box;
-        outline: none;
-        transition: border 0.2s;
-    }
-    .clean-form-input:focus {
-        border-color: #7c3aed;
-        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
-    }
-
-    /* Soft mint hover state */
-    .sidebar-item:hover {
-        background: #f0fdfa;
-        color: #05B396;
-    }
-
-    .sidebar-item:hover .side-icon {
-        color: #05B396;
-    }
-
-    /* Active State (4px emerald left bar) */
-    .sidebar-item.active {
-        background: #f0fdfa;
-        color: #05B396;
-        font-weight: 700;
-        border-left-color: #05B396;
-    }
-
-    .sidebar-item.active .side-icon {
-        color: #05B396;
-    }
-
-    /* Mobile Quick Tab Slider */
-    .mobile-portal-nav {
-        display: none !important;
-        margin-bottom: 1.5rem;
-    }
-
-    .mobile-nav-header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.65rem;
-        padding: 0 2px;
-    }
-
-    .mobile-nav-title {
-        font-size: 0.78rem;
-        font-weight: 800;
-        color: #64748b;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-    }
-
-    .mobile-open-drawer-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 12px;
-        background: #f0fdfa;
-        border: 1px solid #a7f3d0;
-        border-radius: 20px;
-        color: #05B396;
-        font-size: 0.8rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background 0.15s;
-    }
-
-    .mobile-open-drawer-btn:hover {
-        background: #ccfbf1;
-    }
-
-    .mobile-tabs-scroll {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding-bottom: 6px;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-    .mobile-tabs-scroll::-webkit-scrollbar { display: none; }
-
-    .m-portal-tab {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 0.55rem 1rem;
-        border-radius: 50px;
-        border: 1.5px solid #e2e8f0;
-        background: #ffffff;
-        color: #475569;
-        font-size: 0.82rem;
-        font-weight: 700;
-        white-space: nowrap;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .m-portal-tab.active {
-        background: #05B396;
-        color: #ffffff;
-        border-color: #05B396;
-    }
-
-    .m-portal-tab:hover {
-        border-color: #cbd5e1;
-        color: #0f172a;
-    }
-
-    /* Right Content Area */
-    .portal-content-area {
-        min-width: 0;
-    }
-
-    .welcome-heading {
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 1.4rem;
-        letter-spacing: -0.5px;
-    }
-
-    .highlight-user-name {
-        color: #05B396;
-    }
-
-    /* Filter Pills */
-    .course-filter-pills {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .filter-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 0.65rem 1.6rem;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        color: #475569;
-        transition: all 0.2s ease;
-    }
-
-    .filter-pill.active {
-        background: #ffffff;
-        border: 1.5px solid #cbd5e1;
-        color: #0f172a;
-        font-weight: 700;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .pill-badge-num {
-        color: #64748b;
-        font-size: 0.78rem;
-    }
-
-    /* Courses Cards Grid (4 Columns) */
-    .courses-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-    }
-
-    /* Course Card Item */
-    .portal-course-card {
-        background: #ffffff;
-        border-radius: 14px;
-        border: 1px solid #f1f5f9;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-    }
-
-    .portal-course-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.09);
-    }
-
-    .card-thumb-link {
-        text-decoration: none;
-        display: block;
-    }
-
-    .course-thumb-container {
-        height: 148px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0.75rem 0.85rem;
-    }
-
-    .thumb-neon-glow {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 140px;
-        height: 140px;
-        pointer-events: none;
-    }
-
-    .thumb-header-badge {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .thumb-header-badge span {
-        background: rgba(0, 0, 0, 0.6);
-        color: #cbd5e1;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 0.62rem;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-    }
-
-    .thumb-center-content {
-        position: relative;
-        z-index: 1;
-        text-align: left;
-        margin-top: auto;
-        margin-bottom: auto;
-    }
-
-    .thumb-banner-title {
-        color: #ffffff;
-        font-size: 0.95rem;
-        font-weight: 900;
-        line-height: 1.2;
-        letter-spacing: -0.3px;
-        text-transform: uppercase;
-        margin-bottom: 2px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-    }
-
-    .thumb-banner-tag {
-        color: #94a3b8;
-        font-size: 0.62rem;
-        line-height: 1.2;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    /* Centered Play Button (Image 1 Style) */
-    .center-play-button {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 44px;
-        height: 44px;
-        background: #ffffff;
-        border-radius: 50%;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-    }
-
-    .center-play-button svg {
-        margin-left: 2px;
-    }
-
-    .portal-course-card:hover .center-play-button {
-        transform: translate(-50%, -50%) scale(1.15);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .thumb-footer-meta {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        gap: 6px;
-        color: #94a3b8;
-        font-size: 0.65rem;
-        font-weight: 600;
-    }
-
-    /* Course Card Body */
-    .course-card-body {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        flex-grow: 1;
-    }
-
-    .course-card-title {
-        font-size: 0.98rem;
-        font-weight: 700;
-        margin-bottom: 0.8rem;
-        line-height: 1.35;
-    }
-
-    .course-card-title a {
-        color: #0f172a;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .course-card-title a:hover {
-        color: #05B396;
-    }
-
-    .course-instructor-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .instructor-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .instructor-name {
-        color: #64748b;
-        font-size: 0.82rem;
-        font-weight: 600;
-    }
-
-    /* Responsive Grid Wrappers */
-    .earnings-grid-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.2rem;
-        margin-bottom: 2.2rem;
-    }
-
-    .referral-box-row {
-        display: flex;
-        gap: 0.8rem;
-    }
-
-    .table-responsive-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: 8px;
-    }
-
-    .table-responsive-wrapper table {
-        min-width: 580px;
-        width: 100%;
-    }
-
-    /* Generic Card Box */
-    .portal-box-card {
-        background: #ffffff;
-        padding: 1.8rem;
-        border-radius: 16px;
-        border: 1px solid #f1f5f9;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-        margin-bottom: 1.8rem;
-    }
-
-    /* ==========================================================
-       RESPONSIVE BREAKPOINTS (Mobile & Tablet)
-       ========================================================== */
-    @media (max-width: 1280px) {
-        .courses-cards-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @media (max-width: 1024px) {
-        .earnings-grid-container {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-    }
-
-    @media (max-width: 992px) {
         .student-portal-wrapper {
-            padding: 1.2rem 1rem 4rem;
+            background: #f8fafc;
+            background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
+            min-height: calc(100vh - 80px);
+            padding: 2.2rem 2rem 5rem;
         }
 
         .portal-main-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.2rem;
+            align-items: start;
         }
 
-        /* Hide desktop sidebar on mobile, show quick horizontal slider */
+        /* Left Sidebar Card (Matches Home Page Emerald Theme) */
         .portal-sidebar-card {
+            background: #ffffff;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
+            overflow: hidden;
+            padding: 0.65rem 0;
+            position: sticky;
+            top: 90px;
+        }
+
+        /* Role Header in Sidebar */
+        .sidebar-role-header {
+            padding: 0.85rem 1.1rem;
+            margin: 0.35rem 0.8rem 0.65rem 0.8rem;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .sidebar-role-badge.super-admin {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+        }
+
+        .sidebar-role-badge.admin {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
+        }
+
+        .sidebar-role-badge.user {
+            background: rgba(5, 179, 150, 0.12);
+            color: #05B396;
+            border: 1px solid rgba(5, 179, 150, 0.35);
+        }
+
+        .sidebar-role-user-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            padding: 0.65rem 1.4rem 0.2rem 1.4rem;
+            margin-top: 0.35rem;
+        }
+
+        .sidebar-item-badge-pill {
+            margin-left: auto;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(5, 179, 150, 0.12);
+            color: #05B396;
+        }
+
+        .sidebar-item-badge-pill.super {
+            background: rgba(124, 58, 237, 0.14);
+            color: #7c3aed;
+        }
+
+        .portal-sidebar-nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.74rem 1.4rem;
+            color: #334155;
+            font-size: 0.94rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: all 0.15s ease;
+        }
+
+        /* SVG icon safeguards */
+        .side-icon,
+        svg.side-icon,
+        .sidebar-item .side-icon {
+            width: 18px !important;
+            height: 18px !important;
+            min-width: 18px !important;
+            max-width: 18px !important;
+            min-height: 18px !important;
+            max-height: 18px !important;
+            color: #475569;
+            flex-shrink: 0;
+            transition: color 0.15s ease;
+        }
+
+        /* Admin Management Components */
+        .admin-stat-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .admin-stat-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            color: #64748b;
+            margin-bottom: 0.35rem;
+        }
+
+        .admin-stat-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        .admin-stat-sub {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .admin-filter-pill {
+            display: inline-block;
+            padding: 0.45rem 0.95rem;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .admin-filter-pill:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .admin-filter-pill.active {
+            background: #05B396;
+            color: #ffffff;
+        }
+
+        .clean-form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            color: #0f172a;
+            background: #ffffff;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .clean-form-input:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        /* Soft mint hover state */
+        .sidebar-item:hover {
+            background: #f0fdfa;
+            color: #05B396;
+        }
+
+        .sidebar-item:hover .side-icon {
+            color: #05B396;
+        }
+
+        /* Active State (4px emerald left bar) */
+        .sidebar-item.active {
+            background: #f0fdfa;
+            color: #05B396;
+            font-weight: 700;
+            border-left-color: #05B396;
+        }
+
+        .sidebar-item.active .side-icon {
+            color: #05B396;
+        }
+
+        /* Mobile Quick Tab Slider */
+        .mobile-portal-nav {
+            display: none !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.65rem;
+            padding: 0 2px;
+        }
+
+        .mobile-nav-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .mobile-open-drawer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: #f0fdfa;
+            border: 1px solid #a7f3d0;
+            border-radius: 20px;
+            color: #05B396;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .mobile-open-drawer-btn:hover {
+            background: #ccfbf1;
+        }
+
+        .mobile-tabs-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-tabs-scroll::-webkit-scrollbar {
             display: none;
         }
 
-        .mobile-portal-nav {
-            display: block !important;
+        .m-portal-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.55rem 1rem;
+            border-radius: 50px;
+            border: 1.5px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.2s;
         }
 
-        .courses-cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+        .m-portal-tab.active {
+            background: #05B396;
+            color: #ffffff;
+            border-color: #05B396;
         }
-    }
 
-    @media (max-width: 600px) {
-        .referral-box-row {
-            flex-direction: column;
+        .m-portal-tab:hover {
+            border-color: #cbd5e1;
+            color: #0f172a;
         }
-        .referral-box-row button {
-            width: 100%;
-        }
-    }
 
-    @media (max-width: 580px) {
-        .student-portal-wrapper {
-            padding: 0.85rem 0.75rem 3.5rem;
+        /* Right Content Area */
+        .portal-content-area {
+            min-width: 0;
         }
 
         .welcome-heading {
-            font-size: 1.35rem;
-            margin-bottom: 1rem;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 1.4rem;
+            letter-spacing: -0.5px;
         }
 
+        .highlight-user-name {
+            color: #05B396;
+        }
+
+        /* Filter Pills */
         .course-filter-pills {
-            gap: 0.6rem;
-            margin-bottom: 1.4rem;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .filter-pill {
-            padding: 0.5rem 1.1rem;
-            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.65rem 1.6rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            transition: all 0.2s ease;
         }
 
+        .filter-pill.active {
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .pill-badge-num {
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+
+        /* Courses Cards Grid (4 Columns) */
         .courses-cards-grid {
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Course Card Item */
+        .portal-course-card {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+        }
+
+        .portal-course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-thumb-link {
+            text-decoration: none;
+            display: block;
         }
 
         .course-thumb-container {
-            height: 165px;
+            height: 148px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.75rem 0.85rem;
         }
 
+        .thumb-neon-glow {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 140px;
+            height: 140px;
+            pointer-events: none;
+        }
+
+        .thumb-header-badge {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .thumb-header-badge span {
+            background: rgba(0, 0, 0, 0.6);
+            color: #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .thumb-center-content {
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .thumb-banner-title {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .thumb-banner-tag {
+            color: #94a3b8;
+            font-size: 0.62rem;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Centered Play Button (Image 1 Style) */
+        .center-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+        }
+
+        .center-play-button svg {
+            margin-left: 2px;
+        }
+
+        .portal-course-card:hover .center-play-button {
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .thumb-footer-meta {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 6px;
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        /* Course Card Body */
+        .course-card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .course-card-title {
+            font-size: 0.98rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            line-height: 1.35;
+        }
+
+        .course-card-title a {
+            color: #0f172a;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .course-card-title a:hover {
+            color: #05B396;
+        }
+
+        .course-instructor-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .instructor-name {
+            color: #64748b;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Grid Wrappers */
         .earnings-grid-container {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.65rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2.2rem;
         }
 
-        .earnings-grid-container > div {
-            padding: 1.1rem 0.9rem !important;
+        .referral-box-row {
+            display: flex;
+            gap: 0.8rem;
         }
-    }
 
-    @media (max-width: 380px) {
-        .earnings-grid-container {
-            grid-template-columns: 1fr;
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
         }
-    }
-</style>
-    <style>
-    /* Visual Package Selector Grid */
-    .package-visual-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.9rem;
-        margin-top: 0.5rem;
-    }
 
-    .package-visual-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px solid rgba(255, 255, 255, 0.08);
-        border-radius: 14px;
-        padding: 0.9rem 0.5rem 0.8rem;
-        text-align: center;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .package-visual-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(5, 179, 150, 0.5);
-        background: rgba(255, 255, 255, 0.06);
-    }
-
-    .package-visual-card.selected {
-        border-color: #05B396;
-        background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.85) 100%);
-        box-shadow: 0 0 25px rgba(5, 179, 150, 0.3);
-        transform: translateY(-4px);
-    }
-
-    .package-visual-card .img-wrapper {
-        width: 100%;
-        height: 135px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.5rem;
-    }
-
-    .package-visual-card img {
-        max-height: 130px;
-        max-width: 100%;
-        object-fit: contain;
-        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
-        transition: transform 0.25s ease;
-    }
-
-    .package-visual-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .package-visual-card .pkg-title {
-        font-size: 0.85rem;
-        font-weight: 800;
-        letter-spacing: 0.6px;
-        color: #fff;
-    }
-
-    .package-visual-card.selected .pkg-title {
-        color: #05B396;
-    }
-
-    /* Checkmark Badge */
-    .package-visual-card .check-pill {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        color: transparent;
-        font-size: 0.72rem;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-    }
-
-    .package-visual-card.selected .check-pill {
-        background: #05B396;
-        color: #fff;
-        box-shadow: 0 0 8px rgba(5, 179, 150, 0.6);
-    }
-
-    /* Ribbon */
-    .package-visual-card .card-ribbon {
-        position: absolute;
-        top: -9px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: linear-gradient(135deg, #05B396, #0284c7);
-        color: #fff;
-        font-size: 0.65rem;
-        font-weight: 800;
-        padding: 2px 8px;
-        border-radius: 10px;
-        letter-spacing: 0.5px;
-    }
-
-    @media (max-width: 768px) {
-        .package-visual-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
+        .table-responsive-wrapper table {
+            min-width: 580px;
+            width: 100%;
         }
-        .package-visual-card:last-child {
-            grid-column: span 2;
-        }
-    }
-</style>
-<script id="browser-logger-active">
-(function() {
-    const ENDPOINT = '/_boost/browser-logs';
-    const logQueue = [];
-    let flushTimeout = null;
-    const captureTypes = ["error","warning","info","log","debug","table"];
 
-    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+        /* Generic Card Box */
+        .portal-box-card {
+            background: #ffffff;
+            padding: 1.8rem;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.8rem;
+        }
 
-    // Store original console methods
-    const originalConsole = {
-        log: console.log,
-        debug: console.debug,
-        info: console.info,
-        error: console.error,
-        warn: console.warn,
-        table: console.table
-    };
-
-    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
-    function toSafeValue(value, seen) {
-        if (value === null || typeof value !== 'object') {
-            return value;
-        }
-        if (value instanceof Error) {
-            return { name: value.name, message: value.message, stack: value.stack };
-        }
-        // Date has no own enumerable keys, so the walk below would collapse it to {}.
-        if (value instanceof Date) {
-            return value.toISOString();
-        }
-        if (seen.has(value)) {
-            return '[Circular]';
-        }
-        seen.add(value);
-        if (Array.isArray(value)) {
-            return value.map((item) => toSafeValue(item, seen));
-        }
-        const plain = {};
-        for (const key of Object.keys(value)) {
-            if (key === 'toJSON') continue;
-            try {
-                plain[key] = toSafeValue(value[key], seen);
-            } catch (e) {
-                plain[key] = '[Unreadable]';
+        /* ==========================================================
+       RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+       ========================================================== */
+        @media (max-width: 1280px) {
+            .courses-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
-        return plain;
-    }
 
-    // Helper to safely stringify values
-    function safeStringify(obj) {
-        return JSON.stringify(toSafeValue(obj, new WeakSet()));
-    }
+        @media (max-width: 1024px) {
+            .earnings-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
 
-    // Normalize log type for consistency (e.g., 'warn' to 'warning')
-    function normalizeType(type) {
-        return type === 'warn' ? 'warning' : type;
-    }
+        @media (max-width: 992px) {
+            .student-portal-wrapper {
+                padding: 1.2rem 1rem 4rem;
+            }
 
-    // Determine if a log type should be captured based on configured levels
-    function shouldCapture(type) {
-        return captureTypes.includes(normalizeType(type));
-    }
+            .portal-main-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
 
-    // Batch and send logs
-    function flushLogs() {
-        if (logQueue.length === 0) return;
+            /* Hide desktop sidebar on mobile, show quick horizontal slider */
+            .portal-sidebar-card {
+                display: none;
+            }
 
-        const batch = logQueue.splice(0, logQueue.length);
+            .mobile-portal-nav {
+                display: block !important;
+            }
 
-        fetch(ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ logs: batch })
-        }).catch(err => {
-            // Silently fail to avoid infinite loops
-            originalConsole.error('Failed to send logs:', err);
-        });
-    }
+            .courses-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
 
-    // Debounced flush (100ms)
-    function scheduleFlush() {
-        if (flushTimeout) clearTimeout(flushTimeout);
-        flushTimeout = setTimeout(flushLogs, 100);
-    }
+        @media (max-width: 600px) {
+            .referral-box-row {
+                flex-direction: column;
+            }
 
-    // Intercept console methods
-    ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
-        console[method] = function(...args) {
-            // Call original method
-            originalConsole[method].apply(console, args);
+            .referral-box-row button {
+                width: 100%;
+            }
+        }
 
-            // Capture log data
-            try {
-                if (!shouldCapture(method)) {
-                    return;
+        @media (max-width: 580px) {
+            .student-portal-wrapper {
+                padding: 0.85rem 0.75rem 3.5rem;
+            }
+
+            .welcome-heading {
+                font-size: 1.35rem;
+                margin-bottom: 1rem;
+            }
+
+            .course-filter-pills {
+                gap: 0.6rem;
+                margin-bottom: 1.4rem;
+            }
+
+            .filter-pill {
+                padding: 0.5rem 1.1rem;
+                font-size: 0.82rem;
+            }
+
+            .courses-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .course-thumb-container {
+                height: 165px;
+            }
+
+            .earnings-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.65rem;
+            }
+
+            .earnings-grid-container>div {
+                padding: 1.1rem 0.9rem !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .earnings-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <style>
+        /* Visual Package Selector Grid */
+        .package-visual-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .package-visual-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 0.9rem 0.5rem 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .package-visual-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(5, 179, 150, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .package-visual-card.selected {
+            border-color: #05B396;
+            background: linear-gradient(180deg, rgba(5, 179, 150, 0.16) 0%, rgba(15, 23, 42, 0.85) 100%);
+            box-shadow: 0 0 25px rgba(5, 179, 150, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .package-visual-card .img-wrapper {
+            width: 100%;
+            height: 135px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-visual-card img {
+            max-height: 130px;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+            transition: transform 0.25s ease;
+        }
+
+        .package-visual-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .package-visual-card .pkg-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            color: #fff;
+        }
+
+        .package-visual-card.selected .pkg-title {
+            color: #05B396;
+        }
+
+        /* Checkmark Badge */
+        .package-visual-card .check-pill {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: transparent;
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .package-visual-card.selected .check-pill {
+            background: #05B396;
+            color: #fff;
+            box-shadow: 0 0 8px rgba(5, 179, 150, 0.6);
+        }
+
+        /* Ribbon */
+        .package-visual-card .card-ribbon {
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #05B396, #0284c7);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .package-visual-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .package-visual-card:last-child {
+                grid-column: span 2;
+            }
+        }
+    </style>
+    <script id="browser-logger-active">
+        (function () {
+            const ENDPOINT = '/_boost/browser-logs';
+            const logQueue = [];
+            let flushTimeout = null;
+            const captureTypes = ["error", "warning", "info", "log", "debug", "table"];
+
+            console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+            // Store original console methods
+            const originalConsole = {
+                log: console.log,
+                debug: console.debug,
+                info: console.info,
+                error: console.error,
+                warn: console.warn,
+                table: console.table
+            };
+
+            // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
+            function toSafeValue(value, seen) {
+                if (value === null || typeof value !== 'object') {
+                    return value;
+                }
+                if (value instanceof Error) {
+                    return { name: value.name, message: value.message, stack: value.stack };
+                }
+                // Date has no own enumerable keys, so the walk below would collapse it to {}.
+                if (value instanceof Date) {
+                    return value.toISOString();
+                }
+                if (seen.has(value)) {
+                    return '[Circular]';
+                }
+                seen.add(value);
+                if (Array.isArray(value)) {
+                    return value.map((item) => toSafeValue(item, seen));
+                }
+                const plain = {};
+                for (const key of Object.keys(value)) {
+                    if (key === 'toJSON') continue;
+                    try {
+                        plain[key] = toSafeValue(value[key], seen);
+                    } catch (e) {
+                        plain[key] = '[Unreadable]';
+                    }
+                }
+                return plain;
+            }
+
+            // Helper to safely stringify values
+            function safeStringify(obj) {
+                return JSON.stringify(toSafeValue(obj, new WeakSet()));
+            }
+
+            // Normalize log type for consistency (e.g., 'warn' to 'warning')
+            function normalizeType(type) {
+                return type === 'warn' ? 'warning' : type;
+            }
+
+            // Determine if a log type should be captured based on configured levels
+            function shouldCapture(type) {
+                return captureTypes.includes(normalizeType(type));
+            }
+
+            // Batch and send logs
+            function flushLogs() {
+                if (logQueue.length === 0) return;
+
+                const batch = logQueue.splice(0, logQueue.length);
+
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ logs: batch })
+                }).catch(err => {
+                    // Silently fail to avoid infinite loops
+                    originalConsole.error('Failed to send logs:', err);
+                });
+            }
+
+            // Debounced flush (100ms)
+            function scheduleFlush() {
+                if (flushTimeout) clearTimeout(flushTimeout);
+                flushTimeout = setTimeout(flushLogs, 100);
+            }
+
+            // Intercept console methods
+            ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
+                console[method] = function (...args) {
+                    // Call original method
+                    originalConsole[method].apply(console, args);
+
+                    // Capture log data
+                    try {
+                        if (!shouldCapture(method)) {
+                            return;
+                        }
+
+                        logQueue.push({
+                            type: method,
+                            timestamp: new Date().toISOString(),
+                            data: args.map(arg => {
+                                try {
+                                    return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                                } catch (e) {
+                                    return String(arg);
+                                }
+                            }),
+                            url: window.location.href,
+                            userAgent: navigator.userAgent
+                        });
+
+                        scheduleFlush();
+                    } catch (e) {
+                        // Fail silently
+                    }
+                };
+            });
+
+            // Global error handlers for uncaught errors
+            const originalOnError = window.onerror;
+            window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+                try {
+                    if (shouldCapture('error')) {
+                        logQueue.push({
+                            type: 'uncaught_error',
+                            timestamp: new Date().toISOString(),
+                            data: [{
+                                message: errorMsg,
+                                filename: url,
+                                lineno: lineNumber,
+                                colno: colNumber,
+                                error: error ? {
+                                    name: error.name,
+                                    message: error.message,
+                                    stack: error.stack
+                                } : null
+                            }],
+                            url: window.location.href,
+                            userAgent: navigator.userAgent
+                        });
+
+                        scheduleFlush();
+                    }
+
+                } catch (e) {
+                    // Fail silently
                 }
 
-                logQueue.push({
-                    type: method,
-                    timestamp: new Date().toISOString(),
-                    data: args.map(arg => {
-                        try {
-                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
-                        } catch (e) {
-                            return String(arg);
-                        }
-                    }),
-                    url: window.location.href,
-                    userAgent: navigator.userAgent
-                });
+                // Call original handler if it exists
+                if (originalOnError && typeof originalOnError === 'function') {
+                    return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+                }
 
-                scheduleFlush();
-            } catch (e) {
-                // Fail silently
-            }
-        };
-    });
-
-    // Global error handlers for uncaught errors
-    const originalOnError = window.onerror;
-    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
-        try {
-            if (shouldCapture('error')) {
-                logQueue.push({
-                    type: 'uncaught_error',
-                    timestamp: new Date().toISOString(),
-                    data: [{
-                        message: errorMsg,
-                        filename: url,
-                        lineno: lineNumber,
-                        colno: colNumber,
-                        error: error ? {
-                            name: error.name,
-                            message: error.message,
-                            stack: error.stack
-                        } : null
-                    }],
-                    url: window.location.href,
-                    userAgent: navigator.userAgent
-                });
-
-                scheduleFlush();
-            }
-
-        } catch (e) {
-            // Fail silently
-        }
-
-        // Call original handler if it exists
-        if (originalOnError && typeof originalOnError === 'function') {
-            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
-        }
-
-        // Let the error continue to propagate
-        return false;
-    }
-    window.addEventListener('error', (event) => {
-        try {
-            if (!shouldCapture('error')) {
+                // Let the error continue to propagate
                 return false;
             }
+            window.addEventListener('error', (event) => {
+                try {
+                    if (!shouldCapture('error')) {
+                        return false;
+                    }
 
-            logQueue.push({
-                type: 'window_error',
-                timestamp: new Date().toISOString(),
-                data: [{
-                    message: event.message,
-                    filename: event.filename,
-                    lineno: event.lineno,
-                    colno: event.colno,
-                    error: event.error ? {
-                        name: event.error.name,
-                        message: event.error.message,
-                        stack: event.error.stack
-                    } : null
-                }],
-                url: window.location.href,
-                userAgent: navigator.userAgent
-            });
+                    logQueue.push({
+                        type: 'window_error',
+                        timestamp: new Date().toISOString(),
+                        data: [{
+                            message: event.message,
+                            filename: event.filename,
+                            lineno: event.lineno,
+                            colno: event.colno,
+                            error: event.error ? {
+                                name: event.error.name,
+                                message: event.error.message,
+                                stack: event.error.stack
+                            } : null
+                        }],
+                        url: window.location.href,
+                        userAgent: navigator.userAgent
+                    });
 
-            scheduleFlush();
-        } catch (e) {
-            // Fail silently
-        }
+                    scheduleFlush();
+                } catch (e) {
+                    // Fail silently
+                }
 
-        // Let the error continue to propagate
-        return false;
-    });
-    window.addEventListener('unhandledrejection', (event) => {
-        try {
-            if (!shouldCapture('error')) {
+                // Let the error continue to propagate
                 return false;
-            }
+            });
+            window.addEventListener('unhandledrejection', (event) => {
+                try {
+                    if (!shouldCapture('error')) {
+                        return false;
+                    }
 
-            logQueue.push({
-                type: 'error',
-                timestamp: new Date().toISOString(),
-                data: [{
-                    message: 'Unhandled Promise Rejection',
-                    reason: toSafeValue(event.reason, new WeakSet())
-                }],
-                url: window.location.href,
-                userAgent: navigator.userAgent
+                    logQueue.push({
+                        type: 'error',
+                        timestamp: new Date().toISOString(),
+                        data: [{
+                            message: 'Unhandled Promise Rejection',
+                            reason: toSafeValue(event.reason, new WeakSet())
+                        }],
+                        url: window.location.href,
+                        userAgent: navigator.userAgent
+                    });
+
+                    scheduleFlush();
+                } catch (e) {
+                    // Fail silently
+                }
+
+                // Let the rejection continue to propagate
+                return false;
             });
 
-            scheduleFlush();
-        } catch (e) {
-            // Fail silently
-        }
-
-        // Let the rejection continue to propagate
-        return false;
-    });
-
-    // Flush on page unload
-    window.addEventListener('beforeunload', () => {
-        if (logQueue.length > 0) {
-            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
-        }
-    });
-})();
-</script>
+            // Flush on page unload
+            window.addEventListener('beforeunload', () => {
+                if (logQueue.length > 0) {
+                    navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+                }
+            });
+        })();
+    </script>
 </head>
+
 <body class="">
 
     <!-- Notification Alert Banners -->
-    
+
     <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
         <!-- Logo: SkillLearner Official Logo -->
@@ -1582,7 +1886,8 @@
             <div class="nav-dropdown">
                 <a href="/plans" class="dropdown-trigger ">
                     <span>Course Package</span>
-                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </a>
@@ -1597,54 +1902,63 @@
 
             <a href="/contact" class="">Contact</a>
             <a href="/courses" class="">Courses</a>
-            <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
+            <a href="javascript:void(0)"
+                onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
         </nav>
 
         <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
         <div class="nav-right-actions">
-                            <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
-                <div class="user-menu-wrapper">
-                    <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)" aria-label="My Account" title="My Account">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </button>
+            <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
+            <div class="user-menu-wrapper">
+                <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)"
+                    aria-label="My Account" title="My Account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
 
-                    <!-- Guest Account Dropdown Card -->
-                    <div class="user-dropdown-card" id="guestUserDropdownCard">
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">My Account</div>
-                        <a href="/my-account" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                                <polyline points="10 17 15 12 10 7"></polyline>
-                                <line x1="15" y1="12" x2="3" y2="12"></line>
-                            </svg>
-                            <span>Login / My Account</span>
-                        </a>
-                        <a href="/register" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <line x1="19" y1="8" x2="19" y2="14"></line>
-                                <line x1="22" y1="11" x2="16" y2="11"></line>
-                            </svg>
-                            <span>Register</span>
-                        </a>
-                        <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
-                        <a href="/buy-now" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                            <span>Buy Now</span>
-                        </a>
-                    </div>
+                <!-- Guest Account Dropdown Card -->
+                <div class="user-dropdown-card" id="guestUserDropdownCard">
+                    <div
+                        style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">
+                        My Account</div>
+                    <a href="/my-account" class="dropdown-link-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Login / My Account</span>
+                    </a>
+                    <a href="/register" class="dropdown-link-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="8" x2="19" y2="14"></line>
+                            <line x1="22" y1="11" x2="16" y2="11"></line>
+                        </svg>
+                        <span>Register</span>
+                    </a>
+                    <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
+                    <a href="/buy-now" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Buy Now</span>
+                    </a>
                 </div>
-            
+            </div>
+
             <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
-            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleMobileMenu(event)">
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation"
+                onclick="window.toggleMobileMenu(event)">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -1658,117 +1972,128 @@
     <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
         <!-- Drawer Header with Logo & Close Button -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="/images/logo.png" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
-            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
 
-                    <!-- Guest Navigation Links -->
-            <a href="/" class="mobile-nav-link ">Home</a>
-            <a href="/about" class="mobile-nav-link ">About</a>
-            <a href="/courses" class="mobile-nav-link ">Courses</a>
-            
-            <div>
-                <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
-                    <span>Course Package</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                    <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
-                    <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
-                    <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
-                    <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
-                    <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
-                </div>
-            </div>
+        <!-- Guest Navigation Links -->
+        <a href="/" class="mobile-nav-link ">Home</a>
+        <a href="/about" class="mobile-nav-link ">About</a>
+        <a href="/courses" class="mobile-nav-link ">Courses</a>
 
-            <a href="/contact" class="mobile-nav-link ">Contact</a>
+        <div>
+            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
+                <span>Course Package</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
 
-            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
-                <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
-                <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
-            </div>
-            </div>
+        <a href="/contact" class="mobile-nav-link ">Contact</a>
+
+        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+            <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
+            <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy
+                Now</a>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <main>
         <section class="container" style="max-width: 760px; padding: 3rem 1.5rem;">
-    <div class="glass" style="padding: 2.5rem; border-radius: var(--radius-lg); text-align: center;">
-        
-        <img src="/images/logo.png" alt="SkillLearner" style="height: 58px; width: auto; margin-bottom: 0.8rem; object-fit: contain;">
-        
-        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem;">Enroll in SkillLearner</h2>
-        <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 2rem;">Activate lifetime access to skill video masterclasses, community mentorship, and learning resources.</p>
+            <div class="glass" style="padding: 2.5rem; border-radius: var(--radius-lg); text-align: center;">
 
-        
-        <form onsubmit="event.preventDefault(); window.location.href='/dashboard';">
-            <input type="hidden" name="_token" value="OMxgVkeZwxSP1k3wiIlTz8ufzXQK7yJ8Ew1R0zJg" autocomplete="off">            
-            <!-- Sponsor ID -->
-            <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
-                <label style="font-size: 0.88rem; font-weight: 700; color: var(--text-body);">Sponsor / Referral ID (Auto-Locked)</label>
-                <input type="text" name="sponsor_id" class="form-control" value="SKL-ADMIN" readonly style="background: rgba(5, 179, 150, 0.1); border-color: rgba(5, 179, 150, 0.35); color: #05B396; font-weight: 800; letter-spacing: 0.5px;">
-            </div>
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="height: 58px; width: auto; margin-bottom: 0.8rem; object-fit: contain;">
 
-            <!-- Visual Package Selector with 3D Images (No Amounts) -->
-            <div class="form-group" style="text-align: left; margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                    <label style="font-size: 0.95rem; font-weight: 800; color: #fff; margin: 0;">Select Your Learning Package</label>
-                    <span style="font-size: 0.8rem; color: #05B396; font-weight: 700;">● Click card to choose</span>
-                </div>
+                <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem;">Enroll in SkillLearner</h2>
+                <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 2rem;">Activate lifetime access to
+                    skill video masterclasses, community mentorship, and learning resources.</p>
 
-                
-                <!-- Hidden Input that carries selected package value to backend -->
-                <input type="hidden" name="package" id="selectedPackageInput" value="Advance Package">
 
-                <div class="package-visual-grid">
+                <form onsubmit="event.preventDefault(); window.location.href='/dashboard';">
+                    <input type="hidden" name="_token" value="OMxgVkeZwxSP1k3wiIlTz8ufzXQK7yJ8Ew1R0zJg"
+                        autocomplete="off">
+                    <!-- Sponsor ID -->
+                    <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                        <label style="font-size: 0.88rem; font-weight: 700; color: var(--text-body);">Sponsor / Referral
+                            ID (Auto-Locked)</label>
+                        <input type="text" name="sponsor_id" class="form-control" value="SKL-ADMIN" readonly
+                            style="background: rgba(5, 179, 150, 0.1); border-color: rgba(5, 179, 150, 0.35); color: #05B396; font-weight: 800; letter-spacing: 0.5px;">
+                    </div>
+
+                    <!-- Visual Package Selector with 3D Images (No Amounts) -->
+                    <div class="form-group" style="text-align: left; margin-bottom: 2rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.95rem; font-weight: 800; color: #fff; margin: 0;">Select Your
+                                Learning Package</label>
+                            <span style="font-size: 0.8rem; color: #05B396; font-weight: 700;">● Click card to
+                                choose</span>
+                        </div>
+
+
+                        <!-- Hidden Input that carries selected package value to backend -->
+                        <input type="hidden" name="package" id="selectedPackageInput" value="Advance Package">
+
+                                        <div class="package-visual-grid">
                     
                     <!-- 1. Basic Package -->
-                    <div class="package-visual-card " data-package="Basic Package" onclick="chooseVisualPackage(this, 'Basic Package')">
+                    <div class="package-visual-card selected" data-package="Basic Package" onclick="chooseVisualPackage(this, 'Basic Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="/images/packages/basic.jpg" alt="Basic Package">
+                            <img src="/images/packages/basic.png" alt="Basic Package">
                         </div>
                         <div class="pkg-title">BASIC</div>
                     </div>
 
-                    <!-- 2. Advance Package -->
-                    <div class="package-visual-card selected" data-package="Advance Package" onclick="chooseVisualPackage(this, 'Advance Package')">
-                        <span class="card-ribbon">POPULAR</span>
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/advance.jpg" alt="Advance Package">
-                        </div>
-                        <div class="pkg-title">ADVANCE</div>
-                    </div>
-
-                    <!-- 3. Premium Package -->
-                    <div class="package-visual-card " data-package="Premium Package" onclick="chooseVisualPackage(this, 'Premium Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/premium.jpg" alt="Premium Package">
-                        </div>
-                        <div class="pkg-title">PREMIUM</div>
-                    </div>
-
-                    <!-- 4. Growth Package -->
+                    <!-- 2. Growth Package -->
                     <div class="package-visual-card " data-package="Growth Package" onclick="chooseVisualPackage(this, 'Growth Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="/images/packages/growth.jpg" alt="Growth Package">
+                            <img src="/images/packages/growth.png" alt="Growth Package">
                         </div>
                         <div class="pkg-title">GROWTH</div>
                     </div>
 
-                    <!-- 5. Infinity Package -->
-                    <div class="package-visual-card " data-package="Infinity Package" onclick="chooseVisualPackage(this, 'Infinity Package')">
-                        <span class="card-ribbon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">VIP</span>
+                    <!-- 3. Advance Package -->
+                    <div class="package-visual-card " data-package="Advance Package" onclick="chooseVisualPackage(this, 'Advance Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="/images/packages/infinity.jpg" alt="Infinity Package">
+                            <img src="/images/packages/advance.png" alt="Advance Package">
+                        </div>
+                        <div class="pkg-title">ADVANCE</div>
+                    </div>
+
+                    <!-- 4. Premium Package -->
+                    <div class="package-visual-card " data-package="Premium Package" onclick="chooseVisualPackage(this, 'Premium Package')">
+                        <div class="check-pill">✓</div>
+                        <div class="img-wrapper">
+                            <img src="/images/packages/premium.png" alt="Premium Package">
+                        </div>
+                        <div class="pkg-title">PREMIUM</div>
+                    </div>
+
+                    <!-- 5. Infinity Package -->
+                    <div class="package-visual-card " data-package="Infinity Package" onclick="chooseVisualPackage(this, 'Infinity Package')">
+                        <div class="check-pill">✓</div>
+                        <div class="img-wrapper">
+                            <img src="/images/packages/infinity.png" alt="Infinity Package">
                         </div>
                         <div class="pkg-title">INFINITY</div>
                     </div>
@@ -1777,63 +2102,70 @@
             </div>
 
             <!-- Student Form Inputs -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
-                <div class="form-group">
-                    <label>Your Full Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Suraj Kumar" required>
-                </div>
-                <div class="form-group">
-                    <label>WhatsApp Number</label>
-                    <input type="tel" name="phone" class="form-control" placeholder="9876543210" required>
-                </div>
-            </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
+                        <div class="form-group">
+                            <label>Your Full Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Suraj Kumar" required>
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp Number</label>
+                            <input type="tel" name="phone" class="form-control" placeholder="9876543210" required>
+                        </div>
+                    </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" class="form-control" placeholder="suraj@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Create Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
-                </div>
-            </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="suraj@example.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Create Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
 
-            <!-- Submit Button (No amount) -->
-            <button type="submit" id="enrollSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1.5rem; font-size: 1.05rem; background: linear-gradient(135deg, #05B396 0%, #048873 100%); box-shadow: 0 4px 18px rgba(5, 179, 150, 0.35);">
-                Enroll in Advance Package
-            </button>
-        </form>
-    </div>
-</section>
+                    <!-- Submit Button (No amount) -->
+                    <button type="submit" id="enrollSubmitBtn" class="btn btn-primary"
+                        style="width: 100%; padding: 1rem; margin-top: 1.5rem; font-size: 1.05rem; background: linear-gradient(135deg, #05B396 0%, #048873 100%); box-shadow: 0 4px 18px rgba(5, 179, 150, 0.35);">
+                        Enroll in Advance Package
+                    </button>
+                </form>
+            </div>
+        </section>
 
 
     </main>
 
-        <!-- Footer matching AWS Live -->
-    <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
+    <!-- Footer matching AWS Live -->
+    <footer
+        style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <img src="/images/logo.png" alt="SkillLearner" style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
-            <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
+            <img src="/images/logo.png" alt="SkillLearner"
+                style="width: auto; max-width: 220px; object-fit: contain; margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses &
+                Community Mentorship.</p>
             <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>
     </footer>
-    
+
     <!-- Razorpay Simulated Modal (Available Globally) -->
     <div id="razorpayModal" class="modal">
         <div class="modal-box">
             <button class="close-btn" onclick="closeModal('razorpayModal')">&times;</button>
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem;">
-                <span style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
+                <span
+                    style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
                 <h3 style="font-size: 1.25rem;">Secure Checkout</h3>
             </div>
-            
+
             <div style="background: rgba(0, 0, 0, 0.04); padding: 1rem; border-radius: 8px; margin-bottom: 1.4rem;">
                 <div style="display: flex; justify-content: space-between;">
                     <span id="rzpPackage" style="font-weight: 700; color: #0f172a;">Advance Package</span>
                     <span id="rzpPrice" style="color: #10b981; font-weight: 800; font-size: 1.1rem;">₹3,499</span>
                 </div>
-                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access</div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access
+                </div>
             </div>
 
             <form onsubmit="handleMockPayment(event)">
@@ -1849,7 +2181,8 @@
                     <label>UPI ID or Phone Number</label>
                     <input type="text" class="form-control" placeholder="yourname@okhdfcbank" required>
                 </div>
-                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
+                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary"
+                    style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
                     Pay & Complete Enrollment
                 </button>
             </form>
@@ -1859,7 +2192,7 @@
     <script src="/js/app.js"></script>
     <script>
         // Global Mobile Navigation Handlers
-        window.toggleMobileMenu = function(e) {
+        window.toggleMobileMenu = function (e) {
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1867,9 +2200,9 @@
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
-            
+
             const isOpen = drawer && drawer.classList.contains('active');
-            
+
             if (isOpen) {
                 window.closeMobileMenu();
             } else {
@@ -1877,7 +2210,7 @@
             }
         };
 
-        window.openMobileMenu = function() {
+        window.openMobileMenu = function () {
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
@@ -1887,7 +2220,7 @@
             document.body.style.overflow = 'hidden';
         };
 
-        window.closeMobileMenu = function() {
+        window.closeMobileMenu = function () {
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
@@ -1897,7 +2230,7 @@
             document.body.style.overflow = '';
         };
 
-        window.toggleMobileAccordion = function(e) {
+        window.toggleMobileAccordion = function (e) {
             if (e) e.preventDefault();
             const btn = document.getElementById('mobileCoursePackageBtn');
             const content = document.getElementById('mobileCoursePackageContent');
@@ -1905,7 +2238,7 @@
             if (content) content.classList.toggle('open');
         };
 
-        window.mobileSwitchPortalTab = function(tabId) {
+        window.mobileSwitchPortalTab = function (tabId) {
             window.closeMobileMenu();
             if (window.location.pathname.includes('/dashboard')) {
                 if (typeof window.switchPortalTab === 'function') {
@@ -1999,24 +2332,25 @@
         }
     </script>
     <script>
-    function chooseVisualPackage(element, packageName) {
-        // Remove .selected class from all cards
-        document.querySelectorAll('.package-visual-card').forEach(card => {
-            card.classList.remove('selected');
-        });
+        function chooseVisualPackage(element, packageName) {
+            // Remove .selected class from all cards
+            document.querySelectorAll('.package-visual-card').forEach(card => {
+                card.classList.remove('selected');
+            });
 
-        // Add .selected to clicked card
-        element.classList.add('selected');
+            // Add .selected to clicked card
+            element.classList.add('selected');
 
-        // Set hidden form input
-        document.getElementById('selectedPackageInput').value = packageName;
+            // Set hidden form input
+            document.getElementById('selectedPackageInput').value = packageName;
 
-        // Update button text
-        const btn = document.getElementById('enrollSubmitBtn');
-        if (btn) {
-            btn.innerText = 'Enroll in ' + packageName;
+            // Update button text
+            const btn = document.getElementById('enrollSubmitBtn');
+            if (btn) {
+                btn.innerText = 'Enroll in ' + packageName;
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>
