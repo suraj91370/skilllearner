@@ -363,17 +363,26 @@
             name: 'Basic Package',
             price: 1499,
             oldPrice: 2999,
-            badge: 'STARTER',
-            image: "{{ asset('images/packages/basic.jpg') }}",
+            badge: '',
+            image: "{{ asset('images/packages/basic.png') }}",
             desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
             inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
+        },
+        'growth': {
+            name: 'Growth Package',
+            price: 5999,
+            oldPrice: 11999,
+            badge: '',
+            image: "{{ asset('images/packages/growth.png') }}",
+            desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
+            inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
         },
         'advance': {
             name: 'Advance Package',
             price: 2499,
             oldPrice: 4999,
-            badge: 'MOST POPULAR',
-            image: "{{ asset('images/packages/advance.jpg') }}",
+            badge: '',
+            image: "{{ asset('images/packages/advance.png') }}",
             desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
             inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
         },
@@ -381,26 +390,17 @@
             name: 'Premium Package',
             price: 3999,
             oldPrice: 7999,
-            badge: 'BEST VALUE',
-            image: "{{ asset('images/packages/premium.jpg') }}",
+            badge: '',
+            image: "{{ asset('images/packages/premium.png') }}",
             desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
             inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
-        },
-        'growth': {
-            name: 'Growth Package',
-            price: 5999,
-            oldPrice: 11999,
-            badge: 'HIGH GROWTH',
-            image: "{{ asset('images/packages/growth.jpg') }}",
-            desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
-            inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
         },
         'infinity': {
             name: 'Infinity Package',
             price: 9999,
             oldPrice: 19999,
-            badge: 'VIP ALL ACCESS',
-            image: "{{ asset('images/packages/infinity.jpg') }}",
+            badge: '',
+            image: "{{ asset('images/packages/infinity.png') }}",
             desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
             inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
         }

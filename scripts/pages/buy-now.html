@@ -49,7 +49,7 @@
         }
 
         .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-        .brand-logo-img { height: 48px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+        .brand-logo-img { width: auto; max-width: 220px; object-fit: contain; display: block; }
         
         nav.menu { display: flex; gap: 1.8rem; align-items: center; }
         nav.menu > a { 
@@ -489,6 +489,12 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
         .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-title { font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;  color: #0B4F4A; }
+        .hero-title .title-skill { color: #0B4F4A; }
+        .hero-title .title-future { color: #0A6B5C; }
+        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
+        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
+        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
 
         /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
@@ -515,8 +521,13 @@
         }
 
         @media (max-width: 640px) {
+            .hero { padding: 3rem 1.25rem 2rem !important; }
+            .hero-title { font-size: 2.2rem !important; line-height: 1.2 !important; letter-spacing: -0.8px !important; margin-bottom: 1rem !important; }
+            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
+            .hero-image-wrapper { margin-top: 2rem !important; }
+            .hero-tree-img { border-radius: 12px !important; }
             header.nav { padding: 0.65rem 0.85rem; }
-            .brand-logo-img { height: 38px; }
+            .brand-logo-img { max-width: 125px; }
             .nav-right-actions { gap: 0.45rem; }
             .sl-circle-badge { width: 32px; height: 32px; }
             .notification-bell-btn svg { width: 18px; height: 18px; }
@@ -530,8 +541,10 @@
         }
 
         @media (max-width: 420px) {
+            .hero-title { font-size: 1.85rem !important; letter-spacing: -0.5px !important; }
+            .hero-subtitle { font-size: 0.95rem !important; }
             header.nav { padding: 0.55rem 0.6rem; }
-            .brand-logo-img { height: 32px; }
+            .brand-logo-img { max-width: 105px; }
             .nav-right-actions { gap: 0.35rem; }
             .user-pill-name { max-width: 55px; font-size: 0.78rem; }
             .profile-svg-btn { width: 32px; height: 32px; }
@@ -1586,7 +1599,7 @@
         <!-- Drawer Header with Logo & Close Button -->
         <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="/images/logo.png" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+                <img src="/images/logo.png" alt="SkillLearner" style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
             <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
@@ -1664,7 +1677,7 @@
                 <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
                     <!-- Visual Icon / Image -->
                     <div id="displayVisualWrapper" style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; font-size: 2.6rem; flex-shrink: 0;">
-                                                    <img src="/images/packages/advance.jpg" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
+                                                    <img src="/images/packages/advance.png" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
                                             </div>
 
                     <div>
@@ -1928,7 +1941,7 @@
         <!-- Footer matching AWS Live -->
     <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <img src="/images/logo.png" alt="SkillLearner" style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
+            <img src="/images/logo.png" alt="SkillLearner" style="width: auto; max-width: 220px; object-fit: contain; margin-bottom: 1rem;">
             <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
             <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>
@@ -2120,7 +2133,7 @@
             price: 1499,
             oldPrice: 2999,
             badge: 'STARTER',
-            image: "/images/packages/basic.jpg",
+            image: "/images/packages/basic.png",
             desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
             inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
         },
@@ -2129,7 +2142,7 @@
             price: 2499,
             oldPrice: 4999,
             badge: 'MOST POPULAR',
-            image: "/images/packages/advance.jpg",
+            image: "/images/packages/advance.png",
             desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
             inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
         },
@@ -2138,7 +2151,7 @@
             price: 3999,
             oldPrice: 7999,
             badge: 'BEST VALUE',
-            image: "/images/packages/premium.jpg",
+            image: "/images/packages/premium.png",
             desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
             inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
         },
@@ -2147,7 +2160,7 @@
             price: 5999,
             oldPrice: 11999,
             badge: 'HIGH GROWTH',
-            image: "/images/packages/growth.jpg",
+            image: "/images/packages/growth.png",
             desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
             inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
         },
@@ -2156,7 +2169,7 @@
             price: 9999,
             oldPrice: 19999,
             badge: 'VIP ALL ACCESS',
-            image: "/images/packages/infinity.jpg",
+            image: "/images/packages/infinity.png",
             desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
             inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
         }

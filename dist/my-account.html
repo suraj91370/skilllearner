@@ -20,7 +20,7 @@
             --bg-card-hover: rgba(30, 41, 59, 0.85);
             --border-glass: rgba(255, 255, 255, 0.08);
             --border-accent: rgba(5, 179, 150, 0.35);
-            --text-title: #f8fafc;
+            --text-title: #0B4F4A;
             --text-body: #94a3b8;
             --primary: #05B396;
             --primary-gradient: linear-gradient(135deg, #05B396 0%, #048873 100%);
@@ -78,7 +78,6 @@
         }
 
         .brand-logo-img {
-            height: 48px;
             width: auto;
             max-width: 220px;
             object-fit: contain;
@@ -587,6 +586,19 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.4rem;
+         color: #0B4F4A; }
+        .hero-title .title-skill { color: #0B4F4A; }
+        .hero-title .title-future { color: #0A6B5C; }
+        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
+        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
+        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
+
         /* Modals */
         .modal {
             position: fixed;
@@ -681,12 +693,26 @@
         }
 
         @media (max-width: 640px) {
+            .hero {
+                padding: 3rem 1.25rem 2rem !important;
+            }
+
+            .hero-title {
+                font-size: 2.2rem !important;
+                line-height: 1.2 !important;
+                letter-spacing: -0.8px !important;
+                margin-bottom: 1rem !important;
+            }
+            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
+            .hero-image-wrapper { margin-top: 2rem !important; }
+            .hero-tree-img { border-radius: 12px !important; }
+
             header.nav {
                 padding: 0.65rem 0.85rem;
             }
 
             .brand-logo-img {
-                height: 38px;
+                max-width: 125px;
             }
 
             .nav-right-actions {
@@ -743,12 +769,18 @@
         }
 
         @media (max-width: 420px) {
+            .hero-title {
+                font-size: 1.85rem !important;
+                letter-spacing: -0.5px !important;
+            }
+            .hero-subtitle { font-size: 0.95rem !important; }
+
             header.nav {
                 padding: 0.55rem 0.6rem;
             }
 
             .brand-logo-img {
-                height: 32px;
+                max-width: 105px;
             }
 
             .nav-right-actions {
@@ -2059,7 +2091,8 @@
         <div
             style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="/images/logo.png" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
             <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation"
                 style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
@@ -2357,7 +2390,7 @@
         style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
             <img src="/images/logo.png" alt="SkillLearner"
-                style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
+                style="width: auto; max-width: 220px; object-fit: contain; margin-bottom: 1rem;">
             <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses &
                 Community Mentorship.</p>
             <p>© 2026 SkillLearner. All Rights Reserved.</p>

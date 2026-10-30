@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SkillLearner — Learn, Create, Monetize')</title>
+    <title>@yield('title', 'SkillLearner — Build Skill, Build Future')</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
         html, body { 
-            background-color: var(--bg-body); 
+            /* background-color: var(--bg-body);  */
             color: var(--text-title); 
             line-height: 1.6; 
             overflow-x: hidden !important; 
@@ -60,7 +60,7 @@
         }
 
         .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-        .brand-logo-img { height: 48px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+        .brand-logo-img { width: auto; max-width: 220px; object-fit: contain; display: block; }
         
         nav.menu { display: flex; gap: 1.8rem; align-items: center; }
         nav.menu > a { 
@@ -525,6 +525,12 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
         .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-title { font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem; color: #0B4F4A; }
+        .hero-title .title-skill { color: #0B4F4A; }
+        .hero-title .title-future { color: #0A6B5C; }
+        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
+        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
+        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
 
         /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
@@ -556,6 +562,11 @@
         }
 
         @media (max-width: 640px) {
+            .hero { padding: 3rem 1.25rem 2rem !important; }
+            .hero-title { font-size: 2.2rem !important; line-height: 1.2 !important; letter-spacing: -0.8px !important; margin-bottom: 1rem !important; }
+            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
+            .hero-image-wrapper { margin-top: 2rem !important; }
+            .hero-tree-img { border-radius: 12px !important; }
             header.nav { 
                 padding: 0.5rem 0.65rem !important; 
                 width: 100% !important;
@@ -563,7 +574,7 @@
                 box-sizing: border-box !important;
                 overflow: hidden !important;
             }
-            .brand-logo-img { height: 32px; max-width: 125px; }
+            .brand-logo-img { max-width: 125px; }
             .nav-right-actions { gap: 0.4rem !important; flex-shrink: 0; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
@@ -581,8 +592,10 @@
         }
 
         @media (max-width: 380px) {
+            .hero-title { font-size: 1.85rem !important; letter-spacing: -0.5px !important; }
+            .hero-subtitle { font-size: 0.95rem !important; }
             header.nav { padding: 0.45rem 0.5rem !important; }
-            .brand-logo-img { height: 28px; max-width: 105px; }
+            .brand-logo-img { max-width: 105px; }
             .nav-right-actions { gap: 0.25rem !important; }
             .user-pill-name { display: none !important; }
             .user-pill-btn { padding: 2px 4px !important; border-radius: 50% !important; }
@@ -840,7 +853,7 @@
         <!-- Drawer Header with Logo & Close Button -->
         <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="{{ url('/') }}" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
             <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
@@ -1110,7 +1123,7 @@
         <!-- Drawer Header with Logo & Close Button -->
         <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="{{ url('/') }}" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="height: 38px; width: auto; object-fit: contain;">
+                <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
             <button type="button" onclick="window.closeWebsiteDrawer()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
@@ -1153,7 +1166,7 @@
     <!-- Footer matching AWS Live -->
     <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="height: 48px; width: auto; object-fit: contain; margin-bottom: 1rem;">
+            <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="width: auto; max-width: 220px; object-fit: contain; margin-bottom: 1rem;">
             <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
             <p>© 2026 SkillLearner. All Rights Reserved.</p>
         </div>

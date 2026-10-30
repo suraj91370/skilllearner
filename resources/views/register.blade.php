@@ -46,45 +46,43 @@
                     <div class="package-visual-card {{ $selectedPkg === 'Basic Package' ? 'selected' : '' }}" data-package="Basic Package" onclick="chooseVisualPackage(this, 'Basic Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="{{ asset('images/packages/basic.jpg') }}" alt="Basic Package">
+                            <img src="{{ asset('images/packages/basic.png') }}" alt="Basic Package">
                         </div>
                         <div class="pkg-title">BASIC</div>
                     </div>
 
-                    <!-- 2. Advance Package -->
-                    <div class="package-visual-card {{ $selectedPkg === 'Advance Package' ? 'selected' : '' }}" data-package="Advance Package" onclick="chooseVisualPackage(this, 'Advance Package')">
-                        <span class="card-ribbon">POPULAR</span>
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="{{ asset('images/packages/advance.jpg') }}" alt="Advance Package">
-                        </div>
-                        <div class="pkg-title">ADVANCE</div>
-                    </div>
-
-                    <!-- 3. Premium Package -->
-                    <div class="package-visual-card {{ $selectedPkg === 'Premium Package' ? 'selected' : '' }}" data-package="Premium Package" onclick="chooseVisualPackage(this, 'Premium Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="{{ asset('images/packages/premium.jpg') }}" alt="Premium Package">
-                        </div>
-                        <div class="pkg-title">PREMIUM</div>
-                    </div>
-
-                    <!-- 4. Growth Package -->
+                    <!-- 2. Growth Package -->
                     <div class="package-visual-card {{ $selectedPkg === 'Growth Package' ? 'selected' : '' }}" data-package="Growth Package" onclick="chooseVisualPackage(this, 'Growth Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="{{ asset('images/packages/growth.jpg') }}" alt="Growth Package">
+                            <img src="{{ asset('images/packages/growth.png') }}" alt="Growth Package">
                         </div>
                         <div class="pkg-title">GROWTH</div>
                     </div>
 
-                    <!-- 5. Infinity Package -->
-                    <div class="package-visual-card {{ $selectedPkg === 'Infinity Package' ? 'selected' : '' }}" data-package="Infinity Package" onclick="chooseVisualPackage(this, 'Infinity Package')">
-                        <span class="card-ribbon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">VIP</span>
+                    <!-- 3. Advance Package -->
+                    <div class="package-visual-card {{ $selectedPkg === 'Advance Package' ? 'selected' : '' }}" data-package="Advance Package" onclick="chooseVisualPackage(this, 'Advance Package')">
                         <div class="check-pill">✓</div>
                         <div class="img-wrapper">
-                            <img src="{{ asset('images/packages/infinity.jpg') }}" alt="Infinity Package">
+                            <img src="{{ asset('images/packages/advance.png') }}" alt="Advance Package">
+                        </div>
+                        <div class="pkg-title">ADVANCE</div>
+                    </div>
+
+                    <!-- 4. Premium Package -->
+                    <div class="package-visual-card {{ $selectedPkg === 'Premium Package' ? 'selected' : '' }}" data-package="Premium Package" onclick="chooseVisualPackage(this, 'Premium Package')">
+                        <div class="check-pill">✓</div>
+                        <div class="img-wrapper">
+                            <img src="{{ asset('images/packages/premium.png') }}" alt="Premium Package">
+                        </div>
+                        <div class="pkg-title">PREMIUM</div>
+                    </div>
+
+                    <!-- 5. Infinity Package -->
+                    <div class="package-visual-card {{ $selectedPkg === 'Infinity Package' ? 'selected' : '' }}" data-package="Infinity Package" onclick="chooseVisualPackage(this, 'Infinity Package')">
+                        <div class="check-pill">✓</div>
+                        <div class="img-wrapper">
+                            <img src="{{ asset('images/packages/infinity.png') }}" alt="Infinity Package">
                         </div>
                         <div class="pkg-title">INFINITY</div>
                     </div>
