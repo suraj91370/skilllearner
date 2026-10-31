@@ -360,49 +360,49 @@
 <script>
     const packagesData = {
         'basic': {
-            name: 'Basic Package',
-            price: 1499,
-            oldPrice: 2999,
+            name: '1. Basic Package',
+            price: 599,
+            oldPrice: 1199,
             badge: '',
             image: "{{ asset('images/packages/basic.png') }}",
-            desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
-            inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
+            desc: 'Foundational digital skillset covering Affiliate Marketing basics, spoken English fluency, and high-impact communication.',
+            inclusions: ['Get Access of 3+ Courses', 'What Is Affiliate Marketing', 'Spoken English', 'Communication Skill', 'Certificate of Completion']
         },
         'growth': {
-            name: 'Growth Package',
-            price: 5999,
-            oldPrice: 11999,
+            name: '2. Growth Package',
+            price: 1199,
+            oldPrice: 2499,
             badge: '',
             image: "{{ asset('images/packages/growth.png') }}",
-            desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
-            inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
+            desc: 'Accelerate your creative monetization with Canva graphic design, viral reel workflows, and VN mobile video editing.',
+            inclusions: ['Get Access of 6+ Courses', 'Canva Graphic Designing', 'Reel Mastery by Canva', 'VN Editing Course', '+ Full Access of Basic Package (All 3 Courses)', 'Certificate of Completion']
         },
         'advance': {
-            name: 'Advance Package',
+            name: '3. Advance Package',
             price: 2499,
             oldPrice: 4999,
             badge: '',
             image: "{{ asset('images/packages/advance.png') }}",
-            desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
-            inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
+            desc: 'Unlock high-converting sales funnels, direct video marketing strategies, and automated email marketing systems.',
+            inclusions: ['Get Access of 9+ Courses', 'E-mail Marketing', 'Sales Mastery', 'Video Marketing', '+ Full Access of Basic & Growth Packages (All 6 Courses)', 'Certificate of Completion']
         },
         'premium': {
-            name: 'Premium Package',
-            price: 3999,
-            oldPrice: 7999,
+            name: '4. Premium Package',
+            price: 4999,
+            oldPrice: 9999,
             badge: '',
             image: "{{ asset('images/packages/premium.png') }}",
-            desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
-            inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
+            desc: 'High-ticket authority skills including full YouTube channel monetization, Meta Facebook advertising, and professional web design.',
+            inclusions: ['Get Access of 12+ Courses', 'YouTube Mastery', 'Facebook Ads', 'Web Designing', '+ Full Access of Basic, Growth & Advance Packages (All 9 Courses)', 'Certificate of Completion']
         },
         'infinity': {
-            name: 'Infinity Package',
-            price: 9999,
-            oldPrice: 19999,
+            name: '5. Infinity Package',
+            price: 7999,
+            oldPrice: 15999,
             badge: '',
             image: "{{ asset('images/packages/infinity.png') }}",
-            desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
-            inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
+            desc: 'VIP flagship bundle mastering 0 to Hero AI Content Creation, Artificial Intelligence tools, and Stock Market wealth generation.',
+            inclusions: ['Get Access of 15+ Courses (All Access)', '0 to Hero AI Content Creation', 'Artificial Intelligence', 'Stock Market Course', '+ Full Access of All Previous Packages (Lifetime All Access)', 'Verified Certificate of Completion']
         }
     };
 
