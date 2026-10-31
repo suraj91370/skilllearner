@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'SkillLearner — Build Skill, Build Future')
 
@@ -337,9 +337,7 @@
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(11, 79, 74, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
                         ★ FOUNDER &amp; CEO
                     </span>
-                    <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(245, 158, 11, 0.95); color: #000; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
-                        OFFICIAL
-                    </span>
+                   
                 </div>
 
                 <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -362,10 +360,7 @@
                         </blockquote>
                     </div>
 
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 1,000+ Students Mentored</span>
-                        <span style="background: rgba(245, 158, 11, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Focus</span>
-                    </div>
+             
                 </div>
             </div>
 
@@ -378,9 +373,7 @@
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(217, 119, 6, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
                         ★ CO-FOUNDER
                     </span>
-                    <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(11, 79, 74, 0.95); color: #fff; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
-                        LEADERSHIP
-                    </span>
+                   
                 </div>
 
                 <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -403,34 +396,13 @@
                         </blockquote>
                     </div>
 
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
-                        <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Scalable Systems</span>
-                        <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Active Mentorship</span>
-                    </div>
+                    
                 </div>
             </div>
 
         </div>
 
-        <!-- Platform Impact Metrics Bar -->
-        <div class="founders-metrics-bar" style="margin-top: 3.5rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);">
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0B4F4A; line-height: 1.1;">1,000+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Enrolled Learners</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0A6B5C; line-height: 1.1;">16+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Industry Masterclasses</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #D97706; line-height: 1.1;">500+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Live Trainings Hosted</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0284C7; line-height: 1.1;">25+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Dedicated Mentors</div>
-            </div>
-        </div>
+      
 
     </div>
 </section>
@@ -452,49 +424,286 @@
             <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 650px; margin: 0 auto; font-weight: 500;">
                 Learn directly from experienced practitioners committed to practical skill mastery, strategic monetization, and real-world results.
             </p>
+            <div class="mentor-swipe-hint"
+                style="display: none; align-items: center; justify-content: center; gap: 6px; color: #0A6B5C; font-size: 0.82rem; font-weight: 700; margin-top: 0.85rem;">
+                <span>👉 Swipe horizontally to view mentors ➔</span>
+            </div>
         </div>
 
-        <!-- 2 Expert Team Cards Grid -->
-        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.2rem; max-width: 820px; margin: 0 auto;">
+        <!-- 4 Expert Team Cards Grid -->
+        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; margin: 0 auto;">
             
-            <!-- Expert Mentor 1 -->
+            <!-- Expert Mentor 1: Founder -->
             <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-1.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/founder.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
                 </div>
-                <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Guiding learners on high-yield digital masterclasses, entrepreneurial mindset, and actionable pathways to financial independence.</p>
                     </div>
                     <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Expert Guidance</span>
-                        <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Support</span>
+                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ ADARSH PANDAY</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Expert Mentor 2 -->
+            <!-- Expert Mentor 2: Co-Founder -->
             <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-2.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/co-founder.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
                 </div>
-                <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Mentoring students on platform growth operations, personal brand scalability, and step-by-step monetization funnels.</p>
                     </div>
                     <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Strategic Coaching</span>
-                        <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Community Growth</span>
+                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ RAVI GOND</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Mentor 3: Pavan Prajapati -->
+            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/mentor-1.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                </div>
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
+                    </div>
+                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ PAVAN PRAJAPATI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Mentor 4: Soumyadip Pania -->
+            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/mentor-2.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                </div>
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
+                    </div>
+                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ SOUMYADIP PANIA</span>
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
+</section>
+
+<!-- Frequently Asked Questions (FAQ) Section -->
+<section style="padding: 5.5rem 1.5rem 6.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 85% 15%, rgba(240, 253, 250, 0.6) 0%, #ffffff 50%, rgba(254, 243, 199, 0.35) 100%); border-top: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+    <!-- Ambient Blur Accents -->
+    <div style="position: absolute; top: -40px; left: 10%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(11, 79, 74, 0.08) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -40px; right: 5%; width: 260px; height: 260px; background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+
+    <div class="container" style="max-width: 980px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+        
+        <!-- Header with General Questions Pill -->
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: #0c2340; color: #ffffff; padding: 7px 22px; border-radius: 50px; font-size: 0.88rem; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(12, 35, 64, 0.2); margin-bottom: 1.2rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="9" y1="18" x2="15" y2="18"></line>
+                    <line x1="10" y1="22" x2="14" y2="22"></line>
+                    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+                </svg>
+                <span>General Questions</span>
+            </div>
+
+            <h2 style="font-size: clamp(2.3rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; line-height: 1.2; color: #0B4F4A;">
+                Frequently Asked Questions</span>
+            </h2>
+            <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 650px; margin: 0 auto; font-weight: 500;">
+                Got questions? We've got answers. Explore everything you need to know about learning, courses, and practical mentorship with SkillLearner.
+            </p>
+        </div>
+
+        <!-- FAQ Accordion List -->
+        <div class="faq-accordion-list" style="display: flex; flex-direction: column; gap: 1rem;">
+            
+            <!-- Item 1: What is SkillLearner? -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            What Is SkillLearner?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        SkillLearner is a next-generation practical EdTech and career upskilling platform designed to empower students, freelancers, and professionals with real-world digital skills—ranging from spoken English and graphic design to AI automation, video marketing, and high-income affiliate systems.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Are the courses at SkillLearner suitable for beginners ? -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            Are the courses at SkillLearner suitable for beginners ?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        Yes, absolutely! Every package is designed with a 0-to-Hero curriculum. Even if you have zero prior experience in digital tools, marketing, or design, our step-by-step video lessons and community mentorship guide you from foundational basics to advanced mastery.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: What makes this different from a YouTube tutorial or another random course ? -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            What makes this different a YouTube tutorial or another random courses ?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        Unlike fragmented YouTube tutorials that leave you confused with outdated strategies, SkillLearner provides structured, end-to-end practical roadmaps taught by vetted practitioners. You get direct mentorship, real assignments, downloadable project files, and a supportive community focused on tangible earning and career results.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4: I'm already working /studying . Can I still manage this? -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            I'm already working /studying . Can I still manage this?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        Definitely! All course modules are completely self-paced with 24/7 lifetime access. You only need to invest 45 to 60 minutes a day at your own convenience—whether early morning, evenings, or weekends—to see consistent, compounding progress.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5: Packages access policy -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            If I buy an Advance, Premium, or Infinity Package, do I get previous courses?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        Yes! When you enroll in any higher-tier package, you receive <strong>100% full access to all previous packages automatically</strong>. For example, choosing Advance Package unlocks Basic + Growth + Advance (6+ courses), while the Infinity Package unlocks all 5 packages (15+ complete courses).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6: Instant access -->
+            <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                            ?
+                        </span>
+                        <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                            How soon do I get access after completing my payment?
+                        </span>
+                    </div>
+                    <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                    <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                        Instant! The moment your payment is verified, your student credentials and dashboard access are activated immediately. You can log in, view your unlocked courses, download resources, and begin learning right away.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inline Script for Interactive FAQ Accordion -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(function(item) {
+                var btn = item.querySelector('.faq-question-btn');
+                var drawer = item.querySelector('.faq-answer-drawer');
+                btn.addEventListener('click', function() {
+                    var isOpen = item.classList.contains('active');
+                    
+                    // Close all
+                    faqItems.forEach(function(otherItem) {
+                        otherItem.classList.remove('active');
+                        var otherDrawer = otherItem.querySelector('.faq-answer-drawer');
+                        if (otherDrawer) otherDrawer.style.maxHeight = '0';
+                    });
+                    
+                    // If not open, open it
+                    if (!isOpen) {
+                        item.classList.add('active');
+                        drawer.style.maxHeight = drawer.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // Open first item by default
+            if (faqItems.length > 0) {
+                faqItems[0].classList.add('active');
+                var firstDrawer = faqItems[0].querySelector('.faq-answer-drawer');
+                if (firstDrawer) firstDrawer.style.maxHeight = firstDrawer.scrollHeight + 'px';
+            }
+        });
+    </script>
 </section>
 
 @push('styles')
@@ -519,6 +728,18 @@
     }
     .team-card:hover img {
         transform: scale(1.04);
+    }
+
+    /* FAQ Accordion Styles */
+    .faq-item.active {
+        border-color: rgba(12, 35, 64, 0.35) !important;
+        box-shadow: 0 10px 25px -4px rgba(12, 35, 64, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.03) !important;
+    }
+    .faq-item.active .faq-chevron {
+        transform: rotate(180deg);
+    }
+    .faq-item:hover {
+        border-color: rgba(12, 35, 64, 0.25);
     }
 
     /* Tablet breakpoint (<= 992px) */
@@ -558,22 +779,56 @@
             max-width: 100% !important;
             margin: 0 auto;
         }
-        .founders-metrics-bar {
-            grid-template-columns: 1fr !important;
-            gap: 1.4rem !important;
-            padding: 1.5rem 1.2rem !important;
+       
+        .mentor-swipe-hint {
+            display: flex !important;
         }
         .expert-team-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-            max-width: 100% !important;
-            margin: 0 auto;
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 1.2rem !important;
+            padding: 0.5rem 1.25rem 1.5rem !important;
+            margin: 0 -1.5rem !important;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(11, 79, 74, 0.35) transparent;
+        }
+        .expert-team-grid::-webkit-scrollbar {
+            height: 5px;
+        }
+        .expert-team-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 10px;
+        }
+        .expert-team-grid::-webkit-scrollbar-thumb {
+            background: rgba(11, 79, 74, 0.35);
+            border-radius: 10px;
+        }
+        .expert-team-grid .team-card {
+            flex: 0 0 82% !important;
+            max-width: 310px !important;
+            scroll-snap-align: center !important;
+            margin: 0 !important;
         }
         .founder-card div[style*="height: 380px"] {
             height: 320px !important;
         }
-        .team-card div[style*="height: 320px"] {
-            height: 300px !important;
+        .expert-team-grid .team-card div[style*="height: 300px"],
+        .expert-team-grid .team-card div[style*="height: 320px"] {
+            height: 280px !important;
+        }
+
+        .faq-item button {
+            padding: 1.1rem 1.1rem !important;
+        }
+        .faq-item button span[style*="width: 44px"] {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 1.15rem !important;
+        }
+        .faq-answer-content {
+            padding: 0 1.1rem 1.25rem 1.1rem !important;
         }
     }
 </style>

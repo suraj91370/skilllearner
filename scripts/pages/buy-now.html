@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Now &amp; Instant Enrollment — SkillLearner</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --bg-body: #070a12;
@@ -30,36 +33,75 @@
             --shadow-glow: 0 0 35px rgba(5, 179, 150, 0.25);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
-        .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-title);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+        }
+
         /* Navigation Bar (Desktop) */
-        header.nav { 
-            position: sticky; 
-            top: 0; 
-            z-index: 1050; 
-            padding: 0.85rem 2.5rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #f1f5f9; 
-            background: #ffffff; 
+        header.nav {
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            padding: 0.85rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            background: #ffffff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
         }
 
-        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-        .brand-logo-img { width: auto; max-width: 220px; object-fit: contain; display: block; }
-        
-        nav.menu { display: flex; gap: 1.8rem; align-items: center; }
-        nav.menu > a { 
-            color: #334155; 
-            text-decoration: none; 
-            font-size: 0.95rem; 
-            font-weight: 600; 
-            transition: color 0.2s ease; 
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            flex-shrink: 0;
         }
-        nav.menu > a:hover, nav.menu > a.active { color: #05B396; }
+
+        .brand-logo-img {
+            width: auto;
+            max-width: 220px;
+            object-fit: contain;
+            display: block;
+        }
+
+        nav.menu {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        nav.menu>a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        nav.menu>a:hover,
+        nav.menu>a.active {
+            color: #05B396;
+        }
 
         /* Course Package Dropdown (Desktop Hover) */
         .nav-dropdown {
@@ -338,17 +380,19 @@
         }
 
         /* Hamburger to X Transformation */
-        .mobile-toggle.active .bar:nth-child(1) { 
-            transform: translateY(7.5px) rotate(45deg); 
-            background-color: #05B396; 
+        .mobile-toggle.active .bar:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+            background-color: #05B396;
         }
-        .mobile-toggle.active .bar:nth-child(2) { 
-            opacity: 0; 
-            transform: scale(0.2); 
+
+        .mobile-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+            transform: scale(0.2);
         }
-        .mobile-toggle.active .bar:nth-child(3) { 
-            transform: translateY(-7.5px) rotate(-45deg); 
-            background-color: #05B396; 
+
+        .mobile-toggle.active .bar:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+            background-color: #05B396;
         }
 
         .mobile-overlay {
@@ -367,10 +411,10 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .mobile-overlay.active { 
-            opacity: 1; 
-            visibility: visible; 
-            pointer-events: auto; 
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
         .mobile-drawer {
@@ -393,7 +437,9 @@
             box-shadow: -15px 0 40px rgba(0, 0, 0, 0.18);
         }
 
-        .mobile-drawer.active { right: 0; }
+        .mobile-drawer.active {
+            right: 0;
+        }
 
         /* Mobile Portal Link Items */
         .mobile-portal-link {
@@ -418,14 +464,16 @@
             transition: color 0.15s ease;
         }
 
-        .mobile-portal-link:hover, .mobile-portal-link.active {
+        .mobile-portal-link:hover,
+        .mobile-portal-link.active {
             background: #f0fdfa;
             color: #05B396;
             font-weight: 700;
             border-left-color: #05B396;
         }
 
-        .mobile-portal-link:hover .mob-icon, .mobile-portal-link.active .mob-icon {
+        .mobile-portal-link:hover .mob-icon,
+        .mobile-portal-link.active .mob-icon {
             color: #05B396;
         }
 
@@ -439,7 +487,10 @@
             display: block;
         }
 
-        .mobile-nav-link:hover, .mobile-nav-link.active { color: #05B396; }
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            color: #05B396;
+        }
 
         .mobile-accordion-btn {
             width: 100%;
@@ -457,8 +508,14 @@
             text-align: left;
         }
 
-        .mobile-accordion-btn svg { transition: transform 0.25s ease; stroke: #05B396; }
-        .mobile-accordion-btn.open svg { transform: rotate(180deg); }
+        .mobile-accordion-btn svg {
+            transition: transform 0.25s ease;
+            stroke: #05B396;
+        }
+
+        .mobile-accordion-btn.open svg {
+            transform: rotate(180deg);
+        }
 
         .mobile-accordion-content {
             display: none;
@@ -469,7 +526,9 @@
             padding: 0.4rem 0;
         }
 
-        .mobile-accordion-content.open { display: flex; }
+        .mobile-accordion-content.open {
+            display: flex;
+        }
 
         .mobile-sub-item {
             padding: 0.55rem 1.2rem;
@@ -479,32 +538,160 @@
             text-decoration: none;
         }
 
-        .mobile-sub-item:hover { color: #05B396; }
+        .mobile-sub-item:hover {
+            color: #05B396;
+        }
 
         /* Buttons & Utility */
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.65rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: pointer; text-decoration: none; border: none; transition: all 0.25s ease; }
-        .btn-primary { background: #05B396; color: #fff; }
-        .btn-secondary { background: rgba(0, 0, 0, 0.05); color: #000; border: 1px solid rgba(0,0,0,0.1); }
-        .btn-success { background: var(--secondary-gradient); color: #fff; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.65rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: all 0.25s ease;
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
-        .text-gradient { background: linear-gradient(135deg, #05B396 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-title { font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.4rem;  color: #0B4F4A; }
-        .hero-title .title-skill { color: #0B4F4A; }
-        .hero-title .title-future { color: #0A6B5C; }
-        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
-        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
-        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
+        .btn-primary {
+            background: #05B396;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: var(--secondary-gradient);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #05B396 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.4rem;
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-skill {
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-future {
+            color: #0A6B5C;
+        }
+
+        .hero-subtitle {
+            color: #000000 !important;
+            font-weight: 700 !important;
+            font-size: 1.25rem;
+            max-width: 720px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-image-wrapper {
+            margin-top: 3.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-tree-img {
+            width: 100%;
+            max-width: 950px;
+            height: auto;
+            border-radius: 18px;
+            object-fit: contain;
+        }
 
         /* Modals */
-        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
-        .modal.active { display: flex; }
-        .modal-box { width: 100%; max-width: 520px; padding: 2.2rem; border-radius: 16px; position: relative; background: #ffffff; border: 1px solid #e2e8f0; }
-        .close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #64748b; font-size: 1.6rem; cursor: pointer; }
-        .form-group { margin-bottom: 1.2rem; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
-        .form-control { width: 100%; padding: 0.8rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.95rem; outline: none; }
-        .form-control:focus { border-color: #05B396; box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15); }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 520px;
+            padding: 2.2rem;
+            border-radius: 16px;
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            color: #0f172a;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #05B396;
+            box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15);
+        }
 
         .nav-right-actions {
             display: flex;
@@ -514,997 +701,1286 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
-            header.nav { padding: 0.75rem 1.2rem; }
-            nav.menu { display: none; }
-            .mobile-toggle { display: flex; }
-            .container { padding: 2.2rem 1rem; }
+            header.nav {
+                padding: 0.75rem 1.2rem;
+            }
+
+            nav.menu {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .container {
+                padding: 2.2rem 1rem;
+            }
         }
 
         @media (max-width: 640px) {
-            .hero { padding: 3rem 1.25rem 2rem !important; }
-            .hero-title { font-size: 2.2rem !important; line-height: 1.2 !important; letter-spacing: -0.8px !important; margin-bottom: 1rem !important; }
-            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
-            .hero-image-wrapper { margin-top: 2rem !important; }
-            .hero-tree-img { border-radius: 12px !important; }
-            header.nav { padding: 0.65rem 0.85rem; }
-            .brand-logo-img { max-width: 125px; }
-            .nav-right-actions { gap: 0.45rem; }
-            .sl-circle-badge { width: 32px; height: 32px; }
-            .notification-bell-btn svg { width: 18px; height: 18px; }
-            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
-            .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
-            .user-pill-avatar { width: 26px; height: 26px; }
-            .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
-            .profile-svg-btn { width: 34px; height: 34px; }
-            .profile-svg-btn svg { width: 18px; height: 18px; }
-            .user-dropdown-card { right: 0; min-width: 195px; }
+            .hero {
+                padding: 3rem 1.25rem 2rem !important;
+            }
+
+            .hero-title {
+                font-size: 2.2rem !important;
+                line-height: 1.2 !important;
+                letter-spacing: -0.8px !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .hero-subtitle {
+                font-size: 1.05rem !important;
+                margin-bottom: 1.8rem !important;
+            }
+
+            .hero-image-wrapper {
+                margin-top: 2rem !important;
+            }
+
+            .hero-tree-img {
+                border-radius: 12px !important;
+            }
+
+            header.nav {
+                padding: 0.65rem 0.85rem;
+            }
+
+            .brand-logo-img {
+                max-width: 125px;
+            }
+
+            .nav-right-actions {
+                gap: 0.45rem;
+            }
+
+            .sl-circle-badge {
+                width: 32px;
+                height: 32px;
+            }
+
+            .notification-bell-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .bell-count-badge {
+                font-size: 0.65rem;
+                padding: 2px 5px;
+            }
+
+            .user-pill-btn {
+                padding: 3px 10px 3px 4px;
+                gap: 6px;
+            }
+
+            .user-pill-avatar {
+                width: 26px;
+                height: 26px;
+            }
+
+            .user-pill-name {
+                max-width: 78px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.85rem;
+            }
+
+            .profile-svg-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            .profile-svg-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .user-dropdown-card {
+                right: 0;
+                min-width: 195px;
+            }
         }
 
         @media (max-width: 420px) {
-            .hero-title { font-size: 1.85rem !important; letter-spacing: -0.5px !important; }
-            .hero-subtitle { font-size: 0.95rem !important; }
-            header.nav { padding: 0.55rem 0.6rem; }
-            .brand-logo-img { max-width: 105px; }
-            .nav-right-actions { gap: 0.35rem; }
-            .user-pill-name { max-width: 55px; font-size: 0.78rem; }
-            .profile-svg-btn { width: 32px; height: 32px; }
-            .profile-svg-btn svg { width: 17px; height: 17px; }
-            .sl-circle-badge { width: 28px; height: 28px; }
-            .sl-circle-badge span { font-size: 0.72rem; }
-            .bell-count-badge { display: none; }
-            .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
-            .mobile-toggle .bar { width: 20px; }
+            .hero-title {
+                font-size: 1.85rem !important;
+                letter-spacing: -0.5px !important;
+            }
+
+            .hero-subtitle {
+                font-size: 0.95rem !important;
+            }
+
+            header.nav {
+                padding: 0.55rem 0.6rem;
+            }
+
+            .brand-logo-img {
+                max-width: 105px;
+            }
+
+            .nav-right-actions {
+                gap: 0.35rem;
+            }
+
+            .user-pill-name {
+                max-width: 55px;
+                font-size: 0.78rem;
+            }
+
+            .profile-svg-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .profile-svg-btn svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .sl-circle-badge {
+                width: 28px;
+                height: 28px;
+            }
+
+            .sl-circle-badge span {
+                font-size: 0.72rem;
+            }
+
+            .bell-count-badge {
+                display: none;
+            }
+
+            .mobile-toggle {
+                width: 34px;
+                height: 34px;
+                padding: 4px;
+            }
+
+            .mobile-toggle .bar {
+                width: 20px;
+            }
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         body.is-portal-page {
             background-color: #f8fafc !important;
             color: #0f172a;
         }
-    </style>
-        <style>
-    /* ==========================================================
-       STUDENT PORTAL & DASHBOARD STYLES (MATCHES HOME PAGE THEME)
-       ========================================================== */
-    .student-portal-wrapper {
-        background: #f8fafc;
-        background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
-        min-height: calc(100vh - 80px);
-        padding: 2.2rem 2rem 5rem;
-    }
 
-    .portal-main-grid {
-        max-width: 1440px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 2.2rem;
-        align-items: start;
-    }
-
-    /* Left Sidebar Card (Matches Home Page Emerald Theme) */
-    .portal-sidebar-card {
-        background: #ffffff;
-        border: 1.5px solid #a7f3d0;
-        border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
-        overflow: hidden;
-        padding: 0.65rem 0;
-        position: sticky;
-        top: 90px;
-    }
-
-    /* Role Header in Sidebar */
-    .sidebar-role-header {
-        padding: 0.85rem 1.1rem;
-        margin: 0.35rem 0.8rem 0.65rem 0.8rem;
-        border-radius: 12px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .sidebar-role-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.72rem;
-        font-weight: 800;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-        padding: 3px 9px;
-        border-radius: 20px;
-        width: fit-content;
-    }
-
-    .sidebar-role-badge.super-admin {
-        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-        color: #ffffff;
-        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
-    }
-
-    .sidebar-role-badge.admin {
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-        color: #ffffff;
-        box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
-    }
-
-    .sidebar-role-badge.user {
-        background: rgba(5, 179, 150, 0.12);
-        color: #05B396;
-        border: 1px solid rgba(5, 179, 150, 0.35);
-    }
-
-    .sidebar-role-user-name {
-        font-size: 0.88rem;
-        font-weight: 700;
-        color: #0f172a;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .sidebar-section-label {
-        font-size: 0.68rem;
-        font-weight: 800;
-        color: #94a3b8;
-        letter-spacing: 0.9px;
-        text-transform: uppercase;
-        padding: 0.65rem 1.4rem 0.2rem 1.4rem;
-        margin-top: 0.35rem;
-    }
-
-    .sidebar-item-badge-pill {
-        margin-left: auto;
-        font-size: 0.68rem;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 10px;
-        background: rgba(5, 179, 150, 0.12);
-        color: #05B396;
-    }
-
-    .sidebar-item-badge-pill.super {
-        background: rgba(124, 58, 237, 0.14);
-        color: #7c3aed;
-    }
-
-    .portal-sidebar-nav {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 0.74rem 1.4rem;
-        color: #334155;
-        font-size: 0.94rem;
-        font-weight: 600;
-        text-decoration: none;
-        border-left: 4px solid transparent;
-        transition: all 0.15s ease;
-    }
-
-    /* SVG icon safeguards */
-    .side-icon,
-    svg.side-icon,
-    .sidebar-item .side-icon {
-        width: 18px !important;
-        height: 18px !important;
-        min-width: 18px !important;
-        max-width: 18px !important;
-        min-height: 18px !important;
-        max-height: 18px !important;
-        color: #475569;
-        flex-shrink: 0;
-        transition: color 0.15s ease;
-    }
-
-    /* Admin Management Components */
-    .admin-stat-card {
-        background: #ffffff;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 1.1rem 1.3rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    }
-    .admin-stat-label {
-        font-size: 0.72rem;
-        font-weight: 800;
-        letter-spacing: 0.6px;
-        color: #64748b;
-        margin-bottom: 0.35rem;
-    }
-    .admin-stat-val {
-        font-size: 1.8rem;
-        font-weight: 900;
-        color: #0f172a;
-        line-height: 1.1;
-        margin-bottom: 0.25rem;
-    }
-    .admin-stat-sub {
-        font-size: 0.78rem;
-        color: #94a3b8;
-        font-weight: 500;
-    }
-    .admin-filter-pill {
-        display: inline-block;
-        padding: 0.45rem 0.95rem;
-        border-radius: 20px;
-        background: #f1f5f9;
-        color: #475569;
-        font-size: 0.82rem;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    .admin-filter-pill:hover {
-        background: #e2e8f0;
-        color: #0f172a;
-    }
-    .admin-filter-pill.active {
-        background: #05B396;
-        color: #ffffff;
-    }
-    .clean-form-input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
-        font-size: 0.92rem;
-        color: #0f172a;
-        background: #ffffff;
-        box-sizing: border-box;
-        outline: none;
-        transition: border 0.2s;
-    }
-    .clean-form-input:focus {
-        border-color: #7c3aed;
-        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
-    }
-
-    /* Soft mint hover state */
-    .sidebar-item:hover {
-        background: #f0fdfa;
-        color: #05B396;
-    }
-
-    .sidebar-item:hover .side-icon {
-        color: #05B396;
-    }
-
-    /* Active State (4px emerald left bar) */
-    .sidebar-item.active {
-        background: #f0fdfa;
-        color: #05B396;
-        font-weight: 700;
-        border-left-color: #05B396;
-    }
-
-    .sidebar-item.active .side-icon {
-        color: #05B396;
-    }
-
-    /* Mobile Quick Tab Slider */
-    .mobile-portal-nav {
-        display: none !important;
-        margin-bottom: 1.5rem;
-    }
-
-    .mobile-nav-header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.65rem;
-        padding: 0 2px;
-    }
-
-    .mobile-nav-title {
-        font-size: 0.78rem;
-        font-weight: 800;
-        color: #64748b;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-    }
-
-    .mobile-open-drawer-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 12px;
-        background: #f0fdfa;
-        border: 1px solid #a7f3d0;
-        border-radius: 20px;
-        color: #05B396;
-        font-size: 0.8rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background 0.15s;
-    }
-
-    .mobile-open-drawer-btn:hover {
-        background: #ccfbf1;
-    }
-
-    .mobile-tabs-scroll {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding-bottom: 6px;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-    .mobile-tabs-scroll::-webkit-scrollbar { display: none; }
-
-    .m-portal-tab {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 0.55rem 1rem;
-        border-radius: 50px;
-        border: 1.5px solid #e2e8f0;
-        background: #ffffff;
-        color: #475569;
-        font-size: 0.82rem;
-        font-weight: 700;
-        white-space: nowrap;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .m-portal-tab.active {
-        background: #05B396;
-        color: #ffffff;
-        border-color: #05B396;
-    }
-
-    .m-portal-tab:hover {
-        border-color: #cbd5e1;
-        color: #0f172a;
-    }
-
-    /* Right Content Area */
-    .portal-content-area {
-        min-width: 0;
-    }
-
-    .welcome-heading {
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 1.4rem;
-        letter-spacing: -0.5px;
-    }
-
-    .highlight-user-name {
-        color: #05B396;
-    }
-
-    /* Filter Pills */
-    .course-filter-pills {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .filter-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 0.65rem 1.6rem;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        color: #475569;
-        transition: all 0.2s ease;
-    }
-
-    .filter-pill.active {
-        background: #ffffff;
-        border: 1.5px solid #cbd5e1;
-        color: #0f172a;
-        font-weight: 700;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .pill-badge-num {
-        color: #64748b;
-        font-size: 0.78rem;
-    }
-
-    /* Courses Cards Grid (4 Columns) */
-    .courses-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-    }
-
-    /* Course Card Item */
-    .portal-course-card {
-        background: #ffffff;
-        border-radius: 14px;
-        border: 1px solid #f1f5f9;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-    }
-
-    .portal-course-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.09);
-    }
-
-    .card-thumb-link {
-        text-decoration: none;
-        display: block;
-    }
-
-    .course-thumb-container {
-        height: 148px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0.75rem 0.85rem;
-    }
-
-    .thumb-neon-glow {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 140px;
-        height: 140px;
-        pointer-events: none;
-    }
-
-    .thumb-header-badge {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .thumb-header-badge span {
-        background: rgba(0, 0, 0, 0.6);
-        color: #cbd5e1;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 0.62rem;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-    }
-
-    .thumb-center-content {
-        position: relative;
-        z-index: 1;
-        text-align: left;
-        margin-top: auto;
-        margin-bottom: auto;
-    }
-
-    .thumb-banner-title {
-        color: #ffffff;
-        font-size: 0.95rem;
-        font-weight: 900;
-        line-height: 1.2;
-        letter-spacing: -0.3px;
-        text-transform: uppercase;
-        margin-bottom: 2px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-    }
-
-    .thumb-banner-tag {
-        color: #94a3b8;
-        font-size: 0.62rem;
-        line-height: 1.2;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    /* Centered Play Button (Image 1 Style) */
-    .center-play-button {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 44px;
-        height: 44px;
-        background: #ffffff;
-        border-radius: 50%;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-    }
-
-    .center-play-button svg {
-        margin-left: 2px;
-    }
-
-    .portal-course-card:hover .center-play-button {
-        transform: translate(-50%, -50%) scale(1.15);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .thumb-footer-meta {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        gap: 6px;
-        color: #94a3b8;
-        font-size: 0.65rem;
-        font-weight: 600;
-    }
-
-    /* Course Card Body */
-    .course-card-body {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        flex-grow: 1;
-    }
-
-    .course-card-title {
-        font-size: 0.98rem;
-        font-weight: 700;
-        margin-bottom: 0.8rem;
-        line-height: 1.35;
-    }
-
-    .course-card-title a {
-        color: #0f172a;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .course-card-title a:hover {
-        color: #05B396;
-    }
-
-    .course-instructor-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .instructor-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .instructor-name {
-        color: #64748b;
-        font-size: 0.82rem;
-        font-weight: 600;
-    }
-
-    /* Responsive Grid Wrappers */
-    .earnings-grid-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.2rem;
-        margin-bottom: 2.2rem;
-    }
-
-    .referral-box-row {
-        display: flex;
-        gap: 0.8rem;
-    }
-
-    .table-responsive-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: 8px;
-    }
-
-    .table-responsive-wrapper table {
-        min-width: 580px;
-        width: 100%;
-    }
-
-    /* Generic Card Box */
-    .portal-box-card {
-        background: #ffffff;
-        padding: 1.8rem;
-        border-radius: 16px;
-        border: 1px solid #f1f5f9;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-        margin-bottom: 1.8rem;
-    }
-
-    /* ==========================================================
-       RESPONSIVE BREAKPOINTS (Mobile & Tablet)
-       ========================================================== */
-    @media (max-width: 1280px) {
-        .courses-cards-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @media (max-width: 1024px) {
-        .earnings-grid-container {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .student-portal-wrapper {
-            padding: 1.2rem 1rem 4rem;
+        /* Modern High-End Dark Footer matching Reference Design */
+        .site-footer {
+            background: #000000;
+            color: #e2e8f0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4.5rem 1.5rem 2rem;
+            position: relative;
+            z-index: 10;
+            margin-top: 4rem;
         }
 
-        .portal-main-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+        .site-footer .footer-container {
+            max-width: 1240px;
+            margin: 0 auto;
         }
 
-        /* Hide desktop sidebar on mobile, show quick horizontal slider */
-        .portal-sidebar-card {
-            display: none;
+        .site-footer .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.35fr;
+            gap: 3rem;
+            align-items: start;
         }
 
-        .mobile-portal-nav {
-            display: block !important;
+        .site-footer .footer-col-title {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            margin: 0 0 8px 0;
         }
 
-        .courses-cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .referral-box-row {
-            flex-direction: column;
-        }
-        .referral-box-row button {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 580px) {
-        .student-portal-wrapper {
-            padding: 0.85rem 0.75rem 3.5rem;
-        }
-
-        .welcome-heading {
-            font-size: 1.35rem;
-            margin-bottom: 1rem;
-        }
-
-        .course-filter-pills {
-            gap: 0.6rem;
+        .site-footer .footer-accent-bar {
+            width: 42px;
+            height: 3px;
+            background: #0A6B5C;
+            border-radius: 2px;
             margin-bottom: 1.4rem;
         }
 
-        .filter-pill {
-            padding: 0.5rem 1.1rem;
-            font-size: 0.82rem;
+        .site-footer .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
         }
 
+        .site-footer .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.94rem;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .site-footer .footer-link:hover {
+            color: #0A6B5C;
+            transform: translateX(4px);
+        }
+
+        .site-footer .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.35rem;
+        }
+
+        .site-footer .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .site-footer .contact-icon-bubble {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #0A6B5C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(10, 107, 92, 0.35);
+        }
+
+        .site-footer .contact-title {
+            color: #ffffff;
+            font-size: 0.98rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .site-footer .contact-value {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 3px;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .site-footer .contact-value:hover {
+            color: #ffffff;
+        }
+
+        .site-footer .footer-bottom {
+            margin-top: 3.5rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: #64748b;
+            font-size: 0.88rem;
+        }
+
+        @media (max-width: 992px) {
+            .site-footer .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .site-footer {
+                padding: 3.5rem 1.25rem 2rem;
+            }
+
+            .site-footer .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2.2rem;
+            }
+
+            .site-footer .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+    <style>
+        /* ==========================================================
+       STUDENT PORTAL & DASHBOARD STYLES (MATCHES HOME PAGE THEME)
+       ========================================================== */
+        .student-portal-wrapper {
+            background: #f8fafc;
+            background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
+            min-height: calc(100vh - 80px);
+            padding: 2.2rem 2rem 5rem;
+        }
+
+        .portal-main-grid {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.2rem;
+            align-items: start;
+        }
+
+        /* Left Sidebar Card (Matches Home Page Emerald Theme) */
+        .portal-sidebar-card {
+            background: #ffffff;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
+            overflow: hidden;
+            padding: 0.65rem 0;
+            position: sticky;
+            top: 90px;
+        }
+
+        /* Role Header in Sidebar */
+        .sidebar-role-header {
+            padding: 0.85rem 1.1rem;
+            margin: 0.35rem 0.8rem 0.65rem 0.8rem;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .sidebar-role-badge.super-admin {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+        }
+
+        .sidebar-role-badge.admin {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
+        }
+
+        .sidebar-role-badge.user {
+            background: rgba(5, 179, 150, 0.12);
+            color: #05B396;
+            border: 1px solid rgba(5, 179, 150, 0.35);
+        }
+
+        .sidebar-role-user-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            padding: 0.65rem 1.4rem 0.2rem 1.4rem;
+            margin-top: 0.35rem;
+        }
+
+        .sidebar-item-badge-pill {
+            margin-left: auto;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(5, 179, 150, 0.12);
+            color: #05B396;
+        }
+
+        .sidebar-item-badge-pill.super {
+            background: rgba(124, 58, 237, 0.14);
+            color: #7c3aed;
+        }
+
+        .portal-sidebar-nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.74rem 1.4rem;
+            color: #334155;
+            font-size: 0.94rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: all 0.15s ease;
+        }
+
+        /* SVG icon safeguards */
+        .side-icon,
+        svg.side-icon,
+        .sidebar-item .side-icon {
+            width: 18px !important;
+            height: 18px !important;
+            min-width: 18px !important;
+            max-width: 18px !important;
+            min-height: 18px !important;
+            max-height: 18px !important;
+            color: #475569;
+            flex-shrink: 0;
+            transition: color 0.15s ease;
+        }
+
+        /* Admin Management Components */
+        .admin-stat-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .admin-stat-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            color: #64748b;
+            margin-bottom: 0.35rem;
+        }
+
+        .admin-stat-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        .admin-stat-sub {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .admin-filter-pill {
+            display: inline-block;
+            padding: 0.45rem 0.95rem;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .admin-filter-pill:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .admin-filter-pill.active {
+            background: #05B396;
+            color: #ffffff;
+        }
+
+        .clean-form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            color: #0f172a;
+            background: #ffffff;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .clean-form-input:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        /* Soft mint hover state */
+        .sidebar-item:hover {
+            background: #f0fdfa;
+            color: #05B396;
+        }
+
+        .sidebar-item:hover .side-icon {
+            color: #05B396;
+        }
+
+        /* Active State (4px emerald left bar) */
+        .sidebar-item.active {
+            background: #f0fdfa;
+            color: #05B396;
+            font-weight: 700;
+            border-left-color: #05B396;
+        }
+
+        .sidebar-item.active .side-icon {
+            color: #05B396;
+        }
+
+        /* Mobile Quick Tab Slider */
+        .mobile-portal-nav {
+            display: none !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.65rem;
+            padding: 0 2px;
+        }
+
+        .mobile-nav-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .mobile-open-drawer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: #f0fdfa;
+            border: 1px solid #a7f3d0;
+            border-radius: 20px;
+            color: #05B396;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .mobile-open-drawer-btn:hover {
+            background: #ccfbf1;
+        }
+
+        .mobile-tabs-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-tabs-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .m-portal-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.55rem 1rem;
+            border-radius: 50px;
+            border: 1.5px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .m-portal-tab.active {
+            background: #05B396;
+            color: #ffffff;
+            border-color: #05B396;
+        }
+
+        .m-portal-tab:hover {
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        /* Right Content Area */
+        .portal-content-area {
+            min-width: 0;
+        }
+
+        .welcome-heading {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 1.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        .highlight-user-name {
+            color: #05B396;
+        }
+
+        /* Filter Pills */
+        .course-filter-pills {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.65rem 1.6rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
+        .filter-pill.active {
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .pill-badge-num {
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+
+        /* Courses Cards Grid (4 Columns) */
         .courses-cards-grid {
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Course Card Item */
+        .portal-course-card {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+        }
+
+        .portal-course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-thumb-link {
+            text-decoration: none;
+            display: block;
         }
 
         .course-thumb-container {
-            height: 165px;
+            height: 148px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.75rem 0.85rem;
         }
 
+        .thumb-neon-glow {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 140px;
+            height: 140px;
+            pointer-events: none;
+        }
+
+        .thumb-header-badge {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .thumb-header-badge span {
+            background: rgba(0, 0, 0, 0.6);
+            color: #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .thumb-center-content {
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .thumb-banner-title {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .thumb-banner-tag {
+            color: #94a3b8;
+            font-size: 0.62rem;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Centered Play Button (Image 1 Style) */
+        .center-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+        }
+
+        .center-play-button svg {
+            margin-left: 2px;
+        }
+
+        .portal-course-card:hover .center-play-button {
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .thumb-footer-meta {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 6px;
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        /* Course Card Body */
+        .course-card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .course-card-title {
+            font-size: 0.98rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            line-height: 1.35;
+        }
+
+        .course-card-title a {
+            color: #0f172a;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .course-card-title a:hover {
+            color: #05B396;
+        }
+
+        .course-instructor-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .instructor-name {
+            color: #64748b;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Grid Wrappers */
         .earnings-grid-container {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.65rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2.2rem;
         }
 
-        .earnings-grid-container > div {
-            padding: 1.1rem 0.9rem !important;
+        .referral-box-row {
+            display: flex;
+            gap: 0.8rem;
         }
-    }
 
-    @media (max-width: 380px) {
-        .earnings-grid-container {
-            grid-template-columns: 1fr;
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
         }
-    }
-</style>
-    <style>
-    .checkout-tab-btn {
-        flex: 1;
-        padding: 0.8rem 1rem;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid var(--border-glass);
-        color: #94a3b8;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .checkout-tab-btn.active, .checkout-tab-btn:hover {
-        background: #05B396;
-        color: #ffffff;
-        border-color: #05B396;
-        box-shadow: 0 4px 15px rgba(5, 179, 150, 0.25);
-    }
 
-    .pay-method-tab {
-        flex: 1;
-        padding: 0.65rem 0.5rem;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border-glass);
-        color: #94a3b8;
-        border-radius: 8px;
-        font-size: 0.82rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .pay-method-tab.active {
-        background: rgba(5, 179, 150, 0.15);
-        color: #05B396;
-        border-color: #05B396;
-    }
+        .table-responsive-wrapper table {
+            min-width: 580px;
+            width: 100%;
+        }
 
-    @media (max-width: 900px) {
-        section .container > div[style*="grid-template-columns: 1.15fr 1fr"] {
-            grid-template-columns: 1fr !important;
+        /* Generic Card Box */
+        .portal-box-card {
+            background: #ffffff;
+            padding: 1.8rem;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.8rem;
         }
-    }
-</style>
-<script id="browser-logger-active">
-(function() {
-    const ENDPOINT = '/_boost/browser-logs';
-    const logQueue = [];
-    let flushTimeout = null;
-    const captureTypes = ["error","warning","info","log","debug","table"];
 
-    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
-
-    // Store original console methods
-    const originalConsole = {
-        log: console.log,
-        debug: console.debug,
-        info: console.info,
-        error: console.error,
-        warn: console.warn,
-        table: console.table
-    };
-
-    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
-    function toSafeValue(value, seen) {
-        if (value === null || typeof value !== 'object') {
-            return value;
-        }
-        if (value instanceof Error) {
-            return { name: value.name, message: value.message, stack: value.stack };
-        }
-        // Date has no own enumerable keys, so the walk below would collapse it to {}.
-        if (value instanceof Date) {
-            return value.toISOString();
-        }
-        if (seen.has(value)) {
-            return '[Circular]';
-        }
-        seen.add(value);
-        if (Array.isArray(value)) {
-            return value.map((item) => toSafeValue(item, seen));
-        }
-        const plain = {};
-        for (const key of Object.keys(value)) {
-            if (key === 'toJSON') continue;
-            try {
-                plain[key] = toSafeValue(value[key], seen);
-            } catch (e) {
-                plain[key] = '[Unreadable]';
+        /* ==========================================================
+       RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+       ========================================================== */
+        @media (max-width: 1280px) {
+            .courses-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
-        return plain;
-    }
 
-    // Helper to safely stringify values
-    function safeStringify(obj) {
-        return JSON.stringify(toSafeValue(obj, new WeakSet()));
-    }
+        @media (max-width: 1024px) {
+            .earnings-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
 
-    // Normalize log type for consistency (e.g., 'warn' to 'warning')
-    function normalizeType(type) {
-        return type === 'warn' ? 'warning' : type;
-    }
+        @media (max-width: 992px) {
+            .student-portal-wrapper {
+                padding: 1.2rem 1rem 4rem;
+            }
 
-    // Determine if a log type should be captured based on configured levels
-    function shouldCapture(type) {
-        return captureTypes.includes(normalizeType(type));
-    }
+            .portal-main-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
 
-    // Batch and send logs
-    function flushLogs() {
-        if (logQueue.length === 0) return;
+            /* Hide desktop sidebar on mobile, show quick horizontal slider */
+            .portal-sidebar-card {
+                display: none;
+            }
 
-        const batch = logQueue.splice(0, logQueue.length);
+            .mobile-portal-nav {
+                display: block !important;
+            }
 
-        fetch(ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ logs: batch })
-        }).catch(err => {
-            // Silently fail to avoid infinite loops
-            originalConsole.error('Failed to send logs:', err);
-        });
-    }
+            .courses-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
 
-    // Debounced flush (100ms)
-    function scheduleFlush() {
-        if (flushTimeout) clearTimeout(flushTimeout);
-        flushTimeout = setTimeout(flushLogs, 100);
-    }
+        @media (max-width: 600px) {
+            .referral-box-row {
+                flex-direction: column;
+            }
 
-    // Intercept console methods
-    ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
-        console[method] = function(...args) {
-            // Call original method
-            originalConsole[method].apply(console, args);
+            .referral-box-row button {
+                width: 100%;
+            }
+        }
 
-            // Capture log data
-            try {
-                if (!shouldCapture(method)) {
-                    return;
+        @media (max-width: 580px) {
+            .student-portal-wrapper {
+                padding: 0.85rem 0.75rem 3.5rem;
+            }
+
+            .welcome-heading {
+                font-size: 1.35rem;
+                margin-bottom: 1rem;
+            }
+
+            .course-filter-pills {
+                gap: 0.6rem;
+                margin-bottom: 1.4rem;
+            }
+
+            .filter-pill {
+                padding: 0.5rem 1.1rem;
+                font-size: 0.82rem;
+            }
+
+            .courses-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .course-thumb-container {
+                height: 165px;
+            }
+
+            .earnings-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.65rem;
+            }
+
+            .earnings-grid-container>div {
+                padding: 1.1rem 0.9rem !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .earnings-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <style>
+        .checkout-tab-btn {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            color: #94a3b8;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkout-tab-btn.active,
+        .checkout-tab-btn:hover {
+            background: #05B396;
+            color: #ffffff;
+            border-color: #05B396;
+            box-shadow: 0 4px 15px rgba(5, 179, 150, 0.25);
+        }
+
+        .pay-method-tab {
+            flex: 1;
+            padding: 0.65rem 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            color: #94a3b8;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pay-method-tab.active {
+            background: rgba(5, 179, 150, 0.15);
+            color: #05B396;
+            border-color: #05B396;
+        }
+
+        @media (max-width: 900px) {
+            section .container>div[style*="grid-template-columns: 1.15fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+    <script id="browser-logger-active">
+        (function () {
+            const ENDPOINT = '/_boost/browser-logs';
+            const logQueue = [];
+            let flushTimeout = null;
+            const captureTypes = ["error", "warning", "info", "log", "debug", "table"];
+
+            console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+            // Store original console methods
+            const originalConsole = {
+                log: console.log,
+                debug: console.debug,
+                info: console.info,
+                error: console.error,
+                warn: console.warn,
+                table: console.table
+            };
+
+            // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
+            function toSafeValue(value, seen) {
+                if (value === null || typeof value !== 'object') {
+                    return value;
+                }
+                if (value instanceof Error) {
+                    return { name: value.name, message: value.message, stack: value.stack };
+                }
+                // Date has no own enumerable keys, so the walk below would collapse it to {}.
+                if (value instanceof Date) {
+                    return value.toISOString();
+                }
+                if (seen.has(value)) {
+                    return '[Circular]';
+                }
+                seen.add(value);
+                if (Array.isArray(value)) {
+                    return value.map((item) => toSafeValue(item, seen));
+                }
+                const plain = {};
+                for (const key of Object.keys(value)) {
+                    if (key === 'toJSON') continue;
+                    try {
+                        plain[key] = toSafeValue(value[key], seen);
+                    } catch (e) {
+                        plain[key] = '[Unreadable]';
+                    }
+                }
+                return plain;
+            }
+
+            // Helper to safely stringify values
+            function safeStringify(obj) {
+                return JSON.stringify(toSafeValue(obj, new WeakSet()));
+            }
+
+            // Normalize log type for consistency (e.g., 'warn' to 'warning')
+            function normalizeType(type) {
+                return type === 'warn' ? 'warning' : type;
+            }
+
+            // Determine if a log type should be captured based on configured levels
+            function shouldCapture(type) {
+                return captureTypes.includes(normalizeType(type));
+            }
+
+            // Batch and send logs
+            function flushLogs() {
+                if (logQueue.length === 0) return;
+
+                const batch = logQueue.splice(0, logQueue.length);
+
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ logs: batch })
+                }).catch(err => {
+                    // Silently fail to avoid infinite loops
+                    originalConsole.error('Failed to send logs:', err);
+                });
+            }
+
+            // Debounced flush (100ms)
+            function scheduleFlush() {
+                if (flushTimeout) clearTimeout(flushTimeout);
+                flushTimeout = setTimeout(flushLogs, 100);
+            }
+
+            // Intercept console methods
+            ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
+                console[method] = function (...args) {
+                    // Call original method
+                    originalConsole[method].apply(console, args);
+
+                    // Capture log data
+                    try {
+                        if (!shouldCapture(method)) {
+                            return;
+                        }
+
+                        logQueue.push({
+                            type: method,
+                            timestamp: new Date().toISOString(),
+                            data: args.map(arg => {
+                                try {
+                                    return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                                } catch (e) {
+                                    return String(arg);
+                                }
+                            }),
+                            url: window.location.href,
+                            userAgent: navigator.userAgent
+                        });
+
+                        scheduleFlush();
+                    } catch (e) {
+                        // Fail silently
+                    }
+                };
+            });
+
+            // Global error handlers for uncaught errors
+            const originalOnError = window.onerror;
+            window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+                try {
+                    if (shouldCapture('error')) {
+                        logQueue.push({
+                            type: 'uncaught_error',
+                            timestamp: new Date().toISOString(),
+                            data: [{
+                                message: errorMsg,
+                                filename: url,
+                                lineno: lineNumber,
+                                colno: colNumber,
+                                error: error ? {
+                                    name: error.name,
+                                    message: error.message,
+                                    stack: error.stack
+                                } : null
+                            }],
+                            url: window.location.href,
+                            userAgent: navigator.userAgent
+                        });
+
+                        scheduleFlush();
+                    }
+
+                } catch (e) {
+                    // Fail silently
                 }
 
-                logQueue.push({
-                    type: method,
-                    timestamp: new Date().toISOString(),
-                    data: args.map(arg => {
-                        try {
-                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
-                        } catch (e) {
-                            return String(arg);
-                        }
-                    }),
-                    url: window.location.href,
-                    userAgent: navigator.userAgent
-                });
+                // Call original handler if it exists
+                if (originalOnError && typeof originalOnError === 'function') {
+                    return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+                }
 
-                scheduleFlush();
-            } catch (e) {
-                // Fail silently
-            }
-        };
-    });
-
-    // Global error handlers for uncaught errors
-    const originalOnError = window.onerror;
-    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
-        try {
-            if (shouldCapture('error')) {
-                logQueue.push({
-                    type: 'uncaught_error',
-                    timestamp: new Date().toISOString(),
-                    data: [{
-                        message: errorMsg,
-                        filename: url,
-                        lineno: lineNumber,
-                        colno: colNumber,
-                        error: error ? {
-                            name: error.name,
-                            message: error.message,
-                            stack: error.stack
-                        } : null
-                    }],
-                    url: window.location.href,
-                    userAgent: navigator.userAgent
-                });
-
-                scheduleFlush();
-            }
-
-        } catch (e) {
-            // Fail silently
-        }
-
-        // Call original handler if it exists
-        if (originalOnError && typeof originalOnError === 'function') {
-            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
-        }
-
-        // Let the error continue to propagate
-        return false;
-    }
-    window.addEventListener('error', (event) => {
-        try {
-            if (!shouldCapture('error')) {
+                // Let the error continue to propagate
                 return false;
             }
+            window.addEventListener('error', (event) => {
+                try {
+                    if (!shouldCapture('error')) {
+                        return false;
+                    }
 
-            logQueue.push({
-                type: 'window_error',
-                timestamp: new Date().toISOString(),
-                data: [{
-                    message: event.message,
-                    filename: event.filename,
-                    lineno: event.lineno,
-                    colno: event.colno,
-                    error: event.error ? {
-                        name: event.error.name,
-                        message: event.error.message,
-                        stack: event.error.stack
-                    } : null
-                }],
-                url: window.location.href,
-                userAgent: navigator.userAgent
-            });
+                    logQueue.push({
+                        type: 'window_error',
+                        timestamp: new Date().toISOString(),
+                        data: [{
+                            message: event.message,
+                            filename: event.filename,
+                            lineno: event.lineno,
+                            colno: event.colno,
+                            error: event.error ? {
+                                name: event.error.name,
+                                message: event.error.message,
+                                stack: event.error.stack
+                            } : null
+                        }],
+                        url: window.location.href,
+                        userAgent: navigator.userAgent
+                    });
 
-            scheduleFlush();
-        } catch (e) {
-            // Fail silently
-        }
+                    scheduleFlush();
+                } catch (e) {
+                    // Fail silently
+                }
 
-        // Let the error continue to propagate
-        return false;
-    });
-    window.addEventListener('unhandledrejection', (event) => {
-        try {
-            if (!shouldCapture('error')) {
+                // Let the error continue to propagate
                 return false;
-            }
+            });
+            window.addEventListener('unhandledrejection', (event) => {
+                try {
+                    if (!shouldCapture('error')) {
+                        return false;
+                    }
 
-            logQueue.push({
-                type: 'error',
-                timestamp: new Date().toISOString(),
-                data: [{
-                    message: 'Unhandled Promise Rejection',
-                    reason: toSafeValue(event.reason, new WeakSet())
-                }],
-                url: window.location.href,
-                userAgent: navigator.userAgent
+                    logQueue.push({
+                        type: 'error',
+                        timestamp: new Date().toISOString(),
+                        data: [{
+                            message: 'Unhandled Promise Rejection',
+                            reason: toSafeValue(event.reason, new WeakSet())
+                        }],
+                        url: window.location.href,
+                        userAgent: navigator.userAgent
+                    });
+
+                    scheduleFlush();
+                } catch (e) {
+                    // Fail silently
+                }
+
+                // Let the rejection continue to propagate
+                return false;
             });
 
-            scheduleFlush();
-        } catch (e) {
-            // Fail silently
-        }
-
-        // Let the rejection continue to propagate
-        return false;
-    });
-
-    // Flush on page unload
-    window.addEventListener('beforeunload', () => {
-        if (logQueue.length > 0) {
-            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
-        }
-    });
-})();
-</script>
+            // Flush on page unload
+            window.addEventListener('beforeunload', () => {
+                if (logQueue.length > 0) {
+                    navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+                }
+            });
+        })();
+    </script>
 </head>
+
 <body class="">
 
     <!-- Notification Alert Banners -->
-    
+
     <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
         <!-- Logo: SkillLearner Official Logo -->
@@ -1521,7 +1997,8 @@
             <div class="nav-dropdown">
                 <a href="/plans" class="dropdown-trigger ">
                     <span>Course Package</span>
-                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </a>
@@ -1536,54 +2013,63 @@
 
             <a href="/contact" class="">Contact</a>
             <a href="/courses" class="">Courses</a>
-            <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
+            <a href="javascript:void(0)"
+                onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
         </nav>
 
         <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
         <div class="nav-right-actions">
-                            <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
-                <div class="user-menu-wrapper">
-                    <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)" aria-label="My Account" title="My Account">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </button>
+            <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
+            <div class="user-menu-wrapper">
+                <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)"
+                    aria-label="My Account" title="My Account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
 
-                    <!-- Guest Account Dropdown Card -->
-                    <div class="user-dropdown-card" id="guestUserDropdownCard">
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">My Account</div>
-                        <a href="/my-account" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                                <polyline points="10 17 15 12 10 7"></polyline>
-                                <line x1="15" y1="12" x2="3" y2="12"></line>
-                            </svg>
-                            <span>Login / My Account</span>
-                        </a>
-                        <a href="/register" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <line x1="19" y1="8" x2="19" y2="14"></line>
-                                <line x1="22" y1="11" x2="16" y2="11"></line>
-                            </svg>
-                            <span>Register</span>
-                        </a>
-                        <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
-                        <a href="/buy-now" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                            <span>Buy Now</span>
-                        </a>
-                    </div>
+                <!-- Guest Account Dropdown Card -->
+                <div class="user-dropdown-card" id="guestUserDropdownCard">
+                    <div
+                        style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">
+                        My Account</div>
+                    <a href="/my-account" class="dropdown-link-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Login / My Account</span>
+                    </a>
+                    <a href="/register" class="dropdown-link-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="8" x2="19" y2="14"></line>
+                            <line x1="22" y1="11" x2="16" y2="11"></line>
+                        </svg>
+                        <span>Register</span>
+                    </a>
+                    <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
+                    <a href="/buy-now" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Buy Now</span>
+                    </a>
                 </div>
-            
+            </div>
+
             <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
-            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleMobileMenu(event)">
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation"
+                onclick="window.toggleMobileMenu(event)">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -1597,371 +2083,585 @@
     <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
         <!-- Drawer Header with Logo & Close Button -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="/images/logo.png" alt="SkillLearner" style="width: auto; max-width: 140px; object-fit: contain;">
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
-            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+            <button type="button" id="mobileCloseBtn" onclick="window.closeMobileMenu()" aria-label="Close Navigation"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
 
-                    <!-- Guest Navigation Links -->
-            <a href="/" class="mobile-nav-link ">Home</a>
-            <a href="/about" class="mobile-nav-link ">About</a>
-            <a href="/courses" class="mobile-nav-link ">Courses</a>
-            
-            <div>
-                <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
-                    <span>Course Package</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                    <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
-                    <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
-                    <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
-                    <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
-                    <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
-                </div>
-            </div>
+        <!-- Guest Navigation Links -->
+        <a href="/" class="mobile-nav-link ">Home</a>
+        <a href="/about" class="mobile-nav-link ">About</a>
+        <a href="/courses" class="mobile-nav-link ">Courses</a>
 
-            <a href="/contact" class="mobile-nav-link ">Contact</a>
+        <div>
+            <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
+                <span>Course Package</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div class="mobile-accordion-content" id="mobileCoursePackageContent">
+                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
+                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
+                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
+                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
+                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+            </div>
+        </div>
 
-            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
-                <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
-                <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy Now</a>
-            </div>
-            </div>
+        <a href="/contact" class="mobile-nav-link ">Contact</a>
+
+        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
+            <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
+            <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy
+                Now</a>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <main>
         <!-- Checkout Hero Banner -->
-<section style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.14) 0%, rgba(7, 10, 18, 0) 100%); padding: 3rem 1.5rem 2rem; text-align: center;">
-    <div class="container" style="max-width: 800px; padding: 0;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">
-            <span>⚡ Instant Enrollment & Access</span>
-        </div>
-        <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
-            Complete Your <span class="text-gradient">Purchase</span>
-        </h1>
-        <p style="color: var(--text-body); font-size: 1.05rem;">
-            You are 1 minute away from lifetime video masterclasses, community mentorship, and direct learning access.
-        </p>
-    </div>
-</section>
-
-<!-- 2-Column Buy Now Checkout Section -->
-<section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
-    <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
-        
-        <!-- Left Column: Order Summary & Item Description -->
-        <div>
-            
-            <!-- Item Selector Tabs (Course vs Package) -->
-            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-                <button type="button" onclick="switchCheckoutMode('package')" id="tabBtnPackage" class="checkout-tab-btn active">
-                    📦 Package Bundle (Best Value)
-                </button>
-                <button type="button" onclick="switchCheckoutMode('course')" id="tabBtnCourse" class="checkout-tab-btn ">
-                    🎓 Single Course Masterclass
-                </button>
-            </div>
-
-            <!-- Active Item Summary Card -->
-            <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
-                
-                <span id="displayItemBadge" style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
-                    MOST POPULAR
-                </span>
-
-                <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
-                    <!-- Visual Icon / Image -->
-                    <div id="displayVisualWrapper" style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; font-size: 2.6rem; flex-shrink: 0;">
-                                                    <img src="/images/packages/advance.png" alt="Advance Package" style="width: 100%; height: 100%; object-fit: contain;">
-                                            </div>
-
-                    <div>
-                        <div id="displayItemCategory" style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">
-                            SKILLLEARNER BUNDLE
-                        </div>
-                        <h3 id="displayItemTitle" style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">
-                            Advance Package
-                        </h3>
-                        <div id="displayItemMeta" style="font-size: 0.85rem; color: #94a3b8;">
-                            4 Full Courses Included
-                        </div>
-                    </div>
+        <section
+            style="background: linear-gradient(180deg, rgba(5, 179, 150, 0.14) 0%, rgba(7, 10, 18, 0) 100%); padding: 3rem 1.5rem 2rem; text-align: center;">
+            <div class="container" style="max-width: 800px; padding: 0;">
+                <div
+                    style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">
+                    <span>⚡ Instant Enrollment & Access</span>
                 </div>
-
-                <!-- Description Snippet -->
-                <p id="displayItemDesc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
-                    Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.
+                <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
+                    Complete Your <span class="text-gradient">Purchase</span>
+                </h1>
+                <p style="color: var(--text-body); font-size: 1.05rem;">
+                    You are 1 minute away from lifetime video masterclasses, community mentorship, and direct learning
+                    access.
                 </p>
+            </div>
+        </section>
 
-                <!-- What is Included In This Purchase -->
-                <div style="margin-bottom: 1.8rem;">
-                    <div style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.6px; margin-bottom: 0.6rem;">
-                        Included with this order:
-                    </div>
-                    <ul id="displayInclusionsList" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-                                                                                    <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-                                    <span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses
-                                </li>
-                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-                                    <span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere &amp; CapCut)
-                                </li>
-                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-                                    <span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula
-                                </li>
-                                                            <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-                                    <span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation Blueprint
-                                </li>
-                                                                        </ul>
-                </div>
+        <!-- 2-Column Buy Now Checkout Section -->
+        <section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
+            <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
 
-                <!-- Price Breakdown Table -->
-                <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.4rem;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.5rem;">
-                        <span>Original Course Fee</span>
-                        <span id="displayOldPrice" style="text-decoration: line-through;">₹4,999</span>
+                <!-- Left Column: Order Summary & Item Description -->
+                <div>
+
+                    <!-- Item Selector Tabs (Course vs Package) -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                        <button type="button" onclick="switchCheckoutMode('package')" id="tabBtnPackage"
+                            class="checkout-tab-btn active">
+                            📦 Package Bundle (Best Value)
+                        </button>
+                        <button type="button" onclick="switchCheckoutMode('course')" id="tabBtnCourse"
+                            class="checkout-tab-btn ">
+                            🎓 Single Course Masterclass
+                        </button>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #05B396; margin-bottom: 0.5rem;">
-                        <span>Limited Student Discount</span>
-                        <span id="displayDiscount">-₹2,500</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.8rem;">
-                        <span>GST & Platform Access</span>
-                        <span style="color: #22c55e; font-weight: 700;">FREE (₹0)</span>
-                    </div>
-                    <div style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline;">
-                        <span style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Total Payable Today</span>
-                        <span id="displayPrice" style="font-size: 1.9rem; font-weight: 800; color: #05B396;">
-                            ₹2,499
+
+                    <!-- Active Item Summary Card -->
+                    <div class="glass"
+                        style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
+
+                        <span id="displayItemBadge"
+                            style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
+                            MOST POPULAR
                         </span>
-                    </div>
-                </div>
 
-            </div>
+                        <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 1.4rem;">
+                            <!-- Visual Icon / Image -->
+                            <div id="displayVisualWrapper"
+                                style="width: 78px; height: 78px; border-radius: 14px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.35); display: flex; align-items: center; justify-content: center; font-size: 2.6rem; flex-shrink: 0;">
+                                <img src="/images/packages/advance.png" alt="Advance Package"
+                                    style="width: 100%; height: 100%; object-fit: contain;">
+                            </div>
 
-            <!-- Trust Badges -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center;">
-                <div class="glass" style="padding: 1rem; border-radius: 10px;">
-                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🔒</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">256-Bit SSL</div>
-                    <div style="font-size: 0.72rem; color: #94a3b8;">Encrypted Checkout</div>
-                </div>
-                <div class="glass" style="padding: 1rem; border-radius: 10px;">
-                    <div style="font-size: 1.5rem; margin-bottom: 4px;">⚡</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Instant Access</div>
-                    <div style="font-size: 0.72rem; color: #94a3b8;">Classroom Unlocked</div>
-                </div>
-                <div class="glass" style="padding: 1rem; border-radius: 10px;">
-                    <div style="font-size: 1.5rem; margin-bottom: 4px;">📜</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Certification</div>
-                    <div style="font-size: 0.72rem; color: #94a3b8;">Official ISO Credential</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Right Column: Student Details & Payment Form -->
-        <div class="glass" style="padding: 2.4rem; border-radius: var(--radius-lg); position: sticky; top: 100px; border: 1px solid var(--border-glass);">
-            
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">
-                Student Enrollment & Payment
-            </h3>
-            <p style="color: var(--text-body); font-size: 0.88rem; margin-bottom: 1.8rem;">
-                Enter your details to generate your student ID and unlock your learning dashboard.
-            </p>
-
-            <form method="POST" action="/process-buy-now" id="checkoutForm">
-                <input type="hidden" name="_token" value="MCgKlM1AfeHNtQdgJct69HtML191yKlMYHdmsyMI" autocomplete="off">                
-                <!-- Hidden inputs for active selection -->
-                <input type="hidden" name="item_type" id="formItemType" value="package">
-                <input type="hidden" name="item_id" id="formItemId" value="advance">
-
-                <!-- Full Name -->
-                <div class="form-group" style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
-                        Student Full Name <span style="color: #ef4444;">*</span>
-                    </label>
-                    <input type="text" name="name" required class="form-control" placeholder="Suraj Kumar" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
-                </div>
-
-                <!-- WhatsApp Number -->
-                <div class="form-group" style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
-                        WhatsApp Number <span style="color: #ef4444;">*</span>
-                    </label>
-                    <input type="tel" name="phone" required class="form-control" placeholder="9876543210" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
-                </div>
-
-                <!-- Email Address -->
-                <div class="form-group" style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
-                        Email Address (for LMS Login) <span style="color: #ef4444;">*</span>
-                    </label>
-                    <input type="email" name="email" required class="form-control" placeholder="suraj@example.com" value="" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
-                </div>
-
-                <!-- State / City -->
-                <div class="form-group" style="margin-bottom: 1.1rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
-                        Your State
-                    </label>
-                    <select name="state" class="form-control" style="background: #0f172a; border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
-                        <option value="Maharashtra" selected>Maharashtra</option>
-                        <option value="Delhi">Delhi NCR</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Other">Other State</option>
-                    </select>
-                </div>
-
-                <!-- Sponsor Referral ID -->
-                <div class="form-group" style="margin-bottom: 1.6rem;">
-                    <label style="font-size: 0.86rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.4rem; display: block;">
-                        Sponsor / Referral ID (Auto-Locked)
-                    </label>
-                    <input type="text" name="sponsor_id" readonly value="SKL-ADMIN" class="form-control" style="background: rgba(5, 179, 150, 0.08); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; font-weight: 800; padding: 0.75rem 1rem; border-radius: 8px; width: 100%;">
-                </div>
-
-                <!-- Payment Method Simulator Tabs -->
-                <div style="border-top: 1px solid var(--border-glass); padding-top: 1.4rem; margin-bottom: 1.6rem;">
-                    <label style="font-size: 0.88rem; font-weight: 800; color: #ffffff; margin-bottom: 0.8rem; display: block;">
-                        Select Payment Option
-                    </label>
-
-                    <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
-                        <button type="button" onclick="selectPaymentMethod('upi')" id="payTabUpi" class="pay-method-tab active">
-                            <span>📲 UPI / QR</span>
-                        </button>
-                        <button type="button" onclick="selectPaymentMethod('card')" id="payTabCard" class="pay-method-tab">
-                            <span>💳 Card</span>
-                        </button>
-                        <button type="button" onclick="selectPaymentMethod('netbanking')" id="payTabNb" class="pay-method-tab">
-                            <span>🏦 NetBanking</span>
-                        </button>
-                    </div>
-
-                    <!-- UPI Content -->
-                    <div id="methodContentUpi" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem; text-align: center;">
-                        <div style="display: flex; justify-content: center; margin-bottom: 0.8rem;">
-                            <!-- Simulated Visual UPI QR Code -->
-                            <div style="background: #ffffff; padding: 12px; border-radius: 12px; display: inline-block;">
-                                <svg width="130" height="130" viewBox="0 0 100 100">
-                                    <rect width="100" height="100" fill="#ffffff"/>
-                                    <!-- QR Corners -->
-                                    <rect x="5" y="5" width="28" height="28" fill="#0f172a" rx="2"/>
-                                    <rect x="9" y="9" width="20" height="20" fill="#ffffff" rx="1"/>
-                                    <rect x="13" y="13" width="12" height="12" fill="#05B396" rx="1"/>
-
-                                    <rect x="67" y="5" width="28" height="28" fill="#0f172a" rx="2"/>
-                                    <rect x="71" y="9" width="20" height="20" fill="#ffffff" rx="1"/>
-                                    <rect x="75" y="13" width="12" height="12" fill="#05B396" rx="1"/>
-
-                                    <rect x="5" y="67" width="28" height="28" fill="#0f172a" rx="2"/>
-                                    <rect x="9" y="71" width="20" height="20" fill="#ffffff" rx="1"/>
-                                    <rect x="13" y="75" width="12" height="12" fill="#05B396" rx="1"/>
-
-                                    <!-- QR Data Patterns -->
-                                    <rect x="40" y="8" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="52" y="8" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="40" y="20" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="50" y="24" width="8" height="8" fill="#0f172a"/>
-                                    <rect x="12" y="42" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="24" y="46" width="8" height="8" fill="#0f172a"/>
-                                    <rect x="42" y="42" width="16" height="16" fill="#05B396" rx="2"/>
-                                    <rect x="68" y="42" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="80" y="46" width="8" height="8" fill="#0f172a"/>
-                                    <rect x="42" y="68" width="8" height="8" fill="#0f172a"/>
-                                    <rect x="56" y="72" width="6" height="6" fill="#0f172a"/>
-                                    <rect x="72" y="72" width="16" height="16" fill="#0f172a"/>
-                                    <rect x="44" y="86" width="10" height="6" fill="#05B396"/>
-                                </svg>
+                            <div>
+                                <div id="displayItemCategory"
+                                    style="font-size: 0.78rem; color: #05B396; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">
+                                    SKILLLEARNER BUNDLE
+                                </div>
+                                <h3 id="displayItemTitle"
+                                    style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin: 2px 0;">
+                                    Advance Package
+                                </h3>
+                                <div id="displayItemMeta" style="font-size: 0.85rem; color: #94a3b8;">
+                                    4 Full Courses Included
+                                </div>
                             </div>
                         </div>
 
-                        <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.5rem;">
-                            Scan QR with <strong>GPay, PhonePe, Paytm, or CRED</strong>
+                        <!-- Description Snippet -->
+                        <p id="displayItemDesc"
+                            style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
+                            Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas,
+                            and 70% direct referral commission rights.
+                        </p>
+
+                        <!-- What is Included In This Purchase -->
+                        <div style="margin-bottom: 1.8rem;">
+                            <div
+                                style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.6px; margin-bottom: 0.6rem;">
+                                Included with this order:
+                            </div>
+                            <ul id="displayInclusionsList"
+                                style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <li
+                                    style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> All Basic Courses
+                                </li>
+                                <li
+                                    style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Video Editing (Premiere
+                                    &amp; CapCut)
+                                </li>
+                                <li
+                                    style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Instagram Growth Formula
+                                </li>
+                                <li
+                                    style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #05B396; font-weight: bold;">✓</span> Organic Lead Generation
+                                    Blueprint
+                                </li>
+                            </ul>
                         </div>
-                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); padding: 5px 12px; border-radius: 6px; font-size: 0.82rem; color: #05B396; font-weight: 700;">
-                            <span>UPI: skilllearner.pay@okaxis</span>
-                            <button type="button" onclick="navigator.clipboard.writeText('skilllearner.pay@okaxis'); alert('UPI ID copied to clipboard!')" style="background: none; border: none; color: #05B396; cursor: pointer; font-size: 0.82rem; text-decoration: underline;">Copy</button>
+
+                        <!-- Price Breakdown Table -->
+                        <div
+                            style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.4rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.5rem;">
+                                <span>Original Course Fee</span>
+                                <span id="displayOldPrice" style="text-decoration: line-through;">₹4,999</span>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #05B396; margin-bottom: 0.5rem;">
+                                <span>Limited Student Discount</span>
+                                <span id="displayDiscount">-₹2,500</span>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.92rem; color: #94a3b8; margin-bottom: 0.8rem;">
+                                <span>GST & Platform Access</span>
+                                <span style="color: #22c55e; font-weight: 700;">FREE (₹0)</span>
+                            </div>
+                            <div
+                                style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline;">
+                                <span style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Total Payable
+                                    Today</span>
+                                <span id="displayPrice" style="font-size: 1.9rem; font-weight: 800; color: #05B396;">
+                                    ₹2,499
+                                </span>
+                            </div>
                         </div>
+
                     </div>
 
-                    <!-- Card Content -->
-                    <div id="methodContentCard" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
-                        <input type="text" placeholder="Card Number (4000 1234 5678 9010)" class="form-control" style="margin-bottom: 0.8rem; font-size: 0.88rem; width: 100%;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-                            <input type="text" placeholder="MM / YY" class="form-control" style="font-size: 0.88rem; width: 100%;">
-                            <input type="password" placeholder="CVV" maxlength="3" class="form-control" style="font-size: 0.88rem; width: 100%;">
+                    <!-- Trust Badges -->
+                    <div
+                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center;">
+                        <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🔒</div>
+                            <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">256-Bit SSL</div>
+                            <div style="font-size: 0.72rem; color: #94a3b8;">Encrypted Checkout</div>
                         </div>
-                    </div>
-
-                    <!-- Net Banking Content -->
-                    <div id="methodContentNetbanking" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
-                        <select class="form-control" style="font-size: 0.88rem; width: 100%; background: #0f172a;">
-                            <option>HDFC Bank</option>
-                            <option>State Bank of India (SBI)</option>
-                            <option>ICICI Bank</option>
-                            <option>Axis Bank</option>
-                            <option>Kotak Mahindra Bank</option>
-                            <option>Punjab National Bank</option>
-                        </select>
+                        <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">⚡</div>
+                            <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Instant Access</div>
+                            <div style="font-size: 0.72rem; color: #94a3b8;">Classroom Unlocked</div>
+                        </div>
+                        <div class="glass" style="padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">📜</div>
+                            <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">Certification</div>
+                            <div style="font-size: 0.72rem; color: #94a3b8;">Official ISO Credential</div>
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- Submit Buy Now Button -->
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.05rem 1.5rem; font-size: 1.15rem; font-weight: 800; background: #05B396; border-radius: 10px; box-shadow: 0 6px 22px rgba(5, 179, 150, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <span>Complete Order & Buy Now ➔</span>
-                </button>
+                <!-- Right Column: Student Details & Payment Form -->
+                <div class="glass"
+                    style="padding: 2.4rem; border-radius: var(--radius-lg); position: sticky; top: 100px; border: 1px solid var(--border-glass);">
 
-                <p style="text-align: center; font-size: 0.78rem; color: #94a3b8; margin-top: 1rem;">
-                    🔒 Instant activation: You will be immediately redirected to your video classroom and student dashboard.
-                </p>
+                    <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">
+                        Student Enrollment & Payment
+                    </h3>
+                    <p style="color: var(--text-body); font-size: 0.88rem; margin-bottom: 1.8rem;">
+                        Enter your details to generate your student ID and unlock your learning dashboard.
+                    </p>
 
-            </form>
+                    <form method="POST" action="/process-buy-now" id="checkoutForm">
+                        <input type="hidden" name="_token" value="MCgKlM1AfeHNtQdgJct69HtML191yKlMYHdmsyMI"
+                            autocomplete="off">
+                        <!-- Hidden inputs for active selection -->
+                        <input type="hidden" name="item_type" id="formItemType" value="package">
+                        <input type="hidden" name="item_id" id="formItemId" value="advance">
 
-        </div>
+                        <!-- Full Name -->
+                        <div class="form-group" style="margin-bottom: 1.1rem;">
+                            <label
+                                style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                                Student Full Name <span style="color: #ef4444;">*</span>
+                            </label>
+                            <input type="text" name="name" required class="form-control" placeholder="Suraj Kumar"
+                                value=""
+                                style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                        </div>
 
-    </div>
-</section>
+                        <!-- WhatsApp Number -->
+                        <div class="form-group" style="margin-bottom: 1.1rem;">
+                            <label
+                                style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                                WhatsApp Number <span style="color: #ef4444;">*</span>
+                            </label>
+                            <input type="tel" name="phone" required class="form-control" placeholder="9876543210"
+                                value=""
+                                style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                        </div>
+
+                        <!-- Email Address -->
+                        <div class="form-group" style="margin-bottom: 1.1rem;">
+                            <label
+                                style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                                Email Address (for LMS Login) <span style="color: #ef4444;">*</span>
+                            </label>
+                            <input type="email" name="email" required class="form-control"
+                                placeholder="suraj@example.com" value=""
+                                style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                        </div>
+
+                        <!-- State / City -->
+                        <div class="form-group" style="margin-bottom: 1.1rem;">
+                            <label
+                                style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
+                                Your State
+                            </label>
+                            <select name="state" class="form-control"
+                                style="background: #0f172a; border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
+                                <option value="Maharashtra" selected>Maharashtra</option>
+                                <option value="Delhi">Delhi NCR</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Other">Other State</option>
+                            </select>
+                        </div>
+
+                        <!-- Sponsor Referral ID -->
+                        <div class="form-group" style="margin-bottom: 1.6rem;">
+                            <label
+                                style="font-size: 0.86rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.4rem; display: block;">
+                                Sponsor / Referral ID (Auto-Locked)
+                            </label>
+                            <input type="text" name="sponsor_id" readonly value="SKL-ADMIN" class="form-control"
+                                style="background: rgba(5, 179, 150, 0.08); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; font-weight: 800; padding: 0.75rem 1rem; border-radius: 8px; width: 100%;">
+                        </div>
+
+                        <!-- Payment Method Simulator Tabs -->
+                        <div
+                            style="border-top: 1px solid var(--border-glass); padding-top: 1.4rem; margin-bottom: 1.6rem;">
+                            <label
+                                style="font-size: 0.88rem; font-weight: 800; color: #ffffff; margin-bottom: 0.8rem; display: block;">
+                                Select Payment Option
+                            </label>
+
+                            <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
+                                <button type="button" onclick="selectPaymentMethod('upi')" id="payTabUpi"
+                                    class="pay-method-tab active">
+                                    <span>📲 UPI / QR</span>
+                                </button>
+                                <button type="button" onclick="selectPaymentMethod('card')" id="payTabCard"
+                                    class="pay-method-tab">
+                                    <span>💳 Card</span>
+                                </button>
+                                <button type="button" onclick="selectPaymentMethod('netbanking')" id="payTabNb"
+                                    class="pay-method-tab">
+                                    <span>🏦 NetBanking</span>
+                                </button>
+                            </div>
+
+                            <!-- UPI Content -->
+                            <div id="methodContentUpi"
+                                style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem; text-align: center;">
+                                <div style="display: flex; justify-content: center; margin-bottom: 0.8rem;">
+                                    <!-- Simulated Visual UPI QR Code -->
+                                    <div
+                                        style="background: #ffffff; padding: 12px; border-radius: 12px; display: inline-block;">
+                                        <svg width="130" height="130" viewBox="0 0 100 100">
+                                            <rect width="100" height="100" fill="#ffffff" />
+                                            <!-- QR Corners -->
+                                            <rect x="5" y="5" width="28" height="28" fill="#0f172a" rx="2" />
+                                            <rect x="9" y="9" width="20" height="20" fill="#ffffff" rx="1" />
+                                            <rect x="13" y="13" width="12" height="12" fill="#05B396" rx="1" />
+
+                                            <rect x="67" y="5" width="28" height="28" fill="#0f172a" rx="2" />
+                                            <rect x="71" y="9" width="20" height="20" fill="#ffffff" rx="1" />
+                                            <rect x="75" y="13" width="12" height="12" fill="#05B396" rx="1" />
+
+                                            <rect x="5" y="67" width="28" height="28" fill="#0f172a" rx="2" />
+                                            <rect x="9" y="71" width="20" height="20" fill="#ffffff" rx="1" />
+                                            <rect x="13" y="75" width="12" height="12" fill="#05B396" rx="1" />
+
+                                            <!-- QR Data Patterns -->
+                                            <rect x="40" y="8" width="6" height="6" fill="#0f172a" />
+                                            <rect x="52" y="8" width="6" height="6" fill="#0f172a" />
+                                            <rect x="40" y="20" width="6" height="6" fill="#0f172a" />
+                                            <rect x="50" y="24" width="8" height="8" fill="#0f172a" />
+                                            <rect x="12" y="42" width="6" height="6" fill="#0f172a" />
+                                            <rect x="24" y="46" width="8" height="8" fill="#0f172a" />
+                                            <rect x="42" y="42" width="16" height="16" fill="#05B396" rx="2" />
+                                            <rect x="68" y="42" width="6" height="6" fill="#0f172a" />
+                                            <rect x="80" y="46" width="8" height="8" fill="#0f172a" />
+                                            <rect x="42" y="68" width="8" height="8" fill="#0f172a" />
+                                            <rect x="56" y="72" width="6" height="6" fill="#0f172a" />
+                                            <rect x="72" y="72" width="16" height="16" fill="#0f172a" />
+                                            <rect x="44" y="86" width="10" height="6" fill="#05B396" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.5rem;">
+                                    Scan QR with <strong>GPay, PhonePe, Paytm, or CRED</strong>
+                                </div>
+                                <div
+                                    style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); padding: 5px 12px; border-radius: 6px; font-size: 0.82rem; color: #05B396; font-weight: 700;">
+                                    <span>UPI: skilllearner.pay@okaxis</span>
+                                    <button type="button"
+                                        onclick="navigator.clipboard.writeText('skilllearner.pay@okaxis'); alert('UPI ID copied to clipboard!')"
+                                        style="background: none; border: none; color: #05B396; cursor: pointer; font-size: 0.82rem; text-decoration: underline;">Copy</button>
+                                </div>
+                            </div>
+
+                            <!-- Card Content -->
+                            <div id="methodContentCard"
+                                style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
+                                <input type="text" placeholder="Card Number (4000 1234 5678 9010)" class="form-control"
+                                    style="margin-bottom: 0.8rem; font-size: 0.88rem; width: 100%;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                                    <input type="text" placeholder="MM / YY" class="form-control"
+                                        style="font-size: 0.88rem; width: 100%;">
+                                    <input type="password" placeholder="CVV" maxlength="3" class="form-control"
+                                        style="font-size: 0.88rem; width: 100%;">
+                                </div>
+                            </div>
+
+                            <!-- Net Banking Content -->
+                            <div id="methodContentNetbanking"
+                                style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1.2rem;">
+                                <select class="form-control"
+                                    style="font-size: 0.88rem; width: 100%; background: #0f172a;">
+                                    <option>HDFC Bank</option>
+                                    <option>State Bank of India (SBI)</option>
+                                    <option>ICICI Bank</option>
+                                    <option>Axis Bank</option>
+                                    <option>Kotak Mahindra Bank</option>
+                                    <option>Punjab National Bank</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- Submit Buy Now Button -->
+                        <button type="submit" class="btn btn-primary"
+                            style="width: 100%; padding: 1.05rem 1.5rem; font-size: 1.15rem; font-weight: 800; background: #05B396; border-radius: 10px; box-shadow: 0 6px 22px rgba(5, 179, 150, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <span>Complete Order & Buy Now ➔</span>
+                        </button>
+
+                        <p style="text-align: center; font-size: 0.78rem; color: #94a3b8; margin-top: 1rem;">
+                            🔒 Instant activation: You will be immediately redirected to your video classroom and
+                            student dashboard.
+                        </p>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </section>
 
 
     </main>
 
-        <!-- Footer matching AWS Live -->
-    <footer style="border-top: 1px solid var(--border-glass); padding: 3rem 1.5rem; text-align: center; color: var(--text-body); font-size: 0.9rem; margin-top: 4rem;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <img src="/images/logo.png" alt="SkillLearner" style="width: auto; max-width: 220px; object-fit: contain; margin-bottom: 1rem;">
-            <p style="margin-bottom: 1rem;">SkillLearner — Build Skills, Build Future. Practical Video Masterclasses & Community Mentorship.</p>
-            <p>© 2026 SkillLearner. All Rights Reserved.</p>
+    <!-- Modern Dark Footer based on Reference Design -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Col 1: Brand Info -->
+                <div>
+                    <a href="/" style="display: inline-block; margin-bottom: 1.2rem;">
+                        <img src="/images/logo.png" alt="SkillLearner"
+                            style="width: auto; max-width: 210px; height: auto; object-fit: contain; display: block;">
+                    </a>
+                    <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin: 0; max-width: 340px;">
+                        Welcome to SkillLearner. We provide a platform for you to learn new skills and explore earning
+                        opportunities through our comprehensive courses and community.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h3 class="footer-col-title">Quick Links</h3>
+                    <div class="footer-accent-bar"></div>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="#privacy" class="footer-link"
+                                onclick="openFooterLegalModal('privacy', event)">Privacy Policy</a></li>
+                        <li><a href="#terms" class="footer-link" onclick="openFooterLegalModal('terms', event)">Terms
+                                &amp; Condition</a></li>
+                        <li><a href="#refund" class="footer-link" onclick="openFooterLegalModal('refund', event)">Cancel
+                                &amp; Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Packages -->
+                <div>
+                    <h3 class="footer-col-title">Packages</h3>
+                    <div class="footer-accent-bar"></div>
+                    <ul class="footer-links">
+                        <li><a href="/courses#basic" class="footer-link">Basic Package</a></li>
+                        <li><a href="/courses#growth" class="footer-link">Growth Package</a></li>
+                        <li><a href="/courses#advance" class="footer-link">Advance Package</a></li>
+                        <li><a href="/courses#premium" class="footer-link">Premium Package</a></li>
+                        <li><a href="/courses#infinity" class="footer-link">Infinity Package</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Get In Touch -->
+                <div>
+                    <h3 class="footer-col-title">Get In Touch</h3>
+                    <div class="footer-accent-bar"></div>
+                    <div class="contact-list">
+
+                        <!-- Address -->
+                        <div class="contact-item">
+                            <div class="contact-icon-bubble">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="contact-title">Our Address</div>
+                                <div class="contact-value" style="color: #94a3b8;">Mumbai Maharashtra</div>
+                            </div>
+                        </div>
+
+                        <!-- Call Us -->
+                        <div class="contact-item">
+                            <div class="contact-icon-bubble">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="contact-title">Call Us</div>
+                                <a href="tel:8318373108" class="contact-value">8318373108</a>
+                            </div>
+                        </div>
+
+                        <!-- Mail Us -->
+                        <div class="contact-item">
+                            <div class="contact-icon-bubble">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="contact-title">Mail Us</div>
+                                <a href="mailto:support.skilllearner@gmail.com" class="contact-value">support.skilllearner@gmail.com</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="footer-bottom">
+                <p style="margin: 0;">&copy; 2026 <strong style="color: #cbd5e1;">SkillLearner</strong>. All Rights
+                    Reserved.</p>
+                <p style="margin: 0;">Build Skills, Build Future. Empowering ambitious learners across India.</p>
+            </div>
         </div>
     </footer>
-    
+
+    <!-- Footer Legal Policy Modal -->
+    <div id="footerLegalModal" class="modal"
+        style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2100; align-items: center; justify-content: center; padding: 1.5rem;">
+        <div
+            style="background: #ffffff; border-radius: 20px; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2.2rem; position: relative; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5); border: 1px solid rgba(226, 232, 240, 0.8);">
+            <button type="button" onclick="closeFooterLegalModal()"
+                style="position: absolute; top: 1.2rem; right: 1.2rem; background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569; transition: background 0.2s;"
+                aria-label="Close">&times;</button>
+            <h3 id="legalModalTitle"
+                style="font-size: 1.45rem; font-weight: 800; color: #0c2340; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                Privacy Policy</h3>
+            <div id="legalModalBody" style="color: #475569; font-size: 0.96rem; line-height: 1.75;"></div>
+        </div>
+    </div>
+
+    <script>
+        function openFooterLegalModal(type, e) {
+            if (e) e.preventDefault();
+            var modal = document.getElementById('footerLegalModal');
+            var title = document.getElementById('legalModalTitle');
+            var body = document.getElementById('legalModalBody');
+            if (!modal || !title || !body) return;
+
+            if (type === 'privacy') {
+                title.innerText = 'Privacy Policy';
+                body.innerHTML = '<p><strong>SkillLearner</strong> respects your privacy and is committed to protecting your personal data. We collect essential information such as name, email, and contact number solely to provide access to your purchased courses, process student verifications, and ensure account security.</p><p style="margin-top: 1rem;">We maintain industry-standard security practices and never sell, rent, or trade your personal information to third parties. For data inquiries, reach out anytime to <strong>support.skilllearner@gmail.com</strong>.</p>';
+            } else if (type === 'terms') {
+                title.innerText = 'Terms & Conditions';
+                body.innerHTML = '<p>Welcome to <strong>SkillLearner</strong>. By creating an account, browsing courses, or purchasing training packages on this platform, you agree to abide by our terms and conditions.</p><p style="margin-top: 1rem;">All course content, video lessons, and downloadable curriculum materials are protected intellectual property. They are licensed exclusively for your individual educational development and may not be copied, distributed, or resold without prior written authorization.</p>';
+            } else if (type === 'refund') {
+                title.innerText = 'Cancel & Refund Policy';
+                body.innerHTML = '<p>At <strong>SkillLearner</strong>, our video courses and package curriculums are delivered via immediate digital access upon successful payment confirmation.</p><p style="margin-top: 1rem;">Because full digital resources, video masterclasses, and mentorship groups are unlocked instantly, purchases are generally non-refundable once dashboard access has been granted. In cases of duplicate transactions or proven technical system errors, please contact our support desk at <strong>support.skilllearner@gmail.com</strong> within 48 hours for immediate assistance.</p>';
+            }
+            modal.style.display = 'flex';
+        }
+        function closeFooterLegalModal() {
+            var modal = document.getElementById('footerLegalModal');
+            if (modal) modal.style.display = 'none';
+        }
+    </script>
+
     <!-- Razorpay Simulated Modal (Available Globally) -->
     <div id="razorpayModal" class="modal">
         <div class="modal-box">
             <button class="close-btn" onclick="closeModal('razorpayModal')">&times;</button>
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem;">
-                <span style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
+                <span
+                    style="background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 800;">Razorpay</span>
                 <h3 style="font-size: 1.25rem;">Secure Checkout</h3>
             </div>
-            
+
             <div style="background: rgba(0, 0, 0, 0.04); padding: 1rem; border-radius: 8px; margin-bottom: 1.4rem;">
                 <div style="display: flex; justify-content: space-between;">
                     <span id="rzpPackage" style="font-weight: 700; color: #0f172a;">Advance Package</span>
                     <span id="rzpPrice" style="color: #10b981; font-weight: 800; font-size: 1.1rem;">₹3,499</span>
                 </div>
-                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access</div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Instant Activation & Lifetime Access
+                </div>
             </div>
 
             <form onsubmit="handleMockPayment(event)">
@@ -1977,7 +2677,8 @@
                     <label>UPI ID or Phone Number</label>
                     <input type="text" class="form-control" placeholder="yourname@okhdfcbank" required>
                 </div>
-                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
+                <button type="submit" id="rzpSubmitBtn" class="btn btn-primary"
+                    style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800;">
                     Pay & Complete Enrollment
                 </button>
             </form>
@@ -1987,7 +2688,7 @@
     <script src="/js/app.js"></script>
     <script>
         // Global Mobile Navigation Handlers
-        window.toggleMobileMenu = function(e) {
+        window.toggleMobileMenu = function (e) {
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1995,9 +2696,9 @@
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
-            
+
             const isOpen = drawer && drawer.classList.contains('active');
-            
+
             if (isOpen) {
                 window.closeMobileMenu();
             } else {
@@ -2005,7 +2706,7 @@
             }
         };
 
-        window.openMobileMenu = function() {
+        window.openMobileMenu = function () {
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
@@ -2015,7 +2716,7 @@
             document.body.style.overflow = 'hidden';
         };
 
-        window.closeMobileMenu = function() {
+        window.closeMobileMenu = function () {
             const btn = document.getElementById('mobileMenuBtn');
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
@@ -2025,7 +2726,7 @@
             document.body.style.overflow = '';
         };
 
-        window.toggleMobileAccordion = function(e) {
+        window.toggleMobileAccordion = function (e) {
             if (e) e.preventDefault();
             const btn = document.getElementById('mobileCoursePackageBtn');
             const content = document.getElementById('mobileCoursePackageContent');
@@ -2033,7 +2734,7 @@
             if (content) content.classList.toggle('open');
         };
 
-        window.mobileSwitchPortalTab = function(tabId) {
+        window.mobileSwitchPortalTab = function (tabId) {
             window.closeMobileMenu();
             if (window.location.pathname.includes('/dashboard')) {
                 if (typeof window.switchPortalTab === 'function') {
@@ -2127,110 +2828,111 @@
         }
     </script>
     <script>
-    const packagesData = {
-        'basic': {
-            name: 'Basic Package',
-            price: 1499,
-            oldPrice: 2999,
-            badge: 'STARTER',
-            image: "/images/packages/basic.png",
-            desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
-            inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
-        },
-        'advance': {
-            name: 'Advance Package',
-            price: 2499,
-            oldPrice: 4999,
-            badge: 'MOST POPULAR',
-            image: "/images/packages/advance.png",
-            desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
-            inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
-        },
-        'premium': {
-            name: 'Premium Package',
-            price: 3999,
-            oldPrice: 7999,
-            badge: 'BEST VALUE',
-            image: "/images/packages/premium.png",
-            desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
-            inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
-        },
-        'growth': {
-            name: 'Growth Package',
-            price: 5999,
-            oldPrice: 11999,
-            badge: 'HIGH GROWTH',
-            image: "/images/packages/growth.png",
-            desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
-            inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
-        },
-        'infinity': {
-            name: 'Infinity Package',
-            price: 9999,
-            oldPrice: 19999,
-            badge: 'VIP ALL ACCESS',
-            image: "/images/packages/infinity.png",
-            desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
-            inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
+        const packagesData = {
+            'basic': {
+                name: 'Basic Package',
+                price: 1499,
+                oldPrice: 2999,
+                badge: 'STARTER',
+                image: "/images/packages/basic.png",
+                desc: 'Foundational digital skill package including Canva Pro, MS Excel Essentials, Spoken English, and Social Media Fundamentals.',
+                inclusions: ['Canva Pro Mastery', 'MS Excel Essentials', 'Basic Spoken English', 'Social Media Fundamentals', 'Certificate of Completion']
+            },
+            'advance': {
+                name: 'Advance Package',
+                price: 2499,
+                oldPrice: 4999,
+                badge: 'MOST POPULAR',
+                image: "/images/packages/advance.png",
+                desc: 'The best-selling affiliate growth package with Short-Form Video Editing, Instagram Growth Formula, Organic Lead Generation, and all Basic courses.',
+                inclusions: ['All Basic Package Courses', 'Video Editing (Premiere & CapCut)', 'Instagram Growth Formula', 'Organic Lead Generation Blueprint', '70% Direct Affiliate Commissions']
+            },
+            'premium': {
+                name: 'Premium Package',
+                price: 3999,
+                oldPrice: 7999,
+                badge: 'BEST VALUE',
+                image: "/images/packages/premium.png",
+                desc: 'Comprehensive monetization package covering Meta Ads Mastery, AI & ChatGPT Cashflow Kit, and WordPress Web Design.',
+                inclusions: ['All Advance Courses', 'Facebook & Instagram Paid Ads', 'AI & ChatGPT Monetization Kit', 'WordPress Web Development', 'High-Tier Commission Access']
+            },
+            'growth': {
+                name: 'Growth Package',
+                price: 5999,
+                oldPrice: 11999,
+                badge: 'HIGH GROWTH',
+                image: "/images/packages/growth.png",
+                desc: 'Scale to high-ticket revenue with sales closing mastery, full funnel building, Google Ads, and automated conversion systems.',
+                inclusions: ['All Premium Courses', 'Complete Funnel Building', 'High-Ticket Sales Closing', 'Google & YouTube Ads', 'Priority VIP Support']
+            },
+            'infinity': {
+                name: 'Infinity Package',
+                price: 9999,
+                oldPrice: 19999,
+                badge: 'VIP ALL ACCESS',
+                image: "/images/packages/infinity.png",
+                desc: 'Lifetime all-inclusive VIP pass with 1-on-1 mentorship, live weekly mastermind calls, and full access to every existing and future course.',
+                inclusions: ['Full Lifetime Access Pass to All Masterclasses', 'UI/UX Design Masterclass', '1-on-1 Mentorship & Weekly Live Masterminds', 'VIP Community & Direct Founder Access']
+            }
+        };
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.pay-method-tab').forEach(b => b.classList.remove('active'));
+            document.getElementById('payTabUpi').classList.toggle('active', method === 'upi');
+            document.getElementById('payTabCard').classList.toggle('active', method === 'card');
+            document.getElementById('payTabNb').classList.toggle('active', method === 'netbanking');
+
+            document.getElementById('methodContentUpi').style.display = method === 'upi' ? 'block' : 'none';
+            document.getElementById('methodContentCard').style.display = method === 'card' ? 'block' : 'none';
+            document.getElementById('methodContentNetbanking').style.display = method === 'netbanking' ? 'block' : 'none';
         }
-    };
 
-    function selectPaymentMethod(method) {
-        document.querySelectorAll('.pay-method-tab').forEach(b => b.classList.remove('active'));
-        document.getElementById('payTabUpi').classList.toggle('active', method === 'upi');
-        document.getElementById('payTabCard').classList.toggle('active', method === 'card');
-        document.getElementById('payTabNb').classList.toggle('active', method === 'netbanking');
+        function switchCheckoutMode(mode) {
+            document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
+            document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
+            document.getElementById('formItemType').value = mode;
 
-        document.getElementById('methodContentUpi').style.display = method === 'upi' ? 'block' : 'none';
-        document.getElementById('methodContentCard').style.display = method === 'card' ? 'block' : 'none';
-        document.getElementById('methodContentNetbanking').style.display = method === 'netbanking' ? 'block' : 'none';
-    }
+            if (mode === 'package') {
+                const pkg = packagesData['advance'];
+                document.getElementById('formItemId').value = 'advance';
+                document.getElementById('displayItemBadge').innerText = pkg.badge;
+                document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
+                document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
+                document.getElementById('displayItemTitle').innerText = pkg.name;
+                document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
+                document.getElementById('displayItemDesc').innerText = pkg.desc;
+                document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
+                document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
+                document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
 
-    function switchCheckoutMode(mode) {
-        document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
-        document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
-        document.getElementById('formItemType').value = mode;
+                let incHtml = '';
+                pkg.inclusions.forEach(item => {
+                    incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
+                });
+                document.getElementById('displayInclusionsList').innerHTML = incHtml;
+            } else {
+                // Course Mode - Default to Affiliate Marketing
+                document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
+                document.getElementById('displayItemBadge').innerText = 'BESTSELLER';
+                document.getElementById('displayVisualWrapper').innerHTML = `<span style="font-size:2.6rem;">🚀</span>`;
+                document.getElementById('displayItemCategory').innerText = 'AFFILIATE BUSINESS';
+                document.getElementById('displayItemTitle').innerText = 'High-Ticket Affiliate Marketing Masterclass';
+                document.getElementById('displayItemMeta').innerText = '18 Lessons • 6h 40m Video Runtime';
+                document.getElementById('displayItemDesc').innerText = 'Master high-ticket affiliate funnels, organic lead generation on Instagram and LinkedIn, copy-paste WhatsApp DM scripts, and scaling to ₹50,000+ monthly.';
+                document.getElementById('displayOldPrice').innerText = '₹3,999';
+                document.getElementById('displayDiscount').innerText = '-₹2,500';
+                document.getElementById('displayPrice').innerText = '₹1,499';
 
-        if (mode === 'package') {
-            const pkg = packagesData['advance'];
-            document.getElementById('formItemId').value = 'advance';
-            document.getElementById('displayItemBadge').innerText = pkg.badge;
-            document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
-            document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
-            document.getElementById('displayItemTitle').innerText = pkg.name;
-            document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
-            document.getElementById('displayItemDesc').innerText = pkg.desc;
-            document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
-            document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
-            document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
-
-            let incHtml = '';
-            pkg.inclusions.forEach(item => {
-                incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
-            });
-            document.getElementById('displayInclusionsList').innerHTML = incHtml;
-        } else {
-            // Course Mode - Default to Affiliate Marketing
-            document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
-            document.getElementById('displayItemBadge').innerText = 'BESTSELLER';
-            document.getElementById('displayVisualWrapper').innerHTML = `<span style="font-size:2.6rem;">🚀</span>`;
-            document.getElementById('displayItemCategory').innerText = 'AFFILIATE BUSINESS';
-            document.getElementById('displayItemTitle').innerText = 'High-Ticket Affiliate Marketing Masterclass';
-            document.getElementById('displayItemMeta').innerText = '18 Lessons • 6h 40m Video Runtime';
-            document.getElementById('displayItemDesc').innerText = 'Master high-ticket affiliate funnels, organic lead generation on Instagram and LinkedIn, copy-paste WhatsApp DM scripts, and scaling to ₹50,000+ monthly.';
-            document.getElementById('displayOldPrice').innerText = '₹3,999';
-            document.getElementById('displayDiscount').innerText = '-₹2,500';
-            document.getElementById('displayPrice').innerText = '₹1,499';
-
-            let incHtml = `
+                let incHtml = `
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> 18 High-Def Masterclass Lessons</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Downloadable Funnel Blueprints & Scripts</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Verified Digital Certificate of Completion</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Lifetime Access on All Devices</li>
             `;
-            document.getElementById('displayInclusionsList').innerHTML = incHtml;
+                document.getElementById('displayInclusionsList').innerHTML = incHtml;
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>
