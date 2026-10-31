@@ -33,7 +33,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
         html, body { 
             /* background-color: var(--bg-body);  */
-            color: var(--text-title); 
+            /* color: var(--text-title);  */
             line-height: 1.6; 
             overflow-x: hidden !important; 
             max-width: 100vw !important;

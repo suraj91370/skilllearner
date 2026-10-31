@@ -27,9 +27,9 @@
 <!-- Packages Showcase -->
 <section class="container" id="packages">
     <div style="text-align: center; margin-bottom: 3.5rem;">
-        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages & Tiers</div>
-        <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">Select Your Learning Track</h2>
-        <p style="color: var(--text-body); max-width: 620px; margin: 0 auto;">Every package unlocks premium high-yield skills along with direct and passive referral commission rights.</p>
+        <div style="text-transform: uppercase; letter-spacing: 2.5px; color: #0B4F4A; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages & Tiers</div>
+        <h2 style="font-size: 2.0 rem; font-weight: 800; letter-spacing: -0.5px; color:#0A6B5C;">Select Your Learning Track</h2>
+        <p style="max-width: 620px; margin: 0 auto;">Every package unlocks premium high-yield skills along with direct and passive referral commission rights.</p>
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
