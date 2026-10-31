@@ -1994,7 +1994,7 @@
                     high-yield skills along with direct access to practical video masterclasses.</p>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+            <div class="packages-showcase-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
                 
                 <!-- 1 Basic Package -->
                 <div class="glass package-card-home" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; border: 1.5px solid rgba(168, 85, 247, 0.45); background: linear-gradient(180deg, #1b0c33 0%, #0d0519 100%);">
@@ -2290,313 +2290,388 @@
             </div>
         </section>
 
-        <!-- Course Curriculum & Descriptions -->
-        <section class="container" style="padding-top: 0; padding-bottom: 5rem;">
-            <div style="text-align: center; margin-bottom: 3.5rem;">
-                <div
-                    style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">
-                    Curriculum & Syllabuses</div>
-                <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">High-Yield Skill Courses</h2>
-                <p style="color: var(--text-body); max-width: 600px; margin: 0 auto;">Read full course descriptions,
-                    learning modules, and enroll directly with one click.</p>
-            </div>
+                <!-- Why Choose SkillLearner Section -->
+        <section style="padding: 5rem 1.5rem 6rem; position: relative; overflow: hidden; background: radial-gradient(circle at 8% 25%, rgba(240, 253, 250, 0.7) 0%, #ffffff 45%, rgba(254, 243, 199, 0.4) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+            <!-- Ambient Blur Accents -->
+            <div style="position: absolute; top: -40px; right: 10%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(11, 79, 74, 0.08) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+            <div style="position: absolute; bottom: -40px; left: 5%; width: 260px; height: 260px; background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🚀</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">6h
-                            40m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">BESTSELLER</span>
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+                
+                <div class="why-choose-layout" style="display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 3.5rem; align-items: center;">
+                    
+                    <!-- Left Column: Header, Subtitle, and 2x2 Grid -->
+                    <div>
+                        <h2 style="font-size: clamp(2.1rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
+                            Why Choose <span style="color: #0B4F4A;">Skill</span><span style="color: #0A6B5C;">Learner</span>
+                        </h2>
+
+                        <p style="font-size: 1.05rem; line-height: 1.6; color: #475569; margin-bottom: 2.2rem; max-width: 680px; font-weight: 500;">
+                            &ldquo;Your Growth, Our Priority. Learn Smarter, Build Skills and Create a Better Future with SkillLearner.&rdquo;
+                        </p>
+
+                        <!-- 2x2 Feature Cards Grid -->
+                        <div class="why-choose-cards-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem;">
+                            
+                            <!-- Card 1: Industry-Relevant Courses -->
+                            <div class="why-choose-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; padding: 1.4rem 1.25rem; box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); display: flex; gap: 1rem; align-items: flex-start; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;">
+                                <div class="why-icon-badge" style="width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.2); display: flex; align-items: center; justify-content: center; color: #0B4F4A; flex-shrink: 0;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                        <line x1="9" y1="7" x2="16" y2="7"></line>
+                                        <line x1="9" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 0.4rem; line-height: 1.3;">
+                                        1. Industry-Relevant Courses
+                                    </h4>
+                                    <p style="color: #64748b; font-size: 0.85rem; line-height: 1.55; margin: 0; font-weight: 500;">
+                                        Learn practical and in-demand skills designed to help you stay updated with changing industry requirements.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Expert-Led Learning -->
+                            <div class="why-choose-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; padding: 1.4rem 1.25rem; box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); display: flex; gap: 1rem; align-items: flex-start; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;">
+                                <div class="why-icon-badge" style="width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: center; color: #D97706; flex-shrink: 0;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 0.4rem; line-height: 1.3;">
+                                        2. Expert-Led Learning
+                                    </h4>
+                                    <p style="color: #64748b; font-size: 0.85rem; line-height: 1.55; margin: 0; font-weight: 500;">
+                                        Gain knowledge through structured learning content created and guided by experienced educators.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Learn Anytime, Anywhere -->
+                            <div class="why-choose-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; padding: 1.4rem 1.25rem; box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); display: flex; gap: 1rem; align-items: flex-start; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;">
+                                <div class="why-icon-badge" style="width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.25); display: flex; align-items: center; justify-content: center; color: #0284C7; flex-shrink: 0;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 0.4rem; line-height: 1.3;">
+                                        3. Learn Anytime, Anywhere
+                                    </h4>
+                                    <p style="color: #64748b; font-size: 0.85rem; line-height: 1.55; margin: 0; font-weight: 500;">
+                                        Enjoy the flexibility to access your learning resources at your convenience.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Affordable Learning Packages -->
+                            <div class="why-choose-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; padding: 1.4rem 1.25rem; box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); display: flex; gap: 1rem; align-items: flex-start; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;">
+                                <div class="why-icon-badge" style="width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); display: flex; align-items: center; justify-content: center; color: #059669; flex-shrink: 0;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="4" width="20" height="16" rx="3"></rect>
+                                        <path d="M2 10h20"></path>
+                                        <circle cx="16" cy="15" r="1.5" fill="currentColor"></circle>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 0.4rem; line-height: 1.3;">
+                                        4. Affordable Learning Packages
+                                    </h4>
+                                    <p style="color: #64748b; font-size: 0.85rem; line-height: 1.55; margin: 0; font-weight: 500;">
+                                        Choose learning packages that match your goals, interests and budget.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Affiliate
-                                Business</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                High-Ticket Affiliate Marketing Masterclass</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket
-                                affiliate funnels.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">18 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/affiliate-marketing-masterclass" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
+                    <!-- Right Side: Professional Feature Image -->
+                    <div class="why-choose-img-wrapper" style="display: flex; justify-content: center; align-items: center; position: relative;">
+                        <div style="position: absolute; width: 90%; height: 90%; background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(11, 79, 74, 0.15) 50%, transparent 75%); filter: blur(35px); pointer-events: none;"></div>
+                        <img src="/images/why-choose-skilllearner.jpg" alt="Why Choose SkillLearner" style="width: 100%; max-width: 440px; height: auto; border-radius: 24px; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.8); position: relative; z-index: 2; object-fit: cover;">
                     </div>
+
                 </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🤖</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h
-                            15m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">TRENDING</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Artificial
-                                Intelligence</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                AI, ChatGPT &amp; Automation Cashflow</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance
-                                services in minutes.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">14 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,299</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/ai-chatgpt-automation" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🎬</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">8h
-                            20m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HOT
-                            SKILL</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Video
-                                &amp; Media</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Short-Form Video Editing (CapCut &amp; Premiere Pro)</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the
-                                first 2 seconds.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">22 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/short-form-video-editing" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>📈</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h
-                            50m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HIGH
-                            ROI</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Performance
-                                Marketing</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Meta Ads Mastery: Facebook &amp; Instagram Leads</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Run profitable Facebook &amp; Instagram ads for real estate, e-commerce, coaching, and
-                                lead gen.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">16 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,699</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/meta-ads-mastery" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=meta-ads-mastery" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>💻</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">7h
-                            30m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">MOST
-                            PRACTICAL</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Web
-                                Design</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                WordPress &amp; Landing Page Design No-Code</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Build high-converting sales pages, company websites, and portfolios using Elementor
-                                without coding.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">20 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/wordpress-landing-page-design" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=wordpress-landing-page-design" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>⭐</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">4h
-                            10m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">FAST
-                            GROWTH</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Social
-                                Media</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Personal Branding &amp; Instagram Reel Blueprint</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Build authority, attract inbound client inquiries, and grow your Instagram followers
-                                organically.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">12 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹999</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/personal-branding-instagram-reels" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=personal-branding-instagram-reels" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="/courses" class="btn btn-secondary"
-                    style="padding: 0.9rem 2.2rem; font-size: 1rem; font-weight: 700;">
-                    View All Courses With Full Syllabuses ➔
-                </a>
             </div>
         </section>
+
+        <!-- Our Founders Section -->
+        <section style="padding: 5.5rem 1.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 90% 15%, rgba(254, 243, 199, 0.45) 0%, #ffffff 40%, rgba(240, 253, 250, 0.6) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+            <!-- Ambient Glow Accents -->
+            <div style="position: absolute; top: -50px; left: 10%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(11, 79, 74, 0.1) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+            <div style="position: absolute; bottom: -50px; right: 5%; width: 260px; height: 260px; background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+                
+                <div style="text-align: center; margin-bottom: 3.5rem;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>✨ VISIONARY LEADERSHIP</span>
+                    </div>
+                    <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
+                        Meet Our <span style="color: #0B4F4A;">Founder</span> &amp; <span style="color: #0A6B5C;">Co-Founder</span>
+                    </h2>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0 auto; font-weight: 500;">
+                        Dedicated to transforming digital education across India through practical mastery, high-demand skills, and sustainable career growth.
+                    </p>
+                </div>
+
+                <!-- 2 Founders Side-by-Side Grid -->
+                <div class="founders-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem;">
+                    
+                    <!-- Founder Card (Image 2) -->
+                    <div class="founder-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                        <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
+                            <img src="/images/founder.jpg" alt="SkillLearner Founder & CEO" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
+                            
+                            <span style="position: absolute; top: 16px; left: 16px; background: rgba(11, 79, 74, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
+                                ★ FOUNDER &amp; CEO
+                            </span>
+                            <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(245, 158, 11, 0.95); color: #000; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
+                                OFFICIAL
+                            </span>
+                        </div>
+
+                        <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="color: #0B4F4A; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.35rem;">
+                                    LEADERSHIP &amp; VISION
+                                </div>
+                                <h3 style="font-size: 1.7rem; font-weight: 900; color: #0f172a; margin-bottom: 0.25rem;">
+                                    Founder &amp; CEO
+                                </h3>
+                                <div style="font-size: 0.95rem; font-weight: 700; color: #0A6B5C; margin-bottom: 1.1rem;">
+                                    SkillLearner EdTech
+                                </div>
+                                <p style="color: #64748b; font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.2rem;">
+                                    Spearheading SkillLearner’s core mission to deliver high-yield, project-based video masterclasses and create actionable pathways to financial independence for every learner.
+                                </p>
+                                
+                                <blockquote style="margin: 0; padding: 0.9rem 1.1rem; background: #f8fafc; border-left: 3px solid #0B4F4A; border-radius: 0 10px 10px 0; font-size: 0.88rem; line-height: 1.55; color: #334155; font-style: italic;">
+                                    &ldquo;Our vision is simple: no student should be left behind in the digital age. By learning practical, high-income skills directly from industry mentors, anyone can unlock true financial freedom.&rdquo;
+                                </blockquote>
+                            </div>
+
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
+                                <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 1,000+ Students Mentored</span>
+                                <span style="background: rgba(245, 158, 11, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Focus</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Co-Founder Card (Image 1) -->
+                    <div class="founder-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                        <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
+                            <img src="/images/co-founder.jpg" alt="SkillLearner Co-Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
+                            
+                            <span style="position: absolute; top: 16px; left: 16px; background: rgba(217, 119, 6, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
+                                ★ CO-FOUNDER
+                            </span>
+                            <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(11, 79, 74, 0.95); color: #fff; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
+                                LEADERSHIP
+                            </span>
+                        </div>
+
+                        <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="color: #D97706; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.35rem;">
+                                    GROWTH &amp; OPERATIONS
+                                </div>
+                                <h3 style="font-size: 1.7rem; font-weight: 900; color: #0f172a; margin-bottom: 0.25rem;">
+                                    Co-Founder
+                                </h3>
+                                <div style="font-size: 0.95rem; font-weight: 700; color: #0A6B5C; margin-bottom: 1.1rem;">
+                                    SkillLearner EdTech
+                                </div>
+                                <p style="color: #64748b; font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.2rem;">
+                                    Directing platform operations, interactive mentorship frameworks, and community growth initiatives that enable affiliates and learners to scale their personal brands.
+                                </p>
+                                
+                                <blockquote style="margin: 0; padding: 0.9rem 1.1rem; background: #f8fafc; border-left: 3px solid #D97706; border-radius: 0 10px 10px 0; font-size: 0.88rem; line-height: 1.55; color: #334155; font-style: italic;">
+                                    &ldquo;We focus on real implementation—guiding our community step-by-step from beginner knowledge to high-yield digital monetization and consistent daily growth.&rdquo;
+                                </blockquote>
+                            </div>
+
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
+                                <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Scalable Systems</span>
+                                <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Active Mentorship</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Platform Impact Metrics Bar -->
+                <div class="founders-metrics-bar" style="margin-top: 3.5rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);">
+                    <div>
+                        <div style="font-size: 2.1rem; font-weight: 900; color: #0B4F4A; line-height: 1.1;">1,000+</div>
+                        <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Enrolled Learners</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.1rem; font-weight: 900; color: #0A6B5C; line-height: 1.1;">16+</div>
+                        <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Industry Masterclasses</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.1rem; font-weight: 900; color: #D97706; line-height: 1.1;">500+</div>
+                        <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Live Trainings Hosted</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.1rem; font-weight: 900; color: #0284C7; line-height: 1.1;">25+</div>
+                        <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Dedicated Mentors</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Our Expert Team Section -->
+        <section style="padding: 5.5rem 1.5rem 6.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(240, 253, 250, 0.6) 0%, #ffffff 50%, rgba(243, 232, 255, 0.4) 100%); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+            <!-- Ambient Accents -->
+            <div style="position: absolute; top: -40px; right: 15%; width: 260px; height: 260px; background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+                
+                <div style="text-align: center; margin-bottom: 3.5rem;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(10, 107, 92, 0.08); border: 1px solid rgba(10, 107, 92, 0.25); color: #0A6B5C; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>👥 MENTORSHIP &amp; MASTERY</span>
+                    </div>
+                    <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
+                        Our Expert <span style="color: #0B4F4A;">Team</span> &amp; <span style="color: #0A6B5C;">Mentors</span>
+                    </h2>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 650px; margin: 0 auto; font-weight: 500;">
+                        Learn directly from experienced practitioners committed to practical skill mastery, strategic monetization, and real-world results.
+                    </p>
+                </div>
+
+                <!-- 2 Expert Team Cards Grid -->
+                <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.2rem; max-width: 820px; margin: 0 auto;">
+                    
+                    <!-- Expert Mentor 1 -->
+                    <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                        <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
+                            <img src="/images/mentor-1.jpg" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                        </div>
+                        <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                                <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                                <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
+                            </div>
+                            <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Expert Guidance</span>
+                                <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expert Mentor 2 -->
+                    <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                        <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
+                            <img src="/images/mentor-2.jpg" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                        </div>
+                        <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                                <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                                <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
+                            </div>
+                            <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Strategic Coaching</span>
+                                <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Community Growth</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <style>
+            .why-choose-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 14px 28px -4px rgba(11, 79, 74, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04) !important;
+                border-color: rgba(11, 79, 74, 0.35) !important;
+            }
+            .founder-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 25px 45px -8px rgba(11, 79, 74, 0.16) !important;
+                border-color: rgba(11, 79, 74, 0.35) !important;
+            }
+            .founder-card:hover img {
+                transform: scale(1.04);
+            }
+            .team-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 20px 35px -8px rgba(11, 79, 74, 0.15) !important;
+                border-color: rgba(11, 79, 74, 0.35) !important;
+            }
+            .team-card:hover img {
+                transform: scale(1.04);
+            }
+
+            /* Tablet breakpoint (<= 992px) */
+            @media (max-width: 992px) {
+                .why-choose-layout {
+                    grid-template-columns: 1fr !important;
+                    gap: 2.5rem !important;
+                }
+                .why-choose-img-wrapper {
+                    order: -1;
+                    max-width: 380px;
+                    margin: 0 auto;
+                }
+                .why-sl-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 1.2rem !important;
+                }
+            }
+
+            /* Mobile & Small Tablet (<= 768px): All sections stack 1 ke niche 1 */
+            @media (max-width: 768px) {
+                .packages-showcase-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 1.5rem !important;
+                }
+                .why-sl-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 1.2rem !important;
+                }
+                .why-choose-cards-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 1rem !important;
+                }
+                .founders-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 2rem !important;
+                    max-width: 100% !important;
+                    margin: 0 auto;
+                }
+                .founders-metrics-bar {
+                    grid-template-columns: 1fr !important;
+                    gap: 1.4rem !important;
+                    padding: 1.5rem 1.2rem !important;
+                }
+                .expert-team-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 2rem !important;
+                    max-width: 100% !important;
+                    margin: 0 auto;
+                }
+                .founder-card div[style*="height: 380px"] {
+                    height: 320px !important;
+                }
+                .team-card div[style*="height: 320px"] {
+                    height: 300px !important;
+                }
+            }
+        </style>
     </main>
 
     <!-- Footer matching AWS Live -->
