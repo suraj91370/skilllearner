@@ -592,12 +592,38 @@
             line-height: 1.15;
             letter-spacing: -1.5px;
             margin-bottom: 1.4rem;
-         color: #0B4F4A; }
-        .hero-title .title-skill { color: #0B4F4A; }
-        .hero-title .title-future { color: #0A6B5C; }
-        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
-        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
-        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-skill {
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-future {
+            color: #0A6B5C;
+        }
+
+        .hero-subtitle {
+            color: #000000 !important;
+            font-weight: 700 !important;
+            font-size: 1.25rem;
+            max-width: 720px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-image-wrapper {
+            margin-top: 3.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-tree-img {
+            width: 100%;
+            max-width: 950px;
+            height: auto;
+            border-radius: 18px;
+            object-fit: contain;
+        }
 
         /* Modals */
         .modal {
@@ -703,9 +729,19 @@
                 letter-spacing: -0.8px !important;
                 margin-bottom: 1rem !important;
             }
-            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
-            .hero-image-wrapper { margin-top: 2rem !important; }
-            .hero-tree-img { border-radius: 12px !important; }
+
+            .hero-subtitle {
+                font-size: 1.05rem !important;
+                margin-bottom: 1.8rem !important;
+            }
+
+            .hero-image-wrapper {
+                margin-top: 2rem !important;
+            }
+
+            .hero-tree-img {
+                border-radius: 12px !important;
+            }
 
             header.nav {
                 padding: 0.65rem 0.85rem;
@@ -773,7 +809,10 @@
                 font-size: 1.85rem !important;
                 letter-spacing: -0.5px !important;
             }
-            .hero-subtitle { font-size: 0.95rem !important; }
+
+            .hero-subtitle {
+                font-size: 0.95rem !important;
+            }
 
             header.nav {
                 padding: 0.55rem 0.6rem;
@@ -2051,57 +2090,62 @@
                         <!-- Hidden Input that carries selected package value to backend -->
                         <input type="hidden" name="package" id="selectedPackageInput" value="Advance Package">
 
-                                        <div class="package-visual-grid">
-                    
-                    <!-- 1. Basic Package -->
-                    <div class="package-visual-card selected" data-package="Basic Package" onclick="chooseVisualPackage(this, 'Basic Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/basic.png" alt="Basic Package">
+                        <div class="package-visual-grid">
+
+                            <!-- 1. Basic Package -->
+                            <div class="package-visual-card selected" data-package="Basic Package"
+                                onclick="chooseVisualPackage(this, 'Basic Package')">
+                                <div class="check-pill">✓</div>
+                                <div class="img-wrapper">
+                                    <img src="/images/packages/basic.png" alt="Basic Package">
+                                </div>
+                                <div class="pkg-title">BASIC</div>
+                            </div>
+
+                            <!-- 2. Growth Package -->
+                            <div class="package-visual-card " data-package="Growth Package"
+                                onclick="chooseVisualPackage(this, 'Growth Package')">
+                                <div class="check-pill">✓</div>
+                                <div class="img-wrapper">
+                                    <img src="/images/packages/growth.png" alt="Growth Package">
+                                </div>
+                                <div class="pkg-title">GROWTH</div>
+                            </div>
+
+                            <!-- 3. Advance Package -->
+                            <div class="package-visual-card " data-package="Advance Package"
+                                onclick="chooseVisualPackage(this, 'Advance Package')">
+                                <div class="check-pill">✓</div>
+                                <div class="img-wrapper">
+                                    <img src="/images/packages/advance.png" alt="Advance Package">
+                                </div>
+                                <div class="pkg-title">ADVANCE</div>
+                            </div>
+
+                            <!-- 4. Premium Package -->
+                            <div class="package-visual-card " data-package="Premium Package"
+                                onclick="chooseVisualPackage(this, 'Premium Package')">
+                                <div class="check-pill">✓</div>
+                                <div class="img-wrapper">
+                                    <img src="/images/packages/premium.png" alt="Premium Package">
+                                </div>
+                                <div class="pkg-title">PREMIUM</div>
+                            </div>
+
+                            <!-- 5. Infinity Package -->
+                            <div class="package-visual-card " data-package="Infinity Package"
+                                onclick="chooseVisualPackage(this, 'Infinity Package')">
+                                <div class="check-pill">✓</div>
+                                <div class="img-wrapper">
+                                    <img src="/images/packages/infinity.png" alt="Infinity Package">
+                                </div>
+                                <div class="pkg-title">INFINITY</div>
+                            </div>
+
                         </div>
-                        <div class="pkg-title">BASIC</div>
                     </div>
 
-                    <!-- 2. Growth Package -->
-                    <div class="package-visual-card " data-package="Growth Package" onclick="chooseVisualPackage(this, 'Growth Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/growth.png" alt="Growth Package">
-                        </div>
-                        <div class="pkg-title">GROWTH</div>
-                    </div>
-
-                    <!-- 3. Advance Package -->
-                    <div class="package-visual-card " data-package="Advance Package" onclick="chooseVisualPackage(this, 'Advance Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/advance.png" alt="Advance Package">
-                        </div>
-                        <div class="pkg-title">ADVANCE</div>
-                    </div>
-
-                    <!-- 4. Premium Package -->
-                    <div class="package-visual-card " data-package="Premium Package" onclick="chooseVisualPackage(this, 'Premium Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/premium.png" alt="Premium Package">
-                        </div>
-                        <div class="pkg-title">PREMIUM</div>
-                    </div>
-
-                    <!-- 5. Infinity Package -->
-                    <div class="package-visual-card " data-package="Infinity Package" onclick="chooseVisualPackage(this, 'Infinity Package')">
-                        <div class="check-pill">✓</div>
-                        <div class="img-wrapper">
-                            <img src="/images/packages/infinity.png" alt="Infinity Package">
-                        </div>
-                        <div class="pkg-title">INFINITY</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Student Form Inputs -->
+                    <!-- Student Form Inputs -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
                         <div class="form-group">
                             <label>Your Full Name</label>

@@ -842,6 +842,24 @@
             background-color: #f8fafc !important;
             color: #0f172a;
         }
+    
+        .why-sl-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.08), 0 10px 12px -6px rgba(0, 0, 0, 0.04) !important;
+        }
+        @media (max-width: 992px) {
+            .why-sl-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.25rem !important;
+            }
+        }
+        @media (max-width: 640px) {
+            .why-sl-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.1rem !important;
+            }
+        }
+
     </style>
     <style>
         /* ==========================================================
@@ -1914,189 +1932,299 @@
                 </a>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 2rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 2rem;">
+            <!-- 1 Basic Package -->
             <div id="basic" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(168, 85, 247, 0.45); background: linear-gradient(180deg, #1b0c33 0%, #0d0519 100%);">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(13, 5, 25, 0.8) 100%); border-radius: 14px;">
                     <img src="/images/packages/basic.png" alt="Basic Package" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-
-                <h3 style="font-size: 1.55rem; text-align: center; margin-bottom: 0.8rem; color: #fff;">Basic Package</h3>
-
-                <p style="color: var(--text-body); font-size: 0.88rem; text-align: center; margin-bottom: 1.4rem; line-height: 1.5;">
-                    Foundational skill track to get started in the digital economy with Canva, Excel, English and Social Media basics.
-                </p>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #A855F7; font-weight: bold;">✓</span> Canva Pro Mastery
+                <h3 style="font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 0.4rem; color: #fff;">
+                    1. Basic Package
+                </h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹599</span>
+                        <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹1,199</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px solid #A855F7; padding: 0.65rem 0.8rem; border-radius: 8px; text-align: center; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎯</span>
+                    <span style="font-size: 0.95rem; font-weight: 800; color: #A855F7;">Get Access of 3+ Courses</span>
+                </div>
+                <ul style="list-style: none; margin-bottom: 1.2rem; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #A855F7; font-weight: bold; font-size: 1.1rem;">•</span> What Is Affiliate Marketing
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #A855F7; font-weight: bold;">✓</span> MS Excel Essentials
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #A855F7; font-weight: bold; font-size: 1.1rem;">•</span> Spoken English
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #A855F7; font-weight: bold;">✓</span> Basic Spoken English
-                    </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #A855F7; font-weight: bold;">✓</span> Social Media Fundamentals
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #A855F7; font-weight: bold; font-size: 1.1rem;">•</span> Communication Skill
                     </li>
                 </ul>
-
-                <!-- Action Buttons: Buy Now & Register -->
-                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                    <a href="/buy-now?package=basic" class="btn btn-primary" style="background: #7C3AED; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);">
+                <div style="margin-bottom: 1.6rem; flex-grow: 1;"></div>
+                <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: auto;">
+                    <a href="/buy-now?package=basic" class="btn btn-primary" style="background: #A855F7; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4); text-decoration: none;">
                         Buy Now ➔
-                    </a>
-                    <a href="/courses" class="btn btn-secondary" style="text-align: center; width: 100%; padding: 0.65rem; font-size: 0.88rem; font-weight: 600;">
-                        View Course Descriptions
                     </a>
                 </div>
             </div>
+
+            <!-- 2 Growth Package -->
             <div id="growth" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(16, 185, 129, 0.45); background: linear-gradient(180deg, #063124 0%, #021711 100%);">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(2, 23, 17, 0.8) 100%); border-radius: 14px;">
                     <img src="/images/packages/growth.png" alt="Growth Package" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-
-                <h3 style="font-size: 1.55rem; text-align: center; margin-bottom: 0.8rem; color: #fff;">Growth Package</h3>
-
-                <p style="color: var(--text-body); font-size: 0.88rem; text-align: center; margin-bottom: 1.4rem; line-height: 1.5;">
-                    Scale your revenue with high-ticket sales closing, complete sales funnel architecture, and Google & YouTube advertising.
-                </p>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #10B981; font-weight: bold;">✓</span> All Premium Courses
+                <h3 style="font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 0.4rem; color: #fff;">
+                    2. Growth Package
+                </h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹1,199</span>
+                        <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹2,499</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px solid #10B981; padding: 0.65rem 0.8rem; border-radius: 8px; text-align: center; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎯</span>
+                    <span style="font-size: 0.95rem; font-weight: 800; color: #10B981;">Get Access of 6+ Courses</span>
+                </div>
+                <ul style="list-style: none; margin-bottom: 1.2rem; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #10B981; font-weight: bold; font-size: 1.1rem;">•</span> Canva Graphic Designing
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #10B981; font-weight: bold;">✓</span> Complete Funnel Building
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #10B981; font-weight: bold; font-size: 1.1rem;">•</span> Reel Mastery by Canva
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #10B981; font-weight: bold;">✓</span> High-Ticket Sales Closing
-                    </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #10B981; font-weight: bold;">✓</span> Google & YouTube Ads
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #10B981; font-weight: bold; font-size: 1.1rem;">•</span> VN Editing Course
                     </li>
                 </ul>
-
-                <!-- Action Buttons: Buy Now & Register -->
-                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                    <a href="/buy-now?package=growth" class="btn btn-primary" style="background: #059669; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);">
+                <div style="margin-bottom: 1.6rem; padding: 0.65rem 0.8rem; background: rgba(255, 255, 255, 0.04); border: 1px dashed #10B981; border-radius: 8px; font-size: 0.82rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px; line-height: 1.35;">
+                    <span style="font-size: 1.1rem; flex-shrink: 0;">🎁</span>
+                    <span style="font-weight: 700;">+ Full Access of Basic Package (All 3 Courses)</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: auto;">
+                    <a href="/buy-now?package=growth" class="btn btn-primary" style="background: #10B981; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4); text-decoration: none;">
                         Buy Now ➔
-                    </a>
-                    <a href="/courses" class="btn btn-secondary" style="text-align: center; width: 100%; padding: 0.65rem; font-size: 0.88rem; font-weight: 600;">
-                        View Course Descriptions
                     </a>
                 </div>
             </div>
+
+            <!-- 3 Advance Package -->
             <div id="advance" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(2, 132, 199, 0.45); background: linear-gradient(180deg, #07263e 0%, #021320 100%);">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, rgba(2, 132, 199, 0.22) 0%, rgba(2, 19, 32, 0.8) 100%); border-radius: 14px;">
                     <img src="/images/packages/advance.png" alt="Advance Package" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-
-                <h3 style="font-size: 1.55rem; text-align: center; margin-bottom: 0.8rem; color: #fff;">Advance Package</h3>
-
-                <p style="color: var(--text-body); font-size: 0.88rem; text-align: center; margin-bottom: 1.4rem; line-height: 1.5;">
-                    Our flagship bundle unlocking high-ticket video editing, Instagram organic growth formulas, and 70% direct referral commission rights.
-                </p>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #0284C7; font-weight: bold;">✓</span> All Basic Courses
+                <h3 style="font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 0.4rem; color: #fff;">
+                    3. Advance Package
+                </h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹2,499</span>
+                        <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹4,999</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px solid #0284C7; padding: 0.65rem 0.8rem; border-radius: 8px; text-align: center; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎯</span>
+                    <span style="font-size: 0.95rem; font-weight: 800; color: #0284C7;">Get Access of 9+ Courses</span>
+                </div>
+                <ul style="list-style: none; margin-bottom: 1.2rem; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #0284C7; font-weight: bold; font-size: 1.1rem;">•</span> E-mail Marketing
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #0284C7; font-weight: bold;">✓</span> Video Editing (Premiere & CapCut)
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #0284C7; font-weight: bold; font-size: 1.1rem;">•</span> Sales Mastery
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #0284C7; font-weight: bold;">✓</span> Instagram Growth Formula
-                    </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #0284C7; font-weight: bold;">✓</span> Organic Lead Generation Blueprint
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #0284C7; font-weight: bold; font-size: 1.1rem;">•</span> Video Marketing
                     </li>
                 </ul>
-
-                <!-- Action Buttons: Buy Now & Register -->
-                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                    <a href="/buy-now?package=advance" class="btn btn-primary" style="background: #0284C7; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
+                <div style="margin-bottom: 1.6rem; padding: 0.65rem 0.8rem; background: rgba(255, 255, 255, 0.04); border: 1px dashed #0284C7; border-radius: 8px; font-size: 0.82rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px; line-height: 1.35;">
+                    <span style="font-size: 1.1rem; flex-shrink: 0;">🎁</span>
+                    <span style="font-weight: 700;">+ Full Access of Basic & Growth Packages (All 6 Courses)</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: auto;">
+                    <a href="/buy-now?package=advance" class="btn btn-primary" style="background: #0284C7; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(2, 132, 199, 0.4); text-decoration: none;">
                         Buy Now ➔
-                    </a>
-                    <a href="/courses" class="btn btn-secondary" style="text-align: center; width: 100%; padding: 0.65rem; font-size: 0.88rem; font-weight: 600;">
-                        View Course Descriptions
                     </a>
                 </div>
             </div>
+
+            <!-- 4 Premium Package -->
             <div id="premium" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(245, 158, 11, 0.45); background: linear-gradient(180deg, #331c02 0%, #150a00 100%);">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(21, 10, 0, 0.8) 100%); border-radius: 14px;">
                     <img src="/images/packages/premium.png" alt="Premium Package" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-
-                <h3 style="font-size: 1.55rem; text-align: center; margin-bottom: 0.8rem; color: #fff;">Premium Package</h3>
-
-                <p style="color: var(--text-body); font-size: 0.88rem; text-align: center; margin-bottom: 1.4rem; line-height: 1.5;">
-                    High-yield monetization bundle with Facebook & Instagram paid ads, AI ChatGPT automation kit, and no-code WordPress design.
-                </p>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #F59E0B; font-weight: bold;">✓</span> All Advance Courses
+                <h3 style="font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 0.4rem; color: #fff;">
+                    4. Premium Package
+                </h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹4,999</span>
+                        <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹9,999</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px solid #F59E0B; padding: 0.65rem 0.8rem; border-radius: 8px; text-align: center; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎯</span>
+                    <span style="font-size: 0.95rem; font-weight: 800; color: #F59E0B;">Get Access of 12+ Courses</span>
+                </div>
+                <ul style="list-style: none; margin-bottom: 1.2rem; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #F59E0B; font-weight: bold; font-size: 1.1rem;">•</span> YouTube Mastery
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #F59E0B; font-weight: bold;">✓</span> Facebook & Instagram Paid Ads
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #F59E0B; font-weight: bold; font-size: 1.1rem;">•</span> Facebook Ads
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #F59E0B; font-weight: bold;">✓</span> AI & ChatGPT Monetization Kit
-                    </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #F59E0B; font-weight: bold;">✓</span> WordPress Web Development
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #F59E0B; font-weight: bold; font-size: 1.1rem;">•</span> Web Designing
                     </li>
                 </ul>
-
-                <!-- Action Buttons: Buy Now & Register -->
-                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                    <a href="/buy-now?package=premium" class="btn btn-primary" style="background: #D97706; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);">
+                <div style="margin-bottom: 1.6rem; padding: 0.65rem 0.8rem; background: rgba(255, 255, 255, 0.04); border: 1px dashed #F59E0B; border-radius: 8px; font-size: 0.82rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px; line-height: 1.35;">
+                    <span style="font-size: 1.1rem; flex-shrink: 0;">🎁</span>
+                    <span style="font-weight: 700;">+ Full Access of Basic, Growth & Advance Packages (All 9 Courses)</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: auto;">
+                    <a href="/buy-now?package=premium" class="btn btn-primary" style="background: #F59E0B; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4); text-decoration: none;">
                         Buy Now ➔
-                    </a>
-                    <a href="/courses" class="btn btn-secondary" style="text-align: center; width: 100%; padding: 0.65rem; font-size: 0.88rem; font-weight: 600;">
-                        View Course Descriptions
                     </a>
                 </div>
             </div>
+
+            <!-- 5 Infinity Package -->
             <div id="infinity" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(239, 68, 68, 0.45); background: linear-gradient(180deg, #330606 0%, #160202 100%);">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, rgba(239, 68, 68, 0.22) 0%, rgba(22, 2, 2, 0.8) 100%); border-radius: 14px;">
                     <img src="/images/packages/infinity.png" alt="Infinity Package" style="max-height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
                 </div>
-
-                <h3 style="font-size: 1.55rem; text-align: center; margin-bottom: 0.8rem; color: #fff;">Infinity Package</h3>
-
-                <p style="color: var(--text-body); font-size: 0.88rem; text-align: center; margin-bottom: 1.4rem; line-height: 1.5;">
-                    VIP pass granting unlimited lifetime access to all current and future masterclasses, 1-on-1 mentorship, and weekly mastermind sessions.
-                </p>
-
-                <ul style="list-style: none; margin-bottom: 2rem; flex-grow: 1;">
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #EF4444; font-weight: bold;">✓</span> Full Lifetime Access Pass
+                <h3 style="font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 0.4rem; color: #fff;">
+                    5. Infinity Package
+                </h3>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹7,999</span>
+                        <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹15,999</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px solid #EF4444; padding: 0.65rem 0.8rem; border-radius: 8px; text-align: center; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span>🎯</span>
+                    <span style="font-size: 0.95rem; font-weight: 800; color: #EF4444;">Get Access of 15+ Courses</span>
+                </div>
+                <ul style="list-style: none; margin-bottom: 1.2rem; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #EF4444; font-weight: bold; font-size: 1.1rem;">•</span> 0 to Hero AI Content Creation
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #EF4444; font-weight: bold;">✓</span> UI/UX Design Masterclass
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #EF4444; font-weight: bold; font-size: 1.1rem;">•</span> Artificial Intelligence
                     </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #EF4444; font-weight: bold;">✓</span> 1-on-1 Mentorship & Weekly Live Masterminds
-                    </li>
-                    <li style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: #EF4444; font-weight: bold;">✓</span> VIP Community & Support
+                    <li style="padding: 0.2rem 0; color: #e2e8f0; font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #EF4444; font-weight: bold; font-size: 1.1rem;">•</span> Stock Market Course
                     </li>
                 </ul>
-
-                <!-- Action Buttons: Buy Now & Register -->
-                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                    <a href="/buy-now?package=infinity" class="btn btn-primary" style="background: #DC2626; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);">
+                <div style="margin-bottom: 1.6rem; padding: 0.65rem 0.8rem; background: rgba(255, 255, 255, 0.04); border: 1px dashed #EF4444; border-radius: 8px; font-size: 0.82rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px; line-height: 1.35;">
+                    <span style="font-size: 1.1rem; flex-shrink: 0;">🎁</span>
+                    <span style="font-weight: 700;">+ Full Access of All Previous Packages (Lifetime All Access)</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: auto;">
+                    <a href="/buy-now?package=infinity" class="btn btn-primary" style="background: #EF4444; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(239, 68, 68, 0.4); text-decoration: none;">
                         Buy Now ➔
-                    </a>
-                    <a href="/courses" class="btn btn-secondary" style="text-align: center; width: 100%; padding: 0.65rem; font-size: 0.88rem; font-weight: 600;">
-                        View Course Descriptions
                     </a>
                 </div>
             </div>
     </div>
-    </section>
+</section>
+
+<!-- Why SkillLearner Section -->
+        <section style="padding: 4.5rem 1.5rem 5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(253, 242, 248, 0.7) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(243, 232, 255, 0.7) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin: 1rem 0 3.5rem;">
+            <!-- Ambient Blur Accents -->
+            <div style="position: absolute; top: -50px; left: -50px; width: 260px; height: 260px; background: radial-gradient(circle, rgba(253, 230, 138, 0.35) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+            <div style="position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(216, 180, 254, 0.4) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+                <h2 style="font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 900; text-align: center; margin-bottom: 3.5rem; letter-spacing: -1px; color: #0f172a;">
+                    Why <span style="color: #0B4F4A;">SKILL</span><span style="color: #0A6B5C;">LEARNER</span>
+                </h2>
+
+                <div class="why-sl-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem;">
+                    
+                    <!-- Card 1: Learners & counting -->
+                    <div class="why-sl-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="23" fill="#F5F3FF"/>
+                                <path d="M24 10L11 17L24 23L37 17L24 10Z" fill="#3B1E78"/>
+                                <path d="M16 19.5V26.5C16 29.5 19.5 31.5 24 31.5C28.5 31.5 32 29.5 32 26.5V19.5" fill="#581C87"/>
+                                <path d="M35 18V27.5C35 28 34.5 28.5 34 28.5C33.5 28.5 33 28 33 27.5V18.5" stroke="#EC4899" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="24" cy="25" r="4.5" fill="#FBCFE8"/>
+                                <path d="M16 38C16 33 19.5 32 24 32C28.5 32 32 33 32 38" fill="#6B21A8"/>
+                                <polygon points="24,32 25.5,35 24,38 22.5,35" fill="#9333EA"/>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">1,000+</h3>
+                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Learners &amp; counting</p>
+                    </div>
+
+                    <!-- Card 2: Courses -->
+                    <div class="why-sl-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="23" fill="#FDF2F8"/>
+                                <rect x="12" y="32" width="24" height="5" rx="2" fill="#7C3AED"/>
+                                <rect x="14" y="33" width="3" height="3" fill="#DDD6FE"/>
+                                <rect x="13" y="27" width="22" height="5" rx="2" fill="#EC4899"/>
+                                <rect x="15" y="28" width="3" height="3" fill="#FCE7F3"/>
+                                <path d="M24 13L11 19.5L24 25.5L37 19.5L24 13Z" fill="#3B1E78"/>
+                                <path d="M16 22V26.5C16 28.5 19.5 30 24 30C28.5 30 32 28.5 32 26.5V22" fill="#581C87"/>
+                                <path d="M35 20.5V27.5C35 28 34.5 28.5 34 28.5C33.5 28.5 33 28 33 27.5V21" stroke="#F472B6" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">16+</h3>
+                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Courses</p>
+                    </div>
+
+                    <!-- Card 3: Live Trainings -->
+                    <div class="why-sl-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="23" fill="#F5F3FF"/>
+                                <rect x="11" y="11" width="26" height="20" rx="3.5" fill="#6D28D9"/>
+                                <rect x="13" y="13" width="22" height="16" rx="2" fill="#1E1B4B"/>
+                                <circle cx="21" cy="21" r="5" fill="#EC4899"/>
+                                <polygon points="19.5,18.5 24,21 19.5,23.5" fill="#FFFFFF"/>
+                                <rect x="28" y="16" width="5" height="2" rx="1" fill="#A78BFA"/>
+                                <rect x="28" y="20" width="5" height="2" rx="1" fill="#A78BFA"/>
+                                <rect x="28" y="24" width="5" height="2" rx="1" fill="#A78BFA"/>
+                                <path d="M22 31H26V35H22V31Z" fill="#581C87"/>
+                                <rect x="17" y="34.5" width="14" height="2.5" rx="1.25" fill="#3B1E78"/>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">500+</h3>
+                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Live Trainings</p>
+                    </div>
+
+                    <!-- Card 4: Trainers -->
+                    <div class="why-sl-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="23" fill="#FDF2F8"/>
+                                <circle cx="24" cy="14" r="3.5" fill="#FBCFE8"/>
+                                <path d="M19 21C19 18.5 21 18 24 18C27 18 29 18.5 29 21" fill="#6B21A8"/>
+                                <rect x="18" y="21" width="12" height="2" rx="1" fill="#9333EA"/>
+                                <circle cx="16" cy="26" r="3" fill="#FBCFE8"/>
+                                <path d="M12 32C12 30 13.5 29.5 16 29.5C18.5 29.5 20 30 20 32" fill="#7C3AED"/>
+                                <rect x="12" y="32" width="8" height="2" rx="0.5" fill="#A855F7"/>
+                                <circle cx="32" cy="26" r="3" fill="#FBCFE8"/>
+                                <path d="M28 32C28 30 29.5 29.5 32 29.5C34.5 29.5 36 30 36 32" fill="#7C3AED"/>
+                                <rect x="28" y="32" width="8" height="2" rx="0.5" fill="#A855F7"/>
+                                <rect x="13" y="34" width="6" height="3" rx="0.5" fill="#DDD6FE"/>
+                                <rect x="29" y="34" width="6" height="3" rx="0.5" fill="#DDD6FE"/>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">25+</h3>
+                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Trainers</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer matching AWS Live -->
