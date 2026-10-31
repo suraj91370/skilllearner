@@ -337,9 +337,7 @@
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(11, 79, 74, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
                         ★ FOUNDER &amp; CEO
                     </span>
-                    <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(245, 158, 11, 0.95); color: #000; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
-                        OFFICIAL
-                    </span>
+                   
                 </div>
 
                 <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -362,10 +360,7 @@
                         </blockquote>
                     </div>
 
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 1,000+ Students Mentored</span>
-                        <span style="background: rgba(245, 158, 11, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Focus</span>
-                    </div>
+             
                 </div>
             </div>
 
@@ -378,9 +373,7 @@
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(217, 119, 6, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
                         ★ CO-FOUNDER
                     </span>
-                    <span style="position: absolute; bottom: 16px; right: 16px; background: rgba(11, 79, 74, 0.95); color: #fff; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 50px;">
-                        LEADERSHIP
-                    </span>
+                   
                 </div>
 
                 <div style="padding: 2rem 1.8rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -403,34 +396,13 @@
                         </blockquote>
                     </div>
 
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
-                        <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Scalable Systems</span>
-                        <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Active Mentorship</span>
-                    </div>
+                    
                 </div>
             </div>
 
         </div>
 
-        <!-- Platform Impact Metrics Bar -->
-        <div class="founders-metrics-bar" style="margin-top: 3.5rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);">
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0B4F4A; line-height: 1.1;">1,000+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Enrolled Learners</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0A6B5C; line-height: 1.1;">16+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Industry Masterclasses</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #D97706; line-height: 1.1;">500+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Live Trainings Hosted</div>
-            </div>
-            <div>
-                <div style="font-size: 2.1rem; font-weight: 900; color: #0284C7; line-height: 1.1;">25+</div>
-                <div style="font-size: 0.88rem; color: #64748b; font-weight: 600; margin-top: 4px;">Dedicated Mentors</div>
-            </div>
-        </div>
+      
 
     </div>
 </section>
@@ -454,41 +426,73 @@
             </p>
         </div>
 
-        <!-- 2 Expert Team Cards Grid -->
-        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.2rem; max-width: 820px; margin: 0 auto;">
+        <!-- 4 Expert Team Cards Grid -->
+        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; margin: 0 auto;">
             
-            <!-- Expert Mentor 1 -->
+            <!-- Expert Mentor 1: Founder -->
             <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-1.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/founder.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
                 </div>
-                <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Guiding learners on high-yield digital masterclasses, entrepreneurial mindset, and actionable pathways to financial independence.</p>
                     </div>
                     <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Expert Guidance</span>
-                        <span style="background: rgba(10, 107, 92, 0.08); color: #0A6B5C; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ 100% Practical Support</span>
+                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ ADARSH PANDAY</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Expert Mentor 2 -->
+            <!-- Expert Mentor 2: Co-Founder -->
             <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 320px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-2.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/co-founder.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
                 </div>
-                <div style="padding: 1.6rem 1.4rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <h4 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.88rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Mentoring students on platform growth operations, personal brand scalability, and step-by-step monetization funnels.</p>
                     </div>
                     <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Strategic Coaching</span>
-                        <span style="background: rgba(2, 132, 199, 0.1); color: #0284C7; padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;">★ Community Growth</span>
+                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ RAVI GOND</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Mentor 3: Pavan Prajapati -->
+            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/mentor-1.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                </div>
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
+                    </div>
+                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ PAVAN PRAJAPATI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Mentor 4: Soumyadip Pania -->
+            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                    <img src="{{ asset('images/mentor-2.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                </div>
+                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
+                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
+                    </div>
+                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ SOUMYADIP PANIA</span>
                     </div>
                 </div>
             </div>
@@ -558,11 +562,7 @@
             max-width: 100% !important;
             margin: 0 auto;
         }
-        .founders-metrics-bar {
-            grid-template-columns: 1fr !important;
-            gap: 1.4rem !important;
-            padding: 1.5rem 1.2rem !important;
-        }
+       
         .expert-team-grid {
             grid-template-columns: 1fr !important;
             gap: 2rem !important;
