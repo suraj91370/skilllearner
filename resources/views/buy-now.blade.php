@@ -26,14 +26,14 @@
         <div>
             
             <!-- Item Selector Tabs (Course vs Package) -->
-            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+            {{-- <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
                 <button type="button" onclick="switchCheckoutMode('package')" id="tabBtnPackage" class="checkout-tab-btn {{ $type === 'package' ? 'active' : '' }}">
                     📦 Package Bundle (Best Value)
                 </button>
                 <button type="button" onclick="switchCheckoutMode('course')" id="tabBtnCourse" class="checkout-tab-btn {{ $type === 'course' ? 'active' : '' }}">
                     🎓 Single Course Masterclass
                 </button>
-            </div>
+            </div> --}}
 
             <!-- Active Item Summary Card -->
             <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
@@ -66,9 +66,9 @@
                 </div>
 
                 <!-- Description Snippet -->
-                <p id="displayItemDesc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
+                {{-- <p id="displayItemDesc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glass);">
                     {{ $type === 'course' ? $selectedCourse['desc'] : $selectedPackage['desc'] }}
-                </p>
+                </p> --}}
 
                 <!-- What is Included In This Purchase -->
                 <div style="margin-bottom: 1.8rem;">
@@ -173,7 +173,7 @@
                 <!-- Email Address -->
                 <div class="form-group" style="margin-bottom: 1.1rem;">
                     <label style="font-size: 0.86rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem; display: block;">
-                        Email Address (for LMS Login) <span style="color: #ef4444;">*</span>
+                        Email Address <span style="color: #ef4444;">*</span>
                     </label>
                     <input type="email" name="email" required class="form-control" placeholder="suraj@example.com" value="{{ session('user.email', '') }}" style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); padding: 0.8rem 1rem; border-radius: 8px; color: #fff; width: 100%;">
                 </div>
@@ -383,7 +383,7 @@
             oldPrice: 4999,
             badge: '',
             image: "{{ asset('images/packages/advance.png') }}",
-            desc: 'Unlock high-converting sales funnels, direct video marketing strategies, and automated email marketing systems.',
+            desc: '',
             inclusions: ['Get Access of 9+ Courses', 'E-mail Marketing', 'Sales Mastery', 'Video Marketing', '+ Full Access of Basic & Growth Packages (All 6 Courses)', 'Certificate of Completion']
         },
         'premium': {
@@ -417,29 +417,37 @@
         document.getElementById('methodContentNetbanking').style.display = method === 'netbanking' ? 'block' : 'none';
     }
 
+    function applySelectedPackage(pkgKey) {
+        if (!packagesData[pkgKey]) return;
+        const pkg = packagesData[pkgKey];
+        document.getElementById('formItemType').value = 'package';
+        document.getElementById('formItemId').value = pkgKey;
+        document.getElementById('displayItemBadge').innerText = pkg.badge || 'RECOMMENDED';
+        document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
+        document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
+        document.getElementById('displayItemTitle').innerText = pkg.name;
+        document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
+        document.getElementById('displayItemDesc').innerText = pkg.desc;
+        document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
+        document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
+        document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
+
+        let incHtml = '';
+        pkg.inclusions.forEach(item => {
+            incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
+        });
+        document.getElementById('displayInclusionsList').innerHTML = incHtml;
+    }
+
     function switchCheckoutMode(mode) {
         document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
         document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
         document.getElementById('formItemType').value = mode;
 
         if (mode === 'package') {
-            const pkg = packagesData['advance'];
-            document.getElementById('formItemId').value = 'advance';
-            document.getElementById('displayItemBadge').innerText = pkg.badge;
-            document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
-            document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
-            document.getElementById('displayItemTitle').innerText = pkg.name;
-            document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
-            document.getElementById('displayItemDesc').innerText = pkg.desc;
-            document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
-            document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
-            document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
-
-            let incHtml = '';
-            pkg.inclusions.forEach(item => {
-                incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
-            });
-            document.getElementById('displayInclusionsList').innerHTML = incHtml;
+            const currentPkgId = document.getElementById('formItemId').value;
+            const validPkg = packagesData[currentPkgId] ? currentPkgId : 'advance';
+            applySelectedPackage(validPkg);
         } else {
             // Course Mode - Default to Affiliate Marketing
             document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
@@ -462,6 +470,14 @@
             document.getElementById('displayInclusionsList').innerHTML = incHtml;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pkgParam = urlParams.get('package');
+        if (pkgParam && packagesData[pkgParam.toLowerCase()]) {
+            applySelectedPackage(pkgParam.toLowerCase());
+        }
+    });
 </script>
 @endpush
 @endsection

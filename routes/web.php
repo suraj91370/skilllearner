@@ -291,7 +291,7 @@ if (! function_exists('getPackages')) {
                 'access_badge' => 'Get Access of 9+ Courses',
                 'total_courses_count' => 9,
                 'previous_access' => '+ Full Access of Basic & Growth Packages',
-                'desc' => 'Unlock high-converting sales funnels, direct video marketing strategies, and automated email marketing systems.',
+                'desc' => '',
                 'courses_included' => ['E-mail Marketing', 'Sales Mastery', 'Video Marketing'],
             ],
             [
@@ -567,10 +567,22 @@ Route::get('/about', function () {
 
 // 4. Contact Us Page
 Route::get('/contact', function () {
-    return view('home', [
+    return view('contact', [
         'packages' => getPackages(),
         'courses' => getCourses(),
     ]);
+});
+
+Route::post('/contact', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:120',
+        'email' => 'required|email|max:150',
+        'phone' => 'nullable|string|max:30',
+        'subject' => 'nullable|string|max:150',
+        'message' => 'required|string|max:2000',
+    ]);
+
+    return back()->with('success', 'Thank you for reaching out! Our team has received your message and will get back to you shortly.');
 });
 
 // 5. Login & My Account (Database Authentication)
