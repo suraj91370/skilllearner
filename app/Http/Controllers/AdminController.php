@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\KycVerification;
 use App\Models\Payout;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
@@ -201,7 +202,10 @@ class AdminController extends Controller
     {
         PortalDataService::ensureUserSession();
 
+        $settings = Setting::allSettings();
+
         return view('admin.settings', [
+            'settings' => $settings,
             'active' => 'admin-settings',
         ]);
     }
@@ -217,11 +221,27 @@ class AdminController extends Controller
             'tier2_commission' => ['required', 'numeric', 'min:0', 'max:100'],
             'min_payout_amount' => ['required', 'numeric', 'min:100'],
             'maintenance_mode' => ['nullable', 'boolean'],
+            'login_video_url' => ['nullable', 'string', 'max:500'],
+            'login_video_title' => ['nullable', 'string', 'max:255'],
+            'login_video_description' => ['nullable', 'string', 'max:1000'],
+            'login_video_enabled' => ['nullable', 'boolean'],
         ]);
 
-        session(['platform_settings' => $validated]);
+        $loginVideoEnabled = $request->has('login_video_enabled') ? '1' : '0';
 
-        return back()->with('success', 'Platform settings updated successfully by Super Admin.');
+        Setting::set('platform_name', $validated['platform_name']);
+        Setting::set('tier1_commission', $validated['tier1_commission']);
+        Setting::set('tier2_commission', $validated['tier2_commission']);
+        Setting::set('min_payout_amount', $validated['min_payout_amount']);
+        Setting::set('login_video_url', $validated['login_video_url'] ?? '');
+        Setting::set('login_video_title', $validated['login_video_title'] ?? 'Welcome to SkillLearner! Watch This First');
+        Setting::set('login_video_description', $validated['login_video_description'] ?? '');
+        Setting::set('login_video_enabled', $loginVideoEnabled);
+
+        $allSettings = Setting::allSettings();
+        session(['platform_settings' => $allSettings]);
+
+        return back()->with('success', 'Platform settings and Login Video updated successfully by Super Admin.');
     }
 
     /**

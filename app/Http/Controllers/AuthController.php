@@ -69,6 +69,9 @@ class AuthController extends Controller
             $user = Auth::user();
             $this->syncUserSession($user);
 
+            // Trigger welcome video popup on login
+            session()->flash('show_login_video_popup', true);
+
             return redirect()->intended('/my-courses')->with('alert', 'welcome');
         }
 
@@ -140,6 +143,9 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         $this->syncUserSession($user);
+
+        // Trigger welcome video popup on registration
+        session()->flash('show_login_video_popup', true);
 
         return redirect()->route('portal.courses')->with('alert', 'welcome');
     }
