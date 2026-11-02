@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillLearner — Build Skill, Build Future</title>
+    <title>About Us — Know About SkillLearner Platform</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,11 +40,15 @@
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
         }
 
+        html,
         body {
-            background-color: var(--bg-body);
-            color: var(--text-title);
+            /* background-color: var(--bg-body);  */
+            /* color: var(--text-title);  */
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100%;
+            position: relative;
         }
 
         .glass {
@@ -67,6 +71,9 @@
             border-bottom: 1px solid #f1f5f9;
             background: #ffffff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
 
         .brand {
@@ -295,6 +302,32 @@
             height: 20px;
             stroke: currentColor;
             transition: stroke 0.2s ease;
+        }
+
+        /* Website Nav Toggle Button (Mobile Logged In) */
+        .website-nav-toggle-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(5, 179, 150, 0.4);
+            background: #f0fdfa;
+            color: #05B396;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);
+        }
+
+        .website-nav-toggle-btn:hover,
+        .website-nav-toggle-btn.active {
+            background: #05B396;
+            color: #ffffff;
+            border-color: #05B396;
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.28);
         }
 
         /* User Dropdown Card */
@@ -699,10 +732,18 @@
             align-items: center;
         }
 
+        .why-sl-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.08), 0 10px 12px -6px rgba(0, 0, 0, 0.04) !important;
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
             header.nav {
-                padding: 0.75rem 1.2rem;
+                padding: 0.65rem 1rem;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
             }
 
             nav.menu {
@@ -716,9 +757,19 @@
             .container {
                 padding: 2.2rem 1rem;
             }
+
+            .why-sl-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.25rem !important;
+            }
         }
 
         @media (max-width: 640px) {
+            .why-sl-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.1rem !important;
+            }
+
             .hero {
                 padding: 3rem 1.25rem 2rem !important;
             }
@@ -744,7 +795,11 @@
             }
 
             header.nav {
-                padding: 0.65rem 0.85rem;
+                padding: 0.5rem 0.65rem !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
             }
 
             .brand-logo-img {
@@ -752,12 +807,16 @@
             }
 
             .nav-right-actions {
-                gap: 0.45rem;
+                gap: 0.4rem !important;
+                flex-shrink: 0;
             }
 
             .sl-circle-badge {
-                width: 32px;
-                height: 32px;
+                display: none !important;
+            }
+
+            .website-nav-toggle-btn {
+                display: none !important;
             }
 
             .notification-bell-btn svg {
@@ -766,36 +825,33 @@
             }
 
             .bell-count-badge {
-                font-size: 0.65rem;
-                padding: 2px 5px;
+                font-size: 0.62rem;
+                padding: 1px 4px;
             }
 
             .user-pill-btn {
-                padding: 3px 10px 3px 4px;
-                gap: 6px;
+                padding: 3px 8px 3px 4px !important;
+                gap: 5px !important;
             }
 
             .user-pill-avatar {
-                width: 26px;
-                height: 26px;
+                width: 24px;
+                height: 24px;
             }
 
             .user-pill-name {
-                max-width: 78px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 0.85rem;
+                max-width: 60px !important;
+                font-size: 0.8rem !important;
+            }
+
+            .user-pill-btn span[style*="background: #7c3aed"],
+            .user-pill-btn span[style*="background: #0284c7"] {
+                display: none !important;
             }
 
             .profile-svg-btn {
-                width: 34px;
-                height: 34px;
-            }
-
-            .profile-svg-btn svg {
-                width: 18px;
-                height: 18px;
+                width: 32px;
+                height: 32px;
             }
 
             .user-dropdown-card {
@@ -804,7 +860,7 @@
             }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 380px) {
             .hero-title {
                 font-size: 1.85rem !important;
                 letter-spacing: -0.5px !important;
@@ -815,7 +871,7 @@
             }
 
             header.nav {
-                padding: 0.55rem 0.6rem;
+                padding: 0.45rem 0.5rem !important;
             }
 
             .brand-logo-img {
@@ -823,45 +879,22 @@
             }
 
             .nav-right-actions {
-                gap: 0.35rem;
+                gap: 0.25rem !important;
             }
 
             .user-pill-name {
-                max-width: 55px;
-                font-size: 0.78rem;
+                display: none !important;
             }
 
-            .profile-svg-btn {
-                width: 32px;
-                height: 32px;
-            }
-
-            .profile-svg-btn svg {
-                width: 17px;
-                height: 17px;
-            }
-
-            .sl-circle-badge {
-                width: 28px;
-                height: 28px;
-            }
-
-            .sl-circle-badge span {
-                font-size: 0.72rem;
-            }
-
-            .bell-count-badge {
-                display: none;
+            .user-pill-btn {
+                padding: 2px 4px !important;
+                border-radius: 50% !important;
             }
 
             .mobile-toggle {
-                width: 34px;
-                height: 34px;
+                width: 32px;
+                height: 32px;
                 padding: 4px;
-            }
-
-            .mobile-toggle .bar {
-                width: 20px;
             }
         }
 
@@ -881,26 +914,6 @@
             background-color: #f8fafc !important;
             color: #0f172a;
         }
-
-        .why-sl-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.08), 0 10px 12px -6px rgba(0, 0, 0, 0.04) !important;
-        }
-
-        @media (max-width: 992px) {
-            .why-sl-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 1.25rem !important;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .why-sl-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1.1rem !important;
-            }
-        }
-
 
         /* Modern High-End Dark Footer matching Reference Design */
         .site-footer {
@@ -1055,15 +1068,29 @@
             background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
             min-height: calc(100vh - 80px);
             padding: 2.2rem 2rem 5rem;
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .portal-main-grid {
             max-width: 1440px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 260px 1fr;
+            grid-template-columns: 260px minmax(0, 1fr);
             gap: 2.2rem;
             align-items: start;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .portal-content-area {
+            min-width: 0;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         /* Left Sidebar Card (Matches Home Page Emerald Theme) */
@@ -1195,6 +1222,8 @@
             border-radius: 14px;
             padding: 1.1rem 1.3rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .admin-stat-label {
@@ -1285,14 +1314,23 @@
         .mobile-portal-nav {
             display: none !important;
             margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .mobile-nav-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
             margin-bottom: 0.65rem;
             padding: 0 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .mobile-nav-title {
@@ -1316,6 +1354,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: background 0.15s;
+            flex-shrink: 0;
         }
 
         .mobile-open-drawer-btn:hover {
@@ -1329,6 +1368,9 @@
             padding-bottom: 6px;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .mobile-tabs-scroll::-webkit-scrollbar {
@@ -1591,11 +1633,110 @@
         }
 
         /* Responsive Grid Wrappers */
+        /* 5 Grid Income Cards Container */
         .earnings-grid-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.2rem;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.1rem;
             margin-bottom: 2.2rem;
+        }
+
+        .income-card {
+            background: #ffffff;
+            padding: 1.3rem 1.1rem;
+            border-radius: 14px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .income-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .income-card-label {
+            color: #64748b;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .income-card-value {
+            font-size: 1.7rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
+        }
+
+        .income-card-sub {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* Card Accent Borders */
+        .border-today {
+            border-left: 4px solid #10b981;
+        }
+
+        .border-blue {
+            border-left: 4px solid #0284c7;
+        }
+
+        .border-purple {
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .border-amber {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .border-teal {
+            border-left: 4px solid #05B396;
+        }
+
+        /* Text Colors */
+        .text-emerald {
+            color: #10b981;
+        }
+
+        .text-dark {
+            color: #0f172a;
+        }
+
+        .text-purple {
+            color: #8b5cf6;
+        }
+
+        .text-amber {
+            color: #f59e0b;
+        }
+
+        .text-teal {
+            color: #05B396;
+        }
+
+        /* Responsive Grid for 5 Cards */
+        @media (max-width: 1200px) {
+            .earnings-grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .earnings-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .earnings-grid-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         .referral-box-row {
@@ -1643,21 +1784,38 @@
 
         @media (max-width: 992px) {
             .student-portal-wrapper {
-                padding: 1.2rem 1rem 4rem;
+                padding: 1.2rem 1rem 4rem !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                box-sizing: border-box !important;
             }
 
             .portal-main-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 1rem !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+            }
+
+            .portal-content-area {
+                min-width: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
             }
 
             /* Hide desktop sidebar on mobile, show quick horizontal slider */
             .portal-sidebar-card {
-                display: none;
+                display: none !important;
             }
 
             .mobile-portal-nav {
                 display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow: hidden !important;
             }
 
             .courses-cards-grid {
@@ -1667,6 +1825,23 @@
         }
 
         @media (max-width: 600px) {
+            .portal-greeting-row {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.85rem !important;
+            }
+
+            .portal-greeting-row button,
+            .portal-greeting-row a {
+                width: 100% !important;
+                justify-content: center !important;
+                box-sizing: border-box !important;
+            }
+
+            .admin-stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+
             .referral-box-row {
                 flex-direction: column;
             }
@@ -1678,12 +1853,14 @@
 
         @media (max-width: 580px) {
             .student-portal-wrapper {
-                padding: 0.85rem 0.75rem 3.5rem;
+                padding: 0.85rem 0.65rem 3.5rem !important;
             }
 
             .welcome-heading {
-                font-size: 1.35rem;
-                margin-bottom: 1rem;
+                font-size: clamp(1.2rem, 4.5vw, 1.45rem) !important;
+                margin-bottom: 0.85rem !important;
+                word-break: break-word !important;
+                overflow-wrap: anywhere !important;
             }
 
             .course-filter-pills {
@@ -1721,266 +1898,78 @@
             }
         }
     </style>
-    <script id="browser-logger-active">
-        (function () {
-            const ENDPOINT = '/_boost/browser-logs';
-            const logQueue = [];
-            let flushTimeout = null;
-            const captureTypes = ["error", "warning", "info", "log", "debug", "table"];
+    <style>
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 32px -4px rgba(11, 79, 74, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.03) !important;
+            border-color: rgba(11, 79, 74, 0.3) !important;
+        }
 
-            console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+        .founder-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 45px -8px rgba(11, 79, 74, 0.16) !important;
+            border-color: rgba(11, 79, 74, 0.35) !important;
+        }
 
-            // Store original console methods
-            const originalConsole = {
-                log: console.log,
-                debug: console.debug,
-                info: console.info,
-                error: console.error,
-                warn: console.warn,
-                table: console.table
-            };
+        .founder-card:hover img {
+            transform: scale(1.04);
+        }
 
-            // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
-            function toSafeValue(value, seen) {
-                if (value === null || typeof value !== 'object') {
-                    return value;
-                }
-                if (value instanceof Error) {
-                    return { name: value.name, message: value.message, stack: value.stack };
-                }
-                // Date has no own enumerable keys, so the walk below would collapse it to {}.
-                if (value instanceof Date) {
-                    return value.toISOString();
-                }
-                if (seen.has(value)) {
-                    return '[Circular]';
-                }
-                seen.add(value);
-                if (Array.isArray(value)) {
-                    return value.map((item) => toSafeValue(item, seen));
-                }
-                const plain = {};
-                for (const key of Object.keys(value)) {
-                    if (key === 'toJSON') continue;
-                    try {
-                        plain[key] = toSafeValue(value[key], seen);
-                    } catch (e) {
-                        plain[key] = '[Unreadable]';
-                    }
-                }
-                return plain;
+        @media (max-width: 900px) {
+            .about-split-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2.5rem !important;
             }
 
-            // Helper to safely stringify values
-            function safeStringify(obj) {
-                return JSON.stringify(toSafeValue(obj, new WeakSet()));
+            .about-vision-grid>div:first-child {
+                order: 2;
             }
 
-            // Normalize log type for consistency (e.g., 'warn' to 'warning')
-            function normalizeType(type) {
-                return type === 'warn' ? 'warning' : type;
+            .about-vision-grid>div:last-child {
+                order: 1;
             }
 
-            // Determine if a log type should be captured based on configured levels
-            function shouldCapture(type) {
-                return captureTypes.includes(normalizeType(type));
+            .founders-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
             }
-
-            // Batch and send logs
-            function flushLogs() {
-                if (logQueue.length === 0) return;
-
-                const batch = logQueue.splice(0, logQueue.length);
-
-                fetch(ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({ logs: batch })
-                }).catch(err => {
-                    // Silently fail to avoid infinite loops
-                    originalConsole.error('Failed to send logs:', err);
-                });
-            }
-
-            // Debounced flush (100ms)
-            function scheduleFlush() {
-                if (flushTimeout) clearTimeout(flushTimeout);
-                flushTimeout = setTimeout(flushLogs, 100);
-            }
-
-            // Intercept console methods
-            ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
-                console[method] = function (...args) {
-                    // Call original method
-                    originalConsole[method].apply(console, args);
-
-                    // Capture log data
-                    try {
-                        if (!shouldCapture(method)) {
-                            return;
-                        }
-
-                        logQueue.push({
-                            type: method,
-                            timestamp: new Date().toISOString(),
-                            data: args.map(arg => {
-                                try {
-                                    return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
-                                } catch (e) {
-                                    return String(arg);
-                                }
-                            }),
-                            url: window.location.href,
-                            userAgent: navigator.userAgent
-                        });
-
-                        scheduleFlush();
-                    } catch (e) {
-                        // Fail silently
-                    }
-                };
-            });
-
-            // Global error handlers for uncaught errors
-            const originalOnError = window.onerror;
-            window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
-                try {
-                    if (shouldCapture('error')) {
-                        logQueue.push({
-                            type: 'uncaught_error',
-                            timestamp: new Date().toISOString(),
-                            data: [{
-                                message: errorMsg,
-                                filename: url,
-                                lineno: lineNumber,
-                                colno: colNumber,
-                                error: error ? {
-                                    name: error.name,
-                                    message: error.message,
-                                    stack: error.stack
-                                } : null
-                            }],
-                            url: window.location.href,
-                            userAgent: navigator.userAgent
-                        });
-
-                        scheduleFlush();
-                    }
-
-                } catch (e) {
-                    // Fail silently
-                }
-
-                // Call original handler if it exists
-                if (originalOnError && typeof originalOnError === 'function') {
-                    return originalOnError(errorMsg, url, lineNumber, colNumber, error);
-                }
-
-                // Let the error continue to propagate
-                return false;
-            }
-            window.addEventListener('error', (event) => {
-                try {
-                    if (!shouldCapture('error')) {
-                        return false;
-                    }
-
-                    logQueue.push({
-                        type: 'window_error',
-                        timestamp: new Date().toISOString(),
-                        data: [{
-                            message: event.message,
-                            filename: event.filename,
-                            lineno: event.lineno,
-                            colno: event.colno,
-                            error: event.error ? {
-                                name: event.error.name,
-                                message: event.error.message,
-                                stack: event.error.stack
-                            } : null
-                        }],
-                        url: window.location.href,
-                        userAgent: navigator.userAgent
-                    });
-
-                    scheduleFlush();
-                } catch (e) {
-                    // Fail silently
-                }
-
-                // Let the error continue to propagate
-                return false;
-            });
-            window.addEventListener('unhandledrejection', (event) => {
-                try {
-                    if (!shouldCapture('error')) {
-                        return false;
-                    }
-
-                    logQueue.push({
-                        type: 'error',
-                        timestamp: new Date().toISOString(),
-                        data: [{
-                            message: 'Unhandled Promise Rejection',
-                            reason: toSafeValue(event.reason, new WeakSet())
-                        }],
-                        url: window.location.href,
-                        userAgent: navigator.userAgent
-                    });
-
-                    scheduleFlush();
-                } catch (e) {
-                    // Fail silently
-                }
-
-                // Let the rejection continue to propagate
-                return false;
-            });
-
-            // Flush on page unload
-            window.addEventListener('beforeunload', () => {
-                if (logQueue.length > 0) {
-                    navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
-                }
-            });
-        })();
-    </script>
+        }
+    </style>
 </head>
 
 <body class="">
+
+    <!-- Super Admin Impersonation Alert Banner -->
 
     <!-- Notification Alert Banners -->
 
     <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
         <!-- Logo: SkillLearner Official Logo -->
-        <a href="/" class="brand" aria-label="SkillLearner Home">
+        <a href=":8000" class="brand" aria-label="SkillLearner Home">
             <img src="/images/logo.png" alt="SkillLearner" class="brand-logo-img">
         </a>
 
         <!-- Desktop Navigation Menu (Matching Image 1: Home, About, Course Package, Contact, Courses, Job) -->
         <nav class="menu">
-            <a href="/" class="">Home</a>
-            <a href="/about" class="active">About</a>
+            <a href=":8000" class="active">Home</a>
+            <a href="/about" class="">About</a>
 
             <!-- Course Package Dropdown -->
             <div class="nav-dropdown">
                 <a href="/plans" class="dropdown-trigger ">
-                    <span>Course Package</span>
+                    <span>Package</span>
                     <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </a>
                 <div class="dropdown-menu-box">
-                    <a href="/plans#basic" class="dropdown-item-link">BASIC</a>
-                    <a href="/plans#advance" class="dropdown-item-link">ADVANCE</a>
-                    <a href="/plans#premium" class="dropdown-item-link">PREMIUM</a>
-                    <a href="/plans#growth" class="dropdown-item-link">GROWTH</a>
-                    <a href="/plans#infinity" class="dropdown-item-link">INFINITY</a>
+                    <a href="/buy-now?package=basic" class="dropdown-item-link">Basic</a>
+                    <a href="/buy-now?package=growth" class="dropdown-item-link">Growth</a>
+                    <a href="/buy-now?package=advance" class="dropdown-item-link">Advance</a>
+                    <a href="/buy-now?package=premium" class="dropdown-item-link">Premium</a>
+                    <a href="/buy-now?package=infinity" class="dropdown-item-link">Infinity</a>
                 </div>
             </div>
 
@@ -2027,16 +2016,6 @@
                         </svg>
                         <span>Register</span>
                     </a>
-                    <div style="border-top: 1px solid #f1f5f9; margin: 0.35rem 0;"></div>
-                    <a href="/buy-now" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Buy Now</span>
-                    </a>
                 </div>
             </div>
 
@@ -2051,14 +2030,14 @@
     </header>
 
     <!-- Mobile Slide-In Drawer Navigation Backdrop -->
-    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeMobileMenu()"></div>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="window.closeAllMobileDrawers()"></div>
 
     <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer" id="mobileDrawer">
         <!-- Drawer Header with Logo & Close Button -->
         <div
             style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
-            <a href="/" style="text-decoration: none; display: flex; align-items: center;">
+            <a href=":8000" style="text-decoration: none; display: flex; align-items: center;">
                 <img src="/images/logo.png" alt="SkillLearner"
                     style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
@@ -2067,24 +2046,24 @@
         </div>
 
         <!-- Guest Navigation Links -->
-        <a href="/" class="mobile-nav-link ">Home</a>
-        <a href="/about" class="mobile-nav-link active">About</a>
+        <a href=":8000" class="mobile-nav-link active">Home</a>
+        <a href="/about" class="mobile-nav-link ">About</a>
         <a href="/courses" class="mobile-nav-link ">Courses</a>
 
         <div>
             <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
-                <span>Course Package</span>
+                <span>Package</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
             </button>
             <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                <a href="/plans#basic" class="mobile-sub-item">BASIC</a>
-                <a href="/plans#advance" class="mobile-sub-item">ADVANCE</a>
-                <a href="/plans#premium" class="mobile-sub-item">PREMIUM</a>
-                <a href="/plans#growth" class="mobile-sub-item">GROWTH</a>
-                <a href="/plans#infinity" class="mobile-sub-item">INFINITY</a>
+                <a href="/buy-now?package=basic" class="mobile-sub-item">Basic</a>
+                <a href="/buy-now?package=growth" class="mobile-sub-item">Growth</a>
+                <a href="/buy-now?package=advance" class="mobile-sub-item">Advance</a>
+                <a href="/buy-now?package=premium" class="mobile-sub-item">Premium</a>
+                <a href="/buy-now?package=infinity" class="mobile-sub-item">Infinity</a>
             </div>
         </div>
 
@@ -2092,675 +2071,411 @@
 
         <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;">
             <a href="/my-account" class="btn btn-secondary" style="width: 100%;">My Account</a>
-            <a href="/buy-now" class="btn btn-primary" style="width: 100%; background: #05B396; font-weight: 800;">Buy
-                Now</a>
         </div>
+    </div>
+
+    <!-- Mobile Slide-In Drawer Navigation Menu for Website Pages -->
+    <div class="mobile-drawer website-drawer" id="websiteDrawer">
+        <!-- Drawer Header with Logo & Close Button -->
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+            <a href=":8000" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="width: auto; max-width: 140px; object-fit: contain;">
+            </a>
+            <button type="button" onclick="window.closeWebsiteDrawer()" aria-label="Close Navigation"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+        </div>
+
+        <div
+            style="font-size: 0.72rem; font-weight: 800; color: #05B396; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.5rem; padding-left: 0.3rem; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            <span>WEBSITE PAGES</span>
+        </div>
+
+        <a href=":8000" class="mobile-nav-link active">Home</a>
+        <a href="/about" class="mobile-nav-link ">About</a>
+        <a href="/courses" class="mobile-nav-link ">Courses Catalog</a>
+
+        <div>
+            <button class="mobile-accordion-btn" id="websiteCoursePackageBtn"
+                onclick="window.toggleWebsiteAccordion(event)">
+                <span>Package</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div class="mobile-accordion-content" id="websiteCoursePackageContent">
+                <a href="/buy-now?package=basic" class="mobile-sub-item">Basic</a>
+                <a href="/buy-now?package=growth" class="mobile-sub-item">Growth</a>
+                <a href="/buy-now?package=advance" class="mobile-sub-item">Advance</a>
+                <a href="/buy-now?package=premium" class="mobile-sub-item">Premium</a>
+                <a href="/buy-now?package=infinity" class="mobile-sub-item">Infinity</a>
+            </div>
+        </div>
+
+        <a href="/contact" class="mobile-nav-link ">Contact Us</a>
+        <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')"
+            class="mobile-nav-link">Jobs Board</a>
     </div>
 
     <!-- Main Content Area -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero" style="text-align: center; padding: 5rem 2rem 4rem; max-width: 1150px; margin: 0 auto;">
-            <div
-                style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
-                <span>★ India's #1 Skill & Affiliate Platform</span>
-            </div>
-            <h1 class="hero-title" style="color: #0B4F4A;">
-                <span class="title-skill" style="color: #0B4F4A;">Build Skill,</span> <br><span class="title-future"
-                    style="color: #0A6B5C;">Build Future.</span>
-            </h1>
-            <p class="hero-subtitle"
-                style="color: #000000; font-weight: 700; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem;">
-                Unlock your potential with SkillLearner. Explore industry-relevant courses, gain practical knowledge,
-                and develop the skills you need to grow professionally and succeed in the digital world.
-            </p>
-            <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/courses" class="btn btn-primary"
-                    style="background: hsl(170, 95%, 36%); padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">Explore
-                    Courses ➔</a>
-                <!-- <a href="/plans" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a> -->
-            </div>
-
-            <div class="hero-image-wrapper" style="margin-top: 3.5rem; display: flex; justify-content: center;">
-                <img src="/images/skill-tree.png" alt="SkillLearner - Build Skills, Build Future" class="hero-tree-img"
-                    style="width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain;">
-            </div>
-        </section>
-
-        <!-- Packages Showcase -->
-        <section class="container" id="packages">
-            <div style="text-align: center; margin-bottom: 3.5rem;">
-                <div
-                    style="text-transform: uppercase; letter-spacing: 2.5px; color: #0B4F4A; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">
-                    Packages & Tiers</div>
-                <h2 style="font-size: 2.0rem; font-weight: 800; letter-spacing: -0.5px; color: #0A6B5C;">Select Your
-                    Learning Track</h2>
-                <p style="color: var(--text-body); max-width: 620px; margin: 0 auto;">Every package unlocks premium
-                    high-yield skills along with direct and passive referral commission rights.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2rem;">
-                <div class="glass"
-                    style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(168, 85, 247, 0.45); background: linear-gradient(180deg, #1b0c33 0%, #0d0519 100%);">
-                    <div
-                        style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(13, 5, 25, 0.8) 100%); border-radius: 14px;">
-                        <img src="/images/packages/basic.png" alt="Basic Package"
-                            style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">Basic Package
-                    </h3>
-
-                    <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #A855F7; font-weight: bold;">✓</span> Canva Pro Mastery
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #A855F7; font-weight: bold;">✓</span> MS Excel Essentials
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #A855F7; font-weight: bold;">✓</span> Basic Spoken English
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #A855F7; font-weight: bold;">✓</span> Social Media Fundamentals
-                        </li>
-                    </ul>
-
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="/buy-now?package=basic" class="btn btn-primary"
-                            style="background: #7C3AED; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);">
-                            Buy Now ➔
-                        </a>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(16, 185, 129, 0.45); background: linear-gradient(180deg, #063124 0%, #021711 100%);">
-                    <div
-                        style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(2, 23, 17, 0.8) 100%); border-radius: 14px;">
-                        <img src="/images/packages/growth.png" alt="Growth Package"
-                            style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">Growth
-                        Package</h3>
-
-                    <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #10B981; font-weight: bold;">✓</span> All Premium Courses
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #10B981; font-weight: bold;">✓</span> Complete Funnel Building
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #10B981; font-weight: bold;">✓</span> High-Ticket Sales Closing
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #10B981; font-weight: bold;">✓</span> Google & YouTube Ads
-                        </li>
-                    </ul>
-
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="/buy-now?package=growth" class="btn btn-primary"
-                            style="background: #059669; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);">
-                            Buy Now ➔
-                        </a>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(2, 132, 199, 0.45); background: linear-gradient(180deg, #07263e 0%, #021320 100%);">
-                    <div
-                        style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, rgba(2, 132, 199, 0.22) 0%, rgba(2, 19, 32, 0.8) 100%); border-radius: 14px;">
-                        <img src="/images/packages/advance.png" alt="Advance Package"
-                            style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">Advance
-                        Package</h3>
-
-                    <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #0284C7; font-weight: bold;">✓</span> All Basic Courses
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #0284C7; font-weight: bold;">✓</span> Video Editing (Premiere & CapCut)
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #0284C7; font-weight: bold;">✓</span> Instagram Growth Formula
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #0284C7; font-weight: bold;">✓</span> Organic Lead Generation Blueprint
-                        </li>
-                    </ul>
-
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="/buy-now?package=advance" class="btn btn-primary"
-                            style="background: #0284C7; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
-                            Buy Now ➔
-                        </a>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(245, 158, 11, 0.45); background: linear-gradient(180deg, #331c02 0%, #150a00 100%);">
-                    <div
-                        style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(21, 10, 0, 0.8) 100%); border-radius: 14px;">
-                        <img src="/images/packages/premium.png" alt="Premium Package"
-                            style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">Premium
-                        Package</h3>
-
-                    <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #F59E0B; font-weight: bold;">✓</span> All Advance Courses
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #F59E0B; font-weight: bold;">✓</span> Facebook & Instagram Paid Ads
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #F59E0B; font-weight: bold;">✓</span> AI & ChatGPT Monetization Kit
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #F59E0B; font-weight: bold;">✓</span> WordPress Web Development
-                        </li>
-                    </ul>
-
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="/buy-now?package=premium" class="btn btn-primary"
-                            style="background: #D97706; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);">
-                            Buy Now ➔
-                        </a>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="padding: 2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid rgba(239, 68, 68, 0.45); background: linear-gradient(180deg, #330606 0%, #160202 100%);">
-                    <div
-                        style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 220px; background: radial-gradient(circle, rgba(239, 68, 68, 0.22) 0%, rgba(22, 2, 2, 0.8) 100%); border-radius: 14px;">
-                        <img src="/images/packages/infinity.png" alt="Infinity Package"
-                            style="max-height: 210px; width: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)); transition: transform 0.3s ease;">
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; text-align: center; margin-bottom: 1.2rem; color: #fff;">Infinity
-                        Package</h3>
-
-                    <ul style="list-style: none; margin-bottom: 1.8rem; flex-grow: 1;">
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #EF4444; font-weight: bold;">✓</span> Full Lifetime Access Pass
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #EF4444; font-weight: bold;">✓</span> UI/UX Design Masterclass
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #EF4444; font-weight: bold;">✓</span> 1-on-1 Mentorship & Weekly Live
-                            Masterminds
-                        </li>
-                        <li
-                            style="padding: 0.45rem 0; color: var(--text-body); font-size: 0.92rem; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: #EF4444; font-weight: bold;">✓</span> VIP Community & Support
-                        </li>
-                    </ul>
-
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="/buy-now?package=infinity" class="btn btn-primary"
-                            style="background: #DC2626; text-align: center; width: 100%; padding: 0.85rem; font-weight: 800; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);">
-                            Buy Now ➔
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Why SkillLearner Section -->
+        <!-- Hero / Header Banner -->
         <section
-            style="padding: 4.5rem 1.5rem 5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(253, 242, 248, 0.7) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(243, 232, 255, 0.7) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin: 1rem 0 3.5rem;">
-            <!-- Ambient Blur Accents -->
+            style="padding: 4.5rem 1.5rem 3.5rem; text-align: center; background: radial-gradient(circle at 50% 10%, rgba(10, 107, 92, 0.08) 0%, #ffffff 70%); border-bottom: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+            <!-- Ambient Blur Background Accents -->
             <div
-                style="position: absolute; top: -50px; left: -50px; width: 260px; height: 260px; background: radial-gradient(circle, rgba(253, 230, 138, 0.35) 0%, transparent 70%); filter: blur(40px); pointer-events: none;">
+                style="position: absolute; top: -50px; left: 15%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(11, 79, 74, 0.08) 0%, transparent 70%); filter: blur(50px); pointer-events: none;">
             </div>
             <div
-                style="position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(216, 180, 254, 0.4) 0%, transparent 70%); filter: blur(50px); pointer-events: none;">
+                style="position: absolute; bottom: -50px; right: 15%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(10, 107, 92, 0.1) 0%, transparent 70%); filter: blur(50px); pointer-events: none;">
             </div>
 
-            <div class="container"
-                style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
-                <h2
-                    style="font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 900; text-align: center; margin-bottom: 3.5rem; letter-spacing: -1px; color: #0f172a;">
-                    Why <span style="color: #0B4F4A;">SKILL</span><span style="color: #0A6B5C;">LEARNER</span>
-                </h2>
-
-                <div class="why-sl-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem;">
-
-                    <!-- Card 1: Learners & counting -->
-                    <div class="why-sl-card"
-                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                        <div
-                            style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="23" fill="#F5F3FF" />
-                                <path d="M24 10L11 17L24 23L37 17L24 10Z" fill="#3B1E78" />
-                                <path d="M16 19.5V26.5C16 29.5 19.5 31.5 24 31.5C28.5 31.5 32 29.5 32 26.5V19.5"
-                                    fill="#581C87" />
-                                <path d="M35 18V27.5C35 28 34.5 28.5 34 28.5C33.5 28.5 33 28 33 27.5V18.5"
-                                    stroke="#EC4899" stroke-width="2" stroke-linecap="round" />
-                                <circle cx="24" cy="25" r="4.5" fill="#FBCFE8" />
-                                <path d="M16 38C16 33 19.5 32 24 32C28.5 32 32 33 32 38" fill="#6B21A8" />
-                                <polygon points="24,32 25.5,35 24,38 22.5,35" fill="#9333EA" />
-                            </svg>
-                        </div>
-                        <h3
-                            style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">
-                            1,000+</h3>
-                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Learners &amp;
-                            counting</p>
-                    </div>
-
-                    <!-- Card 2: Courses -->
-                    <div class="why-sl-card"
-                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                        <div
-                            style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="23" fill="#FDF2F8" />
-                                <rect x="12" y="32" width="24" height="5" rx="2" fill="#7C3AED" />
-                                <rect x="14" y="33" width="3" height="3" fill="#DDD6FE" />
-                                <rect x="13" y="27" width="22" height="5" rx="2" fill="#EC4899" />
-                                <rect x="15" y="28" width="3" height="3" fill="#FCE7F3" />
-                                <path d="M24 13L11 19.5L24 25.5L37 19.5L24 13Z" fill="#3B1E78" />
-                                <path d="M16 22V26.5C16 28.5 19.5 30 24 30C28.5 30 32 28.5 32 26.5V22" fill="#581C87" />
-                                <path d="M35 20.5V27.5C35 28 34.5 28.5 34 28.5C33.5 28.5 33 28 33 27.5V21"
-                                    stroke="#F472B6" stroke-width="2" stroke-linecap="round" />
-                            </svg>
-                        </div>
-                        <h3
-                            style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">
-                            16+</h3>
-                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Courses</p>
-                    </div>
-
-                    <!-- Card 3: Live Trainings -->
-                    <div class="why-sl-card"
-                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                        <div
-                            style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="23" fill="#F5F3FF" />
-                                <rect x="11" y="11" width="26" height="20" rx="3.5" fill="#6D28D9" />
-                                <rect x="13" y="13" width="22" height="16" rx="2" fill="#1E1B4B" />
-                                <circle cx="21" cy="21" r="5" fill="#EC4899" />
-                                <polygon points="19.5,18.5 24,21 19.5,23.5" fill="#FFFFFF" />
-                                <rect x="28" y="16" width="5" height="2" rx="1" fill="#A78BFA" />
-                                <rect x="28" y="20" width="5" height="2" rx="1" fill="#A78BFA" />
-                                <rect x="28" y="24" width="5" height="2" rx="1" fill="#A78BFA" />
-                                <path d="M22 31H26V35H22V31Z" fill="#581C87" />
-                                <rect x="17" y="34.5" width="14" height="2.5" rx="1.25" fill="#3B1E78" />
-                            </svg>
-                        </div>
-                        <h3
-                            style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">
-                            500+</h3>
-                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Live Trainings</p>
-                    </div>
-
-                    <!-- Card 4: Trainers -->
-                    <div class="why-sl-card"
-                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 18px; padding: 2.5rem 1.5rem 2.2rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                        <div
-                            style="width: 72px; height: 72px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="23" fill="#FDF2F8" />
-                                <circle cx="24" cy="14" r="3.5" fill="#FBCFE8" />
-                                <path d="M19 21C19 18.5 21 18 24 18C27 18 29 18.5 29 21" fill="#6B21A8" />
-                                <rect x="18" y="21" width="12" height="2" rx="1" fill="#9333EA" />
-                                <circle cx="16" cy="26" r="3" fill="#FBCFE8" />
-                                <path d="M12 32C12 30 13.5 29.5 16 29.5C18.5 29.5 20 30 20 32" fill="#7C3AED" />
-                                <rect x="12" y="32" width="8" height="2" rx="0.5" fill="#A855F7" />
-                                <circle cx="32" cy="26" r="3" fill="#FBCFE8" />
-                                <path d="M28 32C28 30 29.5 29.5 32 29.5C34.5 29.5 36 30 36 32" fill="#7C3AED" />
-                                <rect x="28" y="32" width="8" height="2" rx="0.5" fill="#A855F7" />
-                                <rect x="13" y="34" width="6" height="3" rx="0.5" fill="#DDD6FE" />
-                                <rect x="29" y="34" width="6" height="3" rx="0.5" fill="#DDD6FE" />
-                            </svg>
-                        </div>
-                        <h3
-                            style="font-size: 2.3rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; letter-spacing: -0.5px; line-height: 1.2;">
-                            25+</h3>
-                        <p style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin: 0;">Trainers</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Course Curriculum & Descriptions -->
-        <section class="container" style="padding-top: 0; padding-bottom: 5rem;">
-            <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div class="container" style="max-width: 950px; margin: 0 auto; position: relative; z-index: 2;">
                 <div
-                    style="text-transform: uppercase; letter-spacing: 2.5px; color: var(--primary); font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">
-                    Curriculum & Syllabuses</div>
-                <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;">High-Yield Skill Courses</h2>
-                <p style="color: var(--text-body); max-width: 600px; margin: 0 auto;">Read full course descriptions,
-                    learning modules, and enroll directly with one click.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🚀</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">6h
-                            40m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">BESTSELLER</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Affiliate
-                                Business</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                High-Ticket Affiliate Marketing Masterclass</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Step-by-step blueprint to generate ₹50,000+ monthly via organic leads and high-ticket
-                                affiliate funnels.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">18 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/affiliate-marketing-masterclass" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=affiliate-marketing-masterclass" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    style="display: inline-flex; align-items: center; gap: 8px; background: rgba(10, 107, 92, 0.08); border: 1px solid rgba(10, 107, 92, 0.25); color: #0A6B5C; padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.4rem;">
+                    <span>✨ EMPOWERING DIGITAL CAREERS</span>
                 </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🤖</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h
-                            15m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">TRENDING</span>
-                    </div>
 
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Artificial
-                                Intelligence</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                AI, ChatGPT &amp; Automation Cashflow</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Harness ChatGPT, Midjourney, Claude &amp; automation bots to deliver paid freelance
-                                services in minutes.
-                            </p>
-                        </div>
+                <h1
+                    style="font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1.2px; line-height: 1.15; color: #0c2340; margin-bottom: 1.2rem;">
+                    Know About <span style="color: #0B4F4A;">SkillLearner</span> <span
+                        style="color: #0A6B5C;">Platform</span>
+                </h1>
 
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">14 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,299</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/ai-chatgpt-automation" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=ai-chatgpt-automation" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>🎬</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">8h
-                            20m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HOT
-                            SKILL</span>
-                    </div>
+                <p
+                    style="font-size: 1.15rem; line-height: 1.7; color: #475569; max-width: 760px; margin: 0 auto 2rem; font-weight: 500;">
+                    A next-generation practical learning and career upskilling platform dedicated to bridging the gap
+                    between education, real-world skills, and sustainable professional development.
+                </p>
 
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Video
-                                &amp; Media</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Short-Form Video Editing (CapCut &amp; Premiere Pro)</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Edit viral Instagram Reels, YouTube Shorts, and TikTok ads that grab attention in the
-                                first 2 seconds.
-                            </p>
-                        </div>
 
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">22 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/short-form-video-editing" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=short-form-video-editing" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>📈</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">5h
-                            50m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">HIGH
-                            ROI</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Performance
-                                Marketing</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Meta Ads Mastery: Facebook &amp; Instagram Leads</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Run profitable Facebook &amp; Instagram ads for real estate, e-commerce, coaching, and
-                                lead gen.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">16 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,699</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/meta-ads-mastery" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=meta-ads-mastery" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>💻</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">7h
-                            30m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">MOST
-                            PRACTICAL</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Web
-                                Design</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                WordPress &amp; Landing Page Design No-Code</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Build high-converting sales pages, company websites, and portfolios using Elementor
-                                without coding.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">20 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹1,499</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/wordpress-landing-page-design" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=wordpress-landing-page-design" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass"
-                    style="border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-glass);">
-                    <div
-                        style="height: 160px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative;">
-                        <span>⭐</span>
-                        <span
-                            style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #fff;">4h
-                            10m</span>
-                        <span
-                            style="position: absolute; top: 10px; left: 10px; background: #05B396; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">FAST
-                            GROWTH</span>
-                    </div>
-
-                    <div
-                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
-                            <span
-                                style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">Social
-                                Media</span>
-                            <h4
-                                style="font-size: 1.2rem; font-weight: 800; margin-top: 0.3rem; margin-bottom: 0.6rem; color: #fff;">
-                                Personal Branding &amp; Instagram Reel Blueprint</h4>
-                            <p
-                                style="color: var(--text-body); font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
-                                Build authority, attract inbound client inquiries, and grow your Instagram followers
-                                organically.
-                            </p>
-                        </div>
-
-                        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <span style="font-size: 0.85rem; color: var(--text-body);">12 Lessons</span>
-                                <span style="font-size: 1.15rem; font-weight: 800; color: #05B396;">₹999</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                <a href="/courses/personal-branding-instagram-reels" class="btn btn-secondary"
-                                    style="padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-align: center;">
-                                    Description
-                                </a>
-                                <a href="/buy-now?course=personal-branding-instagram-reels" class="btn btn-primary"
-                                    style="background: #05B396; padding: 0.55rem 0.6rem; font-size: 0.85rem; font-weight: 800; text-align: center;">
-                                    Buy Now ➔
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="/courses" class="btn btn-secondary"
-                    style="padding: 0.9rem 2.2rem; font-size: 1rem; font-weight: 700;">
-                    View All Courses With Full Syllabuses ➔
-                </a>
             </div>
         </section>
+
+        <!-- Mission & Vision Container -->
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem 3rem;">
+
+            <!-- SECTION 1: Our Mission -->
+            <section class="about-split-grid"
+                style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; margin-bottom: 6rem;">
+
+                <!-- Left: Text Content -->
+                <div>
+                    <div
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.2); color: #0B4F4A; padding: 5px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>🎯 OUR PURPOSE & COMMITMENT</span>
+                    </div>
+
+                    <h2
+                        style="font-size: clamp(2.2rem, 4vw, 2.9rem); font-weight: 900; color: #0c2340; line-height: 1.2; letter-spacing: -0.8px; margin-bottom: 0.8rem;">
+                        Our <span style="color: #0B4F4A;">Mission</span>
+                    </h2>
+                    <div
+                        style="width: 50px; height: 4px; background: #0A6B5C; border-radius: 2px; margin-bottom: 1.8rem;">
+                    </div>
+
+                    <p
+                        style="font-size: 1.12rem; line-height: 1.8; color: #1e293b; margin-bottom: 1.2rem; font-weight: 600;">
+                        Our mission is to make quality skill-based education accessible to everyone by providing
+                        valuable learning opportunities that encourage continuous improvement, practical knowledge and
+                        professional development.
+                    </p>
+
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin-bottom: 2rem; font-weight: 500;">
+                        We aim to empower individuals with the confidence and skills they need to pursue their goals and
+                        build a better future.
+                    </p>
+
+                    <!-- Mission Highlights -->
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Practical & Job-Ready Skills:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> Curated modules focused on hands-on
+                                    project creation over passive theory.</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Accessible to Everyone:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> High-value, affordable packages built
+                                    for students, graduates, and aspiring professionals.</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Career Confidence:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> Empowering students with the direct
+                                    capability to launch freelance services and scale digital income.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Mission Image -->
+                <div style="display: flex; justify-content: center; position: relative;">
+                    <div
+                        style="position: absolute; inset: -15px; background: radial-gradient(circle, rgba(10, 107, 92, 0.18) 0%, transparent 70%); filter: blur(35px); pointer-events: none;">
+                    </div>
+                    <div
+                        style="position: relative; width: 100%; max-width: 490px; border-radius: 26px; overflow: hidden; box-shadow: 0 20px 45px -10px rgba(11, 79, 74, 0.22), 0 0 0 1px rgba(226, 232, 240, 0.9); background: #ffffff;">
+                        <img src="/images/about-mission.jpg" alt="SkillLearner Mission - Teamwork & Skill Growth"
+                            style="width: 100%; height: auto; display: block; object-fit: cover; transition: transform 0.4s ease;">
+
+                        <!-- Floating Glass Badge -->
+                        <div
+                            style="position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(12, 35, 64, 0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 12px 18px; color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.4rem;">🤝</span>
+                                <div>
+                                    <div
+                                        style="font-size: 0.82rem; font-weight: 800; color: #10B981; letter-spacing: 0.5px; text-transform: uppercase;">
+                                        Real Impact</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700;">Collaboration & Community
+                                        Mentorship</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SECTION 2: Our Vision -->
+            <section class="about-split-grid about-vision-grid"
+                style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 4rem; align-items: center; margin-bottom: 6rem;">
+
+                <!-- Left: Vision Image -->
+                <div style="display: flex; justify-content: center; position: relative;">
+                    <div
+                        style="position: absolute; inset: -15px; background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%); filter: blur(35px); pointer-events: none;">
+                    </div>
+                    <div
+                        style="position: relative; width: 100%; max-width: 490px; border-radius: 26px; overflow: hidden; box-shadow: 0 20px 45px -10px rgba(10, 107, 92, 0.22), 0 0 0 1px rgba(226, 232, 240, 0.9); background: #ffffff;">
+                        <img src="/images/about-vision.jpg" alt="SkillLearner Vision - Upward Career Growth"
+                            style="width: 100%; height: auto; display: block; object-fit: cover; transition: transform 0.4s ease;">
+
+                        <!-- Floating Glass Badge -->
+                        <div
+                            style="position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(12, 35, 64, 0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 12px 18px; color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.4rem;">📈</span>
+                                <div>
+                                    <div
+                                        style="font-size: 0.82rem; font-weight: 800; color: #10B981; letter-spacing: 0.5px; text-transform: uppercase;">
+                                        Future Horizons</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700;">Empowering Sustainable Growth
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Text Content -->
+                <div>
+                    <div
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(10, 107, 92, 0.08); border: 1px solid rgba(10, 107, 92, 0.2); color: #0A6B5C; padding: 5px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>🚀 FUTURE HORIZONS & ASPIRATION</span>
+                    </div>
+
+                    <h2
+                        style="font-size: clamp(2.2rem, 4vw, 2.9rem); font-weight: 900; color: #0c2340; line-height: 1.2; letter-spacing: -0.8px; margin-bottom: 0.8rem;">
+                        Our <span style="color: #0A6B5C;">Vision</span>
+                    </h2>
+                    <div
+                        style="width: 50px; height: 4px; background: #0A6B5C; border-radius: 2px; margin-bottom: 1.8rem;">
+                    </div>
+
+                    <p
+                        style="font-size: 1.12rem; line-height: 1.8; color: #1e293b; margin-bottom: 1.2rem; font-weight: 600;">
+                        To become a trusted and recognized online learning platform that inspires millions of
+                        individuals to learn new skills, embrace opportunities and achieve their full potential.
+                    </p>
+
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin-bottom: 2rem; font-weight: 500;">
+                        We envision a future where learning has no limits and everyone has the opportunity to grow.
+                    </p>
+
+                    <!-- Vision Highlights -->
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Inspiring Millions:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> Building an educational movement that
+                                    reaches motivated learners in every corner of India.</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Limitless Learning:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> Removing traditional barriers of high
+                                    costs, geographical distance, and rigid schedules.</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div
+                                style="width: 28px; height: 28px; border-radius: 50%; background: rgba(10, 107, 92, 0.12); color: #0A6B5C; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 0.9rem;">
+                                ✓</div>
+                            <div>
+                                <strong style="color: #0c2340; font-size: 1rem;">Full Potential Realized:</strong>
+                                <span style="color: #64748b; font-size: 0.95rem;"> Providing the exact tools, mentors,
+                                    and roadmaps required for long-term career mastery.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SECTION 3: What Powers SkillLearner (Core Values Grid) -->
+            <section style="margin-bottom: 6rem;">
+                <div style="text-align: center; margin-bottom: 3.5rem;">
+                    <div
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(10, 107, 92, 0.08); border: 1px solid rgba(10, 107, 92, 0.25); color: #0A6B5C; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>💡 WHY WE EXIST</span>
+                    </div>
+                    <h2
+                        style="font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 900; letter-spacing: -0.8px; margin-bottom: 0.8rem; color: #0c2340;">
+                        The Pillars of <span style="color: #0B4F4A;">SkillLearner</span>
+                    </h2>
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 650px; margin: 0 auto; font-weight: 500;">
+                        We build every feature, module, and partnership around four foundational pillars designed for
+                        modern digital success.
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem;">
+
+                    <div class="pillar-card"
+                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 1.8rem; box-shadow: 0 4px 18px -2px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;">
+                        <div
+                            style="width: 52px; height: 52px; border-radius: 14px; background: rgba(10, 107, 92, 0.1); border: 1px solid rgba(10, 107, 92, 0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.4rem;">
+                            🎓
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c2340; margin-bottom: 0.6rem;">
+                            High-Yield Skillsets</h3>
+                        <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin: 0;">
+                            Courses in AI tools, Canva mastery, video editing, spoken English, and high-ticket affiliate
+                            systems that produce tangible results.
+                        </p>
+                    </div>
+
+                    <div class="pillar-card"
+                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 1.8rem; box-shadow: 0 4px 18px -2px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;">
+                        <div
+                            style="width: 52px; height: 52px; border-radius: 14px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.4rem;">
+                            ⚡
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c2340; margin-bottom: 0.6rem;">
+                            Self-Paced Flexibility</h3>
+                        <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin: 0;">
+                            Learn on your own schedule with 24/7 lifetime access on mobile, tablet, or desktop with
+                            instant dashboard activation.
+                        </p>
+                    </div>
+
+                    <div class="pillar-card"
+                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 1.8rem; box-shadow: 0 4px 18px -2px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;">
+                        <div
+                            style="width: 52px; height: 52px; border-radius: 14px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.4rem;">
+                            👥
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c2340; margin-bottom: 0.6rem;">
+                            Dedicated Mentorship</h3>
+                        <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin: 0;">
+                            Direct guidance from experienced founders and instructors committed to resolving doubts and
+                            unlocking real career progress.
+                        </p>
+                    </div>
+
+                    <div class="pillar-card"
+                        style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem 1.8rem; box-shadow: 0 4px 18px -2px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;">
+                        <div
+                            style="width: 52px; height: 52px; border-radius: 14px; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.4rem;">
+                            🏆
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c2340; margin-bottom: 0.6rem;">
+                            Recognized Certification</h3>
+                        <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin: 0;">
+                            Complete your coursework and earn verifiable SkillLearner course completion certificates to
+                            validate your resume and portfolio.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+
+
+            <!-- SECTION 5: Call to Action Banner -->
+            <section
+                style="background: linear-gradient(135deg, #0c2340 0%, #071729 100%); border-radius: 28px; padding: 4rem 2rem; text-align: center; color: #ffffff; position: relative; overflow: hidden; box-shadow: 0 25px 50px -15px rgba(12, 35, 64, 0.35);">
+                <div
+                    style="position: absolute; top: -30px; right: -30px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(10, 107, 92, 0.35) 0%, transparent 70%); filter: blur(40px); pointer-events: none;">
+                </div>
+                <div
+                    style="position: absolute; bottom: -30px; left: -30px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%); filter: blur(40px); pointer-events: none;">
+                </div>
+
+                <div style="position: relative; z-index: 2; max-width: 700px; margin: 0 auto;">
+                    <div
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.2rem;">
+                        🚀 START YOUR JOURNEY TODAY
+                    </div>
+
+                    <h2
+                        style="font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 900; letter-spacing: -0.8px; margin-bottom: 1rem; line-height: 1.25;">
+                        Ready to Build Your Skill &amp; Shape Your Future?
+                    </h2>
+
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.65; color: #cbd5e1; margin-bottom: 2.2rem; font-weight: 400;">
+                        Unlock our curated packages, access comprehensive step-by-step masterclasses, and step into
+                        high-income digital opportunities with SkillLearner.
+                    </p>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="/courses" class="btn btn-primary"
+                            style="background: #0A6B5C; padding: 0.95rem 2.2rem; font-size: 1.05rem; font-weight: 800; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(10, 107, 92, 0.4);">
+                            <span>Explore Packages</span>
+                            <span>➔</span>
+                        </a>
+                        <a href="/contact" class="btn btn-secondary"
+                            style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; padding: 0.95rem 2rem; font-size: 1.05rem; font-weight: 700; border-radius: 12px; text-decoration: none;">
+                            Contact Our Team
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
     </main>
 
     <!-- Modern Dark Footer based on Reference Design -->
@@ -2770,7 +2485,7 @@
 
                 <!-- Col 1: Brand Info -->
                 <div>
-                    <a href="/" style="display: inline-block; margin-bottom: 1.2rem;">
+                    <a href=":8000" style="display: inline-block; margin-bottom: 1.2rem;">
                         <img src="/images/logo.png" alt="SkillLearner"
                             style="width: auto; max-width: 210px; height: auto; object-fit: contain; display: block;">
                     </a>
@@ -2859,7 +2574,8 @@
                             </div>
                             <div>
                                 <div class="contact-title">Mail Us</div>
-                                <a href="mailto:support.skilllearner@gmail.com" class="contact-value">support.skilllearner@gmail.com</a>
+                                <a href="mailto:support.skilllearner@gmail.com"
+                                    class="contact-value">support.skilllearner@gmail.com</a>
                             </div>
                         </div>
 
@@ -2975,6 +2691,7 @@
             if (isOpen) {
                 window.closeMobileMenu();
             } else {
+                window.closeWebsiteDrawer();
                 window.openMobileMenu();
             }
         };
@@ -2994,9 +2711,56 @@
             const overlay = document.getElementById('mobileOverlay');
             const drawer = document.getElementById('mobileDrawer');
             if (btn) btn.classList.remove('active');
-            if (overlay) overlay.classList.remove('active');
             if (drawer) drawer.classList.remove('active');
-            document.body.style.overflow = '';
+            const websiteDrawer = document.getElementById('websiteDrawer');
+            if (!websiteDrawer || !websiteDrawer.classList.contains('active')) {
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Website Drawer Handlers
+        window.toggleWebsiteDrawer = function (e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const drawer = document.getElementById('websiteDrawer');
+            const isOpen = drawer && drawer.classList.contains('active');
+            if (isOpen) {
+                window.closeWebsiteDrawer();
+            } else {
+                window.closeMobileMenu();
+                window.openWebsiteDrawer();
+            }
+        };
+
+        window.openWebsiteDrawer = function () {
+            const btn = document.getElementById('websiteNavToggleBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('websiteDrawer');
+            if (btn) btn.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            if (drawer) drawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeWebsiteDrawer = function () {
+            const btn = document.getElementById('websiteNavToggleBtn');
+            const overlay = document.getElementById('mobileOverlay');
+            const drawer = document.getElementById('websiteDrawer');
+            if (btn) btn.classList.remove('active');
+            if (drawer) drawer.classList.remove('active');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            if (!mobileDrawer || !mobileDrawer.classList.contains('active')) {
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.closeAllMobileDrawers = function () {
+            window.closeMobileMenu();
+            window.closeWebsiteDrawer();
         };
 
         window.toggleMobileAccordion = function (e) {
@@ -3007,8 +2771,16 @@
             if (content) content.classList.toggle('open');
         };
 
+        window.toggleWebsiteAccordion = function (e) {
+            if (e) e.preventDefault();
+            const btn = document.getElementById('websiteCoursePackageBtn');
+            const content = document.getElementById('websiteCoursePackageContent');
+            if (btn) btn.classList.toggle('open');
+            if (content) content.classList.toggle('open');
+        };
+
         window.mobileSwitchPortalTab = function (tabId) {
-            window.closeMobileMenu();
+            window.closeAllMobileDrawers();
             if (window.location.pathname.includes('/dashboard')) {
                 if (typeof window.switchPortalTab === 'function') {
                     window.switchPortalTab(tabId);
@@ -3021,7 +2793,7 @@
         // Close drawer on ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                window.closeMobileMenu();
+                window.closeAllMobileDrawers();
                 const card = document.getElementById('userDropdownCard');
                 if (card) card.classList.remove('active');
                 const guestCard = document.getElementById('guestUserDropdownCard');

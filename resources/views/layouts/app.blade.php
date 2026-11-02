@@ -807,20 +807,20 @@
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
             <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
 
-            <!-- Course Package Dropdown -->
+            <!-- Package Dropdown -->
             <div class="nav-dropdown">
                 <a href="{{ url('/plans') }}" class="dropdown-trigger {{ request()->is('plans*') || request()->is('programs*') ? 'active' : '' }}">
-                    <span>Course Package</span>
+                    <span>Package</span>
                     <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </a>
                 <div class="dropdown-menu-box">
-                    <a href="{{ url('/plans') }}#basic" class="dropdown-item-link">BASIC</a>
-                    <a href="{{ url('/plans') }}#advance" class="dropdown-item-link">ADVANCE</a>
-                    <a href="{{ url('/plans') }}#premium" class="dropdown-item-link">PREMIUM</a>
-                    <a href="{{ url('/plans') }}#growth" class="dropdown-item-link">GROWTH</a>
-                    <a href="{{ url('/plans') }}#infinity" class="dropdown-item-link">INFINITY</a>
+                    <a href="{{ url('/buy-now?package=basic') }}" class="dropdown-item-link">Basic</a>
+                    <a href="{{ url('/buy-now?package=growth') }}" class="dropdown-item-link">Growth</a>
+                    <a href="{{ url('/buy-now?package=advance') }}" class="dropdown-item-link">Advance</a>
+                    <a href="{{ url('/buy-now?package=premium') }}" class="dropdown-item-link">Premium</a>
+                    <a href="{{ url('/buy-now?package=infinity') }}" class="dropdown-item-link">Infinity</a>
                 </div>
             </div>
 
@@ -1236,17 +1236,17 @@
             
             <div>
                 <button class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="toggleMobileAccordion(event)">
-                    <span>Course Package</span>
+                    <span>Package</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </button>
                 <div class="mobile-accordion-content" id="mobileCoursePackageContent">
-                    <a href="{{ url('/plans') }}#basic" class="mobile-sub-item">BASIC</a>
-                    <a href="{{ url('/plans') }}#advance" class="mobile-sub-item">ADVANCE</a>
-                    <a href="{{ url('/plans') }}#premium" class="mobile-sub-item">PREMIUM</a>
-                    <a href="{{ url('/plans') }}#growth" class="mobile-sub-item">GROWTH</a>
-                    <a href="{{ url('/plans') }}#infinity" class="mobile-sub-item">INFINITY</a>
+                    <a href="{{ url('/buy-now?package=basic') }}" class="mobile-sub-item">Basic</a>
+                    <a href="{{ url('/buy-now?package=growth') }}" class="mobile-sub-item">Growth</a>
+                    <a href="{{ url('/buy-now?package=advance') }}" class="mobile-sub-item">Advance</a>
+                    <a href="{{ url('/buy-now?package=premium') }}" class="mobile-sub-item">Premium</a>
+                    <a href="{{ url('/buy-now?package=infinity') }}" class="mobile-sub-item">Infinity</a>
                 </div>
             </div>
 
@@ -1279,17 +1279,17 @@
 
         <div>
             <button class="mobile-accordion-btn" id="websiteCoursePackageBtn" onclick="window.toggleWebsiteAccordion(event)">
-                <span>Course Packages</span>
+                <span>Package</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
             </button>
             <div class="mobile-accordion-content" id="websiteCoursePackageContent">
-                <a href="{{ url('/plans') }}#basic" class="mobile-sub-item">BASIC</a>
-                <a href="{{ url('/plans') }}#advance" class="mobile-sub-item">ADVANCE</a>
-                <a href="{{ url('/plans') }}#premium" class="mobile-sub-item">PREMIUM</a>
-                <a href="{{ url('/plans') }}#growth" class="mobile-sub-item">GROWTH</a>
-                <a href="{{ url('/plans') }}#infinity" class="mobile-sub-item">INFINITY</a>
+                <a href="{{ url('/buy-now?package=basic') }}" class="mobile-sub-item">Basic</a>
+                <a href="{{ url('/buy-now?package=growth') }}" class="mobile-sub-item">Growth</a>
+                <a href="{{ url('/buy-now?package=advance') }}" class="mobile-sub-item">Advance</a>
+                <a href="{{ url('/buy-now?package=premium') }}" class="mobile-sub-item">Premium</a>
+                <a href="{{ url('/buy-now?package=infinity') }}" class="mobile-sub-item">Infinity</a>
             </div>
         </div>
 
