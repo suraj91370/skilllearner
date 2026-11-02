@@ -781,6 +781,7 @@ Route::post('/process-buy-now', function (Request $request) {
 
     Auth::login($user);
     $request->session()->regenerate();
+    session()->flash('show_login_video_popup', true);
 
     session(['user' => [
         'id' => $user->id,

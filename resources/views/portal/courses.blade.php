@@ -14,8 +14,12 @@
 
         <!-- Right Content Area -->
         <main class="portal-content-area">
-            <div class="portal-greeting-row">
+            <div class="portal-greeting-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <h2 class="welcome-heading">Welcome <span class="highlight-user-name">{{ session('user.name', 'Vansh Tandon') }}</span> 👐</h2>
+                <button type="button" onclick="window.openLoginVideoModal()" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1.5px solid #05B396; color: #05B396; padding: 0.55rem 1.15rem; border-radius: 10px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);" onmouseover="this.style.background='#05B396'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(5, 179, 150, 0.12)'; this.style.color='#05B396';">
+                    <span style="font-size: 1.1rem;">🎬</span>
+                    <span>Watch Welcome Video</span>
+                </button>
             </div>
 
             <!-- Super Admin Live Course Visibility Notice -->

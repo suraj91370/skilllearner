@@ -1675,6 +1675,7 @@
             }, 1500);
         }
     </script>
+    @include('partials.login-video-modal')
     @stack('scripts')
 </body>
 </html>

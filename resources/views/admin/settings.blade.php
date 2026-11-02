@@ -48,7 +48,7 @@
                             <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
                                 Platform Brand Name
                             </label>
-                            <input type="text" name="platform_name" value="{{ old('platform_name', session('platform_settings.platform_name', 'SkillLearner EdTech')) }}" required class="clean-form-input">
+                            <input type="text" name="platform_name" value="{{ old('platform_name', $settings['platform_name'] ?? 'SkillLearner EdTech') }}" required class="clean-form-input">
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.3rem;">
@@ -56,14 +56,14 @@
                                 <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
                                     Tier-1 Direct Commission (%)
                                 </label>
-                                <input type="number" step="0.5" name="tier1_commission" value="{{ old('tier1_commission', session('platform_settings.tier1_commission', 70)) }}" required class="clean-form-input">
+                                <input type="number" step="0.5" name="tier1_commission" value="{{ old('tier1_commission', $settings['tier1_commission'] ?? 70) }}" required class="clean-form-input">
                                 <span style="font-size: 0.72rem; color: #64748b;">Paid directly to sponsor affiliate</span>
                             </div>
                             <div>
                                 <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
                                     Tier-2 Passive Commission (%)
                                 </label>
-                                <input type="number" step="0.5" name="tier2_commission" value="{{ old('tier2_commission', session('platform_settings.tier2_commission', 10)) }}" required class="clean-form-input">
+                                <input type="number" step="0.5" name="tier2_commission" value="{{ old('tier2_commission', $settings['tier2_commission'] ?? 10) }}" required class="clean-form-input">
                                 <span style="font-size: 0.72rem; color: #64748b;">Paid to secondary upline</span>
                             </div>
                         </div>
@@ -72,8 +72,57 @@
                             <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
                                 Minimum Withdrawal Threshold (₹)
                             </label>
-                            <input type="number" name="min_payout_amount" value="{{ old('min_payout_amount', session('platform_settings.min_payout_amount', 1000)) }}" required class="clean-form-input">
+                            <input type="number" name="min_payout_amount" value="{{ old('min_payout_amount', $settings['min_payout_amount'] ?? 1000) }}" required class="clean-form-input">
                             <span style="font-size: 0.72rem; color: #64748b;">Minimum wallet balance required to request payout</span>
+                        </div>
+
+                        <!-- Login Welcome Video Popup Settings -->
+                        <div style="background: linear-gradient(135deg, rgba(5, 179, 150, 0.05) 0%, rgba(79, 70, 229, 0.05) 100%); border: 1.5px solid rgba(5, 179, 150, 0.35); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.6rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 1.3rem;">🎬</span>
+                                    <div>
+                                        <h4 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin: 0;">
+                                            User Login Welcome Video Popup
+                                        </h4>
+                                        <span style="font-size: 0.76rem; color: #64748b;">Pops up for users immediately after successful login</span>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="previewAdminVideo()" style="background: rgba(5, 179, 150, 0.12); color: #05B396; border: 1.5px solid #05B396; padding: 0.35rem 0.85rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                                    👁️ Test Preview
+                                </button>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.86rem; font-weight: 700; color: #334155; cursor: pointer;">
+                                    <input type="checkbox" name="login_video_enabled" value="1" {{ old('login_video_enabled', ($settings['login_video_enabled'] ?? '1') === '1' ? '1' : '0') == '1' ? 'checked' : '' }} style="width: 17px; height: 17px; accent-color: #05B396; cursor: pointer;">
+                                    <span>Enable Welcome Video Popup after user login</span>
+                                </label>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">
+                                    Video Link (YouTube / Vimeo / MP4) <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="url" name="login_video_url" id="adminLoginVideoUrl" value="{{ old('login_video_url', $settings['login_video_url'] ?? 'https://www.youtube.com/watch?v=kJQP7kiw5Fk') }}" placeholder="https://www.youtube.com/watch?v=..." class="clean-form-input" style="font-family: monospace; font-size: 0.88rem;">
+                                <span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 3px;">
+                                    Paste standard YouTube link (e.g. <code>https://www.youtube.com/watch?v=XYZ</code>, <code>https://youtu.be/XYZ</code>, shorts), Vimeo, or direct MP4 URL. Automatically converted to responsive embed player.
+                                </span>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">
+                                    Popup Title / Heading
+                                </label>
+                                <input type="text" name="login_video_title" id="adminLoginVideoTitle" value="{{ old('login_video_title', $settings['login_video_title'] ?? 'Welcome to SkillLearner! Watch This First') }}" class="clean-form-input">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">
+                                    Short Description / Subtitle
+                                </label>
+                                <textarea name="login_video_description" id="adminLoginVideoDesc" rows="2" class="clean-form-input" style="resize: vertical;">{{ old('login_video_description', $settings['login_video_description'] ?? 'Get started with your courses, explore your affiliate dashboard, and maximize your learning journey.') }}</textarea>
+                            </div>
                         </div>
 
                         <button type="submit" style="background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); color: #ffffff; border: none; padding: 0.8rem 1.6rem; border-radius: 8px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35); font-size: 0.95rem;">
@@ -146,5 +195,48 @@
         }
     }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    function formatAdminEmbedUrl(url) {
+        if (!url) return '';
+        url = url.trim();
+        const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (ytMatch) {
+            return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        }
+        const vmMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
+        if (vmMatch) {
+            return `https://player.vimeo.com/video/${vmMatch[1]}?autoplay=1`;
+        }
+        return url;
+    }
+
+    function previewAdminVideo() {
+        const urlInput = document.getElementById('adminLoginVideoUrl');
+        const titleInput = document.getElementById('adminLoginVideoTitle');
+        const descInput = document.getElementById('adminLoginVideoDesc');
+
+        const rawUrl = urlInput ? urlInput.value : '';
+        const embedUrl = formatAdminEmbedUrl(rawUrl);
+
+        if (!embedUrl) {
+            alert('Please enter a valid video URL first (e.g. YouTube link).');
+            return;
+        }
+
+        const modalTitle = document.getElementById('loginVideoModalTitle');
+        const modalSub = document.querySelector('.login-video-subtitle');
+        if (modalTitle && titleInput && titleInput.value) modalTitle.innerText = titleInput.value;
+        if (modalSub && descInput && descInput.value) modalSub.innerText = descInput.value;
+
+        if (typeof window.openLoginVideoModal === 'function') {
+            window.openLoginVideoModal(embedUrl);
+        } else {
+            alert('Modal script loading, please retry in a moment.');
+        }
+    }
+</script>
 @endpush
 @endsection

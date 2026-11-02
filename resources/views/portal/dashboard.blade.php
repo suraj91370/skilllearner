@@ -19,6 +19,10 @@
                     <h2 style="font-size: 1.8rem; font-weight: 800; color: #0f172a;">Affiliate Command Center</h2>
                     <p style="color: #64748b; font-size: 0.92rem;">Active Tier: <strong style="color: #05B396;">{{ session('user.active_package', 'Advance Package') }}</strong> | Referral ID: <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; color: #0f172a; font-weight: 700;">{{ session('user.affiliate_id', 'SL-8821') }}</code></p>
                 </div>
+                <button type="button" onclick="window.openLoginVideoModal()" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1.5px solid #05B396; color: #05B396; padding: 0.6rem 1.15rem; border-radius: 10px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);" onmouseover="this.style.background='#05B396'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(5, 179, 150, 0.12)'; this.style.color='#05B396';">
+                    <span style="font-size: 1.1rem;">🎬</span>
+                    <span>Watch Welcome Video</span>
+                </button>
             </div>
 
             <!-- Earnings Grid (Responsive 4 cols desktop, 2 cols mobile) -->
