@@ -19,11 +19,11 @@
 </section>
 
 <!-- 2-Column Buy Now Checkout Section -->
-<section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
-    <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
+<section class="container checkout-section" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
+    <div class="checkout-grid">
         
         <!-- Left Column: Order Summary & Item Description -->
-        <div>
+        <div class="checkout-summary-col">
             
             <!-- Item Selector Tabs (Course vs Package) -->
             {{-- <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
@@ -36,7 +36,7 @@
             </div> --}}
 
             <!-- Active Item Summary Card -->
-            <div class="glass" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
+            <div class="glass checkout-card" style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
                 
                 <span id="displayItemBadge" style="position: absolute; top: 16px; right: 20px; background: linear-gradient(135deg, #05B396, #0284c7); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;">
                     {{ $type === 'course' ? ($selectedCourse['badge'] ?? 'MASTERCLASS') : ($selectedPackage['badge'] ?? 'RECOMMENDED') }}
@@ -117,7 +117,7 @@
             </div>
 
             <!-- Trust Badges -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center;">
+            <div class="trust-badges-grid">
                 <div class="glass" style="padding: 1rem; border-radius: 10px;">
                     <div style="font-size: 1.5rem; margin-bottom: 4px;">🔒</div>
                     <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">256-Bit SSL</div>
@@ -138,7 +138,7 @@
         </div>
 
         <!-- Right Column: Student Details & Payment Form -->
-        <div class="glass" style="padding: 2.4rem; border-radius: var(--radius-lg); position: sticky; top: 100px; border: 1px solid var(--border-glass);">
+        <div class="glass checkout-sidebar checkout-card" style="padding: 2.4rem; border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
             
             <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">
                 Student Enrollment & Payment
@@ -348,9 +348,55 @@
         border-color: #05B396;
     }
 
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 2.5rem;
+        align-items: start;
+        width: 100%;
+    }
+
+    .checkout-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+
+    .trust-badges-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
     @media (max-width: 900px) {
-        section .container > div[style*="grid-template-columns: 1.15fr 1fr"] {
-            grid-template-columns: 1fr !important;
+        .checkout-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.8rem !important;
+            width: 100% !important;
+        }
+
+        .checkout-summary-col,
+        .checkout-sidebar {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            position: static !important;
+            top: auto !important;
+        }
+
+        .checkout-card {
+            padding: 1.4rem 1.1rem !important;
+            border-radius: 16px !important;
+        }
+
+        .trust-badges-grid {
+            gap: 0.5rem !important;
+        }
+
+        .trust-badges-grid .glass {
+            padding: 0.75rem 0.35rem !important;
         }
     }
 </style>
