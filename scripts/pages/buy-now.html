@@ -1742,9 +1742,55 @@
             border-color: #05B396;
         }
 
+                .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            width: 100%;
+        }
+
+        .checkout-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .trust-badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
         @media (max-width: 900px) {
-            section .container>div[style*="grid-template-columns: 1.15fr 1fr"] {
-                grid-template-columns: 1fr !important;
+            .checkout-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 1.8rem !important;
+                width: 100% !important;
+            }
+
+            .checkout-summary-col,
+            .checkout-sidebar {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                position: static !important;
+                top: auto !important;
+            }
+
+            .checkout-card {
+                padding: 1.4rem 1.1rem !important;
+                border-radius: 16px !important;
+            }
+
+            .trust-badges-grid {
+                gap: 0.5rem !important;
+            }
+
+            .trust-badges-grid .glass {
+                padding: 0.75rem 0.35rem !important;
             }
         }
     </style>
@@ -2145,11 +2191,11 @@
         </section>
 
         <!-- 2-Column Buy Now Checkout Section -->
-        <section class="container" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
-            <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; align-items: start;">
+        <section class="container checkout-section" style="max-width: 1100px; padding-top: 1rem; padding-bottom: 5rem;">
+            <div class="checkout-grid">
 
                 <!-- Left Column: Order Summary & Item Description -->
-                <div>
+                <div class="checkout-summary-col">
 
                     <!-- Item Selector Tabs (Course vs Package) -->
                     <!-- <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
@@ -2164,7 +2210,7 @@
                     </div> -->
 
                     <!-- Active Item Summary Card -->
-                    <div class="glass"
+                    <div class="glass checkout-card"
                         style="padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid #05B396; position: relative;">
 
                         <span id="displayItemBadge"
@@ -2262,8 +2308,7 @@
                     </div>
 
                     <!-- Trust Badges -->
-                    <div
-                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center;">
+                    <div class="trust-badges-grid">
                         <div class="glass" style="padding: 1rem; border-radius: 10px;">
                             <div style="font-size: 1.5rem; margin-bottom: 4px;">🔒</div>
                             <div style="font-size: 0.8rem; font-weight: 700; color: #f8fafc;">256-Bit SSL</div>
@@ -2284,8 +2329,7 @@
                 </div>
 
                 <!-- Right Column: Student Details & Payment Form -->
-                <div class="glass"
-                    style="padding: 2.4rem; border-radius: var(--radius-lg); position: sticky; top: 100px; border: 1px solid var(--border-glass);">
+                <div class="glass checkout-sidebar checkout-card" style="padding: 2.4rem; border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
 
                     <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; color: #fff;">
                         Student Enrollment & Payment
@@ -2888,51 +2932,66 @@
             document.getElementById('methodContentNetbanking').style.display = method === 'netbanking' ? 'block' : 'none';
         }
 
-        function switchCheckoutMode(mode) {
-            document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
-            document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
-            document.getElementById('formItemType').value = mode;
+            function applySelectedPackage(pkgKey) {
+        if (!packagesData[pkgKey]) return;
+        const pkg = packagesData[pkgKey];
+        document.getElementById('formItemType').value = 'package';
+        document.getElementById('formItemId').value = pkgKey;
+        document.getElementById('displayItemBadge').innerText = pkg.badge || 'RECOMMENDED';
+        document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
+        document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
+        document.getElementById('displayItemTitle').innerText = pkg.name;
+        document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
+        document.getElementById('displayItemDesc').innerText = pkg.desc;
+        document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
+        document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
+        document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
 
-            if (mode === 'package') {
-                const pkg = packagesData['advance'];
-                document.getElementById('formItemId').value = 'advance';
-                document.getElementById('displayItemBadge').innerText = pkg.badge;
-                document.getElementById('displayVisualWrapper').innerHTML = `<img src="${pkg.image}" style="width:100%;height:100%;object-fit:contain;">`;
-                document.getElementById('displayItemCategory').innerText = 'SKILLLEARNER BUNDLE';
-                document.getElementById('displayItemTitle').innerText = pkg.name;
-                document.getElementById('displayItemMeta').innerText = pkg.inclusions.length + ' Full Courses Included';
-                document.getElementById('displayItemDesc').innerText = pkg.desc;
-                document.getElementById('displayOldPrice').innerText = '₹' + pkg.oldPrice.toLocaleString();
-                document.getElementById('displayDiscount').innerText = '-₹' + (pkg.oldPrice - pkg.price).toLocaleString();
-                document.getElementById('displayPrice').innerText = '₹' + pkg.price.toLocaleString();
+        let incHtml = '';
+        pkg.inclusions.forEach(item => {
+            incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
+        });
+        document.getElementById('displayInclusionsList').innerHTML = incHtml;
+    }
 
-                let incHtml = '';
-                pkg.inclusions.forEach(item => {
-                    incHtml += `<li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> ${item}</li>`;
-                });
-                document.getElementById('displayInclusionsList').innerHTML = incHtml;
-            } else {
-                // Course Mode - Default to Affiliate Marketing
-                document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
-                document.getElementById('displayItemBadge').innerText = 'BESTSELLER';
-                document.getElementById('displayVisualWrapper').innerHTML = `<span style="font-size:2.6rem;">🚀</span>`;
-                document.getElementById('displayItemCategory').innerText = 'AFFILIATE BUSINESS';
-                document.getElementById('displayItemTitle').innerText = 'High-Ticket Affiliate Marketing Masterclass';
-                document.getElementById('displayItemMeta').innerText = '18 Lessons • 6h 40m Video Runtime';
-                document.getElementById('displayItemDesc').innerText = 'Master high-ticket affiliate funnels, organic lead generation on Instagram and LinkedIn, copy-paste WhatsApp DM scripts, and scaling to ₹50,000+ monthly.';
-                document.getElementById('displayOldPrice').innerText = '₹3,999';
-                document.getElementById('displayDiscount').innerText = '-₹2,500';
-                document.getElementById('displayPrice').innerText = '₹1,499';
+    function switchCheckoutMode(mode) {
+        document.getElementById('tabBtnPackage').classList.toggle('active', mode === 'package');
+        document.getElementById('tabBtnCourse').classList.toggle('active', mode === 'course');
+        document.getElementById('formItemType').value = mode;
 
-                let incHtml = `
+        if (mode === 'package') {
+            const currentPkgId = document.getElementById('formItemId').value;
+            const validPkg = packagesData[currentPkgId] ? currentPkgId : 'advance';
+            applySelectedPackage(validPkg);
+        } else {
+            document.getElementById('formItemId').value = 'affiliate-marketing-masterclass';
+            document.getElementById('displayItemBadge').innerText = 'BESTSELLER';
+            document.getElementById('displayVisualWrapper').innerHTML = `<span style="font-size:2.6rem;">🚀</span>`;
+            document.getElementById('displayItemCategory').innerText = 'AFFILIATE BUSINESS';
+            document.getElementById('displayItemTitle').innerText = 'High-Ticket Affiliate Marketing Masterclass';
+            document.getElementById('displayItemMeta').innerText = '18 Lessons • 6h 40m Video Runtime';
+            document.getElementById('displayItemDesc').innerText = 'Master high-ticket affiliate funnels, organic lead generation on Instagram and LinkedIn, copy-paste WhatsApp DM scripts, and scaling to ₹50,000+ monthly.';
+            document.getElementById('displayOldPrice').innerText = '₹3,999';
+            document.getElementById('displayDiscount').innerText = '-₹2,500';
+            document.getElementById('displayPrice').innerText = '₹1,499';
+
+            let incHtml = `
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> 18 High-Def Masterclass Lessons</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Downloadable Funnel Blueprints & Scripts</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Verified Digital Certificate of Completion</li>
                 <li style="font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;"><span style="color: #05B396; font-weight: bold;">✓</span> Lifetime Access on All Devices</li>
             `;
-                document.getElementById('displayInclusionsList').innerHTML = incHtml;
-            }
+            document.getElementById('displayInclusionsList').innerHTML = incHtml;
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pkgParam = urlParams.get('package');
+        if (pkgParam && packagesData[pkgParam.toLowerCase()]) {
+            applySelectedPackage(pkgParam.toLowerCase());
+        }
+    });
     </script>
 </body>
 
