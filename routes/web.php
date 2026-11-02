@@ -559,7 +559,7 @@ Route::get('/programs', function () {
 
 // 3. About Us Page
 Route::get('/about', function () {
-    return view('home', [
+    return view('about', [
         'packages' => getPackages(),
         'courses' => getCourses(),
     ]);
