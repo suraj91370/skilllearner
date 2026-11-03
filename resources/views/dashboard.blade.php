@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="student-portal-wrapper">
-    <!-- Top Mobile Quick Tab Slider (Visible on Mobile/Tablet <= 992px) -->
-    <div class="mobile-portal-nav">
+    <!-- Top Mobile Quick Tab Slider (Hidden on mobile per user request) -->
+    <div class="mobile-portal-nav" style="display: none !important;">
         <div class="mobile-nav-header-row">
             <span class="mobile-nav-title">PORTAL TABS</span>
             <button type="button" onclick="window.openMobileMenu()" class="mobile-open-drawer-btn">
@@ -980,7 +980,7 @@
         }
 
         .mobile-portal-nav {
-            display: block;
+            display: none !important;
         }
 
         .courses-cards-grid {

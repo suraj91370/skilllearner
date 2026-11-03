@@ -9,8 +9,8 @@
     $isUser = ($userRole === 'user');
 @endphp
 
-<!-- Top Mobile Quick Tab Slider (Visible on Mobile/Tablet <= 992px) -->
-<div class="mobile-portal-nav">
+<!-- Top Mobile Quick Tab Slider (Hidden on mobile per user request) -->
+<div class="mobile-portal-nav" style="display: none !important;">
     <div class="mobile-nav-header-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box;">
         <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0;">
             <span class="mobile-nav-title" style="white-space: nowrap;">PORTAL NAVIGATION</span>
