@@ -100,10 +100,11 @@ class PortalDataService
 
         if (! session()->has('commissions')) {
             session(['commissions' => [
-                ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 2200, 'type' => 'Direct (Tier-1)', 'time' => '10 mins ago', 'status' => 'Credited'],
-                ['name' => 'Priya Nair', 'package' => 'Basic Package', 'amount' => 1200, 'type' => 'Direct (Tier-1)', 'time' => '2 hours ago', 'status' => 'Credited'],
-                ['name' => 'Karan Joshi', 'package' => 'Infinity Package', 'amount' => 800, 'type' => 'Passive (Tier-2)', 'time' => 'Yesterday', 'status' => 'Credited'],
-                ['name' => 'Sneha Patel', 'package' => 'Growth Package', 'amount' => 500, 'type' => 'Direct (Tier-1)', 'time' => '2 days ago', 'status' => 'Credited'],
+                ['name' => 'Rahul Sharma (via Direct Member)', 'package' => 'Advance Package', 'amount' => 200, 'type' => 'Passive Income (Tier-2)', 'time' => '10 mins ago', 'status' => 'Pending'],
+                ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 1900, 'type' => 'Active Income (Tier-1)', 'time' => '1 hour ago', 'status' => 'Credited'],
+                ['name' => 'Karan Joshi (via Direct Member)', 'package' => 'Infinity Package', 'amount' => 500, 'type' => 'Passive Income (Tier-2)', 'time' => '3 hours ago', 'status' => 'Credited'],
+                ['name' => 'Sneha Patel', 'package' => 'Growth Package', 'amount' => 840, 'type' => 'Active Income (Tier-1)', 'time' => 'Yesterday', 'status' => 'Credited'],
+                ['name' => 'Priya Nair', 'package' => 'Basic Package', 'amount' => 420, 'type' => 'Active Income (Tier-1)', 'time' => '2 days ago', 'status' => 'Credited'],
             ]]);
         }
 

@@ -866,6 +866,10 @@
                     <div class="user-dropdown-card" id="userDropdownCard">
                         @if ($hUserRole === 'super_admin' || $hUserRole === 'admin')
                             <div style="font-size: 0.68rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.4rem 1rem 0.2rem 1rem;">Admin Controls</div>
+                            <a href="{{ url('/admin') }}" class="dropdown-link-item" style="color: #05B396; font-weight: 700;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                                <span>Revenue &amp; Dashboard</span>
+                            </a>
                             <a href="{{ url('/admin/users') }}" class="dropdown-link-item" style="color: #7c3aed; font-weight: 700;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                                 <span>All Users &amp; Roles</span>
@@ -1034,6 +1038,12 @@
                         </a>
                     @endif
 
+                    <a href="{{ url('/admin') }}" class="mobile-portal-link {{ request()->is('admin') ? 'active' : '' }}" style="background: rgba(5, 179, 150, 0.08); color: #05B396; font-weight: 700;">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+                        </svg>
+                        <span>Revenue &amp; Dashboard</span>
+                    </a>
                     <a href="{{ url('/admin/users') }}" class="mobile-portal-link {{ request()->is('admin/users*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>

@@ -29,6 +29,12 @@
     <div class="mobile-tabs-scroll" style="width: 100%; max-width: 100%; box-sizing: border-box;">
         {{-- ================= ADMIN TABS ================= --}}
         @if ($isAdmin)
+            <!-- Admin Dashboard -->
+            <a href="{{ url('/admin') }}" class="m-portal-tab {{ $currentActive === 'admin-dashboard' ? 'active' : '' }}" style="{{ $currentActive === 'admin-dashboard' ? '' : 'background: #05B396; color: #ffffff;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                <span>Dashboard</span>
+            </a>
+
             @if ($isSuperAdmin)
                 <!-- Super Admin Course Option (Show/Hide) -->
                 <a href="{{ url('/admin/courses') }}" class="m-portal-tab {{ $currentActive === 'admin-courses' ? 'active' : '' }}" style="{{ $currentActive === 'admin-courses' ? '' : 'border: 1.5px solid #7c3aed; color: #7c3aed; background: #faf5ff;' }}">

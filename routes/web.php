@@ -548,13 +548,18 @@ Route::get('/', function () {
 });
 
 // 2. Packages & Pricing Page
-Route::get('/plans', function () {
+Route::get('/plans', function (Request $request) {
     return view('plans', [
         'packages' => getPackages(),
     ]);
 });
-Route::get('/programs', function () {
-    return redirect('/plans');
+Route::get('/packages', function (Request $request) {
+    $ref = $request->query('ref');
+    return redirect('/plans' . ($ref ? '?ref=' . urlencode($ref) : ''));
+});
+Route::get('/programs', function (Request $request) {
+    $ref = $request->query('ref');
+    return redirect('/plans' . ($ref ? '?ref=' . urlencode($ref) : ''));
 });
 
 // 3. About Us Page
@@ -614,6 +619,14 @@ Route::get('/certificates', [CertificateController::class, 'index'])->name('port
 
 // 7.1 Admin & Super Admin Management Routes (Protected by role middleware)
 Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function () {
+    // Executive Dashboard (Platform Revenue, Active & Passive Income Breakdown, and Approval Queue)
+    Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+
+    // Commission Payment Verification & Approval Actions
+    Route::post('/commissions/{commission}/approve', [AdminController::class, 'approveCommission'])->name('admin.commissions.approve');
+    Route::post('/commissions/{commission}/reject', [AdminController::class, 'rejectCommission'])->name('admin.commissions.reject');
+
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
     Route::get('/kyc-requests', [AdminController::class, 'kycRequests'])->name('admin.kyc');
@@ -733,55 +746,92 @@ Route::get('/buy-now', function (Request $request) {
     ]);
 });
 
-// Action: Process Buy Now
-Route::post('/process-buy-now', function (Request $request) {
-    $itemType = $request->input('item_type', 'package');
-    $itemId = $request->input('item_id', 'advance');
-    $name = $request->input('name', 'Suraj Kumar');
-    $email = $request->input('email', 'student@skilllearner.test');
-    $phone = $request->input('phone', '+91 98765 43210');
-    $sponsorId = $request->input('sponsor_id', 'SKL-ADMIN');
+// -------------------------------------------------------------
+// Checkout Authentication Routes (Step 1 of Buy-Now Flow)
+// -------------------------------------------------------------
 
-    $packages = getPackages();
-    $courses = getCourses();
+Route::post('/checkout/register', function (Request $request) {
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'phone' => ['required', 'string', 'max:20'],
+        'password' => ['required', 'string', 'min:6'],
+        'package' => ['nullable', 'string'],
+        'ref' => ['nullable', 'string'],
+        'sponsor_id' => ['nullable', 'string'],
+    ]);
 
-    $activePackageName = 'Advance Package';
-    if ($itemType === 'package') {
-        $found = collect($packages)->first(function ($p) use ($itemId) {
-            return strtolower($p['id']) === strtolower($itemId) || strtolower($p['name']) === strtolower($itemId);
-        });
-        if ($found) {
-            $activePackageName = $found['name'];
+    $email = trim(strtolower((string) $request->input('email')));
+    $phone = trim((string) $request->input('phone'));
+    $name = trim((string) $request->input('name'));
+    $password = (string) $request->input('password');
+    $packageParam = $request->input('package', 'advance');
+    $refParam = $request->input('ref', $request->input('sponsor_id', 'SKL-ADMIN'));
+
+    $user = User::where('email', $email)->first();
+
+    if ($user) {
+        // Attempt login if user already exists with this password
+        if (Hash::check($password, $user->password)) {
+            Auth::login($user);
+            $request->session()->regenerate();
+
+            session(['user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone ?? $phone,
+                'affiliate_id' => $user->affiliate_id ?? ('SKL-' . $user->id),
+                'sponsor_id' => $user->sponsor_id ?? $refParam,
+                'active_package' => $user->active_package ?? 'Advance Package',
+                'wallet_balance' => (float) $user->wallet_balance,
+                'today_earning' => (float) $user->today_earning,
+                'weekly_earning' => (float) $user->weekly_earning,
+                'monthly_earning' => (float) ($user->monthly_earning ?? 0),
+                'total_earning' => (float) $user->total_earning,
+                'passive_earning' => (float) ($user->passive_earning ?? 0),
+                'kyc_status' => $user->kyc_status ?? 'Pending Verification',
+                'avatar' => $user->avatar,
+                'role' => $user->role ?? 'affiliate',
+            ]]);
+
+            return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam))
+                ->with('success', 'Logged in as ' . $user->name . '! Step 2 (Payment) is now unlocked below.');
         }
-    } else {
-        $found = collect($courses)->firstWhere('slug', $itemId);
-        if ($found) {
-            $activePackageName = $found['package'];
-        }
+
+        return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam) . '&tab=login')
+            ->withInput($request->only('email', 'phone'))
+            ->with('error', 'An account with this email already exists. Please log in using the Login tab.');
     }
 
-    $affiliateId = 'SKL-'.rand(1000, 9999);
-    $user = User::firstOrCreate(
-        ['email' => $email],
-        [
-            'name' => $name,
-            'phone' => $phone,
-            'password' => Hash::make('password123'),
-            'affiliate_id' => $affiliateId,
-            'sponsor_id' => $sponsorId,
-            'active_package' => $activePackageName,
-            'wallet_balance' => 0.00,
-            'today_earning' => 0.00,
-            'weekly_earning' => 0.00,
-            'total_earning' => 0.00,
-            'kyc_status' => 'Pending Verification',
-            'role' => 'affiliate',
-        ]
-    );
+    // Generate unique affiliate ID
+    $affiliateId = 'SKL-' . rand(1000, 9999);
+    while (User::where('affiliate_id', $affiliateId)->exists()) {
+        $affiliateId = 'SKL-' . rand(1000, 9999);
+    }
+
+    $packageInfo = \App\Services\CommissionService::getPackageInfo($packageParam);
+
+    $user = User::create([
+        'name' => $name,
+        'email' => $email,
+        'phone' => $phone,
+        'password' => Hash::make($password),
+        'affiliate_id' => $affiliateId,
+        'sponsor_id' => $refParam ?: 'SKL-ADMIN',
+        'active_package' => $packageInfo['name'],
+        'wallet_balance' => 0.00,
+        'today_earning' => 0.00,
+        'weekly_earning' => 0.00,
+        'monthly_earning' => 0.00,
+        'total_earning' => 0.00,
+        'passive_earning' => 0.00,
+        'kyc_status' => 'Pending Verification',
+        'role' => 'affiliate',
+    ]);
 
     Auth::login($user);
     $request->session()->regenerate();
-    session()->flash('show_login_video_popup', true);
 
     session(['user' => [
         'id' => $user->id,
@@ -789,17 +839,192 @@ Route::post('/process-buy-now', function (Request $request) {
         'email' => $user->email,
         'phone' => $user->phone ?? $phone,
         'affiliate_id' => $user->affiliate_id ?? $affiliateId,
-        'sponsor_id' => $user->sponsor_id ?? $sponsorId,
-        'active_package' => $user->active_package ?? $activePackageName,
+        'sponsor_id' => $user->sponsor_id ?? $refParam,
+        'active_package' => $user->active_package ?? $packageInfo['name'],
         'wallet_balance' => (float) $user->wallet_balance,
         'today_earning' => (float) $user->today_earning,
         'weekly_earning' => (float) $user->weekly_earning,
+        'monthly_earning' => 0.0,
         'total_earning' => (float) $user->total_earning,
-        'kyc_status' => $user->kyc_status ?? 'Pending Verification',
-        'avatar' => $user->avatar,
-        'role' => $user->role ?? 'user',
+        'passive_earning' => 0.0,
+        'kyc_status' => 'Pending Verification',
+        'avatar' => null,
+        'role' => 'affiliate',
     ]]);
+
+    return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam))
+        ->with('success', 'Account created! Welcome, ' . $user->name . '. Step 2 (Payment) is now unlocked below.');
+})->name('checkout.register');
+
+Route::post('/checkout/login', function (Request $request) {
+    $request->validate([
+        'username' => ['required', 'string'],
+        'password' => ['required', 'string'],
+        'package' => ['nullable', 'string'],
+        'ref' => ['nullable', 'string'],
+    ]);
+
+    $username = trim((string) $request->input('username'));
+    $password = (string) $request->input('password');
+    $packageParam = $request->input('package', 'advance');
+    $refParam = $request->input('ref', 'SKL-ADMIN');
+
+    $field = 'email';
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $field = 'email';
+    } elseif (preg_match('/^[0-9+\s\-]{7,20}$/', $username)) {
+        $field = 'phone';
+    } elseif (str_starts_with(strtoupper($username), 'SKL-') || str_starts_with(strtoupper($username), 'SL-')) {
+        $field = 'affiliate_id';
+    } else {
+        $matched = User::where('email', $username)->orWhere('affiliate_id', $username)->orWhere('phone', $username)->first();
+        if ($matched) {
+            $field = 'email';
+            $username = $matched->email;
+        }
+    }
+
+    if (Auth::attempt([$field => $username, 'password' => $password], true)) {
+        $request->session()->regenerate();
+        $user = Auth::user();
+
+        session(['user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone ?? '',
+            'affiliate_id' => $user->affiliate_id ?? ('SKL-' . $user->id),
+            'sponsor_id' => $user->sponsor_id ?? $refParam,
+            'active_package' => $user->active_package ?? 'Advance Package',
+            'wallet_balance' => (float) $user->wallet_balance,
+            'today_earning' => (float) $user->today_earning,
+            'weekly_earning' => (float) $user->weekly_earning,
+            'monthly_earning' => (float) ($user->monthly_earning ?? 0),
+            'total_earning' => (float) $user->total_earning,
+            'passive_earning' => (float) ($user->passive_earning ?? 0),
+            'kyc_status' => $user->kyc_status ?? 'Pending Verification',
+            'avatar' => $user->avatar,
+            'role' => $user->role ?? 'affiliate',
+        ]]);
+
+        return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam))
+            ->with('success', 'Welcome back, ' . $user->name . '! Step 2 (Payment) is now unlocked below.');
+    }
+
+    return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam) . '&tab=login')
+        ->withInput($request->only('username'))
+        ->with('error', 'Invalid login credentials. Please check your username/email and password.');
+})->name('checkout.login');
+
+// Action: Process Buy Now
+Route::post('/process-buy-now', function (Request $request) {
+    $itemType = $request->input('item_type', 'package');
+    $itemId = $request->input('item_id', 'advance');
+    $transactionId = trim((string) $request->input('transaction_id', ''));
+    if (empty($transactionId)) {
+        $transactionId = 'UTR' . rand(100000000000, 999999999999);
+    }
+
+    // 1. Check if user is authenticated
+    if (! Auth::check()) {
+        $packageParam = $itemId;
+        $refParam = $request->input('sponsor_id', 'SKL-ADMIN');
+        return redirect('/buy-now?package=' . urlencode($packageParam) . '&ref=' . urlencode($refParam))
+            ->with('error', 'Please create an account or login first before completing payment.');
+    }
+
+    /** @var User $user */
+    $user = Auth::user();
+    $sponsorId = $request->input('sponsor_id', $user->sponsor_id ?? 'SKL-ADMIN');
+
+    $packageInfo = \App\Services\CommissionService::getPackageInfo($itemId);
+    $activePackageName = $packageInfo['name'];
+    $packagePrice = $packageInfo['price'];
+
+    // Update user active package
+    $user->active_package = $activePackageName;
+    if (empty($user->sponsor_id) || $user->sponsor_id === 'SKL-ADMIN') {
+        if (! empty($sponsorId) && $sponsorId !== $user->affiliate_id) {
+            $user->sponsor_id = $sponsorId;
+        }
+    }
+    $user->save();
+
+    // Generate unique Order ID
+    $orderId = 'SKL-' . rand(100000, 999999);
+
+    $orderData = [
+        'order_id' => $orderId,
+        'package_id' => $packageInfo['id'],
+        'package_name' => $activePackageName,
+        'amount' => $packagePrice,
+        'transaction_id' => $transactionId,
+        'status' => 'Pending',
+        'user_id' => $user->id,
+        'user_name' => $user->name,
+        'user_email' => $user->email,
+        'sponsor_id' => $user->sponsor_id ?? 'SKL-ADMIN',
+        'created_at' => now()->toDateTimeString(),
+    ];
+
+    session(['last_order' => $orderData]);
+
+    session([
+        'user.active_package' => $activePackageName,
+        'user.sponsor_id' => $user->sponsor_id,
+    ]);
+
+    // Distribute 2-Tier commission in 'Pending' state until Super Admin verifies payment
+    \App\Services\CommissionService::processSale(
+        $activePackageName,
+        $user->name,
+        $user->sponsor_id,
+        $user,
+        initialStatus: 'Pending'
+    );
+
     initDefaultCommissions();
 
-    return redirect('/classroom')->with('alert', 'welcome');
-});
+    return redirect('/payment-status')->with('info', 'Payment submitted successfully! Awaiting Super Admin verification.');
+})->name('process.buynow');
+
+// Dedicated Payment Status Page (Pending & Success States)
+Route::get('/payment-status', function (Request $request) {
+    if (Auth::check()) {
+        $user = Auth::user();
+
+        // Check if admin has verified any commission for this student
+        $creditedComm = \App\Models\Commission::where('buyer_name', 'like', "%{$user->name}%")
+            ->where('status', 'Credited')
+            ->latest()
+            ->first();
+
+        if ($creditedComm && session()->has('last_order')) {
+            $order = session('last_order');
+            $order['status'] = 'Credited';
+            session(['last_order' => $order]);
+        }
+    }
+
+    $order = session('last_order');
+
+    if (! $order) {
+        $order = [
+            'order_id' => 'SKL-' . rand(100000, 999999),
+            'package_name' => Auth::user()?->active_package ?? 'Advance Package',
+            'amount' => 2499,
+            'transaction_id' => 'UTR' . rand(100000000000, 999999999999),
+            'status' => $request->query('status') === 'success' ? 'Credited' : 'Pending',
+            'user_name' => Auth::user()?->name ?? session('user.name', 'Student'),
+            'user_email' => Auth::user()?->email ?? session('user.email', ''),
+        ];
+    }
+
+    if ($request->query('status') === 'success') {
+        $order['status'] = 'Credited';
+    }
+
+    return view('payment-status', [
+        'order' => $order,
+    ]);
+})->name('payment.status');

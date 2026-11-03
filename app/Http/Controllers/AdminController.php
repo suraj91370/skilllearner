@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commission;
 use App\Models\Course;
 use App\Models\KycVerification;
 use App\Models\Payout;
 use App\Models\Setting;
 use App\Models\User;
+use App\Services\CommissionService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +18,92 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+    /**
+     * Super Admin & Admin Executive Dashboard with Platform Revenue, Active/Passive breakdown, and Commission Approvals.
+     */
+    public function dashboard(Request $request): View
+    {
+        PortalDataService::ensureUserSession();
+
+        $stats = CommissionService::getPlatformRevenueStats();
+
+        $statusFilter = $request->query('status', 'all');
+        $search = trim((string) $request->query('search', ''));
+
+        $query = Commission::with('user')->latest();
+
+        if ($statusFilter && $statusFilter !== 'all') {
+            $query->where('status', ucfirst($statusFilter));
+        }
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('buyer_name', 'like', "%{$search}%")
+                    ->orWhere('package_name', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('affiliate_id', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $commissions = $query->paginate(20)->withQueryString();
+
+        $counts = [
+            'total' => Commission::count(),
+            'pending' => Commission::where('status', 'Pending')->count(),
+            'credited' => Commission::where('status', 'Credited')->count(),
+            'rejected' => Commission::where('status', 'Rejected')->count(),
+        ];
+
+        return view('admin.dashboard', [
+            'stats' => $stats,
+            'commissions' => $commissions,
+            'counts' => $counts,
+            'currentFilter' => $statusFilter,
+            'search' => $search,
+            'active' => 'admin-dashboard',
+        ]);
+    }
+
+    /**
+     * Approve and verify payment for a pending commission.
+     */
+    public function approveCommission(Request $request, Commission $commission): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can verify payments and approve commissions.');
+        }
+
+        $success = CommissionService::creditApprovedCommission($commission);
+
+        if ($success) {
+            $affiliateName = $commission->user?->name ?? 'Affiliate';
+            return back()->with('success', "✅ Payment verified! ₹" . number_format($commission->amount) . " successfully credited to {$affiliateName}'s wallet.");
+        }
+
+        return back()->with('info', "Commission #{$commission->id} was already credited.");
+    }
+
+    /**
+     * Reject a pending commission.
+     */
+    public function rejectCommission(Request $request, Commission $commission): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can reject commissions.');
+        }
+
+        CommissionService::rejectCommission($commission, $request->input('reason'));
+
+        return back()->with('info', "❌ Commission #{$commission->id} marked as Rejected. No wallet balance was added.");
+    }
     /**
      * Display User Management screen (Super Admin & Admin).
      */

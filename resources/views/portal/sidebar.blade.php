@@ -50,6 +50,18 @@
         @if ($isAdmin)
             <div class="sidebar-section-label">Administration</div>
 
+            <!-- Super Admin Dashboard (Revenue & Approvals) -->
+            <a href="{{ url('/admin') }}" class="sidebar-item {{ $currentActive === 'admin-dashboard' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="9"></rect>
+                    <rect x="14" y="3" width="7" height="5"></rect>
+                    <rect x="14" y="12" width="7" height="9"></rect>
+                    <rect x="3" y="16" width="7" height="5"></rect>
+                </svg>
+                <span>Admin Dashboard</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Revenue</span>
+            </a>
+
             <!-- All Users Management (Super Admin & Admin) -->
             <a href="{{ url('/admin/users') }}" class="sidebar-item {{ $currentActive === 'admin-users' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
