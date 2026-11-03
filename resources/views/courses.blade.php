@@ -85,6 +85,12 @@
                             <span style="font-size: 1.05rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
                         @endif
                     </div>
+                    @if(!empty($pkg['active_income']))
+                        <div style="margin-top: 6px; display: flex; justify-content: center; gap: 8px; font-size: 0.8rem; font-weight: 700;">
+                            <span style="color: #34d399; background: rgba(52, 211, 153, 0.12); padding: 3px 8px; border-radius: 5px; border: 1px solid rgba(52, 211, 153, 0.25);">⚡ Active: ₹{{ number_format($pkg['active_income']) }}</span>
+                            <span style="color: #c084fc; background: rgba(192, 132, 252, 0.12); padding: 3px 8px; border-radius: 5px; border: 1px solid rgba(192, 132, 252, 0.25);">🛡️ Passive: ₹{{ number_format($pkg['passive_income']) }}</span>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Access Highlight Badge (e.g. Get Access of 3+ Courses) -->
@@ -120,7 +126,11 @@
 
                 <!-- Action Button -->
                 <div style="margin-top: auto;">
-                    <a href="{{ url('/buy-now?package=' . $pkg['id']) }}" class="btn btn-primary" style="background: {{ $pkg['color'] ?? '#05B396' }}; text-align: center; width: 100%; padding: 0.95rem; font-size: 1.05rem; font-weight: 800; border-radius: 12px; box-shadow: 0 4px 18px {{ ($pkg['color'] ?? '#05B396') . '45' }}; display: block; text-decoration: none;">
+                    @php
+                        $refParam = request('ref', '');
+                        $buyUrl = url('/buy-now?package=' . $pkg['id']) . ($refParam ? '&ref=' . urlencode($refParam) : '');
+                    @endphp
+                    <a href="{{ $buyUrl }}" class="btn btn-primary" style="background: {{ $pkg['color'] ?? '#05B396' }}; text-align: center; width: 100%; padding: 0.95rem; font-size: 1.05rem; font-weight: 800; border-radius: 12px; box-shadow: 0 4px 18px {{ ($pkg['color'] ?? '#05B396') . '45' }}; display: block; text-decoration: none;">
                         Buy Now ➔
                     </a>
                 </div>
