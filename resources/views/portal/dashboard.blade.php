@@ -59,110 +59,14 @@
                 <div class="income-card border-amber">
                     <h5 class="income-card-label">ALL TIME INCOME</h5>
                     <div class="income-card-value text-amber">₹{{ number_format(session('user.total_earning', 48600)) }}</div>
-                    <div class="income-card-sub">🏆 Total Direct + Bonus</div>
+                    <div class="income-card-sub">🏆 Total Lifetime Earnings</div>
                 </div>
 
-                <!-- 5. All Time Passive Income -->
-                <div class="income-card border-teal">
-                    <h5 class="income-card-label">ALL TIME PASSIVE INCOME</h5>
-                    <div class="income-card-value text-teal">₹{{ number_format(session('user.passive_earning', 8400)) }}</div>
-                    <div class="income-card-sub">💎 Tier-2 Non-Working Bonus</div>
-                </div>
-
-                <!-- 6. Pending Verification Income -->
+                <!-- 5. Pending Verification Income -->
                 <div class="income-card" style="border-top: 4px solid #f59e0b; background: #fffbeb; border: 1px solid #fde68a;">
                     <h5 class="income-card-label" style="color: #b45309;">PENDING VERIFICATION</h5>
                     <div class="income-card-value" style="color: #b45309;">₹{{ number_format($pendingCommissions ?? 0) }}</div>
                     <div class="income-card-sub" style="color: #92400e; font-weight: 600;">⏳ Credits after admin approval</div>
-                </div>
-            </div>
-
-            <!-- Active & Passive Income Distribution Matrix (2-Tier Hierarchy) -->
-            <div class="portal-box-card" style="border: 1.5px solid #e0e7ff; background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.2rem;">
-                    <div>
-                        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(124, 58, 237, 0.1); color: #7c3aed; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.4rem;">
-                            ⚡ 2-TIER REFERRAL COMMISSION RATES
-                        </div>
-                        <h4 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">
-                            Active &amp; Passive Income Distribution Plan
-                        </h4>
-                        <p style="color: #64748b; font-size: 0.88rem; margin: 0;">
-                            Refer directly to earn <strong>Active Income</strong>. When your direct members refer others, you earn <strong>Passive Income</strong>. Strictly 2 levels only (Level 3+ receives ₹0).
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 2-Tier Explanation Visual Flow -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1.4rem;">
-                    <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.05);">
-                        <div style="font-size: 0.74rem; font-weight: 800; color: #059669; letter-spacing: 0.5px;">LEVEL 1 • DIRECT REFERRAL</div>
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #065f46; margin: 3px 0;">🟢 Active Income</div>
-                        <div style="font-size: 0.82rem; color: #475569; line-height: 1.4;">
-                            You directly refer Member B. Once their payment is verified, you receive <strong>Active Income</strong> (up to ₹5,500).
-                        </div>
-                    </div>
-                    <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.05);">
-                        <div style="font-size: 0.74rem; font-weight: 800; color: #7c3aed; letter-spacing: 0.5px;">LEVEL 2 • TEAM MEMBER'S REFERRAL</div>
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #5b21b6; margin: 3px 0;">💎 Passive Income</div>
-                        <div style="font-size: 0.82rem; color: #475569; line-height: 1.4;">
-                            Member B refers Member C. Member B gets Active Income, and <strong>YOU get Passive Income</strong> (up to ₹500).
-                        </div>
-                    </div>
-                    <div style="background: #ffffff; border: 1.5px solid #fecaca; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.05);">
-                        <div style="font-size: 0.74rem; font-weight: 800; color: #dc2626; letter-spacing: 0.5px;">LEVEL 3+ • STRICT STOP</div>
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #991b1b; margin: 3px 0;">🛑 ₹0 Commission</div>
-                        <div style="font-size: 0.82rem; color: #475569; line-height: 1.4;">
-                            Member C refers Member D. Member C gets Active, Member B gets Passive. <strong>You get ₹0</strong> (2-tier limit enforced).
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Package Rates Table (Reference only, no artificial self-credit buttons) -->
-                <div class="table-responsive-wrapper">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0;">
-                        <thead>
-                            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; color: #475569;">
-                                <th style="padding: 12px 14px;">Package Name</th>
-                                <th style="padding: 12px 14px;">Package Price</th>
-                                <th style="padding: 12px 14px; color: #059669;">⚡ Active Income (Tier-1)</th>
-                                <th style="padding: 12px 14px; color: #7c3aed;">💎 Passive Income (Tier-2)</th>
-                                <th style="padding: 12px 14px; color: #94a3b8;">Level 3+</th>
-                                <th style="padding: 12px 14px; text-align: right;">Payment Crediting</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($packages as $pkg)
-                                <tr style="border-bottom: 1px solid #f1f5f9;">
-                                    <td style="padding: 12px 14px; font-weight: 800; color: #0f172a;">
-                                        {{ $pkg['name'] }}
-                                    </td>
-                                    <td style="padding: 12px 14px; font-weight: 700; color: #334155;">
-                                        ₹{{ number_format($pkg['price']) }}
-                                    </td>
-                                    <td style="padding: 12px 14px; font-weight: 800; color: #059669; font-size: 1rem;">
-                                        +₹{{ number_format($pkg['active_income']) }}/-
-                                    </td>
-                                    <td style="padding: 12px 14px; font-weight: 800; color: #7c3aed; font-size: 1rem;">
-                                        +₹{{ number_format($pkg['passive_income']) }}/-
-                                    </td>
-                                    <td style="padding: 12px 14px; color: #94a3b8; font-weight: 600;">
-                                        ₹0 (Strict 2 tiers)
-                                    </td>
-                                    <td style="padding: 12px 14px; text-align: right;">
-                                        <span style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; display: inline-block;">
-                                            🛡️ Verified by Admin
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <div style="margin-top: 1rem; padding: 0.85rem 1rem; background: #f8fafc; border-radius: 8px; font-size: 0.84rem; color: #64748b; display: flex; align-items: center; gap: 8px;">
-                    <span>🔒</span>
-                    <span><strong>Security Note:</strong> Commissions are added to your wallet automatically as soon as your referred student completes payment and it is confirmed by the verification team.</span>
                 </div>
             </div>
 
@@ -215,7 +119,7 @@
                                     </td>
                                     <td style="padding: 12px 10px;">
                                         <span style="background: {{ $isPassive ? '#ede9fe' : '#ccfbf1' }}; color: {{ $isPassive ? '#6d28d9' : '#048873' }}; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">
-                                            {{ $comm['type'] }}
+                                            {{ $isPassive ? 'Team Referral' : 'Direct Referral' }}
                                         </span>
                                     </td>
                                     <td style="padding: 12px 10px; color: #64748b; font-size: 0.82rem;">{{ $comm['time'] }}</td>

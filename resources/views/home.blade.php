@@ -63,12 +63,6 @@
                             <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
                         @endif
                     </div>
-                    @if(!empty($pkg['active_income']))
-                        <div style="margin-top: 6px; display: flex; justify-content: center; gap: 8px; font-size: 0.78rem; font-weight: 700;">
-                            <span style="color: #34d399; background: rgba(52, 211, 153, 0.12); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(52, 211, 153, 0.25);">Active: ₹{{ number_format($pkg['active_income']) }}</span>
-                            <span style="color: #c084fc; background: rgba(192, 132, 252, 0.12); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(192, 132, 252, 0.25);">Passive: ₹{{ number_format($pkg['passive_income']) }}</span>
-                        </div>
-                    @endif
                 </div>
 
                 <!-- Access Badge -->
