@@ -168,13 +168,9 @@
                                     </p>
                                 </div>
 
-                                <!-- Commission Badges -->
-                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                                    <span style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 800;">
-                                        ⚡ Active: +₹{{ number_format($pkg['active']) }}
-                                    </span>
-                                    <span style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 800;">
-                                        💎 Passive: +₹{{ number_format($pkg['passive']) }}
+                                <div>
+                                    <span style="background: rgba(5, 179, 150, 0.1); color: #05B396; border: 1px solid rgba(5, 179, 150, 0.3); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 800;">
+                                        Direct Checkout Link
                                     </span>
                                 </div>
                             </div>
