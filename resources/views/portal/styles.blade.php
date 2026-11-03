@@ -712,10 +712,7 @@
         }
 
         .mobile-portal-nav {
-            display: block !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            overflow: hidden !important;
+            display: none !important;
         }
 
         .courses-cards-grid {
