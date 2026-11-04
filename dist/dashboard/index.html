@@ -601,12 +601,42 @@
             border-radius: 50%;
             transition: transform 0.15s ease;
             flex-shrink: 0;
+            text-decoration: none !important;
         }
         .mobile-portal-toggle-btn:active {
             transform: scale(0.92);
         }
         .mobile-portal-nav {
             display: none !important;
+        }
+        .profile-svg-btn {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            border: 1.5px solid #05B396 !important;
+            background: #05B396 !important;
+            color: #ffffff !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 10px rgba(5, 179, 150, 0.28) !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
+        }
+        .profile-svg-btn:hover {
+            background: #048873 !important;
+            border-color: #048873 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35) !important;
+            transform: translateY(-1px) !important;
+        }
+        .profile-svg-btn svg {
+            width: 20px !important;
+            height: 20px !important;
+            stroke: #ffffff !important;
         }
         @media (max-width: 992px) {
             .mobile-toggle { display: flex !important; }
@@ -621,6 +651,30 @@
         }
         @media (max-width: 640px) {
             .notification-bell-btn { display: none !important; }
+            .user-menu-wrapper { display: none !important; }
+            .sl-circle-badge { display: none !important; }
+            .mobile-portal-nav { display: none !important; }
+            .mobile-left-toggle { display: flex !important; }
+            .mobile-portal-toggle-btn { display: flex !important; }
+            header.nav { padding: 0.5rem 0.65rem !important; }
+            .brand-logo-img { max-width: 125px !important; }
+        }
+            .user-menu-wrapper { display: none !important; }
+            .sl-circle-badge { display: none !important; }
+            .mobile-portal-nav { display: none !important; }
+            .mobile-left-toggle { display: flex !important; }
+            .mobile-portal-toggle-btn { display: flex !important; }
+            header.nav { padding: 0.5rem 0.65rem !important; }
+            .brand-logo-img { max-width: 125px !important; }
+        }
+            .user-menu-wrapper { display: none !important; }
+            .sl-circle-badge { display: none !important; }
+            .mobile-portal-nav { display: none !important; }
+            .mobile-left-toggle { display: flex !important; }
+            .mobile-portal-toggle-btn { display: flex !important; }
+            header.nav { padding: 0.5rem 0.65rem !important; }
+            .brand-logo-img { max-width: 125px !important; }
+        }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .mobile-portal-nav { display: none !important; }
@@ -3079,46 +3133,14 @@
                 window.closeMobileMenu();
                 const card = document.getElementById('userDropdownCard');
                 if (card) card.classList.remove('active');
-                const guestCard = document.getElementById('guestUserDropdownCard');
-                if (guestCard) guestCard.classList.remove('active');
-            }
-        });
+                );
 
         // User Profile Dropdown Toggle
         function toggleUserMenu(e) {
             e.stopPropagation();
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            if (guestCard) guestCard.classList.remove('active');
-            const card = document.getElementById('userDropdownCard');
-            if (card) card.classList.toggle('active');
-        }
+            
 
-        // Guest Profile Dropdown Toggle (Image 1)
-        function toggleGuestUserMenu(e) {
-            e.stopPropagation();
-            const card = document.getElementById('userDropdownCard');
-            if (card) card.classList.remove('active');
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            if (guestCard) guestCard.classList.toggle('active');
-        }
-
-        // Close dropdown when clicking anywhere outside
-        document.addEventListener('click', (e) => {
-            const card = document.getElementById('userDropdownCard');
-            const btn = document.getElementById('userMenuBtn');
-            if (card && card.classList.contains('active')) {
-                if (btn && !btn.contains(e.target) && !card.contains(e.target)) {
-                    card.classList.remove('active');
-                }
-            }
-
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            const guestBtn = document.getElementById('guestUserMenuBtn');
-            if (guestCard && guestCard.classList.contains('active')) {
-                if (guestBtn && !guestBtn.contains(e.target) && !guestCard.contains(e.target)) {
-                    guestCard.classList.remove('active');
-                }
-            }
+            
         });
 
         // Modal Handlers

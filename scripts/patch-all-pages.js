@@ -60,12 +60,42 @@ const extraStyles = `
             border-radius: 50%;
             transition: transform 0.15s ease;
             flex-shrink: 0;
+            text-decoration: none !important;
         }
         .mobile-portal-toggle-btn:active {
             transform: scale(0.92);
         }
         .mobile-portal-nav {
             display: none !important;
+        }
+        .profile-svg-btn {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            border: 1.5px solid #05B396 !important;
+            background: #05B396 !important;
+            color: #ffffff !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 10px rgba(5, 179, 150, 0.28) !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
+        }
+        .profile-svg-btn:hover {
+            background: #048873 !important;
+            border-color: #048873 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35) !important;
+            transform: translateY(-1px) !important;
+        }
+        .profile-svg-btn svg {
+            width: 20px !important;
+            height: 20px !important;
+            stroke: #ffffff !important;
         }
         @media (max-width: 992px) {
             .mobile-toggle { display: flex !important; }
@@ -186,6 +216,12 @@ const jsDrawerScripts = `
             if (content) content.classList.toggle('open');
         };
 
+        // Direct Login Redirection for Guest My Account
+        window.toggleGuestUserMenu = function(e) {
+            if (e) e.preventDefault();
+            window.location.href = '/login';
+        };
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 window.closeAllMobileDrawers();
@@ -246,7 +282,7 @@ function buildLeftDrawer(isPortal, fileKey) {
             </button>
         </div>` : `
         <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 0.6rem;">
-            <a href="/my-account" class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center;">Login / My Account</a>
+            <a href="/login" class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center;">Login / My Account</a>
             <a href="/register" class="btn btn-secondary" style="width: 100%; text-align: center; justify-content: center;">Register</a>
         </div>`}
     </div>
@@ -263,14 +299,16 @@ for (const file of files) {
     const filePath = path.join(pagesDir, file);
     let html = fs.readFileSync(filePath, 'utf-8');
 
-    // 1. Inject extra dual-drawer CSS before </style> if not already present
-    if (!html.includes('.mobile-drawer-left')) {
+    // 1. Inject or update extra dual-drawer CSS
+    if (html.includes('/* Dual Mobile Drawers')) {
+        // Replace old extraStyles block with updated one
+        html = html.replace(/\/\* Dual Mobile Drawers[\s\S]*?@media \(max-width: 640px\) \{[\s\S]*?\}/, extraStyles.trim());
+    } else {
         html = html.replace('</style>', `${extraStyles}\n    </style>`);
     }
 
     // 2. Ensure Left Hamburger Toggle is inside header left brand area
     if (!html.includes('id="mobileLeftMenuBtn"')) {
-        // Find <header class="nav"> and wrap logo with left hamburger button
         const oldBrandRegex = /(<header[^>]*>[\s\S]*?)(<a\s+href="[^"]*"\s+class="brand"[^>]*>[\s\S]*?<\/a>)/i;
         if (oldBrandRegex.test(html)) {
             html = html.replace(oldBrandRegex, `$1<div style="display: flex; align-items: center; gap: 6px;">
@@ -284,22 +322,59 @@ for (const file of files) {
         }
     }
 
-    // 3. Ensure Right Mobile Portal / Guest Button is inside nav-right-actions
-    if (!html.includes('id="mobilePortalToggleBtn"') && !html.includes('id="mobileGuestToggleBtn"')) {
-        const portalToggleBtn = isPortal ? `
-            <!-- Mobile Student Portal Button (Visible only on mobile <= 992px) -->
-            <button class="mobile-portal-toggle-btn" id="mobilePortalToggleBtn" onclick="window.toggleRightDrawer(event)" aria-label="Student Portal" title="Open Student Portal">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Vansh Tandon" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; display: block;">
-            </button>` : `
-            <!-- Mobile Guest Account Button (Visible only on mobile <= 992px) -->
-            <button class="mobile-portal-toggle-btn" id="mobileGuestToggleBtn" onclick="window.toggleRightDrawer(event)" aria-label="Account Menu" title="Login / Register">
-                <div style="width: 34px; height: 34px; border-radius: 50%; background: #f1f5f9; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: center; color: #475569;">
+    // 3. Remove guest dropdown card popup completely if present
+    html = html.replace(/<!-- Guest Account Dropdown Card -->/g, '');
+    html = html.replace(/<div\s+class="user-dropdown-card"\s+id="guestUserDropdownCard"[\s\S]*?<\/div>\s*<\/div>/gi, '</div>');
+    html = html.replace(/const\s+guestCard\s*=\s*document\.getElementById\('guestUserDropdownCard'\);[\s\S]*?if\s*\(guestCard[\s\S]*?\}\s*\}/gi, '');
+
+    // 4. Update Desktop Guest Account button to be a direct link to /login (no onclick toggle)
+    if (!isPortal) {
+        // Look for guestUserMenuBtn
+        html = html.replace(/<button[^>]*id="guestUserMenuBtn"[^>]*>[\s\S]*?<\/button>/gi, `<a href="/login" class="profile-svg-btn" id="guestUserMenuBtn" aria-label="My Account" title="Login / My Account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>`);
+
+        // If it was an anchor, ensure it goes to /login without onclick
+        html = html.replace(/<a[^>]*id="guestUserMenuBtn"[^>]*>[\s\S]*?<\/a>/gi, `<a href="/login" class="profile-svg-btn" id="guestUserMenuBtn" aria-label="My Account" title="Login / My Account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>`);
+    }
+
+    // 5. Ensure Mobile Button:
+    // For Portal pages: user avatar opens right drawer
+    // For Guest pages: mobileGuestToggleBtn directly links to /login (no drawer trigger!)
+    const directLoginMobileGuestBtn = `<a href="/login" class="mobile-portal-toggle-btn" id="mobileGuestToggleBtn" aria-label="Login / My Account" title="Login / My Account" style="text-decoration: none;">
+                <div style="width: 34px; height: 34px; border-radius: 50%; background: #05B396; border: 1.5px solid #05B396; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.25);">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
+            </a>`;
+
+    if (!isPortal) {
+        if (html.includes('id="mobileGuestToggleBtn"')) {
+            html = html.replace(/<(button|a)[^>]*id="mobileGuestToggleBtn"[\s\S]*?<\/(button|a)>/gi, directLoginMobileGuestBtn);
+        } else if (html.includes('id="mobileMenuBtn"')) {
+            html = html.replace(/<button[^>]*id="mobileMenuBtn"[^>]*>[\s\S]*?<\/button>/i, `${directLoginMobileGuestBtn}
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleRightDrawer(event)" style="display: none;">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>`);
+        }
+    } else {
+        const portalToggleBtn = `<!-- Mobile Student Portal Button (Visible only on mobile <= 992px) -->
+            <button class="mobile-portal-toggle-btn" id="mobilePortalToggleBtn" onclick="window.toggleRightDrawer(event)" aria-label="Student Portal" title="Open Student Portal">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Vansh Tandon" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; display: block;">
             </button>`;
 
-        // Insert before legacy mobileMenuBtn or before </header>
-        if (html.includes('id="mobileMenuBtn"')) {
+        if (html.includes('id="mobilePortalToggleBtn"')) {
+            // keep it
+        } else if (html.includes('id="mobileMenuBtn"')) {
             html = html.replace(/<button[^>]*id="mobileMenuBtn"[^>]*>[\s\S]*?<\/button>/i, `${portalToggleBtn}
             <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleRightDrawer(event)" style="display: none;">
                 <span class="bar"></span>
@@ -309,29 +384,26 @@ for (const file of files) {
         }
     }
 
-    // 4. Clean up Backdrop Overlay
+    // 6. Clean up Backdrop Overlay
     html = html.replace(/<div class="mobile-overlay"[^>]*><\/div>/g, '<div class="mobile-overlay" id="mobileOverlay" onclick="window.closeAllMobileDrawers()"></div>');
 
-    // 5. Update or insert #mobileLeftDrawer
+    // 7. Update or insert #mobileLeftDrawer
     if (!html.includes('id="mobileLeftDrawer"')) {
         const leftDrawerHtml = buildLeftDrawer(isPortal, fileKey);
-        // Insert right after mobileOverlay
         html = html.replace('<div class="mobile-overlay" id="mobileOverlay" onclick="window.closeAllMobileDrawers()"></div>', `<div class="mobile-overlay" id="mobileOverlay" onclick="window.closeAllMobileDrawers()"></div>\n${leftDrawerHtml}`);
     }
 
-    // 6. Ensure #mobileDrawer has class "mobile-drawer mobile-drawer-right" and close button calls window.closeRightDrawer()
+    // 8. Ensure #mobileDrawer has class "mobile-drawer mobile-drawer-right" and close button calls window.closeRightDrawer()
     html = html.replace(/class="mobile-drawer(?!\s+mobile-drawer-right)"/g, 'class="mobile-drawer mobile-drawer-right"');
     html = html.replace(/onclick="window\.closeMobileMenu\(\)"/g, 'onclick="window.closeRightDrawer()"');
 
     // In portal pages, if #mobileDrawer still has the website links (Home, About, Package, etc.), remove them so it's strictly the Student Portal!
     if (isPortal) {
-        // If #mobileDrawer contains "Main Website Navigation", remove that block from #mobileDrawer
         const mobDrawerStart = html.indexOf('<div class="mobile-drawer mobile-drawer-right" id="mobileDrawer">');
         if (mobDrawerStart !== -1) {
             const drawerContent = html.substring(mobDrawerStart);
             const websiteNavComment = '<!-- Main Website Navigation';
             if (drawerContent.includes(websiteNavComment)) {
-                // Find where Student Portal or profile summary starts
                 const portalSummaryIndex = drawerContent.indexOf('<!-- Logged In Student Profile Summary Box -->');
                 const portalAltIndex = drawerContent.indexOf('<!-- Section Title: Student Portal Tabs -->');
                 const cutoff = portalSummaryIndex !== -1 ? portalSummaryIndex : portalAltIndex;
@@ -351,7 +423,14 @@ for (const file of files) {
         }
     }
 
-    // 7. Inject JS scripts if window.toggleLeftDrawer is not present
+    // 9. Update JS scripts to ensure toggleGuestUserMenu directs to /login
+    if (html.includes('function toggleGuestUserMenu(')) {
+        html = html.replace(/function\s+toggleGuestUserMenu\([^\)]*\)\s*\{[\s\S]*?\}/, `function toggleGuestUserMenu(e) {
+            if (e) e.preventDefault();
+            window.location.href = '/login';
+        }`);
+    }
+
     if (!html.includes('window.toggleLeftDrawer')) {
         html = html.replace('</body>', `${jsDrawerScripts}\n</body>`);
     }
@@ -360,5 +439,4 @@ for (const file of files) {
     console.log(`✅ Patched: ${file}`);
 }
 
-console.log('🎉 All files in scripts/pages/ successfully updated with dual mobile drawers!');
-
+console.log('🎉 All files in scripts/pages/ successfully updated!');

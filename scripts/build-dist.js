@@ -49,6 +49,8 @@ const routes = [
     { url: '/buy-now', fileKey: 'buy-now' },
     { url: '/register', fileKey: 'register' },
     { url: '/login', fileKey: 'login' },
+    { url: '/forgot-password', fileKey: 'forgot-password' },
+    { url: '/forget-password', fileKey: 'forget-password' },
     { url: '/my-account', fileKey: 'my-account' },
     { url: '/classroom', fileKey: 'classroom' },
     { url: '/my-courses', fileKey: 'my-courses' },
