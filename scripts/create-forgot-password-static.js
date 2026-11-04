@@ -51,7 +51,7 @@ const forgotMainContent = `
                                     placeholder="Enter your registered email" 
                                     value=""
                                     style="width: 100%; padding: 0.85rem 1.1rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; color: #0f172a; background: #ffffff; outline: none; box-sizing: border-box; transition: all 0.2s;"
-                                    onfocus="this.style.borderColor='#0066FF'; this.style.boxShadow='0 0 0 3px rgba(0, 102, 255, 0.15)';"
+                                    onfocus="this.style.borderColor='#05B396'; this.style.boxShadow='0 0 0 3px rgba(5, 179, 150, 0.15)';"
                                     onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';"
                                 >
                             </div>
@@ -60,9 +60,9 @@ const forgotMainContent = `
                             <button 
                                 type="submit" 
                                 id="resetSubmitBtn"
-                                style="width: 100%; padding: 0.85rem 1.5rem; background: #05B396; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; color: #ffffff; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.28); display: flex; align-items: center; justify-content: center; gap: 8px;"
-                                onmouseover="this.style.background='#0052cc'; this.style.transform='translateY(-1px)';"
-                                onmouseout="this.style.background='#0066FF'; this.style.transform='none';"
+                                style="width: 100%; padding: 0.85rem 1.5rem; background: #05B396; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; color: #ffffff; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px;"
+                                onmouseover="this.style.background='#049e84'; this.style.transform='translateY(-1px)';"
+                                onmouseout="this.style.background='#05B396'; this.style.transform='none';"
                             >
                                 <span>Send Reset Link</span>
                             </button>
@@ -80,14 +80,14 @@ const forgotMainContent = `
                         </div>
 
                         <!-- Success Confirmation Feedback -->
-                        <div id="clientResetSuccess" style="display: none; background: #eff6ff; border-left: 4px solid #0066FF; color: #1e40af; padding: 1.2rem; border-radius: 8px; font-size: 0.92rem; line-height: 1.5;">
+                        <div id="clientResetSuccess" style="display: none; background: #f0fdf4; border-left: 4px solid #05B396; color: #166534; padding: 1.2rem; border-radius: 8px; font-size: 0.92rem; line-height: 1.5;">
                             <div style="font-weight: 800; font-size: 1rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#05B396" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 <span>Reset Link Dispatched!</span>
                             </div>
                             <div>A password reset link has been sent to your email address. Please check your inbox and spam folder.</div>
                             <div style="margin-top: 1rem;">
-                                <a href="/login" style="color: #0066FF; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <a href="/login" style="color: #05B396; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
                                     &larr; Return to Login
                                 </a>
                             </div>
