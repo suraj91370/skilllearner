@@ -63,10 +63,20 @@ class AuthController extends Controller
         $credentials = [$field => $username, 'password' => $password];
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
             /** @var User $user */
             $user = Auth::user();
+
+            if ($user->payment_status === 'pending') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()
+                    ->withInput($request->only('username', 'remember'))
+                    ->with('error', '⚠️ Aapka account abhi Admin ke pass pending verification me hai. Jab tak payment verify nahi hogi, tab tak aap login nahi kar sakte.');
+            }
+
+            $request->session()->regenerate();
             $this->syncUserSession($user);
 
             // Trigger welcome video popup on login

@@ -81,8 +81,18 @@ class AdminController extends Controller
         $success = CommissionService::creditApprovedCommission($commission);
 
         if ($success) {
+            // Also activate the student/buyer's account so they can log in
+            $buyerCleanName = explode(' (via', $commission->buyer_name)[0];
+            $buyerUser = User::where('name', $buyerCleanName)
+                ->orWhere('name', 'like', "%{$buyerCleanName}%")
+                ->first();
+            if ($buyerUser && $buyerUser->payment_status !== 'paid') {
+                $buyerUser->update(['payment_status' => 'paid']);
+            }
+
             $affiliateName = $commission->user?->name ?? 'Affiliate';
-            return back()->with('success', "✅ Payment verified! ₹" . number_format($commission->amount) . " successfully credited to {$affiliateName}'s wallet.");
+
+            return back()->with('success', "✅ Payment verified! Account for {$buyerCleanName} has been activated, and ₹".number_format($commission->amount)." successfully credited to {$affiliateName}'s wallet.");
         }
 
         return back()->with('info', "Commission #{$commission->id} was already credited.");
@@ -104,6 +114,7 @@ class AdminController extends Controller
 
         return back()->with('info', "❌ Commission #{$commission->id} marked as Rejected. No wallet balance was added.");
     }
+
     /**
      * Display User Management screen (Super Admin & Admin).
      */
@@ -175,6 +186,35 @@ class AdminController extends Controller
         $user->update(['role' => $validated['role']]);
 
         return back()->with('success', "Role for {$user->name} has been updated to ".ucwords(str_replace('_', ' ', $validated['role'])).'.');
+    }
+
+    /**
+     * Toggle user payment / account activation status (Admin only).
+     */
+    public function toggleUserPaymentStatus(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can verify payments.');
+        }
+
+        $newStatus = $user->payment_status === 'paid' ? 'pending' : 'paid';
+        $user->update(['payment_status' => $newStatus]);
+
+        if ($newStatus === 'paid') {
+            $pendingComms = Commission::where('buyer_name', 'like', "%{$user->name}%")
+                ->where('status', 'Pending')
+                ->get();
+            foreach ($pendingComms as $comm) {
+                CommissionService::creditApprovedCommission($comm);
+            }
+        }
+
+        $statusLabel = $newStatus === 'paid' ? 'Paid & Active (User can now log in)' : 'Pending Payment (Login Blocked)';
+
+        return back()->with('success', "Payment status for {$user->name} updated to {$statusLabel}.");
     }
 
     /**

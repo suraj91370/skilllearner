@@ -116,6 +116,7 @@
                                 <th style="padding: 0.85rem 1rem;">Package</th>
                                 <th style="padding: 0.85rem 1rem;">Wallet Balance</th>
                                 <th style="padding: 0.85rem 1rem;">KYC Status</th>
+                                <th style="padding: 0.85rem 1rem;">Payment / ID</th>
                                 <th style="padding: 0.85rem 1.4rem; text-align: right;">Action</th>
                             </tr>
                         </thead>
@@ -168,6 +169,27 @@
                                             <span style="background: #f0fdf4; color: #166534; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Verified ✅</span>
                                         @else
                                             <span style="background: #fffbeb; color: #b45309; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Pending ⏳</span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Payment / ID Status -->
+                                    <td style="padding: 0.95rem 1rem;">
+                                        @if(($u->payment_status ?? 'paid') === 'pending')
+                                            <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+                                                <span style="background: #fef3c7; color: #92400e; font-weight: 800; font-size: 0.72rem; padding: 3px 8px; border-radius: 6px; border: 1px solid #fde68a; display: inline-flex; align-items: center; gap: 4px;">
+                                                    ⏳ Pending Payment
+                                                </span>
+                                                <form method="POST" action="{{ url('/admin/users/'.$u->id.'/toggle-payment') }}" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" onclick="return confirm('Kya aap {{ $u->name }} ka payment approve karke ID activate karna chahte hain? Iske baad user login kar sakega.');" style="background: #05B396; color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(5,179,150,0.3);">
+                                                        <span>✔ Approve ID</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <span style="background: #f0fdf4; color: #166534; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                                                ✔ Paid &amp; Active
+                                            </span>
                                         @endif
                                     </td>
 
