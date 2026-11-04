@@ -595,6 +595,18 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/my-account', [AuthController::class, 'showLoginForm'])->name('account');
 Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
 
+// Forgot Password
+Route::get('/forgot-password', function () {
+    return view('forgot-password');
+})->name('password.request');
+Route::get('/forget-password', function () {
+    return redirect()->route('password.request');
+});
+Route::post('/forgot-password', function (\Illuminate\Http\Request $request) {
+    $request->validate(['email' => 'required|email']);
+    return back()->with('status', 'A password reset link has been sent to ' . e($request->email) . '. Please check your inbox!');
+})->name('password.email');
+
 // 6. Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout.perform');

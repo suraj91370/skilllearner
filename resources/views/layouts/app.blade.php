@@ -233,19 +233,19 @@
             white-space: nowrap;
         }
 
-        /* Profile SVG Button (Guest Account Dropdown Trigger) */
+        /* Profile SVG Button (Guest Account Direct Link to Login) */
         .profile-svg-btn {
             width: 38px;
             height: 38px;
             border-radius: 50%;
             border: 1.5px solid #05B396;
-            background: #ffffff;
-            color: #05B396;
+            background: #05B396;
+            color: #ffffff;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(5, 179, 150, 0.15);
+            box-shadow: 0 2px 10px rgba(5, 179, 150, 0.28);
             transition: all 0.2s ease;
             text-decoration: none;
             padding: 0;
@@ -253,9 +253,10 @@
         }
 
         .profile-svg-btn:hover {
-            background: #05B396;
+            background: #048873;
+            border-color: #048873;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.28);
+            box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35);
             transform: translateY(-1px);
         }
 
@@ -985,36 +986,14 @@
                     </div>
                 </div>
             @else
-                <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
+                <!-- Guest My Account Direct Link (Desktop: Directly navigates to Login page, no dropdown popup) -->
                 <div class="user-menu-wrapper">
-                    <button class="profile-svg-btn" id="guestUserMenuBtn" onclick="toggleGuestUserMenu(event)" aria-label="My Account" title="My Account">
+                    <a href="{{ url('/login') }}" class="profile-svg-btn" id="guestUserMenuBtn" aria-label="My Account" title="Login / My Account">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                    </button>
-
-                    <!-- Guest Account Dropdown Card -->
-                    <div class="user-dropdown-card" id="guestUserDropdownCard">
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0.45rem 1.2rem 0.25rem 1.2rem; letter-spacing: 0.5px;">My Account</div>
-                        <a href="{{ url('/my-account') }}" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                                <polyline points="10 17 15 12 10 7"></polyline>
-                                <line x1="15" y1="12" x2="3" y2="12"></line>
-                            </svg>
-                            <span>Login / My Account</span>
-                        </a>
-                        <a href="{{ url('/register') }}" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <line x1="19" y1="8" x2="19" y2="14"></line>
-                                <line x1="22" y1="11" x2="16" y2="11"></line>
-                            </svg>
-                            <span>Register</span>
-                        </a>
-                    </div>
+                    </a>
                 </div>
             @endif
 
@@ -1024,12 +1003,12 @@
                     <img src="{{ session('user.avatar', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80') }}" alt="{{ session('user.name', 'User') }}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; display: block;">
                 </button>
             @else
-                <!-- Mobile Guest Account Button (Visible only on mobile <= 992px) -->
-                <button class="mobile-portal-toggle-btn" id="mobileGuestToggleBtn" onclick="window.toggleRightDrawer(event)" aria-label="Account Menu" title="Login / Register">
-                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #f1f5f9; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: center; color: #475569;">
+                <!-- Mobile Guest Account Button (Directly navigates to Login page, no dropdown / drawer) -->
+                <a href="{{ url('/login') }}" class="mobile-portal-toggle-btn" id="mobileGuestToggleBtn" aria-label="Login / My Account" title="Login / My Account" style="text-decoration: none;">
+                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #05B396; border: 1.5px solid #05B396; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.25);">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
-                </button>
+                </a>
             @endif
 
             <!-- Mobile Hamburger Toggle Button (Hidden fallback) -->
@@ -1674,27 +1653,20 @@
                 window.closeAllMobileDrawers();
                 const card = document.getElementById('userDropdownCard');
                 if (card) card.classList.remove('active');
-                const guestCard = document.getElementById('guestUserDropdownCard');
-                if (guestCard) guestCard.classList.remove('active');
             }
         });
 
         // User Profile Dropdown Toggle
         function toggleUserMenu(e) {
             e.stopPropagation();
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            if (guestCard) guestCard.classList.remove('active');
             const card = document.getElementById('userDropdownCard');
             if (card) card.classList.toggle('active');
         }
 
-        // Guest Profile Dropdown Toggle (Image 1)
+        // Guest Profile Direct Link Handler (Navigates directly to Login page)
         function toggleGuestUserMenu(e) {
-            e.stopPropagation();
-            const card = document.getElementById('userDropdownCard');
-            if (card) card.classList.remove('active');
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            if (guestCard) guestCard.classList.toggle('active');
+            if (e) e.preventDefault();
+            window.location.href = "{{ url('/login') }}";
         }
 
         // Close dropdown when clicking anywhere outside
@@ -1704,14 +1676,6 @@
             if (card && card.classList.contains('active')) {
                 if (btn && !btn.contains(e.target) && !card.contains(e.target)) {
                     card.classList.remove('active');
-                }
-            }
-
-            const guestCard = document.getElementById('guestUserDropdownCard');
-            const guestBtn = document.getElementById('guestUserMenuBtn');
-            if (guestCard && guestCard.classList.contains('active')) {
-                if (guestBtn && !guestBtn.contains(e.target) && !guestCard.contains(e.target)) {
-                    guestCard.classList.remove('active');
                 }
             }
         });

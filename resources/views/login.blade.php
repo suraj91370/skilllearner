@@ -164,7 +164,7 @@
                         <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
                             Username or email <span style="color: #ef4444;">*</span>
                         </label>
-                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="user@skilllearner.com" value="{{ old('username', 'user@skilllearner.com') }}">
+                        <input type="text" name="username" id="loginUsernameInput" required class="clean-form-input" placeholder="your@gmail.com" value="{{ old('username', '') }}" autocomplete="username">
                     </div>
 
                     <!-- Password with Eye Toggle -->
@@ -173,7 +173,7 @@
                             Password <span style="color: #ef4444;">*</span>
                         </label>
                         <div style="position: relative; display: flex; align-items: center;">
-                            <input type="password" name="password" id="loginPasswordInput" required class="clean-form-input" placeholder="••••••••" value="password123" style="padding-right: 48px;">
+                            <input type="password" name="password" id="loginPasswordInput" required class="clean-form-input" placeholder="••••••••" value="" style="padding-right: 48px;" autocomplete="current-password">
                             <button type="button" onclick="togglePasswordVisibility()" id="eyeToggleBtn" aria-label="Toggle Password Visibility" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: #64748b; padding: 6px; display: flex; align-items: center; justify-content: center; transition: color 0.2s;">
                                 <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -189,7 +189,7 @@
                             <input type="checkbox" name="remember" checked style="accent-color: #05B396; width: 16px; height: 16px; border-radius: 4px; cursor: pointer;">
                             Remember me
                         </label>
-                        <a href="javascript:void(0)" onclick="alert('Password reset instructions will be sent to your registered email.')" style="color: #64748b; text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">
+                        <a href="{{ url('/forgot-password') }}" style="color: #64748b; text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">
                             Forgot your password ?
                         </a>
                     </div>
