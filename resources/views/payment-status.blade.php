@@ -3,7 +3,7 @@
 @section('title', 'Payment Status — SkillLearner')
 
 @section('content')
-<section class="container" style="max-width: 760px; padding: 4rem 1.5rem 6rem;">
+<section class="container payment-status-container" style="max-width: 760px; padding: 4rem 1.5rem 6rem;">
     @php
         $isSuccess = ($order['status'] ?? 'Pending') === 'Credited' || request('status') === 'success';
         $packageName = $order['package_name'] ?? 'Advance Package';
@@ -14,7 +14,7 @@
         $buyerEmail = $order['user_email'] ?? (session('user.email', ''));
     @endphp
 
-    <div class="glass" style="padding: 2.8rem 2.2rem; border-radius: var(--radius-lg); text-align: center; border: 2px solid {{ $isSuccess ? '#10b981' : '#f59e0b' }}; background: {{ $isSuccess ? 'linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(7, 10, 18, 0.95) 100%)' : 'linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, rgba(7, 10, 18, 0.95) 100%)' }}; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45); position: relative; overflow: hidden;">
+    <div class="glass payment-status-card" style="padding: 2.8rem 2.2rem; border-radius: var(--radius-lg); text-align: center; border: 2px solid {{ $isSuccess ? '#10b981' : '#f59e0b' }}; background: {{ $isSuccess ? 'linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(7, 10, 18, 0.95) 100%)' : 'linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, rgba(7, 10, 18, 0.95) 100%)' }}; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45); position: relative; overflow: hidden;">
         
         <!-- Ambient Radial Glow -->
         <div style="position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 280px; height: 280px; background: radial-gradient(circle, {{ $isSuccess ? 'rgba(16, 185, 129, 0.25)' : 'rgba(245, 158, 11, 0.25)' }} 0%, transparent 70%); filter: blur(35px); pointer-events: none;"></div>
@@ -179,7 +179,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <div class="payment-actions-wrapper" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <!-- Fast Track WhatsApp Verification -->
                 <a href="https://api.whatsapp.com/send?phone=918318373108&text=Hello%20SkillLearner%20Admin,%20I%20have%20completed%20payment%20for%20{{ urlencode($packageName) }}%20(₹{{ $amount }}).%20My%20Order%20ID%20is%20{{ $orderId }}%20and%20UTR%20is%20{{ $transactionId }}.%20Please%20verify%20my%20account." target="_blank" class="btn" style="background: #25d366; color: #fff; font-size: 0.95rem; font-weight: 800; padding: 0.85rem 1.6rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                     <span>📲 Send UTR on WhatsApp: 8318373108</span>
@@ -206,6 +206,33 @@
     @keyframes pulse {
         0%, 100% { transform: scale(1); opacity: 1; }
         50% { transform: scale(1.06); opacity: 0.85; }
+    }
+
+    @media (max-width: 600px) {
+        .payment-status-container {
+            padding: 1.5rem 0.75rem 4rem !important;
+        }
+
+        .payment-status-card {
+            padding: 1.8rem 1rem !important;
+            border-radius: 14px !important;
+        }
+
+        .payment-status-card h2 {
+            font-size: 1.45rem !important;
+        }
+
+        .payment-actions-wrapper {
+            flex-direction: column !important;
+            width: 100% !important;
+        }
+
+        .payment-actions-wrapper .btn {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
     }
 </style>
 @endpush
