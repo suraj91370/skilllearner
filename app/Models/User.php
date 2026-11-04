@@ -27,6 +27,7 @@ use Illuminate\Notifications\Notifiable;
     'kyc_status',
     'avatar',
     'role',
+    'payment_status',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
