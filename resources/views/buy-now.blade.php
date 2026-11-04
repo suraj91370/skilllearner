@@ -3,24 +3,24 @@
 @section('title', 'Buy Now & Checkout — SkillLearner')
 
 @section('content')
-<div style="background: #f8fafc; min-height: 100vh; padding: 2.5rem 1rem 5rem;">
-    <div style="max-width: 1140px; margin: 0 auto;">
+<div class="checkout-page-wrapper">
+    <div style="max-width: 1140px; margin: 0 auto; width: 100%;">
 
         {{-- Top Notification Alerts --}}
         @if(session('success'))
-            <div style="background: #f0fdf4; border-left: 4px solid #10b981; color: #166534; padding: 1rem 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600; font-size: 0.95rem;">
+            <div style="background: #f0fdf4; border-left: 4px solid #10b981; color: #166534; padding: 0.9rem 1.1rem; border-radius: 8px; margin-bottom: 1.3rem; font-weight: 600; font-size: 0.92rem;">
                 ✓ {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 1rem 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600; font-size: 0.95rem;">
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.9rem 1.1rem; border-radius: 8px; margin-bottom: 1.3rem; font-weight: 600; font-size: 0.92rem;">
                 ⚠️ {{ session('error') }}
             </div>
         @endif
 
         @if(isset($errors) && $errors->any())
-            <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 1rem 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.92rem;">
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.9rem 1.1rem; border-radius: 8px; margin-bottom: 1.3rem; font-size: 0.9rem;">
                 <ul style="margin: 0; padding-left: 1.2rem; font-weight: 600;">
                     @foreach($errors->all() as $err)
                         <li>{{ $err }}</li>
@@ -32,22 +32,28 @@
         {{-- ============================================================== --}}
         {{-- TOP: ALL 5 PACKAGES SIDE-BY-SIDE (SELECT TO HIGHLIGHT)         --}}
         {{-- ============================================================== --}}
-        <div style="margin-bottom: 2rem;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 8px;">
+        <div class="packages-section-container">
+            <div class="packages-header-bar">
                 <div>
                     <h2 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">
                         🌟 Select Package (All 5 Available):
                     </h2>
-                    <span style="font-size: 0.84rem; color: #64748b; font-weight: 500;">
+                    <span style="font-size: 0.82rem; color: #64748b; font-weight: 500;">
                         Click on any package to select it — all packages remain visible side-by-side.
                     </span>
                 </div>
-                <span id="topActiveBadge" style="background: #e0e7ff; color: #00137a; font-size: 0.76rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">
-                    Currently Selected: {{ $selectedPackage['name'] }}
-                </span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span class="mobile-swipe-hint">
+                        👈 Swipe to view all 5 👉
+                    </span>
+                    <span id="topActiveBadge" class="top-active-badge">
+                        Selected: {{ $selectedPackage['name'] }} (₹{{ number_format($selectedPackage['price']) }})
+                    </span>
+                </div>
             </div>
 
-            <div class="packages-horizontal-row" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+            <!-- Horizontal row of 5 packages (Desktop: 5 columns, Mobile: swipeable + snap) -->
+            <div class="packages-horizontal-row" id="packagesScrollRow">
                 @foreach($packages as $p)
                     @php 
                         $isSelected = strtolower($selectedPackage['id']) === strtolower($p['id']); 
@@ -56,25 +62,41 @@
                         onclick="selectPackage('{{ $p['id'] }}')" 
                         id="pkgCard_{{ $p['id'] }}" 
                         class="pkg-select-card {{ $isSelected ? 'selected' : '' }}"
-                        style="background: {{ $isSelected ? '#eff6ff' : '#ffffff' }}; border: {{ $isSelected ? '2px solid #00137a' : '1.5px solid #e2e8f0' }}; border-radius: 12px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; box-shadow: {{ $isSelected ? '0 4px 14px rgba(0, 19, 122, 0.12)' : '0 1px 3px rgba(0,0,0,0.04)' }};"
                     >
-                        <div class="pkg-selected-indicator" style="display: {{ $isSelected ? 'inline-block' : 'none' }}; position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #00137a; color: #ffffff; font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.5px; text-transform: uppercase;">
+                        <div class="pkg-selected-indicator" style="display: {{ $isSelected ? 'inline-block' : 'none' }};">
                             ✓ SELECTED
                         </div>
 
-                        <div style="font-size: 0.76rem; font-weight: 800; color: {{ $isSelected ? '#00137a' : '#64748b' }}; text-transform: uppercase; margin-bottom: 4px;">
+                        <div class="pkg-card-title">
                             {{ $p['name'] }}
                         </div>
-                        <div style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin-bottom: 4px;">
+                        <div class="pkg-card-price">
                             ₹{{ number_format($p['price']) }}
                         </div>
-                        <div style="font-size: 0.72rem; color: #94a3b8; text-decoration: line-through;">
+                        <div class="pkg-card-old-price">
                             ₹{{ number_format($p['old_price']) }}
                         </div>
-                        <div style="font-size: 0.72rem; color: #05B396; font-weight: 700; margin-top: 4px;">
+                        <div class="pkg-card-courses-tag">
                             {{ count($p['courses_included'] ?? []) }}+ Courses
                         </div>
                     </div>
+                @endforeach
+            </div>
+
+            <!-- Mobile quick selector chips (allows 1-tap switching without scrolling) -->
+            <div class="mobile-quick-selector" aria-label="Mobile Package Selector">
+                @foreach($packages as $p)
+                    @php 
+                        $isSelected = strtolower($selectedPackage['id']) === strtolower($p['id']); 
+                    @endphp
+                    <button 
+                        type="button" 
+                        onclick="selectPackage('{{ $p['id'] }}')" 
+                        id="mobileChip_{{ $p['id'] }}" 
+                        class="mobile-pkg-chip {{ $isSelected ? 'active' : '' }}"
+                    >
+                        {{ $p['name'] }} • ₹{{ number_format($p['price']) }}
+                    </button>
                 @endforeach
             </div>
         </div>
@@ -88,36 +110,33 @@
             {{-- Hidden input for selected package --}}
             <input type="hidden" name="package" id="hiddenPackageInput" value="{{ $selectedPackage['id'] }}">
 
-            <div class="checkout-layout-grid" style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; align-items: start;">
+            <div class="checkout-layout-grid">
                 
                 {{-- -------------------------------------------------------- --}}
                 {{-- LEFT CARD: BILLING DETAILS                                --}}
                 {{-- -------------------------------------------------------- --}}
-                <div class="checkout-white-card" style="background: #ffffff; border: 1.5px solid #3b82f6; border-radius: 12px; padding: 28px 24px; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);">
-                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #1e293b; margin: 0 0 1.6rem 0;">
+                <div class="checkout-white-card">
+                    <h2 class="card-main-title">
                         Billing Details
                     </h2>
 
                     <!-- Have a referral code? -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <div style="display: flex; gap: 8px;">
+                    <div style="margin-bottom: 1.35rem;">
+                        <div class="referral-field-row">
                             <input 
                                 type="text" 
                                 name="referral_code" 
                                 id="referralCodeInput" 
                                 value="{{ old('referral_code', request('ref', session('user.sponsor_id', 'SKL-ADMIN'))) }}" 
                                 placeholder="Have a referral code?" 
-                                style="flex: 1; padding: 0.78rem 1rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.95rem; color: #0f172a; outline: none; background: #ffffff; transition: border-color 0.2s;"
-                                onfocus="this.style.borderColor='#3b82f6';"
-                                onblur="this.style.borderColor='#e2e8f0';"
+                                class="form-input-field"
+                                style="flex: 1; min-width: 0;"
                             >
                             <button 
                                 type="button" 
                                 onclick="verifyReferralCode()" 
                                 id="verifyCodeBtn"
-                                style="background: #00137a; color: #ffffff; font-weight: 700; font-size: 0.92rem; padding: 0.78rem 1.6rem; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: opacity 0.2s;"
-                                onmouseover="this.style.opacity='0.92';"
-                                onmouseout="this.style.opacity='1';"
+                                class="btn-verify-code"
                             >
                                 Verify Code
                             </button>
@@ -128,8 +147,8 @@
                     </div>
 
                     <!-- Full Name -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <label for="fullNameInput" style="display: block; font-size: 0.92rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
+                    <div style="margin-bottom: 1.35rem;">
+                        <label for="fullNameInput" class="form-field-label">
                             Full Name
                         </label>
                         <input 
@@ -139,15 +158,13 @@
                             required 
                             placeholder="Enter your full name" 
                             value="{{ old('name') }}"
-                            style="width: 100%; padding: 0.78rem 1rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.95rem; color: #0f172a; outline: none; background: #ffffff; box-sizing: border-box; transition: border-color 0.2s;"
-                            onfocus="this.style.borderColor='#3b82f6';"
-                            onblur="this.style.borderColor='#e2e8f0';"
+                            class="form-input-field"
                         >
                     </div>
 
                     <!-- Phone Number -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <label for="phoneInput" style="display: block; font-size: 0.92rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
+                    <div style="margin-bottom: 1.35rem;">
+                        <label for="phoneInput" class="form-field-label">
                             Phone Number
                         </label>
                         <input 
@@ -157,15 +174,13 @@
                             required 
                             placeholder="Enter your phone number" 
                             value="{{ old('phone') }}"
-                            style="width: 100%; padding: 0.78rem 1rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.95rem; color: #0f172a; outline: none; background: #ffffff; box-sizing: border-box; transition: border-color 0.2s;"
-                            onfocus="this.style.borderColor='#3b82f6';"
-                            onblur="this.style.borderColor='#e2e8f0';"
+                            class="form-input-field"
                         >
                     </div>
 
                     <!-- Email Address -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <label for="emailInput" style="display: block; font-size: 0.92rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
+                    <div style="margin-bottom: 1.35rem;">
+                        <label for="emailInput" class="form-field-label">
                             Email Address
                         </label>
                         <input 
@@ -175,35 +190,32 @@
                             required 
                             placeholder="Enter your email address" 
                             value="{{ old('email') }}"
-                            style="width: 100%; padding: 0.78rem 1rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.95rem; color: #0f172a; outline: none; background: #ffffff; box-sizing: border-box; transition: border-color 0.2s;"
-                            onfocus="this.style.borderColor='#3b82f6';"
-                            onblur="this.style.borderColor='#e2e8f0';"
+                            class="form-input-field"
                         >
                     </div>
 
-                    <!-- Create Password (With Eye Icon attached on right) -->
+                    <!-- Create Password (with bordered square eye icon on the right as in screenshot) -->
                     <div style="margin-bottom: 0.5rem;">
-                        <label for="createPasswordInput" style="display: block; font-size: 0.92rem; font-weight: 600; color: #334155; margin-bottom: 0.45rem;">
+                        <label for="createPasswordInput" class="form-field-label">
                             Create Password
                         </label>
-                        <div style="display: flex; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; background: #ffffff; transition: border-color 0.2s;" id="passwordWrapper">
+                        <div class="password-input-wrapper">
                             <input 
                                 type="password" 
                                 name="password" 
                                 id="createPasswordInput" 
                                 required 
                                 placeholder="Create a strong password" 
-                                style="flex: 1; padding: 0.78rem 1rem; border: none; font-size: 0.95rem; color: #0f172a; outline: none; background: transparent;"
-                                onfocus="document.getElementById('passwordWrapper').style.borderColor='#3b82f6';"
-                                onblur="document.getElementById('passwordWrapper').style.borderColor='#e2e8f0';"
+                                class="form-input-field password-inner-input"
                             >
                             <button 
                                 type="button" 
                                 onclick="toggleCreatePassword()" 
+                                id="eyeToggleBtn"
                                 aria-label="Toggle password visibility"
-                                style="border: none; border-left: 1px solid #e2e8f0; background: #ffffff; padding: 0 14px; cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center; outline: none;"
+                                class="eye-toggle-box"
                             >
-                                <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
@@ -216,55 +228,37 @@
                 {{-- -------------------------------------------------------- --}}
                 {{-- RIGHT CARD: PAYMENT METHOD                                --}}
                 {{-- -------------------------------------------------------- --}}
-                <div class="checkout-white-card" style="background: #ffffff; border: 1.5px solid #3b82f6; border-radius: 12px; padding: 28px 24px; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);">
-                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #1e293b; margin: 0 0 1.6rem 0;">
+                <div class="checkout-white-card">
+                    <h2 class="card-main-title">
                         Payment Method
                     </h2>
 
-                    <!-- Option 1: Payment Link (Card Pill) -->
+                    <!-- Option 1: Payment Link (Rounded Pill Box) -->
                     <label 
                         id="labelPaymentLink" 
-                        class="payment-option-pill active" 
-                        style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border: 1.5px solid #00137a; background: #f8fafc; border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s;"
+                        class="payment-method-box active" 
                         onclick="setPaymentMethod('payment_link')"
                     >
-                        <input type="radio" name="payment_method" value="payment_link" checked style="accent-color: #00137a; width: 17px; height: 17px; cursor: pointer;">
-                        <span style="font-size: 0.96rem; font-weight: 600; color: #1e293b;">Payment Link</span>
+                        <input type="radio" name="payment_method" value="payment_link" checked class="payment-radio-input">
+                        <span class="payment-radio-text">Payment Link</span>
                     </label>
 
-                    <!-- Option 2: Referral Wallet (Card Pill) -->
+                    <!-- Option 2: Referral Wallet (Rounded Pill Box) -->
                     <label 
                         id="labelReferralWallet" 
-                        class="payment-option-pill" 
-                        style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border: 1px solid #e2e8f0; background: #ffffff; border-radius: 8px; margin-bottom: 1.4rem; cursor: pointer; transition: all 0.2s;"
+                        class="payment-method-box" 
                         onclick="setPaymentMethod('referral_wallet')"
                     >
-                        <input type="radio" name="payment_method" value="referral_wallet" style="accent-color: #00137a; width: 17px; height: 17px; cursor: pointer;">
-                        <span style="font-size: 0.96rem; font-weight: 600; color: #1e293b;">Referral Wallet</span>
+                        <input type="radio" name="payment_method" value="referral_wallet" class="payment-radio-input">
+                        <span class="payment-radio-text">Referral Wallet</span>
                     </label>
 
-                    <!-- Selected Package & Price Summary Box -->
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; margin-bottom: 1.4rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <span style="font-size: 0.84rem; color: #64748b; font-weight: 600;">Selected Package:</span>
-                            <span id="summaryPkgName" style="font-size: 0.95rem; font-weight: 800; color: #00137a;">
-                                {{ $selectedPackage['name'] }}
-                            </span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px;">
-                            <span style="font-size: 0.92rem; font-weight: 700; color: #1e293b;">Total Payable:</span>
-                            <span id="summaryPkgPrice" style="font-size: 1.55rem; font-weight: 900; color: #05B396;">
-                                ₹{{ number_format($selectedPackage['price']) }}
-                            </span>
-                        </div>
-                    </div>
-
                     <!-- Terms & Conditions Checkbox -->
-                    <div style="margin-bottom: 1.4rem;">
-                        <label style="display: flex; align-items: center; gap: 9px; font-size: 0.88rem; color: #64748b; cursor: pointer; user-select: none;">
-                            <input type="checkbox" name="agree_terms" required checked style="accent-color: #00137a; width: 16px; height: 16px; border-radius: 4px; cursor: pointer;">
-                            <span>
-                                I agree to the <a href="{{ url('/about') }}" target="_blank" style="color: #4f46e5; text-decoration: underline; font-weight: 600;">terms and conditions</a>
+                    <div style="margin: 1.5rem 0 1.5rem 0;">
+                        <label class="terms-checkbox-label">
+                            <input type="checkbox" name="agree_terms" required checked class="terms-checkbox-input">
+                            <span class="terms-checkbox-text">
+                                I agree to the <a href="{{ url('/about') }}" target="_blank" class="terms-link">terms and conditions</a>
                             </span>
                         </label>
                     </div>
@@ -273,21 +267,19 @@
                     <button 
                         type="submit" 
                         id="proceedPaymentSubmitBtn"
-                        style="width: 100%; padding: 0.95rem; background: #00137a; color: #ffffff; font-size: 1.05rem; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 14px rgba(0, 19, 122, 0.25);"
-                        onmouseover="this.style.background='#001066';"
-                        onmouseout="this.style.background='#00137a';"
+                        class="btn-proceed-payment"
                     >
-                        Proceed to Payment
+                        Proceed to Payment (<span id="btnPriceDisplay">₹{{ number_format($selectedPackage['price']) }}</span>)
                     </button>
 
                     <!-- Important ID Security Notice -->
-                    <div style="margin-top: 1.2rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.8rem; color: #1e40af; line-height: 1.5;">
-                        🔒 <strong>Admin Verification Rule:</strong> Aapka registration submit hone ke baad aapki ID Admin ke pass verification ke liye rahegi. Payment confirm hone ke baad hi aap login kar sakenge.
+                    <div class="security-info-box">
+                        🔒 <strong>Admin Verification Rule:</strong> Registration ke baad aapki ID Admin ke pass verification ke liye rahegi. Payment confirm hone ke baad hi aap login kar sakenge.
                     </div>
 
-                    <div style="text-align: center; margin-top: 1.2rem;">
-                        <a href="{{ url('/login') }}" style="color: #64748b; font-size: 0.86rem; text-decoration: none; font-weight: 600;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">
-                            Already registered &amp; paid? <span style="color: #3b82f6; text-decoration: underline;">Log In Here</span>
+                    <div style="text-align: center; margin-top: 1.1rem;">
+                        <a href="{{ url('/login') }}" class="login-redirect-link">
+                            Already registered &amp; paid? <span style="color: #2563eb; text-decoration: underline;">Log In Here</span>
                         </a>
                     </div>
 
@@ -301,23 +293,503 @@
 
 @push('styles')
 <style>
+    /* Base Page Styling */
+    .checkout-page-wrapper {
+        background: #f8fafc;
+        min-height: 100vh;
+        padding: 2.5rem 1.2rem 5rem;
+        box-sizing: border-box;
+    }
+
+    .packages-section-container {
+        margin-bottom: 2rem;
+    }
+
+    .packages-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .top-active-badge {
+        background: #e0e7ff;
+        color: #00137a;
+        font-size: 0.8rem;
+        font-weight: 800;
+        padding: 5px 14px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        display: inline-block;
+    }
+
+    .mobile-swipe-hint {
+        display: none;
+        font-size: 0.74rem;
+        color: #00137a;
+        font-weight: 700;
+        background: #e0e7ff;
+        padding: 4px 10px;
+        border-radius: 12px;
+    }
+
+    /* Packages Horizontal Row - 5 Side-by-Side */
     .packages-horizontal-row {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(130px, 1fr));
+        gap: 12px;
         width: 100%;
+        box-sizing: border-box;
+    }
+
+    .pkg-select-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        user-select: none;
         box-sizing: border-box;
     }
 
     .pkg-select-card:hover {
         transform: translateY(-2px);
+        border-color: #93c5fd;
     }
 
+    .pkg-select-card.selected {
+        background: #eff6ff !important;
+        border: 2px solid #00137a !important;
+        box-shadow: 0 4px 14px rgba(0, 19, 122, 0.12) !important;
+    }
+
+    .pkg-selected-indicator {
+        position: absolute;
+        top: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #00137a;
+        color: #ffffff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 10px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .pkg-card-title {
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: #475569;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .pkg-select-card.selected .pkg-card-title {
+        color: #00137a;
+    }
+
+    .pkg-card-price {
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: #0f172a;
+        margin-bottom: 2px;
+    }
+
+    .pkg-card-old-price {
+        font-size: 0.72rem;
+        color: #94a3b8;
+        text-decoration: line-through;
+    }
+
+    .pkg-card-courses-tag {
+        font-size: 0.72rem;
+        color: #05B396;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    /* Mobile Quick Selector Chips (hidden on desktop) */
+    .mobile-quick-selector {
+        display: none;
+    }
+
+    /* Checkout 2-Card Layout (Matches user's uploaded screenshot) */
+    .checkout-layout-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 24px;
+        align-items: start;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .checkout-white-card {
+        background: #ffffff;
+        border: 2px solid #3884ff; /* Light blue accent border from screenshot */
+        border-radius: 12px;
+        padding: 30px 26px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+        box-sizing: border-box;
+    }
+
+    .card-main-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -0.2px;
+    }
+
+    .form-field-label {
+        display: block;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.45rem;
+    }
+
+    .form-input-field {
+        width: 100%;
+        padding: 0.78rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: #0f172a;
+        outline: none;
+        background: #ffffff;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input-field:focus {
+        border-color: #3884ff;
+        box-shadow: 0 0 0 3px rgba(56, 132, 255, 0.12);
+    }
+
+    .form-input-field::placeholder {
+        color: #94a3b8;
+    }
+
+    .referral-field-row {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+    }
+
+    .btn-verify-code {
+        background: #00137a; /* Dark navy blue from screenshot */
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 0.92rem;
+        padding: 0.78rem 1.4rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: opacity 0.2s;
+        flex-shrink: 0;
+    }
+
+    .btn-verify-code:hover {
+        opacity: 0.92;
+    }
+
+    /* Password field with bordered square eye icon on the right (matches screenshot) */
+    .password-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .password-inner-input {
+        padding-right: 48px !important;
+    }
+
+    .eye-toggle-box {
+        position: absolute;
+        right: 8px;
+        width: 34px;
+        height: 32px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        background: #ffffff;
+        cursor: pointer;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        transition: all 0.15s ease;
+    }
+
+    .eye-toggle-box:hover {
+        border-color: #3884ff;
+        color: #00137a;
+    }
+
+    /* Payment Method Option Boxes (Matches screenshot) */
+    .payment-method-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+        box-sizing: border-box;
+    }
+
+    .payment-method-box.active {
+        border-color: #00137a;
+        background: #f8fafc;
+    }
+
+    .payment-radio-input {
+        accent-color: #00137a;
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .payment-radio-text {
+        font-size: 0.96rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Terms and Conditions Checkbox */
+    .terms-checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 0.9rem;
+        color: #64748b;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .terms-checkbox-input {
+        accent-color: #00137a;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .terms-checkbox-text {
+        line-height: 1.4;
+    }
+
+    .terms-link {
+        color: #5b5bd6; /* Purple-blue link color from screenshot */
+        text-decoration: underline;
+        font-weight: 500;
+    }
+
+    /* Proceed to Payment Button */
+    .btn-proceed-payment {
+        width: 100%;
+        min-height: 48px;
+        padding: 0.85rem 1rem;
+        background: #00137a; /* Exact dark navy blue from screenshot */
+        color: #ffffff;
+        font-size: 1.05rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        box-shadow: 0 4px 14px rgba(0, 19, 122, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .btn-proceed-payment:hover {
+        background: #001066;
+    }
+
+    .security-info-box {
+        margin-top: 1.25rem;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        padding: 0.85rem 1rem;
+        font-size: 0.8rem;
+        color: #1e40af;
+        line-height: 1.5;
+    }
+
+    .login-redirect-link {
+        color: #64748b;
+        font-size: 0.86rem;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .login-redirect-link:hover {
+        color: #0f172a;
+    }
+
+    /* ============================================================== */
+    /* RESPONSIVE DESIGN: TABLETS & MOBILE PHONES                     */
+    /* ============================================================== */
     @media (max-width: 900px) {
+        .checkout-page-wrapper {
+            padding: 1.5rem 0.85rem 4rem !important;
+        }
+
         .checkout-layout-grid {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
         }
 
+        /* Packages: Smooth Horizontal Swipe on Tablets/Mobile */
         .packages-horizontal-row {
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+            display: flex !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            scroll-snap-type: x mandatory !important;
+            gap: 10px !important;
+            padding-bottom: 12px !important;
+            margin-bottom: 0.6rem !important;
+            scrollbar-width: thin;
+        }
+
+        .packages-horizontal-row::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .packages-horizontal-row::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 10px;
+        }
+
+        .pkg-select-card {
+            flex: 0 0 142px !important;
+            min-width: 142px !important;
+            scroll-snap-align: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .mobile-swipe-hint {
+            display: inline-block !important;
+        }
+
+        /* Mobile quick chip row */
+        .mobile-quick-selector {
+            display: flex !important;
+            overflow-x: auto !important;
+            gap: 6px !important;
+            padding-bottom: 6px !important;
+            margin-top: 4px !important;
+            scrollbar-width: none;
+        }
+
+        .mobile-quick-selector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-pkg-chip {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .mobile-pkg-chip.active {
+            background: #00137a;
+            color: #ffffff;
+            border-color: #00137a;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .checkout-page-wrapper {
+            padding: 1rem 0.65rem 3.5rem !important;
+        }
+
+        .checkout-white-card {
+            padding: 22px 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .card-main-title {
+            font-size: 1.25rem !important;
+            margin-bottom: 1.2rem !important;
+        }
+
+        /* Prevent iOS Safari from auto-zooming by forcing 16px minimum font size */
+        .form-input-field,
+        #referralCodeInput,
+        #createPasswordInput {
+            font-size: 16px !important;
+            padding: 0.72rem 0.85rem !important;
+        }
+
+        .password-inner-input {
+            padding-right: 44px !important;
+        }
+
+        .btn-verify-code {
+            padding: 0.72rem 1.05rem !important;
+            font-size: 0.86rem !important;
+        }
+
+        .pkg-select-card {
+            flex: 0 0 136px !important;
+            min-width: 136px !important;
+            padding: 12px 8px !important;
+        }
+
+        .top-active-badge {
+            font-size: 0.72rem !important;
+            padding: 4px 10px !important;
+        }
+
+        .btn-proceed-payment {
+            min-height: 50px !important;
+            font-size: 1rem !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .btn-verify-code {
+            padding: 0.72rem 0.85rem !important;
+            font-size: 0.82rem !important;
+        }
+
+        .checkout-white-card {
+            padding: 18px 12px !important;
         }
     }
 </style>
@@ -341,29 +813,41 @@
         // 1. Update hidden form input
         document.getElementById('hiddenPackageInput').value = pkgId;
 
-        // 2. Update summary box
-        document.getElementById('summaryPkgName').innerText = p.name;
-        document.getElementById('summaryPkgPrice').innerText = '₹' + p.price.toLocaleString();
-        document.getElementById('topActiveBadge').innerText = 'Currently Selected: ' + p.name;
+        // 2. Update badge & button price text
+        const topBadge = document.getElementById('topActiveBadge');
+        if (topBadge) {
+            topBadge.innerText = 'Selected: ' + p.name + ' (₹' + p.price.toLocaleString() + ')';
+        }
+
+        const btnPrice = document.getElementById('btnPriceDisplay');
+        if (btnPrice) {
+            btnPrice.innerText = '₹' + p.price.toLocaleString();
+        }
 
         // 3. Highlight selected card & unhighlight others (All 5 remain visible side-by-side)
         Object.keys(allPackagesData).forEach(key => {
             const card = document.getElementById('pkgCard_' + key);
-            if (!card) return;
-            const indicator = card.querySelector('.pkg-selected-indicator');
+            const chip = document.getElementById('mobileChip_' + key);
+            
+            if (card) {
+                const indicator = card.querySelector('.pkg-selected-indicator');
+                if (key === pkgId) {
+                    card.classList.add('selected');
+                    if (indicator) indicator.style.display = 'inline-block';
+                    // Auto-scroll card into view smoothly on mobile if out of viewport
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    card.classList.remove('selected');
+                    if (indicator) indicator.style.display = 'none';
+                }
+            }
 
-            if (key === pkgId) {
-                card.style.background = '#eff6ff';
-                card.style.borderColor = '#00137a';
-                card.style.borderWidth = '2px';
-                card.style.boxShadow = '0 4px 14px rgba(0, 19, 122, 0.12)';
-                if (indicator) indicator.style.display = 'inline-block';
-            } else {
-                card.style.background = '#ffffff';
-                card.style.borderColor = '#e2e8f0';
-                card.style.borderWidth = '1.5px';
-                card.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
-                if (indicator) indicator.style.display = 'none';
+            if (chip) {
+                if (key === pkgId) {
+                    chip.classList.add('active');
+                } else {
+                    chip.classList.remove('active');
+                }
             }
         });
     }
@@ -373,24 +857,21 @@
         const walletLabel = document.getElementById('labelReferralWallet');
 
         if (method === 'payment_link') {
-            linkLabel.style.borderColor = '#00137a';
-            linkLabel.style.borderWidth = '1.5px';
-            linkLabel.style.background = '#f8fafc';
-            walletLabel.style.borderColor = '#e2e8f0';
-            walletLabel.style.borderWidth = '1px';
-            walletLabel.style.background = '#ffffff';
+            if (linkLabel) linkLabel.classList.add('active');
+            if (walletLabel) walletLabel.classList.remove('active');
+            const radio = linkLabel ? linkLabel.querySelector('input[type="radio"]') : null;
+            if (radio) radio.checked = true;
         } else {
-            walletLabel.style.borderColor = '#00137a';
-            walletLabel.style.borderWidth = '1.5px';
-            walletLabel.style.background = '#f8fafc';
-            linkLabel.style.borderColor = '#e2e8f0';
-            linkLabel.style.borderWidth = '1px';
-            linkLabel.style.background = '#ffffff';
+            if (walletLabel) walletLabel.classList.add('active');
+            if (linkLabel) linkLabel.classList.remove('active');
+            const radio = walletLabel ? walletLabel.querySelector('input[type="radio"]') : null;
+            if (radio) radio.checked = true;
         }
     }
 
     function toggleCreatePassword() {
         const pwdInput = document.getElementById('createPasswordInput');
+        if (!pwdInput) return;
         if (pwdInput.type === 'password') {
             pwdInput.type = 'text';
         } else {
