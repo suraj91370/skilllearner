@@ -154,34 +154,6 @@
             transform: scale(1.06);
         }
 
-        .notification-bell-btn {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: #475569;
-            padding: 4px;
-            transition: color 0.2s;
-            flex-shrink: 0;
-        }
-
-        .notification-bell-btn:hover {
-            color: #05B396;
-        }
-
-        .bell-count-badge {
-            background: #05B396;
-            color: #ffffff;
-            font-size: 0.72rem;
-            font-weight: 800;
-            padding: 2px 7px;
-            border-radius: 12px;
-            margin-left: 2px;
-            line-height: 1.2;
-        }
-
         /* User Profile Pill Button */
         .user-menu-wrapper {
             position: relative;
@@ -530,8 +502,6 @@
             .brand-logo-img { max-width: 125px; }
             .nav-right-actions { gap: 0.45rem; }
             .sl-circle-badge { width: 32px; height: 32px; }
-            .notification-bell-btn svg { width: 18px; height: 18px; }
-            .bell-count-badge { font-size: 0.65rem; padding: 2px 5px; }
             .user-pill-btn { padding: 3px 10px 3px 4px; gap: 6px; }
             .user-pill-avatar { width: 26px; height: 26px; }
             .user-pill-name { max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
@@ -551,7 +521,6 @@
             .profile-svg-btn svg { width: 17px; height: 17px; }
             .sl-circle-badge { width: 28px; height: 28px; }
             .sl-circle-badge span { font-size: 0.72rem; }
-            .bell-count-badge { display: none; }
             .mobile-toggle { width: 34px; height: 34px; padding: 4px; }
             .mobile-toggle .bar { width: 20px; }
         }
@@ -770,7 +739,6 @@
             .mobile-toggle { display: flex !important; }
             .mobile-left-toggle { display: flex !important; }
             .mobile-portal-toggle-btn { display: flex !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .mobile-portal-nav { display: none !important; }
@@ -778,7 +746,6 @@
             nav.menu { display: none !important; }
         }
         @media (max-width: 640px) {
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .mobile-portal-nav { display: none !important; }
@@ -1711,21 +1678,18 @@
 <style>
         /* Hide elements on mobile view per user request */
         @media (max-width: 992px) {
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
             .mobile-portal-nav { display: none !important; }
         }
         @media (max-width: 640px) {
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
             .mobile-portal-nav { display: none !important; }
         }
         @media (max-width: 380px) {
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .mobile-portal-nav { display: none !important; }
         }
@@ -1776,7 +1740,7 @@
             <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="">Job</a>
         </nav>
 
-        <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
+        <!-- Right Side: SL badge, User Pill -->
         <div class="nav-right-actions">
                             <!-- Guest My Account Dropdown Trigger (Replaces separate My Account & Buy Now buttons) -->
                 <div class="user-menu-wrapper">

@@ -165,34 +165,6 @@
             transform: scale(1.06);
         }
 
-        .notification-bell-btn {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: #475569;
-            padding: 4px;
-            transition: color 0.2s;
-            flex-shrink: 0;
-        }
-
-        .notification-bell-btn:hover {
-            color: #05B396;
-        }
-
-        .bell-count-badge {
-            background: #05B396;
-            color: #ffffff;
-            font-size: 0.72rem;
-            font-weight: 800;
-            padding: 2px 7px;
-            border-radius: 12px;
-            margin-left: 2px;
-            line-height: 1.2;
-        }
-
         /* User Profile Pill Button */
         .user-menu-wrapper {
             position: relative;
@@ -606,7 +578,6 @@
                 gap: 1.25rem !important;
             }
             /* Elements hidden on mobile view per user request */
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
@@ -634,7 +605,6 @@
             .nav-right-actions { gap: 0.4rem !important; flex-shrink: 0; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .mobile-portal-nav { display: none !important; }
             .profile-svg-btn { width: 32px; height: 32px; }
@@ -647,7 +617,6 @@
             header.nav { padding: 0.45rem 0.5rem !important; }
             .brand-logo-img { max-width: 105px; }
             .nav-right-actions { gap: 0.25rem !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .mobile-portal-nav { display: none !important; }
             .mobile-toggle { width: 32px; height: 32px; padding: 4px; }
@@ -877,21 +846,12 @@
             <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="{{ request()->is('job*') ? 'active' : '' }}">Job</a>
         </nav>
 
-        <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
+        <!-- Right Side: SL badge, User Pill -->
         <div class="nav-right-actions">
             @if (session()->has('user'))
                 <!-- SkillLearner Monogram Verified Badge -->
                 <div class="sl-circle-badge" title="SkillLearner Verified Member">
                     <span style="font-weight: 900; font-size: 0.82rem; color: #05B396; letter-spacing: -0.5px;">SL</span>
-                </div>
-
-                <!-- Notification Bell with Emerald Badge 4830 -->
-                <div class="notification-bell-btn" title="4,830 New Notifications" onclick="alert('You have 4,830 unread student notifications & community updates.')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                    </svg>
-                    <span class="bell-count-badge">4830</span>
                 </div>
 
                 <!-- User Profile Pill Button with Dropdown -->

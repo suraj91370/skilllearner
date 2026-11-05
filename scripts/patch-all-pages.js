@@ -101,7 +101,6 @@ const extraStyles = `
             .mobile-toggle { display: flex !important; }
             .mobile-left-toggle { display: flex !important; }
             .mobile-portal-toggle-btn { display: flex !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .mobile-portal-nav { display: none !important; }
@@ -109,7 +108,6 @@ const extraStyles = `
             nav.menu { display: none !important; }
         }
         @media (max-width: 640px) {
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .mobile-portal-nav { display: none !important; }
