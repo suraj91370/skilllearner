@@ -787,4 +787,308 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* ==========================================================
+       USER DASHBOARD MODERN REDESIGN (MATCHING SCREENSHOT LAYOUT)
+       ========================================================== */
+    .dashboard-greeting-bar {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.85rem 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .greeting-bar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .greeting-bar-accent {
+        width: 3.5px;
+        height: 22px;
+        background: #0f172a;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    .greeting-bar-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -0.2px;
+    }
+
+    .greeting-refresh-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: #64748b;
+        padding: 6px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .greeting-refresh-btn:hover {
+        background: #f1f5f9;
+        color: #05B396;
+        transform: rotate(45deg);
+    }
+
+    /* Profile Hero Banner */
+    .dashboard-profile-banner {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 2.2rem 1.5rem 1.8rem;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 190px;
+    }
+
+    .profile-banner-decor-left,
+    .profile-banner-decor-right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 320px;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.95;
+    }
+
+    .profile-banner-decor-left {
+        left: 0;
+    }
+
+    .profile-banner-decor-right {
+        right: 0;
+    }
+
+    .profile-hero-center {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-hero-avatar-wrap {
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        border: 3.5px solid #ffffff;
+        box-shadow: 0 4px 14px rgba(5, 179, 150, 0.25);
+        outline: 2.5px solid #05B396;
+        overflow: hidden;
+        margin-bottom: 0.65rem;
+        background: #ffffff;
+    }
+
+    .profile-hero-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .profile-hero-name {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.3px;
+    }
+
+    .profile-hero-badge {
+        background: #00137a;
+        color: #ffffff;
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 5px 18px;
+        border-radius: 20px;
+        letter-spacing: 0.3px;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(0, 19, 122, 0.25);
+    }
+
+    /* Revenue Grid - 2 cols desktop, 1 col mobile */
+    .dashboard-revenue-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .revenue-card {
+        border-radius: 12px;
+        padding: 1.35rem 1.6rem 1.15rem;
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .revenue-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .revenue-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.25rem;
+    }
+
+    .revenue-amount {
+        font-size: 2.1rem;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+    }
+
+    .revenue-icon-box {
+        opacity: 0.95;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .revenue-label {
+        font-size: 0.96rem;
+        font-weight: 600;
+        opacity: 0.95;
+        margin-bottom: 0.85rem;
+    }
+
+    .revenue-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.25);
+        margin-bottom: 0.65rem;
+    }
+
+    .revenue-detail-link {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #ffffff;
+        opacity: 0.92;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.15s ease;
+    }
+
+    .revenue-detail-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+
+    /* Individual Card Color Gradients */
+    .revenue-card.card-today {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    }
+
+    .revenue-card.card-7days {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    }
+
+    .revenue-card.card-30days {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .revenue-card.card-alltime {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    }
+
+    .revenue-card.card-passive {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    }
+
+    .revenue-card.card-industry {
+        background: linear-gradient(135deg, #05B396 0%, #038a74 100%);
+    }
+
+    /* 7 Days Sales Graph Card */
+    .dashboard-graph-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 1.5rem 1.8rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .graph-card-title {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 1.25rem;
+    }
+
+    .graph-svg-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        position: relative;
+    }
+
+    .graph-svg {
+        width: 100%;
+        height: auto;
+        min-height: 280px;
+        display: block;
+    }
+
+    .graph-point {
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .graph-point:hover {
+        transform: scale(1.35);
+        transform-origin: center;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-revenue-grid {
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+        }
+
+        .profile-banner-decor-left,
+        .profile-banner-decor-right {
+            width: 120px;
+            opacity: 0.55;
+        }
+
+        .dashboard-profile-banner {
+            padding: 1.8rem 1rem 1.5rem;
+            min-height: 170px;
+        }
+
+        .revenue-amount {
+            font-size: 1.85rem;
+        }
+
+        .dashboard-graph-card {
+            padding: 1.2rem 1rem;
+        }
+    }
 </style>
