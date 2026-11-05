@@ -2195,74 +2195,152 @@
 </aside>
 
         <!-- Right Content Area -->
-        <main class="portal-content-area">
-            <div class="portal-box-card" style="max-width: 860px;">
-                <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800; margin-bottom: 0.5rem;">🔗 Your Unique SkillLearner Referral Link</h3>
-                <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.8rem;">Every student who enrolls through this link gives you up to 70% direct commission instantly credited to your wallet balance.</p>
+        <main class="portal-content-area" style="display: flex; justify-content: center;">
+            <div class="portal-box-card" style="width: 100%; max-width: 820px; padding: 2rem 1.8rem; border-radius: 18px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
                 
-                <div style="background: #f0fdfa; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1.4rem; margin-bottom: 2rem;">
-                    <label style="font-size: 0.8rem; color: #05B396; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 6px;">MASTER SIGNUP &amp; REGISTRATION URL</label>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <input type="text" id="dedicatedRefLink" style="flex: 1; min-width: 260px; padding: 0.85rem 1rem; border: 1.5px solid #a7f3d0; border-radius: 8px; font-size: 0.95rem; font-weight: 700; background: #ffffff; color: #05B396;" value="/register?ref=SL-8821" readonly>
-                        <button type="button" onclick="copyDedicatedRefLink()" class="btn btn-primary" style="background: #05B396; font-weight: 800; padding: 0.85rem 1.6rem;">Copy Link</button>
+                <h3 style="font-size: 1.45rem; font-weight: 800; color: #0f172a; margin: 0 0 1.8rem;">
+                    Affiliate Referral Links
+                </h3>
+
+                <!-- Referral Links List (Clean & Minimal, Project Packages Only) -->
+                <div style="display: flex; flex-direction: column; gap: 1.35rem;">
+                    <!-- Basic Package -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            Basic Package
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_basic" value="/buy-now?package=basic&ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_basic', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px; margin-top: 1.2rem; flex-wrap: wrap;">
-                        <a href="https://api.whatsapp.com/send?text=Learn%20high-ticket%20skills%20and%20monetize%20with%20SkillLearner:%20/register?ref=SL-8821" target="_blank" class="btn btn-primary" style="background: #25d366; font-size: 0.85rem; font-weight: 700;">
-                            📲 Share on WhatsApp
-                        </a>
-                        <a href="https://t.me/share/url?url=/register?ref=SL-8821&text=Master%20Digital%20Skills%20with%20SkillLearner" target="_blank" class="btn btn-primary" style="background: #0088cc; font-size: 0.85rem; font-weight: 700;">
-                            ✈️ Share on Telegram
-                        </a>
+                    <!-- Growth Package -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            Growth Package
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_growth" value="/buy-now?package=growth&ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_growth', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Advance Package -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            Advance Package
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_advance" value="/buy-now?package=advance&ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_advance', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Premium Package -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            Premium Package
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_premium" value="/buy-now?package=premium&ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_premium', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Infinity Package -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            Infinity Package
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_infinity" value="/buy-now?package=infinity&ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_infinity', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- All Packages Link -->
+                    <div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                            All Packages Link
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="text" id="linkInput_all" value="/plans?ref=SL-8821" readonly class="clean-link-input">
+                            <button type="button" onclick="copyReferralUrl('linkInput_all', this)" class="clean-copy-btn">
+                                Copy
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <h4 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Direct Package Checkout Links</h4>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    
-                                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                            <div>
-                                <strong style="color: #0f172a; font-size: 0.95rem;">Advance Package (Most Popular)</strong>
-                                <span style="background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;">₹2,200 Commission</span>
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="link-advance" value="/buy-now?package=advance&ref=SL-8821" style="display: none;" readonly>
-                                <button type="button" onclick="copySpecificLink('advance')" class="btn btn-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.82rem; border: 1px solid #a7f3d0; color: #05B396; font-weight: 700;">Copy Checkout Link</button>
-                            </div>
-                        </div>
-                                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                            <div>
-                                <strong style="color: #0f172a; font-size: 0.95rem;">Premium Package</strong>
-                                <span style="background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;">₹3,500 Commission</span>
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="link-premium" value="/buy-now?package=premium&ref=SL-8821" style="display: none;" readonly>
-                                <button type="button" onclick="copySpecificLink('premium')" class="btn btn-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.82rem; border: 1px solid #a7f3d0; color: #05B396; font-weight: 700;">Copy Checkout Link</button>
-                            </div>
-                        </div>
-                                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                            <div>
-                                <strong style="color: #0f172a; font-size: 0.95rem;">Infinity Package (All Access)</strong>
-                                <span style="background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;">₹8,500 Commission</span>
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="link-infinity" value="/buy-now?package=infinity&ref=SL-8821" style="display: none;" readonly>
-                                <button type="button" onclick="copySpecificLink('infinity')" class="btn btn-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.82rem; border: 1px solid #a7f3d0; color: #05B396; font-weight: 700;">Copy Checkout Link</button>
-                            </div>
-                        </div>
-                                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                            <div>
-                                <strong style="color: #0f172a; font-size: 0.95rem;">Basic Package</strong>
-                                <span style="background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;">₹1,200 Commission</span>
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="link-basic" value="/buy-now?package=basic&ref=SL-8821" style="display: none;" readonly>
-                                <button type="button" onclick="copySpecificLink('basic')" class="btn btn-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.82rem; border: 1px solid #a7f3d0; color: #05B396; font-weight: 700;">Copy Checkout Link</button>
-                            </div>
-                        </div>
-                                    </div>
             </div>
         </main>
+
+<style>
+    .clean-link-input {
+        flex: 1;
+        background: #eef2f6;
+        border: 1.5px solid transparent;
+        border-radius: 12px;
+        padding: 0.85rem 1.15rem;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #334155;
+        box-sizing: border-box;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+    .clean-link-input:focus {
+        background: #ffffff;
+        border-color: #05B396;
+    }
+    .clean-copy-btn {
+        background: #181832;
+        color: #ffffff;
+        font-size: 0.88rem;
+        font-weight: 700;
+        padding: 0.8rem 1.8rem;
+        border-radius: 24px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .clean-copy-btn:hover {
+        background: #05B396;
+    }
+    .clean-copy-btn.copied {
+        background: #05B396 !important;
+        color: #ffffff !important;
+    }
+</style>
+
+<script>
+    function copyReferralUrl(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        input.select();
+        navigator.clipboard.writeText(window.location.origin + input.value).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+</script>
     </div>
 </div>
 
