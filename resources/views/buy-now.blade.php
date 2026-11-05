@@ -30,29 +30,15 @@
         @endif
 
         {{-- ============================================================== --}}
-        {{-- TOP: ALL 5 PACKAGES SIDE-BY-SIDE (SELECT TO HIGHLIGHT)         --}}
+        {{-- TOP: SELECT YOUR PACKAGE (MATCHES USER REFERENCE IMAGE 1)      --}}
+        {{-- Simple, Clean, Package Images + Names Only, #05B396 Theme       --}}
         {{-- ============================================================== --}}
         <div class="packages-section-container">
-            <div class="packages-header-bar">
-                <div>
-                    <h2 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">
-                        🌟 Select Package (All 5 Available):
-                    </h2>
-                    <span style="font-size: 0.82rem; color: #64748b; font-weight: 500;">
-                        Click on any package to select it — all packages remain visible side-by-side.
-                    </span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <span class="mobile-swipe-hint">
-                        👈 Swipe to view all 5 👉
-                    </span>
-                    <span id="topActiveBadge" class="top-active-badge">
-                        Selected: {{ $selectedPackage['name'] }} (₹{{ number_format($selectedPackage['price']) }})
-                    </span>
-                </div>
-            </div>
+            <h2 class="packages-header-title">
+                Select Your Package
+            </h2>
 
-            <!-- Horizontal row of 5 packages (Desktop: 5 columns, Mobile: swipeable + snap) -->
+            <!-- 5 Package Cards Side-by-Side (Desktop: 5 cols, Mobile: smooth horizontal swipe) -->
             <div class="packages-horizontal-row" id="packagesScrollRow">
                 @foreach($packages as $p)
                     @php 
@@ -63,91 +49,42 @@
                         id="pkgCard_{{ $p['id'] }}" 
                         class="pkg-select-card {{ $isSelected ? 'selected' : '' }}"
                     >
-                        <div class="pkg-selected-indicator" style="display: {{ $isSelected ? 'inline-block' : 'none' }};">
-                            ✓ SELECTED
+                        <div class="pkg-img-box">
+                            <img src="{{ asset('images/packages/' . $p['id'] . '.png') }}" alt="{{ $p['name'] }}">
                         </div>
-
-                        <div class="pkg-card-title">
+                        <div class="pkg-simple-title">
                             {{ $p['name'] }}
                         </div>
-                        <div class="pkg-card-price">
-                            ₹{{ number_format($p['price']) }}
-                        </div>
-                        <div class="pkg-card-old-price">
-                            ₹{{ number_format($p['old_price']) }}
-                        </div>
-                        <div class="pkg-card-courses-tag">
-                            {{ count($p['courses_included'] ?? []) }}+ Courses
-                        </div>
                     </div>
-                @endforeach
-            </div>
-
-            <!-- Mobile quick selector chips (allows 1-tap switching without scrolling) -->
-            <div class="mobile-quick-selector" aria-label="Mobile Package Selector">
-                @foreach($packages as $p)
-                    @php 
-                        $isSelected = strtolower($selectedPackage['id']) === strtolower($p['id']); 
-                    @endphp
-                    <button 
-                        type="button" 
-                        onclick="selectPackage('{{ $p['id'] }}')" 
-                        id="mobileChip_{{ $p['id'] }}" 
-                        class="mobile-pkg-chip {{ $isSelected ? 'active' : '' }}"
-                    >
-                        {{ $p['name'] }} • ₹{{ number_format($p['price']) }}
-                    </button>
                 @endforeach
             </div>
         </div>
 
         {{-- ============================================================== --}}
         {{-- MAIN CHECKOUT FORM: BILLING DETAILS & PAYMENT METHOD           --}}
-        {{-- Exact matching of user's uploaded screenshot design            --}}
+        {{-- Border Color: Project Color #05B396                            --}}
+        {{-- Image 2 (Referral row) REMOVED as requested                    --}}
         {{-- ============================================================== --}}
         <form method="POST" action="{{ route('process.buynow') }}" id="mainCheckoutForm">
             @csrf
             {{-- Hidden input for selected package --}}
             <input type="hidden" name="package" id="hiddenPackageInput" value="{{ $selectedPackage['id'] }}">
 
+            {{-- Hidden input for referral code so affiliate tracking works without UI clutter --}}
+            <input type="hidden" name="referral_code" id="referralCodeInput" value="{{ old('referral_code', request('ref', session('user.sponsor_id', 'SKL-ADMIN'))) }}">
+
             <div class="checkout-layout-grid">
                 
                 {{-- -------------------------------------------------------- --}}
-                {{-- LEFT CARD: BILLING DETAILS                                --}}
+                {{-- LEFT CARD: BILLING DETAILS (Border: #05B396)              --}}
                 {{-- -------------------------------------------------------- --}}
-                <div class="checkout-white-card">
+                <div class="checkout-card-box">
                     <h2 class="card-main-title">
                         Billing Details
                     </h2>
 
-                    <!-- Have a referral code? -->
-                    <div style="margin-bottom: 1.35rem;">
-                        <div class="referral-field-row">
-                            <input 
-                                type="text" 
-                                name="referral_code" 
-                                id="referralCodeInput" 
-                                value="{{ old('referral_code', request('ref', session('user.sponsor_id', 'SKL-ADMIN'))) }}" 
-                                placeholder="Have a referral code?" 
-                                class="form-input-field"
-                                style="flex: 1; min-width: 0;"
-                            >
-                            <button 
-                                type="button" 
-                                onclick="verifyReferralCode()" 
-                                id="verifyCodeBtn"
-                                class="btn-verify-code"
-                            >
-                                Verify Code
-                            </button>
-                        </div>
-                        <div id="referralStatusFeedback" style="font-size: 0.82rem; margin-top: 6px; color: #10b981; font-weight: 600; display: flex; align-items: center; gap: 4px;">
-                            <span>✓</span> Verified Sponsor: <strong>SkillLearner Official (SKL-ADMIN)</strong>
-                        </div>
-                    </div>
-
                     <!-- Full Name -->
-                    <div style="margin-bottom: 1.35rem;">
+                    <div class="form-group-item">
                         <label for="fullNameInput" class="form-field-label">
                             Full Name
                         </label>
@@ -163,7 +100,7 @@
                     </div>
 
                     <!-- Phone Number -->
-                    <div style="margin-bottom: 1.35rem;">
+                    <div class="form-group-item">
                         <label for="phoneInput" class="form-field-label">
                             Phone Number
                         </label>
@@ -179,7 +116,7 @@
                     </div>
 
                     <!-- Email Address -->
-                    <div style="margin-bottom: 1.35rem;">
+                    <div class="form-group-item">
                         <label for="emailInput" class="form-field-label">
                             Email Address
                         </label>
@@ -195,7 +132,7 @@
                     </div>
 
                     <!-- Create Password (with bordered square eye icon on the right as in screenshot) -->
-                    <div style="margin-bottom: 0.5rem;">
+                    <div class="form-group-item" style="margin-bottom: 0.5rem;">
                         <label for="createPasswordInput" class="form-field-label">
                             Create Password
                         </label>
@@ -226,9 +163,9 @@
                 </div>
 
                 {{-- -------------------------------------------------------- --}}
-                {{-- RIGHT CARD: PAYMENT METHOD                                --}}
+                {{-- RIGHT CARD: PAYMENT METHOD (Border: #05B396)              --}}
                 {{-- -------------------------------------------------------- --}}
-                <div class="checkout-white-card">
+                <div class="checkout-card-box">
                     <h2 class="card-main-title">
                         Payment Method
                     </h2>
@@ -263,7 +200,7 @@
                         </label>
                     </div>
 
-                    <!-- Proceed to Payment Button -->
+                    <!-- Proceed to Payment Button with dynamic price -->
                     <button 
                         type="submit" 
                         id="proceedPaymentSubmitBtn"
@@ -279,7 +216,7 @@
 
                     <div style="text-align: center; margin-top: 1.1rem;">
                         <a href="{{ url('/login') }}" class="login-redirect-link">
-                            Already registered &amp; paid? <span style="color: #2563eb; text-decoration: underline;">Log In Here</span>
+                            Already registered &amp; paid? <span style="color: #05B396; text-decoration: underline;">Log In Here</span>
                         </a>
                     </div>
 
@@ -301,46 +238,34 @@
         box-sizing: border-box;
     }
 
+    /* ============================================================== */
+    /* TOP CONTAINER: "Select Your Package" matching Image 1          */
+    /* Border: Project color #05B396, rounded, white background       */
+    /* ============================================================== */
     .packages-section-container {
-        margin-bottom: 2rem;
-    }
-
-    .packages-header-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .top-active-badge {
-        background: #e0e7ff;
-        color: #00137a;
-        font-size: 0.8rem;
-        font-weight: 800;
-        padding: 5px 14px;
-        border-radius: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        display: inline-block;
-    }
-
-    .mobile-swipe-hint {
-        display: none;
-        font-size: 0.74rem;
-        color: #00137a;
-        font-weight: 700;
-        background: #e0e7ff;
-        padding: 4px 10px;
+        background: #ffffff;
+        border: 2px solid #05B396; /* Project Brand Color */
         border-radius: 12px;
+        padding: 22px 20px 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+        box-sizing: border-box;
+        width: 100%;
     }
 
-    /* Packages Horizontal Row - 5 Side-by-Side */
+    .packages-header-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 1.2rem 0;
+        letter-spacing: -0.2px;
+    }
+
+    /* 5 Package Cards Row - Desktop 5 columns, Mobile swipeable */
     .packages-horizontal-row {
         display: grid;
-        grid-template-columns: repeat(5, minmax(130px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
         width: 100%;
         box-sizing: border-box;
     }
@@ -348,85 +273,69 @@
     .pkg-select-card {
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 14px 10px;
+        border-radius: 10px;
+        padding: 12px 10px 14px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.2s ease;
-        position: relative;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        user-select: none;
+        transition: all 0.22s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
         box-sizing: border-box;
+        user-select: none;
     }
 
     .pkg-select-card:hover {
         transform: translateY(-2px);
-        border-color: #93c5fd;
+        border-color: #05B396;
     }
 
+    /* Selected state: highlighted with project brand color border */
     .pkg-select-card.selected {
-        background: #eff6ff !important;
-        border: 2px solid #00137a !important;
-        box-shadow: 0 4px 14px rgba(0, 19, 122, 0.12) !important;
+        border: 2px solid #05B396 !important;
+        background: #f0fdfa !important; /* Subtle soft emerald tint */
+        box-shadow: 0 4px 14px rgba(5, 179, 150, 0.18) !important;
     }
 
-    .pkg-selected-indicator {
-        position: absolute;
-        top: -9px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #00137a;
-        color: #ffffff;
-        font-size: 0.65rem;
-        font-weight: 800;
-        padding: 2px 8px;
-        border-radius: 10px;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
+    .pkg-img-box {
+        width: 100%;
+        height: 155px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
     }
 
-    .pkg-card-title {
-        font-size: 0.78rem;
-        font-weight: 800;
-        color: #475569;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .pkg-img-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+        transition: transform 0.2s ease;
     }
 
-    .pkg-select-card.selected .pkg-card-title {
-        color: #00137a;
+    .pkg-select-card:hover .pkg-img-box img {
+        transform: scale(1.04);
     }
 
-    .pkg-card-price {
-        font-size: 1.2rem;
-        font-weight: 900;
-        color: #0f172a;
-        margin-bottom: 2px;
-    }
-
-    .pkg-card-old-price {
-        font-size: 0.72rem;
-        color: #94a3b8;
-        text-decoration: line-through;
-    }
-
-    .pkg-card-courses-tag {
-        font-size: 0.72rem;
-        color: #05B396;
+    .pkg-simple-title {
+        font-size: 0.92rem;
         font-weight: 700;
-        margin-top: 4px;
+        color: #1e293b;
+        text-align: center;
+        line-height: 1.3;
+        margin-top: 2px;
     }
 
-    /* Mobile Quick Selector Chips (hidden on desktop) */
-    .mobile-quick-selector {
-        display: none;
+    .pkg-select-card.selected .pkg-simple-title {
+        color: #05B396;
     }
 
-    /* Checkout 2-Card Layout (Matches user's uploaded screenshot) */
+    /* ============================================================== */
+    /* CHECKOUT 2-CARD GRID (Billing Details & Payment Method)        */
+    /* Border: Project color #05B396                                  */
+    /* ============================================================== */
     .checkout-layout-grid {
         display: grid;
         grid-template-columns: 1.35fr 1fr;
@@ -436,9 +345,9 @@
         box-sizing: border-box;
     }
 
-    .checkout-white-card {
+    .checkout-card-box {
         background: #ffffff;
-        border: 2px solid #3884ff; /* Light blue accent border from screenshot */
+        border: 2px solid #05B396; /* Project Brand Color */
         border-radius: 12px;
         padding: 30px 26px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
@@ -451,6 +360,10 @@
         color: #1e293b;
         margin: 0 0 1.5rem 0;
         letter-spacing: -0.2px;
+    }
+
+    .form-group-item {
+        margin-bottom: 1.35rem;
     }
 
     .form-field-label {
@@ -475,39 +388,15 @@
     }
 
     .form-input-field:focus {
-        border-color: #3884ff;
-        box-shadow: 0 0 0 3px rgba(56, 132, 255, 0.12);
+        border-color: #05B396;
+        box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.15);
     }
 
     .form-input-field::placeholder {
         color: #94a3b8;
     }
 
-    .referral-field-row {
-        display: flex;
-        gap: 8px;
-        align-items: stretch;
-    }
-
-    .btn-verify-code {
-        background: #00137a; /* Dark navy blue from screenshot */
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.92rem;
-        padding: 0.78rem 1.4rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: opacity 0.2s;
-        flex-shrink: 0;
-    }
-
-    .btn-verify-code:hover {
-        opacity: 0.92;
-    }
-
-    /* Password field with bordered square eye icon on the right (matches screenshot) */
+    /* Password field with bordered square eye icon on the right */
     .password-input-wrapper {
         position: relative;
         display: flex;
@@ -537,11 +426,11 @@
     }
 
     .eye-toggle-box:hover {
-        border-color: #3884ff;
-        color: #00137a;
+        border-color: #05B396;
+        color: #05B396;
     }
 
-    /* Payment Method Option Boxes (Matches screenshot) */
+    /* Payment Method Option Boxes */
     .payment-method-box {
         display: flex;
         align-items: center;
@@ -558,12 +447,12 @@
     }
 
     .payment-method-box.active {
-        border-color: #00137a;
-        background: #f8fafc;
+        border-color: #05B396;
+        background: #f0fdfa;
     }
 
     .payment-radio-input {
-        accent-color: #00137a;
+        accent-color: #05B396;
         width: 17px;
         height: 17px;
         cursor: pointer;
@@ -588,7 +477,7 @@
     }
 
     .terms-checkbox-input {
-        accent-color: #00137a;
+        accent-color: #05B396;
         width: 16px;
         height: 16px;
         border-radius: 4px;
@@ -602,25 +491,25 @@
     }
 
     .terms-link {
-        color: #5b5bd6; /* Purple-blue link color from screenshot */
+        color: #05B396; /* Project Brand Color */
         text-decoration: underline;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     /* Proceed to Payment Button */
     .btn-proceed-payment {
         width: 100%;
-        min-height: 48px;
+        min-height: 50px;
         padding: 0.85rem 1rem;
-        background: #00137a; /* Exact dark navy blue from screenshot */
+        background: #00137a; /* Dark navy blue from reference design */
         color: #ffffff;
         font-size: 1.05rem;
         font-weight: 700;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        transition: background 0.2s;
-        box-shadow: 0 4px 14px rgba(0, 19, 122, 0.2);
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 14px rgba(0, 19, 122, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -628,17 +517,18 @@
     }
 
     .btn-proceed-payment:hover {
-        background: #001066;
+        background: #000f60;
+        transform: translateY(-1px);
     }
 
     .security-info-box {
         margin-top: 1.25rem;
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
+        background: #f0fdfa;
+        border: 1px solid rgba(5, 179, 150, 0.35);
         border-radius: 8px;
         padding: 0.85rem 1rem;
         font-size: 0.8rem;
-        color: #1e40af;
+        color: #0f766e;
         line-height: 1.5;
     }
 
@@ -655,6 +545,7 @@
 
     /* ============================================================== */
     /* RESPONSIVE DESIGN: TABLETS & MOBILE PHONES                     */
+    /* Simple, clean, no clutter, smooth touch swipe                  */
     /* ============================================================== */
     @media (max-width: 900px) {
         .checkout-page-wrapper {
@@ -666,15 +557,14 @@
             gap: 20px !important;
         }
 
-        /* Packages: Smooth Horizontal Swipe on Tablets/Mobile */
+        /* Packages: Clean Horizontal Swipe on Mobile (simple, just images + titles) */
         .packages-horizontal-row {
             display: flex !important;
             overflow-x: auto !important;
             -webkit-overflow-scrolling: touch !important;
             scroll-snap-type: x mandatory !important;
-            gap: 10px !important;
+            gap: 12px !important;
             padding-bottom: 12px !important;
-            margin-bottom: 0.6rem !important;
             scrollbar-width: thin;
         }
 
@@ -683,53 +573,23 @@
         }
 
         .packages-horizontal-row::-webkit-scrollbar-thumb {
-            background: #93c5fd;
+            background: #99f6e4;
             border-radius: 10px;
         }
 
         .pkg-select-card {
-            flex: 0 0 142px !important;
-            min-width: 142px !important;
-            scroll-snap-align: center !important;
-            box-sizing: border-box !important;
+            flex: 0 0 135px !important;
+            min-width: 135px !important;
+            scroll-snap-align: start !important;
+            padding: 10px 8px 12px !important;
         }
 
-        .mobile-swipe-hint {
-            display: inline-block !important;
+        .pkg-img-box {
+            height: 125px !important;
         }
 
-        /* Mobile quick chip row */
-        .mobile-quick-selector {
-            display: flex !important;
-            overflow-x: auto !important;
-            gap: 6px !important;
-            padding-bottom: 6px !important;
-            margin-top: 4px !important;
-            scrollbar-width: none;
-        }
-
-        .mobile-quick-selector::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mobile-pkg-chip {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 5px 10px;
-            border-radius: 16px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .mobile-pkg-chip.active {
-            background: #00137a;
-            color: #ffffff;
-            border-color: #00137a;
+        .pkg-simple-title {
+            font-size: 0.84rem !important;
         }
     }
 
@@ -738,7 +598,18 @@
             padding: 1rem 0.65rem 3.5rem !important;
         }
 
-        .checkout-white-card {
+        .packages-section-container {
+            padding: 16px 14px 18px !important;
+            border-radius: 10px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .packages-header-title {
+            font-size: 1.15rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .checkout-card-box {
             padding: 22px 16px !important;
             border-radius: 10px !important;
         }
@@ -750,7 +621,6 @@
 
         /* Prevent iOS Safari from auto-zooming by forcing 16px minimum font size */
         .form-input-field,
-        #referralCodeInput,
         #createPasswordInput {
             font-size: 16px !important;
             padding: 0.72rem 0.85rem !important;
@@ -760,20 +630,13 @@
             padding-right: 44px !important;
         }
 
-        .btn-verify-code {
-            padding: 0.72rem 1.05rem !important;
-            font-size: 0.86rem !important;
-        }
-
         .pkg-select-card {
-            flex: 0 0 136px !important;
-            min-width: 136px !important;
-            padding: 12px 8px !important;
+            flex: 0 0 128px !important;
+            min-width: 128px !important;
         }
 
-        .top-active-badge {
-            font-size: 0.72rem !important;
-            padding: 4px 10px !important;
+        .pkg-img-box {
+            height: 115px !important;
         }
 
         .btn-proceed-payment {
@@ -783,12 +646,7 @@
     }
 
     @media (max-width: 380px) {
-        .btn-verify-code {
-            padding: 0.72rem 0.85rem !important;
-            font-size: 0.82rem !important;
-        }
-
-        .checkout-white-card {
+        .checkout-card-box {
             padding: 18px 12px !important;
         }
     }
@@ -798,11 +656,11 @@
 @push('scripts')
 <script>
     const allPackagesData = {
-        'basic': { id: 'basic', name: 'Basic Package', price: 599, oldPrice: 1199 },
-        'growth': { id: 'growth', name: 'Growth Package', price: 1199, oldPrice: 2499 },
-        'advance': { id: 'advance', name: 'Advance Package', price: 2499, oldPrice: 4999 },
-        'premium': { id: 'premium', name: 'Premium Package', price: 4999, oldPrice: 9999 },
-        'infinity': { id: 'infinity', name: 'Infinity Package', price: 7999, oldPrice: 15999 }
+        'basic': { id: 'basic', name: 'Basic Package', price: 599 },
+        'growth': { id: 'growth', name: 'Growth Package', price: 1199 },
+        'advance': { id: 'advance', name: 'Advance Package', price: 2499 },
+        'premium': { id: 'premium', name: 'Premium Package', price: 4999 },
+        'infinity': { id: 'infinity', name: 'Infinity Package', price: 7999 }
     };
 
     function selectPackage(pkgId) {
@@ -813,40 +671,22 @@
         // 1. Update hidden form input
         document.getElementById('hiddenPackageInput').value = pkgId;
 
-        // 2. Update badge & button price text
-        const topBadge = document.getElementById('topActiveBadge');
-        if (topBadge) {
-            topBadge.innerText = 'Selected: ' + p.name + ' (₹' + p.price.toLocaleString() + ')';
-        }
-
+        // 2. Update button price text
         const btnPrice = document.getElementById('btnPriceDisplay');
         if (btnPrice) {
             btnPrice.innerText = '₹' + p.price.toLocaleString();
         }
 
-        // 3. Highlight selected card & unhighlight others (All 5 remain visible side-by-side)
+        // 3. Highlight selected card & unhighlight others
         Object.keys(allPackagesData).forEach(key => {
             const card = document.getElementById('pkgCard_' + key);
-            const chip = document.getElementById('mobileChip_' + key);
-            
             if (card) {
-                const indicator = card.querySelector('.pkg-selected-indicator');
                 if (key === pkgId) {
                     card.classList.add('selected');
-                    if (indicator) indicator.style.display = 'inline-block';
-                    // Auto-scroll card into view smoothly on mobile if out of viewport
+                    // Smoothly scroll card into view on mobile
                     card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     card.classList.remove('selected');
-                    if (indicator) indicator.style.display = 'none';
-                }
-            }
-
-            if (chip) {
-                if (key === pkgId) {
-                    chip.classList.add('active');
-                } else {
-                    chip.classList.remove('active');
                 }
             }
         });
@@ -879,36 +719,11 @@
         }
     }
 
-    async function verifyReferralCode() {
-        const refInput = document.getElementById('referralCodeInput');
-        const feedback = document.getElementById('referralStatusFeedback');
-        const code = (refInput ? refInput.value : '').trim();
-
-        feedback.innerHTML = '<span style="color:#64748b;">⏳ Verifying referral code...</span>';
-
-        try {
-            const res = await fetch('/verify-referral/' + encodeURIComponent(code || 'SKL-ADMIN'));
-            const data = await res.json();
-            if (data.valid) {
-                feedback.innerHTML = `<span style="color:#10b981;">✓ Verified Sponsor: <strong>${data.sponsor_name} (${data.sponsor_id})</strong></span>`;
-            } else {
-                feedback.innerHTML = `<span style="color:#ef4444;">❌ ${data.message || 'Invalid Referral Code'}. Defaulted to SKL-ADMIN.</span>`;
-            }
-        } catch (e) {
-            feedback.innerHTML = `<span style="color:#10b981;">✓ Verified Sponsor: <strong>SkillLearner Official (SKL-ADMIN)</strong></span>`;
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const pkgParam = urlParams.get('package');
         if (pkgParam && allPackagesData[pkgParam.toLowerCase()]) {
             selectPackage(pkgParam.toLowerCase());
-        }
-
-        const refParam = urlParams.get('ref');
-        if (refParam) {
-            verifyReferralCode();
         }
     });
 </script>

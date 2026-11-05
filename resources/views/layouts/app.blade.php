@@ -165,34 +165,6 @@
             transform: scale(1.06);
         }
 
-        .notification-bell-btn {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: #475569;
-            padding: 4px;
-            transition: color 0.2s;
-            flex-shrink: 0;
-        }
-
-        .notification-bell-btn:hover {
-            color: #05B396;
-        }
-
-        .bell-count-badge {
-            background: #05B396;
-            color: #ffffff;
-            font-size: 0.72rem;
-            font-weight: 800;
-            padding: 2px 7px;
-            border-radius: 12px;
-            margin-left: 2px;
-            line-height: 1.2;
-        }
-
         /* User Profile Pill Button */
         .user-menu-wrapper {
             position: relative;
@@ -606,7 +578,6 @@
                 gap: 1.25rem !important;
             }
             /* Elements hidden on mobile view per user request */
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
@@ -634,7 +605,6 @@
             .nav-right-actions { gap: 0.4rem !important; flex-shrink: 0; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .mobile-portal-nav { display: none !important; }
             .profile-svg-btn { width: 32px; height: 32px; }
@@ -647,7 +617,6 @@
             header.nav { padding: 0.45rem 0.5rem !important; }
             .brand-logo-img { max-width: 105px; }
             .nav-right-actions { gap: 0.25rem !important; }
-            .notification-bell-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
             .mobile-portal-nav { display: none !important; }
             .mobile-toggle { width: 32px; height: 32px; padding: 4px; }
@@ -877,21 +846,12 @@
             <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="{{ request()->is('job*') ? 'active' : '' }}">Job</a>
         </nav>
 
-        <!-- Right Side: SL badge, Notification Bell with 4830, User Pill -->
+        <!-- Right Side: SL badge, User Pill -->
         <div class="nav-right-actions">
             @if (session()->has('user'))
                 <!-- SkillLearner Monogram Verified Badge -->
                 <div class="sl-circle-badge" title="SkillLearner Verified Member">
                     <span style="font-weight: 900; font-size: 0.82rem; color: #05B396; letter-spacing: -0.5px;">SL</span>
-                </div>
-
-                <!-- Notification Bell with Emerald Badge 4830 -->
-                <div class="notification-bell-btn" title="4,830 New Notifications" onclick="alert('You have 4,830 unread student notifications & community updates.')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                    </svg>
-                    <span class="bell-count-badge">4830</span>
                 </div>
 
                 <!-- User Profile Pill Button with Dropdown -->
@@ -1068,7 +1028,7 @@
         @else
             <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9;">
                 <button type="button" onclick="window.closeLeftDrawer(); window.openRightDrawer();" class="btn btn-secondary" style="width: 100%; font-weight: 700; color: #05B396; border-color: #05B396;">
-                    <span>Open Student Portal &rarr;</span>
+                    <span>Open Account &rarr;</span>
                 </button>
             </div>
         @endif
@@ -1076,12 +1036,8 @@
 
     <!-- Right Slide-In Drawer: Student Portal / Account -->
     <div class="mobile-drawer mobile-drawer-right" id="mobileDrawer">
-        <!-- Drawer Header with Title & Close Button -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
-            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; display: flex; align-items: center; gap: 6px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#05B396" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <span>Student Portal</span>
-            </div>
+        <!-- Drawer Header with Close Button -->
+        <div style="display: flex; justify-content: flex-end; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <button type="button" id="mobileCloseBtn" onclick="window.closeRightDrawer()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
 
@@ -1104,7 +1060,7 @@
                             @elseif ($drawerIsAdmin)
                                 <span style="background: #0284c7; color: #fff; font-size: 0.6rem; font-weight: 800; padding: 1px 6px; border-radius: 8px;">ADMIN</span>
                             @else
-                                <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.62rem; font-weight: 800; padding: 1px 6px; border-radius: 8px;">STUDENT</span>
+                                <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.62rem; font-weight: 800; padding: 1px 6px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> USER</span>
                             @endif
                         </div>
                     </div>
@@ -1172,11 +1128,6 @@
                         @endif
                     </div>
                 @endif
-
-                <!-- Section Title: Student Portal Tabs -->
-                <div style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
-                    STUDENT PORTAL
-                </div>
 
                 <div style="display: flex; flex-direction: column; gap: 2px;">
                     <!-- 1. My Course -->
