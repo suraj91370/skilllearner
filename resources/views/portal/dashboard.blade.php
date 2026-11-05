@@ -107,7 +107,7 @@
                     </div>
                     <div class="revenue-label">Today's Revenue</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
 
                 <!-- Card 2: 7 Days Revenue (Orange) -->
@@ -124,7 +124,7 @@
                     </div>
                     <div class="revenue-label">7 Days Revenue</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
 
                 <!-- Card 3: 30 Days Revenue (Red) -->
@@ -140,7 +140,7 @@
                     </div>
                     <div class="revenue-label">30 Days Revenue</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
 
                 <!-- Card 4: All Time Revenue (Purple) -->
@@ -159,7 +159,7 @@
                     </div>
                     <div class="revenue-label">All Time Revenue</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
 
                 <!-- Card 5: All Time Passive (Magenta/Pink - User Requested Passive Income) -->
@@ -175,7 +175,7 @@
                     </div>
                     <div class="revenue-label">All Time Passive</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
 
                 <!-- Card 6: Industry Revenue (Project Emerald Teal #05B396) -->
@@ -191,7 +191,7 @@
                     </div>
                     <div class="revenue-label">Industry Revenue</div>
                     <div class="revenue-divider"></div>
-                    <a href="#commissionSection" class="revenue-detail-link" onclick="document.getElementById('commissionSection')?.scrollIntoView({behavior: 'smooth'}); return false;">Click Here to View Details</a>
+                    <a href="{{ url('/leaderboard') }}" class="revenue-detail-link">Click Here to View Details</a>
                 </div>
             </div>
 
@@ -303,80 +303,16 @@
                 </div>
             </div>
 
-            <!-- Personal Referral Link -->
-            <div class="portal-box-card" style="border: 1.5px solid #a7f3d0; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap; gap: 8px;">
-                    <h4 style="font-size: 1.15rem; font-weight: 800; color: #064e3b; margin: 0;">🌟 Your Common All-Packages Referral Link</h4>
-                    <a href="{{ url('/affiliate-link') }}" style="font-size: 0.82rem; font-weight: 700; color: #05B396; text-decoration: underline;">
-                        Need individual package links? Click here ➔
-                    </a>
+            <!-- Simple Referral Link (Simplified without Clutter) -->
+            <div class="portal-box-card" style="padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; border-radius: 14px;">
+                <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+                    Referral Link
                 </div>
-                <p style="color: #475569; font-size: 0.88rem; margin-bottom: 1rem;">
-                    Jab aap ye Common Link share karenge, to buyer ke samne <strong>sabhi 5 packages</strong> khulenge aur wo koi bhi package purchase kar sakta hai.
-                </p>
-                <div class="referral-box-row">
-                    <input type="text" id="portalAffiliateLink" style="flex: 1; padding: 0.75rem 1rem; border: 1.5px solid #a7f3d0; border-radius: 8px; font-size: 0.92rem; background: #ffffff; color: #065f46; font-weight: 700;" value="{{ url('/plans') }}?ref={{ session('user.affiliate_id', 'SL-8821') }}" readonly>
-                    <button type="button" onclick="copyPortalLink()" class="btn btn-primary" style="background: #05B396; color: #fff; padding: 0.75rem 1.4rem; font-weight: 700; border-radius: 8px; white-space: nowrap;">Copy Common Link</button>
-                    <a href="{{ url('/affiliate-link') }}" class="btn" style="background: #ffffff; border: 1.5px solid #a7f3d0; color: #047857; font-size: 0.86rem; font-weight: 700; padding: 0.75rem 1.1rem; border-radius: 8px; text-decoration: none; white-space: nowrap;">
-                        🎯 All 5 Package Links ➔
-                    </a>
-                </div>
-            </div>
-
-            <!-- Commission Table -->
-            <div class="portal-box-card" id="commissionSection">
-                <h4 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 1.2rem;">👥 Real-Time Commission Log</h4>
-                <div class="table-responsive-wrapper">
-                    <table style="border-collapse: collapse; font-size: 0.92rem; text-align: left; width: 100%;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid #e2e8f0; color: #64748b;">
-                                <th style="padding: 10px;">Enrolled Student</th>
-                                <th style="padding: 10px;">Package</th>
-                                <th style="padding: 10px;">Your Profit</th>
-                                <th style="padding: 10px;">Type</th>
-                                <th style="padding: 10px;">Time</th>
-                                <th style="padding: 10px;">Payment Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($commissions as $comm)
-                                @php
-                                    $isPassive = str_contains(strtolower($comm['type'] ?? ''), 'passive');
-                                    $isPending = str_contains(strtolower($comm['status'] ?? ''), 'pending');
-                                @endphp
-                                <tr style="border-bottom: 1px solid #f1f5f9; color: #1e293b;">
-                                    <td style="padding: 12px 10px;"><strong>{{ $comm['name'] }}</strong></td>
-                                    <td style="padding: 12px 10px;">{{ $comm['package'] }}</td>
-                                    <td style="padding: 12px 10px; font-weight: 700; color: {{ $isPending ? '#d97706' : ($isPassive ? '#7c3aed' : '#10b981') }};">
-                                        {{ $isPending ? '₹' . number_format($comm['amount']) . ' (Pending)' : '+₹' . number_format($comm['amount']) }}
-                                    </td>
-                                    <td style="padding: 12px 10px;">
-                                        <span style="background: {{ $isPassive ? '#ede9fe' : '#ccfbf1' }}; color: {{ $isPassive ? '#6d28d9' : '#048873' }}; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">
-                                            {{ $isPassive ? 'Team Referral' : 'Direct Referral' }}
-                                        </span>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b; font-size: 0.82rem;">{{ $comm['time'] }}</td>
-                                    <td style="padding: 12px 10px;">
-                                        @if($isPending)
-                                            <span style="background: #fef3c7; color: #b45309; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; border: 1px solid #fde68a;">
-                                                ⏳ Pending (Verifying Payment)
-                                            </span>
-                                        @else
-                                            <span style="background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; border: 1px solid #bbf7d0;">
-                                                ● Credited (In Wallet)
-                                            </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" style="text-align: center; padding: 2rem 1rem; color: #94a3b8;">
-                                        No commissions recorded yet. Share your referral link to start earning!
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <input type="text" id="portalAffiliateLink" value="{{ url('/plans') }}?ref={{ session('user.affiliate_id', 'SL-8821') }}" readonly style="flex: 1; background: #eef2f6; border: 1.5px solid transparent; border-radius: 12px; padding: 0.85rem 1.15rem; font-size: 0.92rem; font-weight: 600; color: #334155; box-sizing: border-box; outline: none;">
+                    <button type="button" onclick="copyPortalLink(this)" style="background: #181832; color: #ffffff; font-size: 0.88rem; font-weight: 700; padding: 0.8rem 1.8rem; border-radius: 24px; border: none; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;">
+                        Copy
+                    </button>
                 </div>
             </div>
         </main>
@@ -387,12 +323,22 @@
 
 @push('scripts')
 <script>
-    function copyPortalLink() {
+    function copyPortalLink(btn) {
         const input = document.getElementById('portalAffiliateLink');
         if (input) {
             input.select();
             navigator.clipboard.writeText(input.value).then(() => {
-                alert('✅ Referral Link Copied to Clipboard!\n' + input.value);
+                if (btn) {
+                    const originalText = btn.innerText;
+                    btn.innerText = 'Copied!';
+                    btn.style.background = '#05B396';
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.style.background = '#181832';
+                    }, 2000);
+                } else {
+                    alert('✅ Referral Link Copied!\n' + input.value);
+                }
             });
         }
     }

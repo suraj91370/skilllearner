@@ -11,18 +11,26 @@ class LeaderboardController extends Controller
     {
         PortalDataService::ensureUserSession();
 
-        $topEarners = [
-            ['rank' => 1, 'name' => 'Rahul Sharma', 'package' => 'Infinity Package', 'earnings' => 482500, 'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80', 'state' => 'Delhi'],
-            ['rank' => 2, 'name' => 'Pooja Agarwal', 'package' => 'Growth Package', 'earnings' => 345000, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80', 'state' => 'Mumbai'],
-            ['rank' => 3, 'name' => 'Aditya Malhotra', 'package' => 'Infinity Package', 'earnings' => 289400, 'avatar' => 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80', 'state' => 'Chandigarh'],
-            ['rank' => 4, 'name' => 'Simran Kaur', 'package' => 'Advance Package', 'earnings' => 194200, 'avatar' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&auto=format&fit=crop&q=80', 'state' => 'Punjab'],
-            ['rank' => 5, 'name' => 'Kunal Joshi', 'package' => 'Advance Package', 'earnings' => 165000, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80', 'state' => 'Jaipur'],
-            ['rank' => 6, 'name' => 'Vansh Tandon (You)', 'package' => 'Advance Package', 'earnings' => 48600, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80', 'state' => 'Uttar Pradesh', 'is_current_user' => true],
-            ['rank' => 7, 'name' => 'Ankit Rawat', 'package' => 'Basic Package', 'earnings' => 41200, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80', 'state' => 'Dehradun'],
+        $weeklyLeaderboard = [
+            ['rank' => 1, 'name' => 'Shivani', 'earnings' => 22400, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 2, 'name' => 'Akanksha', 'earnings' => 12340, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 3, 'name' => 'Neha', 'earnings' => 6700, 'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 4, 'name' => 'VISHU (Blaze Leader)', 'earnings' => 5680, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 5, 'name' => 'Prince', 'earnings' => 3920, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
+        ];
+
+        $monthlyLeaderboard = [
+            ['rank' => 1, 'name' => 'Shivani', 'earnings' => 47766, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 2, 'name' => 'Akanksha', 'earnings' => 37333, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 3, 'name' => 'Neha', 'earnings' => 20246, 'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 4, 'name' => 'Prince', 'earnings' => 14667, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
+            ['rank' => 5, 'name' => 'Neha', 'earnings' => 12030, 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80'],
         ];
 
         return view('portal.leaderboard', [
-            'topEarners' => $topEarners,
+            'weeklyLeaderboard' => $weeklyLeaderboard,
+            'monthlyLeaderboard' => $monthlyLeaderboard,
+            'topEarners' => $weeklyLeaderboard,
             'active' => 'leaderboard',
         ]);
     }

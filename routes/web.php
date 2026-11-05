@@ -625,6 +625,7 @@ Route::get('/simulate-sale', [DashboardController::class, 'simulateSale'])->name
 Route::get('/profile', [ProfileController::class, 'index'])->name('portal.profile');
 Route::get('/social-community', [SocialCommunityController::class, 'index'])->name('portal.community');
 Route::get('/kyc', [KycController::class, 'index'])->name('portal.kyc');
+Route::post('/kyc', [KycController::class, 'update'])->name('portal.kyc.update');
 Route::get('/affiliate-link', [AffiliateLinkController::class, 'index'])->name('portal.affiliate-link');
 Route::get('/token-purchases', [TokenPurchaseController::class, 'index'])->name('portal.tokens');
 Route::get('/affiliate-training', [AffiliateTrainingController::class, 'index'])->name('portal.training');

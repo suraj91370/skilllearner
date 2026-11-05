@@ -1304,6 +1304,288 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* ==========================================================
+       MODERN PODIUM LEADERBOARD STYLES (MATCHES REFERENCE IMAGE)
+       ========================================================== */
+    .leaderboard-dual-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.25rem;
+    }
+
+    .leaderboard-podium-card {
+        background: linear-gradient(165deg, #00137a 0%, #01215b 45%, #024b42 100%);
+        border: 1.5px solid rgba(5, 179, 150, 0.45);
+        border-radius: 20px;
+        padding: 1.8rem 1.4rem 1.4rem;
+        box-shadow: 0 12px 36px rgba(0, 19, 122, 0.22), 0 4px 20px rgba(5, 179, 150, 0.15);
+        position: relative;
+        overflow: hidden;
+        color: #ffffff;
+    }
+
+    .leaderboard-podium-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #38bdf8 0%, #f59e0b 50%, #05B396 100%);
+    }
+
+    .leaderboard-podium-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #ffffff;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 0 0 1.8rem;
+    }
+
+    .podium-stage-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 14px;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .podium-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .podium-col.rank-1st {
+        transform: translateY(-16px);
+        z-index: 3;
+    }
+
+    .podium-col.rank-2nd,
+    .podium-col.rank-3rd {
+        z-index: 2;
+    }
+
+    .crown-wrapper {
+        margin-bottom: -6px;
+        display: flex;
+        justify-content: center;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+    }
+
+    .podium-avatar-wrap {
+        position: relative;
+        display: inline-flex;
+        border-radius: 50%;
+        margin-bottom: 12px;
+    }
+
+    .podium-avatar-img {
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .rank-1st .podium-avatar-img {
+        width: 82px;
+        height: 82px;
+        border: 3.5px solid #f59e0b;
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.55);
+    }
+
+    .rank-2nd .podium-avatar-img {
+        width: 68px;
+        height: 68px;
+        border: 3px solid #38bdf8;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
+    }
+
+    .rank-3rd .podium-avatar-img {
+        width: 68px;
+        height: 68px;
+        border: 3px solid #c084fc;
+        box-shadow: 0 0 15px rgba(192, 132, 252, 0.45);
+    }
+
+    .podium-rank-pill {
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #ffffff;
+        white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .rank-1st .podium-rank-pill {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    }
+
+    .rank-2nd .podium-rank-pill {
+        background: #0284c7;
+    }
+
+    .rank-3rd .podium-rank-pill {
+        background: #9333ea;
+    }
+
+    .podium-name-pill {
+        background: #ffffff;
+        color: #0f172a;
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        white-space: nowrap;
+        max-width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+    }
+
+    .podium-amount {
+        font-weight: 900;
+        margin-top: 5px;
+        letter-spacing: -0.2px;
+    }
+
+    .rank-1st .podium-amount {
+        color: #f97316;
+        font-size: 1.15rem;
+    }
+
+    .rank-2nd .podium-amount {
+        color: #38bdf8;
+        font-size: 1rem;
+    }
+
+    .rank-3rd .podium-amount {
+        color: #c084fc;
+        font-size: 1rem;
+    }
+
+    /* Rows List for Rank 4, 5, etc. */
+    .podium-rows-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .podium-row-card {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 16px;
+        padding: 0.7rem 1.1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .podium-row-card:hover {
+        background: rgba(255, 255, 255, 0.13);
+        border-color: #05B396;
+        transform: translateX(3px);
+    }
+
+    .podium-row-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .podium-row-rank-num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .podium-row-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        flex-shrink: 0;
+    }
+
+    .podium-row-name {
+        font-size: 0.94rem;
+        font-weight: 700;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .podium-row-amount {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #05B396;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+
+    @media (max-width: 900px) {
+        .leaderboard-dual-grid {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .leaderboard-podium-card {
+            padding: 1.5rem 0.9rem 1.1rem;
+        }
+
+        .podium-stage-wrap {
+            gap: 6px;
+        }
+
+        .rank-1st .podium-avatar-img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .rank-2nd .podium-avatar-img,
+        .rank-3rd .podium-avatar-img {
+            width: 58px;
+            height: 58px;
+        }
+
+        .podium-name-pill {
+            padding: 3px 10px;
+            font-size: 0.78rem;
+            max-width: 85px;
+        }
+
+        .podium-amount {
+            font-size: 0.92rem !important;
+        }
+    }
 </style>
     <script id="browser-logger-active">
 (function() {
@@ -2196,144 +2478,262 @@
 
         <!-- Right Content Area -->
         <main class="portal-content-area">
-            <div class="portal-box-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <div>
-                        <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800;">🏆 National Affiliate Leaderboard</h3>
-                        <p style="color: #64748b; font-size: 0.92rem;">Real-time all-India student affiliate rankings updated automatically every 6 hours.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 style="font-size: 1.85rem; font-weight: 800; color: #0f172a; margin: 0 0 0.35rem;">Leaderboard</h2>
+                    <p style="color: #64748b; font-size: 0.92rem; margin: 0;">Top performing affiliate creators ranked by verified earnings.</p>
+                </div>
+                <a href="/team-leaderboard" class="btn" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(5, 179, 150, 0.12); border: 1.5px solid #05B396; color: #05B396; font-weight: 700; padding: 0.6rem 1.2rem; border-radius: 10px; text-decoration: none; font-size: 0.88rem; transition: all 0.2s;" onmouseover="this.style.background='#05B396'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(5, 179, 150, 0.12)'; this.style.color='#05B396';">
+                    <span>👥</span>
+                    <span>View Team Leaderboard ➔</span>
+                </a>
+            </div>
+
+            <!-- Dual Leaderboard Grid (7 Days & 30 Days Matching Screenshot) -->
+            <div class="leaderboard-dual-grid">
+
+                <!-- 1. 7 DAYS LEADERBOARD -->
+                <div class="leaderboard-podium-card">
+                    <h3 class="leaderboard-podium-title">7 DAYS LEADERBOARD</h3>
+
+                    <!-- Top 3 Podium (2nd, 1st, 3rd) -->
+                    <div class="podium-stage-wrap">
+                        <!-- 2nd Place -->
+                        <div class="podium-col rank-2nd">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-silver" viewBox="0 0 54 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="silverGrad7" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#e2e8f0"/>
+                                            <stop offset="50%" stop-color="#cbd5e1"/>
+                                            <stop offset="100%" stop-color="#94a3b8"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M5 34 L12 12 L22 23 L27 6 L32 23 L42 12 L49 34 Z" fill="url(#silverGrad7)"/>
+                                    <rect x="3" y="33" width="48" height="6" rx="3" fill="url(#silverGrad7)"/>
+                                    <circle cx="27" cy="6" r="3" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="12" cy="12" r="2.5" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="42" cy="12" r="2.5" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="17" cy="36" r="1.8" fill="#0284c7"/>
+                                    <circle cx="27" cy="36" r="2" fill="#0284c7"/>
+                                    <circle cx="37" cy="36" r="1.8" fill="#0284c7"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80" alt="Akanksha" class="podium-avatar-img">
+                                <span class="podium-rank-pill">2nd</span>
+                            </div>
+                            <span class="podium-name-pill" title="Akanksha">Akanksha</span>
+                            <div class="podium-amount">₹12340</div>
+                        </div>
+
+                        <!-- 1st Place (Center - Elevated Champion) -->
+                        <div class="podium-col rank-1st">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-gold" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="goldGrad7" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#ffe259"/>
+                                            <stop offset="50%" stop-color="#ffa751"/>
+                                            <stop offset="100%" stop-color="#d47a16"/>
+                                        </linearGradient>
+                                        <filter id="crownGlow7" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ffa751" flood-opacity="0.5"/>
+                                        </filter>
+                                    </defs>
+                                    <path d="M6 38 L14 14 L26 26 L32 6 L38 26 L50 14 L58 38 Z" fill="url(#goldGrad7)" filter="url(#crownGlow7)"/>
+                                    <rect x="4" y="37" width="56" height="7" rx="3.5" fill="url(#goldGrad7)"/>
+                                    <circle cx="32" cy="6" r="3.5" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="14" cy="14" r="3" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="50" cy="14" r="3" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="20" cy="40.5" r="2" fill="#ef4444"/>
+                                    <circle cx="32" cy="40.5" r="2.5" fill="#3b82f6"/>
+                                    <circle cx="44" cy="40.5" r="2" fill="#ef4444"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80" alt="Shivani" class="podium-avatar-img">
+                                <span class="podium-rank-pill">1st</span>
+                            </div>
+                            <span class="podium-name-pill" title="Shivani">Shivani</span>
+                            <div class="podium-amount">₹22400</div>
+                        </div>
+
+                        <!-- 3rd Place -->
+                        <div class="podium-col rank-3rd">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-bronze" viewBox="0 0 54 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="bronzeGrad7" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#f5d0fe"/>
+                                            <stop offset="50%" stop-color="#d8b4fe"/>
+                                            <stop offset="100%" stop-color="#c084fc"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M5 34 L12 12 L22 23 L27 6 L32 23 L42 12 L49 34 Z" fill="url(#bronzeGrad7)"/>
+                                    <rect x="3" y="33" width="48" height="6" rx="3" fill="url(#bronzeGrad7)"/>
+                                    <circle cx="27" cy="6" r="3" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="12" cy="12" r="2.5" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="42" cy="12" r="2.5" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="17" cy="36" r="1.8" fill="#9333ea"/>
+                                    <circle cx="27" cy="36" r="2" fill="#9333ea"/>
+                                    <circle cx="37" cy="36" r="1.8" fill="#9333ea"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80" alt="Neha" class="podium-avatar-img">
+                                <span class="podium-rank-pill">3rd</span>
+                            </div>
+                            <span class="podium-name-pill" title="Neha">Neha</span>
+                            <div class="podium-amount">₹6700</div>
+                        </div>
                     </div>
-                    <a href="/team-leaderboard" class="btn btn-secondary" style="border: 1px solid #a7f3d0; color: #05B396; font-weight: 700;">
-                        View Team Rankings ➔
-                    </a>
+
+                    <!-- Rank Rows (4, 5, etc.) -->
+                    <div class="podium-rows-list">
+                        <!-- Rank 4 -->
+                        <div class="podium-row-card">
+                            <div class="podium-row-left">
+                                <span class="podium-row-rank-num">4</span>
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="VISHU" class="podium-row-avatar">
+                                <span class="podium-row-name">VISHU (Blaze Leader)</span>
+                            </div>
+                            <div class="podium-row-amount">₹ 5680</div>
+                        </div>
+
+                        <!-- Rank 5 -->
+                        <div class="podium-row-card">
+                            <div class="podium-row-left">
+                                <span class="podium-row-rank-num">5</span>
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Prince" class="podium-row-avatar">
+                                <span class="podium-row-name">Prince</span>
+                            </div>
+                            <div class="podium-row-amount">₹ 3920</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="table-responsive-wrapper">
-                    <table style="border-collapse: collapse; font-size: 0.92rem; text-align: left; width: 100%;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid #e2e8f0; color: #64748b;">
-                                <th style="padding: 10px;">Rank</th>
-                                <th style="padding: 10px;">Affiliate Creator</th>
-                                <th style="padding: 10px;">Active Tier</th>
-                                <th style="padding: 10px;">State</th>
-                                <th style="padding: 10px; text-align: right;">Total Verified Commissions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;">🥇 #1</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Rahul Sharma" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Rahul Sharma</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Infinity Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Delhi</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹482,500
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;">🥈 #2</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Pooja Agarwal" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Pooja Agarwal</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Growth Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Mumbai</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹345,000
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="background: #ffedd5; color: #c2410c; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;">🥉 #3</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Aditya Malhotra" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Aditya Malhotra</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Infinity Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Chandigarh</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹289,400
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="color: #64748b; font-weight: 700; padding-left: 6px;">#4</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Simran Kaur" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Simran Kaur</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Advance Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Punjab</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹194,200
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="color: #64748b; font-weight: 700; padding-left: 6px;">#5</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Kunal Joshi" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Kunal Joshi</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Advance Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Jaipur</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹165,000
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; background: #f0fdfa; font-weight: 700;">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="color: #64748b; font-weight: 700; padding-left: 6px;">#6</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Vansh Tandon (You)" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Vansh Tandon (You)</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Advance Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Uttar Pradesh</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹48,600
-                                    </td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; ">
-                                    <td style="padding: 12px 10px;">
-                                                                                    <span style="color: #64748b; font-weight: 700; padding-left: 6px;">#7</span>
-                                                                            </td>
-                                    <td style="padding: 12px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&amp;auto=format&amp;fit=crop&amp;q=80" alt="Ankit Rawat" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <strong style="color: #0f172a;">Ankit Rawat</strong>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Basic Package</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">Dehradun</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹41,200
-                                    </td>
-                                </tr>
-                                                    </tbody>
-                    </table>
+                <!-- 2. 30 DAYS LEADERBOARD -->
+                <div class="leaderboard-podium-card">
+                    <h3 class="leaderboard-podium-title">30 DAYS LEADERBOARD</h3>
+
+                    <!-- Top 3 Podium (2nd, 1st, 3rd) -->
+                    <div class="podium-stage-wrap">
+                        <!-- 2nd Place -->
+                        <div class="podium-col rank-2nd">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-silver" viewBox="0 0 54 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="silverGrad30" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#e2e8f0"/>
+                                            <stop offset="50%" stop-color="#cbd5e1"/>
+                                            <stop offset="100%" stop-color="#94a3b8"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M5 34 L12 12 L22 23 L27 6 L32 23 L42 12 L49 34 Z" fill="url(#silverGrad30)"/>
+                                    <rect x="3" y="33" width="48" height="6" rx="3" fill="url(#silverGrad30)"/>
+                                    <circle cx="27" cy="6" r="3" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="12" cy="12" r="2.5" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="42" cy="12" r="2.5" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                                    <circle cx="17" cy="36" r="1.8" fill="#0284c7"/>
+                                    <circle cx="27" cy="36" r="2" fill="#0284c7"/>
+                                    <circle cx="37" cy="36" r="1.8" fill="#0284c7"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80" alt="Akanksha" class="podium-avatar-img">
+                                <span class="podium-rank-pill">2nd</span>
+                            </div>
+                            <span class="podium-name-pill" title="Akanksha">Akanksha</span>
+                            <div class="podium-amount">₹37333</div>
+                        </div>
+
+                        <!-- 1st Place (Center - Elevated Champion) -->
+                        <div class="podium-col rank-1st">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-gold" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="goldGrad30" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#ffe259"/>
+                                            <stop offset="50%" stop-color="#ffa751"/>
+                                            <stop offset="100%" stop-color="#d47a16"/>
+                                        </linearGradient>
+                                        <filter id="crownGlow30" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ffa751" flood-opacity="0.5"/>
+                                        </filter>
+                                    </defs>
+                                    <path d="M6 38 L14 14 L26 26 L32 6 L38 26 L50 14 L58 38 Z" fill="url(#goldGrad30)" filter="url(#crownGlow30)"/>
+                                    <rect x="4" y="37" width="56" height="7" rx="3.5" fill="url(#goldGrad30)"/>
+                                    <circle cx="32" cy="6" r="3.5" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="14" cy="14" r="3" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="50" cy="14" r="3" fill="#ffffff" stroke="#eab308" stroke-width="1"/>
+                                    <circle cx="20" cy="40.5" r="2" fill="#ef4444"/>
+                                    <circle cx="32" cy="40.5" r="2.5" fill="#3b82f6"/>
+                                    <circle cx="44" cy="40.5" r="2" fill="#ef4444"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80" alt="Shivani" class="podium-avatar-img">
+                                <span class="podium-rank-pill">1st</span>
+                            </div>
+                            <span class="podium-name-pill" title="Shivani">Shivani</span>
+                            <div class="podium-amount">₹47766</div>
+                        </div>
+
+                        <!-- 3rd Place -->
+                        <div class="podium-col rank-3rd">
+                            <div class="crown-wrapper">
+                                <svg class="crown-icon crown-bronze" viewBox="0 0 54 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="bronzeGrad30" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#f5d0fe"/>
+                                            <stop offset="50%" stop-color="#d8b4fe"/>
+                                            <stop offset="100%" stop-color="#c084fc"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M5 34 L12 12 L22 23 L27 6 L32 23 L42 12 L49 34 Z" fill="url(#bronzeGrad30)"/>
+                                    <rect x="3" y="33" width="48" height="6" rx="3" fill="url(#bronzeGrad30)"/>
+                                    <circle cx="27" cy="6" r="3" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="12" cy="12" r="2.5" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="42" cy="12" r="2.5" fill="#ffffff" stroke="#c084fc" stroke-width="1"/>
+                                    <circle cx="17" cy="36" r="1.8" fill="#9333ea"/>
+                                    <circle cx="27" cy="36" r="2" fill="#9333ea"/>
+                                    <circle cx="37" cy="36" r="1.8" fill="#9333ea"/>
+                                </svg>
+                            </div>
+                            <div class="podium-avatar-wrap">
+                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80" alt="Neha" class="podium-avatar-img">
+                                <span class="podium-rank-pill">3rd</span>
+                            </div>
+                            <span class="podium-name-pill" title="Neha">Neha</span>
+                            <div class="podium-amount">₹20246</div>
+                        </div>
+                    </div>
+
+                    <!-- Rank Rows (4, 5, etc.) -->
+                    <div class="podium-rows-list">
+                        <!-- Rank 4 -->
+                        <div class="podium-row-card">
+                            <div class="podium-row-left">
+                                <span class="podium-row-rank-num">4</span>
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Prince" class="podium-row-avatar">
+                                <span class="podium-row-name">Prince</span>
+                            </div>
+                            <div class="podium-row-amount">₹ 14667</div>
+                        </div>
+
+                        <!-- Rank 5 -->
+                        <div class="podium-row-card">
+                            <div class="podium-row-left">
+                                <span class="podium-row-rank-num">5</span>
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80" alt="Neha" class="podium-row-avatar">
+                                <span class="podium-row-name">Neha</span>
+                            </div>
+                            <div class="podium-row-amount">₹ 12030</div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </main>
     </div>
@@ -2989,6 +3389,288 @@
     @media (max-width: 380px) {
         .earnings-grid-container {
             grid-template-columns: 1fr;
+        }
+    }
+
+    /* ==========================================================
+       MODERN PODIUM LEADERBOARD STYLES (MATCHES REFERENCE IMAGE)
+       ========================================================== */
+    .leaderboard-dual-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.25rem;
+    }
+
+    .leaderboard-podium-card {
+        background: linear-gradient(165deg, #00137a 0%, #01215b 45%, #024b42 100%);
+        border: 1.5px solid rgba(5, 179, 150, 0.45);
+        border-radius: 20px;
+        padding: 1.8rem 1.4rem 1.4rem;
+        box-shadow: 0 12px 36px rgba(0, 19, 122, 0.22), 0 4px 20px rgba(5, 179, 150, 0.15);
+        position: relative;
+        overflow: hidden;
+        color: #ffffff;
+    }
+
+    .leaderboard-podium-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #38bdf8 0%, #f59e0b 50%, #05B396 100%);
+    }
+
+    .leaderboard-podium-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #ffffff;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 0 0 1.8rem;
+    }
+
+    .podium-stage-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 14px;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .podium-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .podium-col.rank-1st {
+        transform: translateY(-16px);
+        z-index: 3;
+    }
+
+    .podium-col.rank-2nd,
+    .podium-col.rank-3rd {
+        z-index: 2;
+    }
+
+    .crown-wrapper {
+        margin-bottom: -6px;
+        display: flex;
+        justify-content: center;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+    }
+
+    .podium-avatar-wrap {
+        position: relative;
+        display: inline-flex;
+        border-radius: 50%;
+        margin-bottom: 12px;
+    }
+
+    .podium-avatar-img {
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .rank-1st .podium-avatar-img {
+        width: 82px;
+        height: 82px;
+        border: 3.5px solid #f59e0b;
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.55);
+    }
+
+    .rank-2nd .podium-avatar-img {
+        width: 68px;
+        height: 68px;
+        border: 3px solid #38bdf8;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
+    }
+
+    .rank-3rd .podium-avatar-img {
+        width: 68px;
+        height: 68px;
+        border: 3px solid #c084fc;
+        box-shadow: 0 0 15px rgba(192, 132, 252, 0.45);
+    }
+
+    .podium-rank-pill {
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #ffffff;
+        white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .rank-1st .podium-rank-pill {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    }
+
+    .rank-2nd .podium-rank-pill {
+        background: #0284c7;
+    }
+
+    .rank-3rd .podium-rank-pill {
+        background: #9333ea;
+    }
+
+    .podium-name-pill {
+        background: #ffffff;
+        color: #0f172a;
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        white-space: nowrap;
+        max-width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+    }
+
+    .podium-amount {
+        font-weight: 900;
+        margin-top: 5px;
+        letter-spacing: -0.2px;
+    }
+
+    .rank-1st .podium-amount {
+        color: #f97316;
+        font-size: 1.15rem;
+    }
+
+    .rank-2nd .podium-amount {
+        color: #38bdf8;
+        font-size: 1rem;
+    }
+
+    .rank-3rd .podium-amount {
+        color: #c084fc;
+        font-size: 1rem;
+    }
+
+    /* Rows List for Rank 4, 5, etc. */
+    .podium-rows-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .podium-row-card {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 16px;
+        padding: 0.7rem 1.1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .podium-row-card:hover {
+        background: rgba(255, 255, 255, 0.13);
+        border-color: #05B396;
+        transform: translateX(3px);
+    }
+
+    .podium-row-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .podium-row-rank-num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .podium-row-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        flex-shrink: 0;
+    }
+
+    .podium-row-name {
+        font-size: 0.94rem;
+        font-weight: 700;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .podium-row-amount {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #05B396;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+
+    @media (max-width: 900px) {
+        .leaderboard-dual-grid {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .leaderboard-podium-card {
+            padding: 1.5rem 0.9rem 1.1rem;
+        }
+
+        .podium-stage-wrap {
+            gap: 6px;
+        }
+
+        .rank-1st .podium-avatar-img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .rank-2nd .podium-avatar-img,
+        .rank-3rd .podium-avatar-img {
+            width: 58px;
+            height: 58px;
+        }
+
+        .podium-name-pill {
+            padding: 3px 10px;
+            font-size: 0.78rem;
+            max-width: 85px;
+        }
+
+        .podium-amount {
+            font-size: 0.92rem !important;
         }
     }
 </style>
