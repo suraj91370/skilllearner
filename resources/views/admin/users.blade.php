@@ -147,7 +147,7 @@
                                             </span>
                                         @else
                                             <span style="background: rgba(5, 179, 150, 0.12); color: #05B396; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(5, 179, 150, 0.3); display: inline-flex; align-items: center; gap: 4px;">
-                                                🎓 Student / User
+                                                👤 User
                                             </span>
                                         @endif
                                     </td>
@@ -212,7 +212,7 @@
                                                     <select name="role" style="font-size: 0.78rem; font-weight: 600; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none; cursor: pointer;" onchange="this.form.submit()">
                                                         <option value="super_admin" {{ $u->role === 'super_admin' ? 'selected' : '' }}>👑 Super Admin</option>
                                                         <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>🛡️ Admin</option>
-                                                        <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>🎓 Student / User</option>
+                                                        <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>👤 User</option>
                                                     </select>
                                                 </form>
                                             @else

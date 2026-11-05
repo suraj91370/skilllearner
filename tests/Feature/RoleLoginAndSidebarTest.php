@@ -147,13 +147,13 @@ class RoleLoginAndSidebarTest extends TestCase
         $portalResponse = $this->actingAs($user)->get('/my-courses');
         $portalResponse->assertStatus(200);
 
-        // Sidebar for User displays student tools
-        $portalResponse->assertSee('Student / User');
+        // Sidebar for User displays user tools
+        $portalResponse->assertSee('User');
         $portalResponse->assertSee('My Course');
         $portalResponse->assertSee('Affiliate Link');
         $portalResponse->assertSee('Token Purchases');
         $portalResponse->assertSee('Upgrade');
-        $portalResponse->assertSee('Affiliate Tools');
+        $portalResponse->assertDontSee('Affiliate Tools');
 
         // Administration section is completely HIDDEN for User
         $portalResponse->assertDontSee('Administration');

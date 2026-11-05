@@ -97,13 +97,7 @@
     }
 
     .sidebar-section-label {
-        font-size: 0.68rem;
-        font-weight: 800;
-        color: #94a3b8;
-        letter-spacing: 0.9px;
-        text-transform: uppercase;
-        padding: 0.65rem 1.4rem 0.2rem 1.4rem;
-        margin-top: 0.35rem;
+        display: none !important;
     }
 
     .sidebar-item-badge-pill {

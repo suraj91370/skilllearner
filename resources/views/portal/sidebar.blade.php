@@ -25,8 +25,8 @@
                 </span>
             @else
                 <span class="sidebar-role-badge user">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                    Student / User
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    User
                 </span>
             @endif
         </div>
@@ -131,8 +131,6 @@
         {{-- ========================================================= --}}
         {{-- 2. CORE PORTAL & LEARNING (Visible to ALL roles)          --}}
         {{-- ========================================================= --}}
-        <div class="sidebar-section-label">Portal &amp; Learning</div>
-
         <!-- My Course -->
         <a href="{{ url('/my-courses') }}" class="sidebar-item {{ $currentActive === 'courses' ? 'active' : '' }}">
             <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -212,8 +210,6 @@
         {{-- 3. AFFILIATE & REWARDS (Visible to Student/User ONLY)     --}}
         {{-- ========================================================= --}}
         @if ($isUser)
-            <div class="sidebar-section-label">Affiliate Tools</div>
-
             <!-- Kyc Verification for Student -->
             <a href="{{ url('/kyc') }}" class="sidebar-item {{ $currentActive === 'kyc' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
