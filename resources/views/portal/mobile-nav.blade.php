@@ -70,22 +70,22 @@
         @endif
 
         {{-- ================= CORE TABS ================= --}}
-        <!-- 1. My Course -->
+        <!-- 1. Dashboard -->
+        <a href="{{ url('/dashboard') }}" class="m-portal-tab {{ $currentActive === 'dashboard' ? 'active' : '' }}">
+            <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Dashboard</span>
+        </a>
+
+        <!-- 2. My Course -->
         <a href="{{ url('/my-courses') }}" class="m-portal-tab {{ $currentActive === 'courses' ? 'active' : '' }}">
             <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             <span>My Course</span>
         </a>
 
-        <!-- 2. Videos -->
+        <!-- 3. Videos -->
         <a href="{{ url('/videos') }}" class="m-portal-tab {{ $currentActive === 'videos' ? 'active' : '' }}">
             <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
             <span>Videos</span>
-        </a>
-
-        <!-- 3. Dashboard -->
-        <a href="{{ url('/dashboard') }}" class="m-portal-tab {{ $currentActive === 'dashboard' ? 'active' : '' }}">
-            <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-            <span>Dashboard</span>
         </a>
 
         <!-- 3. Profile -->

@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check() || session()->has('user')) {
-            return redirect()->route('portal.courses');
+            return redirect()->route('portal.dashboard');
         }
 
         return view('login');
@@ -82,7 +82,7 @@ class AuthController extends Controller
             // Trigger welcome video popup on login
             session()->flash('show_login_video_popup', true);
 
-            return redirect()->intended('/my-courses')->with('alert', 'welcome');
+            return redirect()->intended('/dashboard')->with('alert', 'welcome');
         }
 
         return back()
@@ -96,7 +96,7 @@ class AuthController extends Controller
     public function showRegisterForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('portal.courses');
+            return redirect()->route('portal.dashboard');
         }
 
         return view('register');
@@ -157,7 +157,7 @@ class AuthController extends Controller
         // Trigger welcome video popup on registration
         session()->flash('show_login_video_popup', true);
 
-        return redirect()->route('portal.courses')->with('alert', 'welcome');
+        return redirect()->route('portal.dashboard')->with('alert', 'welcome');
     }
 
     /**
