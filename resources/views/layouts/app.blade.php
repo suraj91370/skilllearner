@@ -42,12 +42,15 @@
         }
         .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
         
-        /* Navigation Bar (Desktop) */
+        /* Navigation Bar (Fixed Top) */
         header.nav { 
-            position: sticky; 
+            position: fixed; 
             top: 0; 
+            left: 0;
+            right: 0;
             z-index: 1050; 
-            padding: 0.85rem 2.5rem; 
+            height: 66px;
+            padding: 0 2.5rem; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -57,6 +60,10 @@
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 66px;
         }
 
         .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
@@ -569,6 +576,9 @@
                 max-width: 100vw !important;
                 box-sizing: border-box !important;
             }
+            body {
+                padding-top: 60px;
+            }
             nav.menu { display: none; }
             .mobile-toggle { display: flex; }
             .mobile-portal-toggle-btn { display: flex !important; }
@@ -585,6 +595,9 @@
         }
 
         @media (max-width: 640px) {
+            body {
+                padding-top: 54px;
+            }
             .why-sl-grid {
                 grid-template-columns: 1fr !important;
                 gap: 1.1rem !important;
@@ -612,6 +625,9 @@
         }
 
         @media (max-width: 380px) {
+            body {
+                padding-top: 50px;
+            }
             .hero-title { font-size: 1.85rem !important; letter-spacing: -0.5px !important; }
             .hero-subtitle { font-size: 0.95rem !important; }
             header.nav { padding: 0.45rem 0.5rem !important; }
@@ -899,6 +915,13 @@
                             <div style="border-top: 1px solid #f1f5f9; margin: 0.4rem 0;"></div>
                         @endif
 
+                        <a href="{{ url('/dashboard') }}" class="dropdown-link-item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
                         <a href="{{ url('/profile') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -908,6 +931,7 @@
                         </a>
                         <a href="{{ url('/my-courses') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="6" height="14" rx="1"></rect>
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
@@ -919,13 +943,6 @@
                                 <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                             </svg>
                             <span>Certificates</span>
-                        </a>
-                        <a href="{{ url('/dashboard') }}" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                            <span>Affiliate Panel</span>
                         </a>
                         <a href="{{ url('/my-payout') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1130,7 +1147,16 @@
                 @endif
 
                 <div style="display: flex; flex-direction: column; gap: 2px;">
-                    <!-- 1. My Course -->
+                    <!-- 1. Dashboard -->
+                    <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <!-- 2. My Course -->
                     <a href="{{ url('/my-courses') }}" id="mob-link-courses" class="mobile-portal-link {{ request()->is('my-courses*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
@@ -1139,21 +1165,12 @@
                         <span>My Course</span>
                     </a>
 
-                    <!-- 2. Videos -->
+                    <!-- 3. Videos -->
                     <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
                         </svg>
                         <span>Videos (Masterclasses)</span>
-                    </a>
-
-                    <!-- 3. Dashboard -->
-                    <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                        <span>Dashboard</span>
                     </a>
 
                     <!-- 4. Profile -->

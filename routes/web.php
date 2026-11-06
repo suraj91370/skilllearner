@@ -871,7 +871,7 @@ Route::post('/checkout/login', function (Request $request) {
             'role' => $user->role ?? 'affiliate',
         ]]);
 
-        return redirect('/my-courses')->with('success', 'Welcome back, '.$user->name.'!');
+        return redirect('/dashboard')->with('success', 'Welcome back, '.$user->name.'!');
     }
 
     return redirect('/buy-now?package='.urlencode($packageParam).'&ref='.urlencode($refParam))

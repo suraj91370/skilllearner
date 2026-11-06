@@ -5,8 +5,8 @@
     .student-portal-wrapper {
         background: #f8fafc;
         background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
-        min-height: calc(100vh - 80px);
-        padding: 2.2rem 2rem 5rem;
+        min-height: calc(100vh - 66px);
+        padding: 0 2rem 4rem;
         width: 100%;
         max-width: 100vw;
         box-sizing: border-box;
@@ -18,7 +18,7 @@
         margin: 0 auto;
         display: grid;
         grid-template-columns: 260px minmax(0, 1fr);
-        gap: 2.2rem;
+        gap: 1.8rem;
         align-items: start;
         width: 100%;
         box-sizing: border-box;
@@ -30,22 +30,32 @@
         width: 100%;
         box-sizing: border-box;
         overflow-x: hidden;
+        padding-top: 1.25rem;
     }
 
-    /* Left Sidebar Card (Matches Home Page Emerald Theme) */
+    /* Left Sidebar Card (Joint directly to Header, Fixed User Card, Scrollable Nav) */
     .portal-sidebar-card {
         background: #ffffff;
         border: 1.5px solid #a7f3d0;
-        border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
-        overflow: hidden;
-        padding: 0.65rem 0;
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+        box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+        padding: 0.5rem 0 0 0;
         position: sticky;
-        top: 90px;
+        top: 66px;
+        max-height: calc(100vh - 66px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
-    /* Role Header in Sidebar */
+    /* Role Header in Sidebar (FIXED at top of sidebar) */
     .sidebar-role-header {
+        flex-shrink: 0;
         padding: 0.85rem 1.1rem;
         margin: 0.35rem 0.8rem 0.65rem 0.8rem;
         border-radius: 12px;
@@ -115,9 +125,33 @@
         color: #7c3aed;
     }
 
+    /* Scrollable navigation links container inside sidebar */
     .portal-sidebar-nav {
+        flex: 1;
         display: flex;
         flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 0.85rem;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(5, 179, 150, 0.35) transparent;
+    }
+
+    .portal-sidebar-nav::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .portal-sidebar-nav::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .portal-sidebar-nav::-webkit-scrollbar-thumb {
+        background: rgba(5, 179, 150, 0.3);
+        border-radius: 10px;
+    }
+
+    .portal-sidebar-nav::-webkit-scrollbar-thumb:hover {
+        background: rgba(5, 179, 150, 0.65);
     }
 
     .sidebar-item {
@@ -238,7 +272,7 @@
     /* Mobile Quick Tab Slider */
     .mobile-portal-nav {
         display: none !important;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0 !important;
         width: 100%;
         max-width: 100%;
         overflow: hidden;
@@ -678,7 +712,7 @@
 
     @media (max-width: 992px) {
         .student-portal-wrapper {
-            padding: 1.2rem 1rem 4rem !important;
+            padding: 0.65rem 0.85rem 3.5rem !important;
             width: 100% !important;
             max-width: 100vw !important;
             overflow-x: hidden !important;

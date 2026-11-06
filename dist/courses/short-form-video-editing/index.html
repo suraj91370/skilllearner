@@ -31,15 +31,21 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
+        body {
+            padding-top: 66px; background-color: var(--bg-body); color: var(--text-title); line-height: 1.6; overflow-x: hidden; }
         .glass { background: var(--bg-card); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border-glass); border-radius: var(--radius-md); }
         
         /* Navigation Bar (Desktop) */
-        header.nav { 
-            position: sticky; 
-            top: 0; 
-            z-index: 1050; 
-            padding: 0.85rem 2.5rem; 
+        header.nav {
+            height: 66px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1050;
+            padding: 0 2.5rem;
+            box-sizing: border-box; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -787,8 +793,8 @@
     .student-portal-wrapper {
         background: #f8fafc;
         background-image: radial-gradient(circle at 12% 8%, rgba(5, 179, 150, 0.12) 0%, rgba(248, 250, 252, 0) 45%);
-        min-height: calc(100vh - 80px);
-        padding: 2.2rem 2rem 5rem;
+        min-height: calc(100vh - 66px);
+        padding: 0 2rem 4rem;
     }
 
     .portal-main-grid {
@@ -802,18 +808,44 @@
 
     /* Left Sidebar Card (Matches Home Page Emerald Theme) */
     .portal-sidebar-card {
-        background: #ffffff;
-        border: 1.5px solid #a7f3d0;
-        border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04);
-        overflow: hidden;
-        padding: 0.65rem 0;
-        position: sticky;
-        top: 90px;
-    }
+            background: #ffffff;
+            border: 1.5px solid #a7f3d0;
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+            padding: 0.5rem 0 0 0;
+            position: sticky;
+            top: 66px;
+            max-height: calc(100vh - 66px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .portal-sidebar-card::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .portal-sidebar-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .portal-sidebar-card::-webkit-scrollbar-thumb {
+            background: rgba(5, 179, 150, 0.3);
+            border-radius: 10px;
+        }
+
+        .portal-sidebar-card::-webkit-scrollbar-thumb:hover {
+            background: rgba(5, 179, 150, 0.65);
+        }
 
     /* Role Header in Sidebar */
     .sidebar-role-header {
+            flex-shrink: 0;
         padding: 0.85rem 1.1rem;
         margin: 0.35rem 0.8rem 0.65rem 0.8rem;
         border-radius: 12px;
@@ -882,9 +914,15 @@
     }
 
     .portal-sidebar-nav {
-        display: flex;
-        flex-direction: column;
-    }
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 0.85rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(5, 179, 150, 0.35) transparent;
+        }
 
     .sidebar-item {
         display: flex;
@@ -1002,7 +1040,7 @@
     /* Mobile Quick Tab Slider */
     .mobile-portal-nav {
         display: none !important;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0 !important;
     }
 
     .mobile-nav-header-row {
@@ -1080,7 +1118,9 @@
     /* Right Content Area */
     .portal-content-area {
         min-width: 0;
-    }
+    
+            padding-top: 1.25rem;
+        }
 
     .welcome-heading {
         font-size: 1.85rem;
@@ -1368,7 +1408,22 @@
 
         /* Hide desktop sidebar on mobile, show quick horizontal slider */
         .portal-sidebar-card {
-            display: none;
+            background: #ffffff;
+            border: 1.5px solid #a7f3d0;
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+            padding: 0.5rem 0 0 0;
+            position: sticky;
+            top: 66px;
+            max-height: calc(100vh - 66px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .mobile-portal-nav { display: none !important; }
