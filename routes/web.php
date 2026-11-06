@@ -623,6 +623,8 @@ Route::get('/my-courses', [StudentCourseController::class, 'index'])->name('port
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('portal.dashboard');
 Route::get('/simulate-sale', [DashboardController::class, 'simulateSale'])->name('portal.simulate-sale');
 Route::get('/profile', [ProfileController::class, 'index'])->name('portal.profile');
+Route::post('/profile', [ProfileController::class, 'update'])->name('portal.profile.update');
+Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('portal.profile.password');
 Route::get('/social-community', [SocialCommunityController::class, 'index'])->name('portal.community');
 Route::get('/kyc', [KycController::class, 'index'])->name('portal.kyc');
 Route::post('/kyc', [KycController::class, 'update'])->name('portal.kyc.update');
