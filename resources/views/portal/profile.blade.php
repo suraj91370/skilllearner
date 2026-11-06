@@ -37,9 +37,13 @@
                     <!-- Dark Header Banner with Avatar & Verified Badge -->
                     <div class="profile-header-dark">
                         <div class="profile-avatar-wrapper">
-                            <img src="{{ session('user.avatar', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80') }}" 
+                            @php
+                                $displayAvatar = !empty(session('user.avatar')) ? session('user.avatar') : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80';
+                            @endphp
+                            <img src="{{ $displayAvatar }}" 
                                  alt="{{ session('user.name', 'Addy') }}" 
-                                 class="profile-avatar-img" id="overviewAvatarImg">
+                                 class="profile-avatar-img" id="overviewAvatarImg"
+                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80';">
                             <span class="profile-verified-badge" title="Verified Member">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>

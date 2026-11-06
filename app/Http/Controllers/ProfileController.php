@@ -37,6 +37,11 @@ class ProfileController extends Controller
             }
             if ($request->hasFile('avatar')) {
                 $path = $request->file('avatar')->store('avatars', 'public');
+                $publicAvatarsDir = public_path('storage/avatars');
+                if (! file_exists($publicAvatarsDir)) {
+                    @mkdir($publicAvatarsDir, 0755, true);
+                }
+                @copy(storage_path('app/public/'.$path), public_path('storage/'.$path));
                 $user->avatar = '/storage/'.$path;
             }
             $user->save();
@@ -50,7 +55,13 @@ class ProfileController extends Controller
         if (isset($validated['instagram'])) {
             $sessionUser['instagram'] = $validated['instagram'];
         }
-        if ($request->hasFile('avatar') && isset($path)) {
+        if ($request->hasFile('avatar')) {
+            $path = $path ?? $request->file('avatar')->store('avatars', 'public');
+            $publicAvatarsDir = public_path('storage/avatars');
+            if (! file_exists($publicAvatarsDir)) {
+                @mkdir($publicAvatarsDir, 0755, true);
+            }
+            @copy(storage_path('app/public/'.$path), public_path('storage/'.$path));
             $sessionUser['avatar'] = '/storage/'.$path;
         }
         session(['user' => $sessionUser]);
