@@ -66,16 +66,6 @@ class AuthController extends Controller
             /** @var User $user */
             $user = Auth::user();
 
-            if ($user->payment_status === 'pending') {
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                return back()
-                    ->withInput($request->only('username', 'remember'))
-                    ->with('error', '⚠️ Aapka account abhi Admin ke pass pending verification me hai. Jab tak payment verify nahi hogi, tab tak aap login nahi kar sakte.');
-            }
-
             $request->session()->regenerate();
             $this->syncUserSession($user);
 
