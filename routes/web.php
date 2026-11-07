@@ -1193,17 +1193,6 @@ Route::post('/checkout/login', function (Request $request) {
     if (Auth::attempt([$field => $username, 'password' => $password], true)) {
         $user = Auth::user();
 
-        // Enforce: User cannot log in until payment is approved by Admin!
-        if ($user->payment_status === 'pending') {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return redirect('/buy-now?package='.urlencode($packageParam).'&ref='.urlencode($refParam))
-                ->withInput($request->only('username'))
-                ->with('error', '⚠️ Aapka account abhi Admin ke pass pending verification me hai. Jab tak payment verify nahi hogi, tab tak aap login nahi kar sakte.');
-        }
-
         $request->session()->regenerate();
 
         session(['user' => [
@@ -1272,28 +1261,7 @@ Route::post('/process-buy-now', function (Request $request) {
     $existingUser = User::where('email', $email)->first();
 
     if ($existingUser) {
-        if ($existingUser->payment_status === 'pending') {
-            $orderId = 'SKL-'.rand(100000, 999999);
-            $orderData = [
-                'order_id' => $orderId,
-                'package_id' => $pkg['id'],
-                'package_name' => $activePackageName,
-                'amount' => $packagePrice,
-                'transaction_id' => 'PENDING',
-                'status' => 'Pending',
-                'user_id' => $existingUser->id,
-                'user_name' => $existingUser->name,
-                'user_email' => $existingUser->email,
-                'sponsor_id' => $existingUser->sponsor_id ?: $sponsorId,
-                'payment_method' => $paymentMethod,
-                'created_at' => now()->toDateTimeString(),
-            ];
-            session(['last_order' => $orderData]);
-
-            return redirect('/payment-status')->with('info', 'Aapka registration pehle se darj hai aur Admin approval ke liye pending hai. Kripya UTR reference submit karein.');
-        }
-
-        return back()->withInput()->with('error', 'Is email ke sath active account pehle se maujood hai. Kripya seedhe Log In karein.');
+        return back()->withInput()->with('error', 'Is email ke sath account pehle se maujood hai. Kripya seedhe Log In karein.');
     }
 
     // Generate unique affiliate ID
@@ -1302,8 +1270,7 @@ Route::post('/process-buy-now', function (Request $request) {
         $affiliateId = 'SKL-'.rand(1000, 9999);
     }
 
-    // Create user with payment_status = 'pending'
-    // USER CANNOT LOGIN UNTIL ADMIN APPROVES!
+    // Create user with payment_status = 'paid'
     $user = User::create([
         'name' => $name,
         'email' => $email,
@@ -1312,7 +1279,7 @@ Route::post('/process-buy-now', function (Request $request) {
         'affiliate_id' => $affiliateId,
         'sponsor_id' => $sponsorId,
         'active_package' => $activePackageName,
-        'payment_status' => 'pending', // Pending payment! ID stays with Admin until verified
+        'payment_status' => 'paid',
         'wallet_balance' => 0.00,
         'today_earning' => 0.00,
         'weekly_earning' => 0.00,

@@ -170,7 +170,7 @@
                         Payment Method
                     </h2>
 
-                    <!-- Option 1: Payment Link (Rounded Pill Box) -->
+                    <!-- Payment Method: Payment Link (Rounded Pill Box) -->
                     <label 
                         id="labelPaymentLink" 
                         class="payment-method-box active" 
@@ -180,20 +180,10 @@
                         <span class="payment-radio-text">Payment Link</span>
                     </label>
 
-                    <!-- Option 2: Referral Wallet (Rounded Pill Box) -->
-                    <label 
-                        id="labelReferralWallet" 
-                        class="payment-method-box" 
-                        onclick="setPaymentMethod('referral_wallet')"
-                    >
-                        <input type="radio" name="payment_method" value="referral_wallet" class="payment-radio-input">
-                        <span class="payment-radio-text">Referral Wallet</span>
-                    </label>
-
-                    <!-- Terms & Conditions Checkbox -->
+                    <!-- Terms & Conditions Checkbox (Not checked by default) -->
                     <div style="margin: 1.5rem 0 1.5rem 0;">
                         <label class="terms-checkbox-label">
-                            <input type="checkbox" name="agree_terms" required checked class="terms-checkbox-input">
+                            <input type="checkbox" name="agree_terms" required class="terms-checkbox-input">
                             <span class="terms-checkbox-text">
                                 I agree to the <a href="{{ url('/about') }}" target="_blank" class="terms-link">terms and conditions</a>
                             </span>
@@ -209,14 +199,9 @@
                         Proceed to Payment (<span id="btnPriceDisplay">₹{{ number_format($selectedPackage['price']) }}</span>)
                     </button>
 
-                    <!-- Important ID Security Notice -->
-                    <div class="security-info-box">
-                        🔒 <strong>Admin Verification Rule:</strong> Registration ke baad aapki ID Admin ke pass verification ke liye rahegi. Payment confirm hone ke baad hi aap login kar sakenge.
-                    </div>
-
-                    <div style="text-align: center; margin-top: 1.1rem;">
+                    <div style="text-align: center; margin-top: 1.25rem;">
                         <a href="{{ url('/login') }}" class="login-redirect-link">
-                            Already registered &amp; paid? <span style="color: #05B396; text-decoration: underline;">Log In Here</span>
+                            Already registered? <span style="color: #05B396; text-decoration: underline;">Log In Here</span>
                         </a>
                     </div>
 
@@ -694,17 +679,9 @@
 
     function setPaymentMethod(method) {
         const linkLabel = document.getElementById('labelPaymentLink');
-        const walletLabel = document.getElementById('labelReferralWallet');
-
-        if (method === 'payment_link') {
-            if (linkLabel) linkLabel.classList.add('active');
-            if (walletLabel) walletLabel.classList.remove('active');
-            const radio = linkLabel ? linkLabel.querySelector('input[type="radio"]') : null;
-            if (radio) radio.checked = true;
-        } else {
-            if (walletLabel) walletLabel.classList.add('active');
-            if (linkLabel) linkLabel.classList.remove('active');
-            const radio = walletLabel ? walletLabel.querySelector('input[type="radio"]') : null;
+        if (linkLabel) {
+            linkLabel.classList.add('active');
+            const radio = linkLabel.querySelector('input[type="radio"]');
             if (radio) radio.checked = true;
         }
     }

@@ -1649,9 +1649,21 @@
             border-radius: 10px;
         }
 
+        /* Passive & Industry Revenue cards each take 1 full line (full width) on mobile */
+        .revenue-card.card-passive,
+        .revenue-card.card-industry {
+            grid-column: 1 / -1;
+            padding: 1.1rem 1.15rem 0.95rem;
+        }
+
         .revenue-amount {
             font-size: clamp(1.2rem, 3.8vw, 1.55rem);
             line-height: 1.1;
+        }
+
+        .revenue-card.card-passive .revenue-amount,
+        .revenue-card.card-industry .revenue-amount {
+            font-size: clamp(1.4rem, 4.5vw, 1.85rem);
         }
 
         .revenue-icon-box svg {
@@ -1703,8 +1715,19 @@
             padding: 0.85rem 0.75rem 0.75rem;
         }
 
+        .revenue-card.card-passive,
+        .revenue-card.card-industry {
+            grid-column: 1 / -1;
+            padding: 0.95rem 1rem 0.85rem;
+        }
+
         .revenue-amount {
             font-size: 1.15rem;
+        }
+
+        .revenue-card.card-passive .revenue-amount,
+        .revenue-card.card-industry .revenue-amount {
+            font-size: 1.35rem;
         }
 
         .revenue-icon-box svg {
@@ -3889,9 +3912,21 @@
             border-radius: 10px;
         }
 
+        /* Passive & Industry Revenue cards each take 1 full line (full width) on mobile */
+        .revenue-card.card-passive,
+        .revenue-card.card-industry {
+            grid-column: 1 / -1;
+            padding: 1.1rem 1.15rem 0.95rem;
+        }
+
         .revenue-amount {
             font-size: clamp(1.2rem, 3.8vw, 1.55rem);
             line-height: 1.1;
+        }
+
+        .revenue-card.card-passive .revenue-amount,
+        .revenue-card.card-industry .revenue-amount {
+            font-size: clamp(1.4rem, 4.5vw, 1.85rem);
         }
 
         .revenue-icon-box svg {
@@ -3943,8 +3978,19 @@
             padding: 0.85rem 0.75rem 0.75rem;
         }
 
+        .revenue-card.card-passive,
+        .revenue-card.card-industry {
+            grid-column: 1 / -1;
+            padding: 0.95rem 1rem 0.85rem;
+        }
+
         .revenue-amount {
             font-size: 1.15rem;
+        }
+
+        .revenue-card.card-passive .revenue-amount,
+        .revenue-card.card-industry .revenue-amount {
+            font-size: 1.35rem;
         }
 
         .revenue-icon-box svg {
