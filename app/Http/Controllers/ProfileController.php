@@ -17,6 +17,7 @@ class ProfileController extends Controller
         if ($user) {
             $payouts = $user->payouts()->get()->map(function ($p) {
                 $status = in_array($p->status, ['Transferred', 'Approved', 'Paid']) ? 'Paid' : $p->status;
+
                 return [
                     'id' => $p->payout_code,
                     'amount' => (float) $p->amount,
@@ -33,6 +34,7 @@ class ProfileController extends Controller
             $payouts = array_map(function ($p) {
                 $created = $p['created_date'] ?? ($p['date'] ?? date('d-m-Y'));
                 $status = in_array($p['status'] ?? '', ['Transferred', 'Approved', 'Paid']) ? 'Paid' : ($p['status'] ?? 'Pending');
+
                 return [
                     'id' => $p['id'] ?? 'PAY-'.rand(1000, 9999),
                     'amount' => (float) ($p['amount'] ?? 0),

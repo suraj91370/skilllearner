@@ -343,8 +343,8 @@ class AdminController extends Controller
         }
 
         $message = match ($newStatus) {
-            'Transferred' => "Payout #{$payout->payout_code} (₹" . number_format($payout->amount) . ") approved and marked as Transferred! ✅",
-            'Rejected' => "Payout #{$payout->payout_code} rejected. ₹" . number_format($payout->amount) . " refunded to affiliate wallet. ❌",
+            'Transferred' => "Payout #{$payout->payout_code} (₹".number_format($payout->amount).') approved and marked as Transferred! ✅',
+            'Rejected' => "Payout #{$payout->payout_code} rejected. ₹".number_format($payout->amount).' refunded to affiliate wallet. ❌',
             default => "Payout #{$payout->payout_code} status updated to {$newStatus}.",
         };
 

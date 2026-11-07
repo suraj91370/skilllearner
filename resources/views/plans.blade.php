@@ -16,6 +16,24 @@
         </a>
     </div>
 
+    @if(!empty($currentPackage))
+        <div style="max-width: 820px; margin: 0 auto 2.5rem; background: linear-gradient(135deg, rgba(5, 179, 150, 0.12), rgba(15, 23, 42, 0.8)); border: 2px solid #05B396; border-radius: 14px; padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 8px 24px rgba(5, 179, 150, 0.15);">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <span style="font-size: 2.2rem;">💎</span>
+                <div>
+                    <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #05B396;">Your Active Plan</div>
+                    <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff;">
+                        {{ $currentPackage['name'] }} 
+                        <span style="font-weight: 600; color: #cbd5e1; font-size: 0.95rem;">(Worth ₹{{ number_format($currentPackage['price']) }})</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; font-size: 0.88rem; font-weight: 800; padding: 8px 16px; border-radius: 20px;">
+                ✓ Upgrade Discount Applied
+            </div>
+        </div>
+    @endif
+
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 2rem;">
         @php
             $plansMeta = [
@@ -30,6 +48,13 @@
         @foreach ($packages as $pkg)
             @php
                 $pMeta = $plansMeta[$pkg['id']] ?? ['num' => $loop->iteration, 'access' => ($pkg['access_badge'] ?? 'Get Access of 3+ Courses'), 'prev' => ($pkg['previous_access'] ?? null)];
+                $upgrade = $pkg['upgrade'] ?? [
+                    'is_upgrade' => false,
+                    'is_current' => false,
+                    'is_lower' => false,
+                    'payable_price' => $pkg['price'],
+                    'discount' => 0,
+                ];
             @endphp
             <div id="{{ $pkg['id'] }}" class="glass" style="padding: 2.2rem 1.8rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, border-color 0.3s ease; border: 1.5px solid {{ $pkg['border_color'] ?? 'rgba(255,255,255,0.08)' }}; background: {{ $pkg['bg_gradient'] ?? 'var(--bg-card)' }};">
                 <div style="text-align: center; margin: 0.5rem 0 1.2rem; display: flex; justify-content: center; align-items: center; min-height: 230px; background: radial-gradient(circle, {{ ($pkg['color'] ?? '#05B396') . '26' }} 0%, transparent 70%); border-radius: 14px;">
@@ -41,12 +66,36 @@
                 </h3>
 
                 <div style="text-align: center; margin-bottom: 1rem;">
-                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
-                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
-                        @if(!empty($pkg['old_price']))
-                            <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
-                        @endif
-                    </div>
+                    @if(!empty($upgrade['is_upgrade']))
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 2.1rem; font-weight: 900; color: #05B396;">₹{{ number_format($upgrade['payable_price']) }}</span>
+                            <span style="font-size: 1.05rem; text-decoration: line-through; color: #94a3b8; font-weight: 600;">₹{{ number_format($pkg['price']) }}</span>
+                        </div>
+                        <div style="margin-top: 6px; font-size: 0.82rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 10px; border-radius: 6px; display: inline-block;">
+                            🎉 ₹{{ number_format($upgrade['discount']) }} {{ $currentPackage['name'] ?? '' }} value deducted!
+                        </div>
+                    @elseif(!empty($upgrade['is_current']))
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 2rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
+                        </div>
+                        <div style="margin-top: 6px; font-size: 0.82rem; font-weight: 800; color: #38bdf8; background: rgba(56, 189, 248, 0.18); border: 1px solid rgba(56, 189, 248, 0.5); padding: 4px 10px; border-radius: 6px; display: inline-block;">
+                            ✓ Your Current Active Plan
+                        </div>
+                    @elseif(!empty($upgrade['is_lower']))
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 1.85rem; font-weight: 900; color: #64748b;">₹{{ number_format($pkg['price']) }}</span>
+                        </div>
+                        <div style="margin-top: 6px; font-size: 0.82rem; font-weight: 700; color: #94a3b8; background: rgba(148, 163, 184, 0.12); padding: 4px 10px; border-radius: 6px; display: inline-block;">
+                            Included in Your Tier
+                        </div>
+                    @else
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
+                            @if(!empty($pkg['old_price']))
+                                <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
+                            @endif
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Access Badge -->
@@ -80,9 +129,23 @@
                         $refParam = request('ref', '');
                         $buyUrl = url('/buy-now?package=' . $pkg['id']) . ($refParam ? '&ref=' . urlencode($refParam) : '');
                     @endphp
-                    <a href="{{ $buyUrl }}" class="btn btn-primary" style="background: {{ $pkg['color'] ?? '#05B396' }}; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px {{ ($pkg['color'] ?? '#05B396') . '40' }}; text-decoration: none;">
-                        Buy Now ➔
-                    </a>
+                    @if(!empty($upgrade['is_upgrade']))
+                        <a href="{{ $buyUrl }}" class="btn btn-primary" style="background: linear-gradient(135deg, #05B396, #048c75); text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px rgba(5, 179, 150, 0.4); text-decoration: none; color: #fff;">
+                            Upgrade for ₹{{ number_format($upgrade['payable_price']) }} ➔
+                        </a>
+                    @elseif(!empty($upgrade['is_current']))
+                        <button type="button" disabled style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid #38bdf8; color: #38bdf8; text-align: center; width: 100%; padding: 0.85rem; font-size: 0.98rem; font-weight: 800; border-radius: 10px; cursor: default;">
+                            ✓ Active Plan
+                        </button>
+                    @elseif(!empty($upgrade['is_lower']))
+                        <button type="button" disabled style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: #94a3b8; text-align: center; width: 100%; padding: 0.85rem; font-size: 0.95rem; font-weight: 700; border-radius: 10px; cursor: default;">
+                            Included in Plan ✓
+                        </button>
+                    @else
+                        <a href="{{ $buyUrl }}" class="btn btn-primary" style="background: {{ $pkg['color'] ?? '#05B396' }}; text-align: center; width: 100%; padding: 0.9rem; font-size: 1.02rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 18px {{ ($pkg['color'] ?? '#05B396') . '40' }}; text-decoration: none;">
+                            Buy Now ➔
+                        </a>
+                    @endif
                 </div>
 
             </div>

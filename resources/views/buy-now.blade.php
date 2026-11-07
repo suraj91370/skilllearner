@@ -38,17 +38,46 @@
                 Select Your Package
             </h2>
 
+            @if(!empty($currentPackage))
+                <div style="background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.25rem;">💎</span>
+                        <span style="font-size: 0.92rem; font-weight: 700; color: #065f46;">
+                            Active Plan: <strong>{{ $currentPackage['name'] }} (₹{{ number_format($currentPackage['price']) }})</strong>.
+                            Current package value is automatically deducted when upgrading to higher tiers!
+                        </span>
+                    </div>
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #059669; background: #d1fae5; padding: 3px 10px; border-radius: 12px;">
+                        Upgrade Discount Active
+                    </span>
+                </div>
+            @endif
+
             <!-- 5 Package Cards Side-by-Side (Desktop: 5 cols, Mobile: smooth horizontal swipe) -->
             <div class="packages-horizontal-row" id="packagesScrollRow">
                 @foreach($packages as $p)
                     @php 
                         $isSelected = strtolower($selectedPackage['id']) === strtolower($p['id']); 
+                        $upg = $p['upgrade'] ?? null;
                     @endphp
                     <div 
                         onclick="selectPackage('{{ $p['id'] }}')" 
                         id="pkgCard_{{ $p['id'] }}" 
                         class="pkg-select-card {{ $isSelected ? 'selected' : '' }}"
                     >
+                        @if(!empty($upg['is_upgrade']))
+                            <div style="background: #10b981; color: #fff; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px;">
+                                Upgrade: ₹{{ number_format($upg['payable_price']) }}
+                            </div>
+                        @elseif(!empty($upg['is_current']))
+                            <div style="background: #0284c7; color: #fff; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px;">
+                                Current Plan
+                            </div>
+                        @elseif(!empty($upg['is_lower']))
+                            <div style="background: #64748b; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px;">
+                                Owned
+                            </div>
+                        @endif
                         <div class="pkg-img-box">
                             <img src="{{ asset('images/packages/' . $p['id'] . '.png') }}" alt="{{ $p['name'] }}">
                         </div>
@@ -83,6 +112,20 @@
                         Billing Details
                     </h2>
 
+                    @php
+                        $userLoggedIn = Auth::check() || session()->has('user.id');
+                        $prefillName = old('name', Auth::user()->name ?? session('user.name', ''));
+                        $prefillPhone = old('phone', Auth::user()->phone ?? session('user.phone', ''));
+                        $prefillEmail = old('email', Auth::user()->email ?? session('user.email', ''));
+                    @endphp
+
+                    @if($userLoggedIn)
+                        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 12px; margin-bottom: 1.2rem; font-size: 0.88rem; color: #166534; display: flex; align-items: center; gap: 8px;">
+                            <span>✓</span>
+                            <span>Aap apne logged-in account (<strong>{{ $prefillName }}</strong>) se upgrade kar rahe hain. Naya package aapki isi ID par activate hoga.</span>
+                        </div>
+                    @endif
+
                     <!-- Full Name -->
                     <div class="form-group-item">
                         <label for="fullNameInput" class="form-field-label">
@@ -94,7 +137,7 @@
                             id="fullNameInput" 
                             required 
                             placeholder="Enter your full name" 
-                            value="{{ old('name') }}"
+                            value="{{ $prefillName }}"
                             class="form-input-field"
                         >
                     </div>
@@ -110,7 +153,7 @@
                             id="phoneInput" 
                             required 
                             placeholder="Enter your phone number" 
-                            value="{{ old('phone') }}"
+                            value="{{ $prefillPhone }}"
                             class="form-input-field"
                         >
                     </div>
@@ -126,39 +169,43 @@
                             id="emailInput" 
                             required 
                             placeholder="Enter your email address" 
-                            value="{{ old('email') }}"
+                            value="{{ $prefillEmail }}"
                             class="form-input-field"
                         >
                     </div>
 
-                    <!-- Create Password (with bordered square eye icon on the right as in screenshot) -->
-                    <div class="form-group-item" style="margin-bottom: 0.5rem;">
-                        <label for="createPasswordInput" class="form-field-label">
-                            Create Password
-                        </label>
-                        <div class="password-input-wrapper">
-                            <input 
-                                type="password" 
-                                name="password" 
-                                id="createPasswordInput" 
-                                required 
-                                placeholder="Create a strong password" 
-                                class="form-input-field password-inner-input"
-                            >
-                            <button 
-                                type="button" 
-                                onclick="toggleCreatePassword()" 
-                                id="eyeToggleBtn"
-                                aria-label="Toggle password visibility"
-                                class="eye-toggle-box"
-                            >
-                                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </button>
+                    @if($userLoggedIn)
+                        <input type="hidden" name="password" value="ALREADY_LOGGED_IN">
+                    @else
+                        <!-- Create Password (with bordered square eye icon on the right as in screenshot) -->
+                        <div class="form-group-item" style="margin-bottom: 0.5rem;">
+                            <label for="createPasswordInput" class="form-field-label">
+                                Create Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input 
+                                    type="password" 
+                                    name="password" 
+                                    id="createPasswordInput" 
+                                    required 
+                                    placeholder="Create a strong password" 
+                                    class="form-input-field password-inner-input"
+                                >
+                                <button 
+                                    type="button" 
+                                    onclick="toggleCreatePassword()" 
+                                    id="eyeToggleBtn"
+                                    aria-label="Toggle password visibility"
+                                    class="eye-toggle-box"
+                                >
+                                    <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                 </div>
 
@@ -180,8 +227,45 @@
                         <span class="payment-radio-text">Payment Link</span>
                     </label>
 
+                    @php
+                        $initUpg = $selectedPackage['upgrade'] ?? null;
+                        $initIsUpgrade = !empty($initUpg['is_upgrade']);
+                        $initIsCurrent = !empty($initUpg['is_current']);
+                        $initIsLower = !empty($initUpg['is_lower']);
+                        $initPayable = $initIsUpgrade ? $initUpg['payable_price'] : $selectedPackage['price'];
+                        $initDiscount = $initIsUpgrade ? $initUpg['discount'] : 0;
+                    @endphp
+
+                    <!-- Upgrade Calculation Breakdown Box -->
+                    <div id="upgradeCalculationBox" style="{{ $initIsUpgrade ? 'display: block;' : 'display: none;' }} background: #f0fdf4; border: 1.5px dashed #05B396; border-radius: 10px; padding: 14px 16px; margin: 1.2rem 0;">
+                        <div style="font-weight: 800; font-size: 0.95rem; color: #065f46; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <span>🎉</span> <span>Upgrade Breakdown Applied</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: #475569; margin-bottom: 5px;">
+                            <span id="targetPkgNameDisplay">{{ $selectedPackage['name'] }} Price:</span>
+                            <span id="targetPkgPriceDisplay" style="font-weight: 700;">₹{{ number_format($selectedPackage['price']) }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: #059669; font-weight: 700; margin-bottom: 8px;">
+                            <span id="deductedPkgLabel">{{ $currentPackage['name'] ?? 'Current Plan' }} Deducted:</span>
+                            <span id="deductedPkgAmount">- ₹{{ number_format($initDiscount) }}</span>
+                        </div>
+                        <div style="border-top: 1px solid #cbd5e1; padding-top: 8px; display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 900; color: #0f172a;">
+                            <span>You Pay:</span>
+                            <span id="netPayableAmount" style="color: #05B396;">₹{{ number_format($initPayable) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Already Owned / Lower Warning Box -->
+                    <div id="alreadyOwnedWarning" style="{{ ($initIsCurrent || $initIsLower) ? 'display: block;' : 'display: none;' }} background: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 10px; padding: 12px 14px; margin: 1.2rem 0; color: #1e40af; font-size: 0.9rem; font-weight: 700; text-align: center;">
+                        @if($initIsCurrent)
+                            ✓ Aap pehle se {{ $selectedPackage['name'] }} par hain.
+                        @elseif($initIsLower)
+                            ✓ Aapka vartaman plan is se uncha hai ({{ $currentPackage['name'] ?? '' }}).
+                        @endif
+                    </div>
+
                     <!-- Terms & Conditions Checkbox (Not checked by default) -->
-                    <div style="margin: 1.5rem 0 1.5rem 0;">
+                    <div style="margin: 1.2rem 0 1.2rem 0;">
                         <label class="terms-checkbox-label">
                             <input type="checkbox" name="agree_terms" required class="terms-checkbox-input">
                             <span class="terms-checkbox-text">
@@ -195,8 +279,17 @@
                         type="submit" 
                         id="proceedPaymentSubmitBtn"
                         class="btn-proceed-payment"
+                        @if($initIsCurrent || $initIsLower) disabled style="opacity: 0.6; cursor: not-allowed;" @endif
                     >
-                        Proceed to Payment (<span id="btnPriceDisplay">₹{{ number_format($selectedPackage['price']) }}</span>)
+                        @if($initIsUpgrade)
+                            Upgrade to {{ $selectedPackage['name'] }} (<span id="btnPriceDisplay">₹{{ number_format($initPayable) }}</span>)
+                        @elseif($initIsCurrent)
+                            Current Active Plan (Already Owned)
+                        @elseif($initIsLower)
+                            Included in Your Current Plan
+                        @else
+                            Proceed to Payment (<span id="btnPriceDisplay">₹{{ number_format($selectedPackage['price']) }}</span>)
+                        @endif
                     </button>
 
                     <div style="text-align: center; margin-top: 1.25rem;">
@@ -640,12 +733,20 @@
 
 @push('scripts')
 <script>
+    const currentPackage = @json($currentPackage);
     const allPackagesData = {
-        'basic': { id: 'basic', name: 'Basic Package', price: 599 },
-        'growth': { id: 'growth', name: 'Growth Package', price: 1199 },
-        'advance': { id: 'advance', name: 'Advance Package', price: 2499 },
-        'premium': { id: 'premium', name: 'Premium Package', price: 4999 },
-        'infinity': { id: 'infinity', name: 'Infinity Package', price: 7999 }
+        @foreach($packages as $p)
+        '{{ $p['id'] }}': {
+            id: '{{ $p['id'] }}',
+            name: '{{ $p['name'] }}',
+            price: {{ (int) $p['price'] }},
+            is_upgrade: {{ (!empty($p['upgrade']['is_upgrade'])) ? 'true' : 'false' }},
+            is_current: {{ (!empty($p['upgrade']['is_current'])) ? 'true' : 'false' }},
+            is_lower: {{ (!empty($p['upgrade']['is_lower'])) ? 'true' : 'false' }},
+            discount: {{ (int) ($p['upgrade']['discount'] ?? 0) }},
+            payable_price: {{ (int) ($p['upgrade']['payable_price'] ?? $p['price']) }}
+        },
+        @endforeach
     };
 
     function selectPackage(pkgId) {
@@ -654,12 +755,64 @@
         const p = allPackagesData[pkgId];
 
         // 1. Update hidden form input
-        document.getElementById('hiddenPackageInput').value = pkgId;
+        const hiddenInput = document.getElementById('hiddenPackageInput');
+        if (hiddenInput) hiddenInput.value = pkgId;
 
-        // 2. Update button price text
+        // 2. Update button price and status
         const btnPrice = document.getElementById('btnPriceDisplay');
-        if (btnPrice) {
-            btnPrice.innerText = '₹' + p.price.toLocaleString();
+        const submitBtn = document.getElementById('proceedPaymentSubmitBtn');
+        const upgBox = document.getElementById('upgradeCalculationBox');
+        const ownedBox = document.getElementById('alreadyOwnedWarning');
+
+        if (p.is_upgrade) {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+                submitBtn.innerHTML = `Upgrade to ${p.name} (<span id="btnPriceDisplay">₹${p.payable_price.toLocaleString()}</span>)`;
+            }
+            if (upgBox) {
+                upgBox.style.display = 'block';
+                document.getElementById('targetPkgNameDisplay').innerText = p.name + ' Price:';
+                document.getElementById('targetPkgPriceDisplay').innerText = '₹' + p.price.toLocaleString();
+                document.getElementById('deductedPkgLabel').innerText = (currentPackage ? currentPackage.name : 'Current Plan') + ' Deducted:';
+                document.getElementById('deductedPkgAmount').innerText = '- ₹' + p.discount.toLocaleString();
+                document.getElementById('netPayableAmount').innerText = '₹' + p.payable_price.toLocaleString();
+            }
+            if (ownedBox) ownedBox.style.display = 'none';
+        } else if (p.is_current) {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.6';
+                submitBtn.style.cursor = 'not-allowed';
+                submitBtn.innerHTML = `Current Active Plan (Already Owned)`;
+            }
+            if (upgBox) upgBox.style.display = 'none';
+            if (ownedBox) {
+                ownedBox.style.display = 'block';
+                ownedBox.innerText = `✓ Aap pehle se ${p.name} par hain.`;
+            }
+        } else if (p.is_lower) {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.6';
+                submitBtn.style.cursor = 'not-allowed';
+                submitBtn.innerHTML = `Included in Your Current Plan`;
+            }
+            if (upgBox) upgBox.style.display = 'none';
+            if (ownedBox) {
+                ownedBox.style.display = 'block';
+                ownedBox.innerText = `✓ Aapka vartaman plan is se uncha hai (${currentPackage ? currentPackage.name : ''}).`;
+            }
+        } else {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+                submitBtn.innerHTML = `Proceed to Payment (<span id="btnPriceDisplay">₹${p.price.toLocaleString()}</span>)`;
+            }
+            if (upgBox) upgBox.style.display = 'none';
+            if (ownedBox) ownedBox.style.display = 'none';
         }
 
         // 3. Highlight selected card & unhighlight others

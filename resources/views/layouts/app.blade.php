@@ -776,7 +776,7 @@
         }
     </style>
     @php
-        $isPortalOrAdmin = request()->is('admin*') || request()->is('my-courses*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('kyc*') || request()->is('affiliate*') || request()->is('token*') || request()->is('marketing*') || request()->is('my-payout*') || request()->is('leaderboard*') || request()->is('team-leaderboard*') || request()->is('qualification*') || request()->is('certificates*') || request()->is('social-community*');
+        $isPortalOrAdmin = request()->is('admin*') || request()->is('my-courses*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('kyc*') || request()->is('affiliate*') || request()->is('*referral*') || request()->is('marketing*') || request()->is('my-payout*') || request()->is('leaderboard*') || request()->is('qualification*') || request()->is('social-community*');
     @endphp
     @include('portal.styles')
     @stack('styles')
@@ -937,12 +937,13 @@
                             </svg>
                             <span>My Courses</span>
                         </a>
-                        <a href="{{ url('/certificates') }}" class="dropdown-link-item">
+                        <a href="{{ url('/active-referrals') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="8" r="7"></circle>
-                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
                             </svg>
-                            <span>Certificates</span>
+                            <span>Active Referrals</span>
                         </a>
                         <a href="{{ url('/my-payout') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1223,14 +1224,22 @@
                         <span>My Payout</span>
                     </a>
 
-                    <!-- 9. Token Purchases -->
-                    <a href="{{ url('/token-purchases') }}" id="mob-link-tokens" class="mobile-portal-link {{ request()->is('token-purchases*') ? 'active' : '' }}">
+                    <!-- Active Referral -->
+                    <a href="{{ url('/active-referrals') }}" id="mob-link-active-referrals" class="mobile-portal-link {{ request()->is('active-referrals*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <polyline points="17 11 19 13 23 9"></polyline>
                         </svg>
-                        <span>Token Purchases</span>
+                        <span>Active Referral</span>
+                    </a>
+
+                    <!-- Passive Referral -->
+                    <a href="{{ url('/passive-referrals') }}" id="mob-link-passive-referrals" class="mobile-portal-link {{ request()->is('passive-referrals*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        <span>Passive Referral</span>
                     </a>
 
                     <!-- 10. Affiliate Training -->
@@ -1264,14 +1273,6 @@
                         <span>Leaderboard</span>
                     </a>
 
-                    <!-- 13. Team Leaderboard -->
-                    <a href="{{ url('/team-leaderboard') }}" id="mob-link-team-leaderboard" class="mobile-portal-link {{ request()->is('team-leaderboard*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                        <span>Team Leaderboard</span>
-                    </a>
-
                     <!-- 14. Qualification -->
                     <a href="{{ url('/qualification') }}" id="mob-link-qualification" class="mobile-portal-link {{ request()->is('qualification*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1279,15 +1280,6 @@
                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                         </svg>
                         <span>Qualification</span>
-                    </a>
-
-                    <!-- 15. Certificates -->
-                    <a href="{{ url('/certificates') }}" id="mob-link-certificate" class="mobile-portal-link {{ request()->is('certificates*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="8" r="6"></circle>
-                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-                        </svg>
-                        <span>Certificate</span>
                     </a>
                 </div>
 

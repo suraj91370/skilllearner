@@ -189,23 +189,6 @@
             <span>Leaderboard</span>
         </a>
 
-        <!-- Team Leaderboard -->
-        <a href="{{ url('/team-leaderboard') }}" class="sidebar-item {{ $currentActive === 'team-leaderboard' ? 'active' : '' }}">
-            <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-            <span>Team Leaderboard</span>
-        </a>
-
-        <!-- Certificate -->
-        <a href="{{ url('/certificates') }}" class="sidebar-item {{ $currentActive === 'certificates' ? 'active' : '' }}">
-            <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="6"></circle>
-                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-            </svg>
-            <span>Certificate</span>
-        </a>
-
         {{-- ========================================================= --}}
         {{-- 3. AFFILIATE & REWARDS (Visible to Student/User ONLY)     --}}
         {{-- ========================================================= --}}
@@ -231,14 +214,22 @@
                 <span>Affiliate Link</span>
             </a>
 
-            <!-- Token Purchases (Hidden for Admins) -->
-            <a href="{{ url('/token-purchases') }}" class="sidebar-item {{ $currentActive === 'tokens' ? 'active' : '' }}">
+            <!-- Active Referral (Direct Referrals / Tier-1) -->
+            <a href="{{ url('/active-referrals') }}" class="sidebar-item {{ $currentActive === 'active-referrals' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <polyline points="17 11 19 13 23 9"></polyline>
                 </svg>
-                <span>Token Purchases</span>
+                <span>Active Referral</span>
+            </a>
+
+            <!-- Passive Referral (Tier-2 / Team Referrals) -->
+            <a href="{{ url('/passive-referrals') }}" class="sidebar-item {{ $currentActive === 'passive-referrals' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span>Passive Referral</span>
             </a>
 
             <!-- Affiliate Training -->

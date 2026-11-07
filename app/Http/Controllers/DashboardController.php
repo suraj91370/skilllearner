@@ -102,8 +102,8 @@ class DashboardController extends Controller
         session(['commissions' => $commissions]);
 
         $flashMsg = $isPassive
-            ? "💎 ₹".number_format($amount)." Passive Income Credited! Your Tier-2 team member referred {$randomBuyer} for {$pkg['name']}."
-            : "🎉 ₹".number_format($amount)." Active Income Credited! You directly referred {$randomBuyer} for {$pkg['name']}.";
+            ? '💎 ₹'.number_format($amount)." Passive Income Credited! Your Tier-2 team member referred {$randomBuyer} for {$pkg['name']}."
+            : '🎉 ₹'.number_format($amount)." Active Income Credited! You directly referred {$randomBuyer} for {$pkg['name']}.";
 
         return redirect('/dashboard')->with('success', $flashMsg);
     }

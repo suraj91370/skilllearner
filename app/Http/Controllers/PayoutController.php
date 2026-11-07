@@ -17,6 +17,7 @@ class PayoutController extends Controller
         if ($user) {
             $payouts = $user->payouts()->get()->map(function ($p) {
                 $status = in_array($p->status, ['Transferred', 'Approved', 'Paid']) ? 'Paid' : $p->status;
+
                 return [
                     'id' => $p->payout_code,
                     'amount' => (float) $p->amount,
@@ -33,6 +34,7 @@ class PayoutController extends Controller
             $payouts = array_map(function ($p) {
                 $created = $p['created_date'] ?? ($p['date'] ?? date('d-m-Y'));
                 $status = in_array($p['status'] ?? '', ['Transferred', 'Approved', 'Paid']) ? 'Paid' : ($p['status'] ?? 'Pending');
+
                 return [
                     'id' => $p['id'] ?? 'PAY-'.rand(1000, 9999),
                     'amount' => (float) ($p['amount'] ?? 0),
@@ -79,10 +81,10 @@ class PayoutController extends Controller
         }
 
         if ($amount > $currentBalance) {
-            return back()->with('error', 'Insufficient balance! Available wallet balance is ₹' . number_format($currentBalance, 2));
+            return back()->with('error', 'Insufficient balance! Available wallet balance is ₹'.number_format($currentBalance, 2));
         }
 
-        $payoutCode = 'PAY-' . rand(10000, 99999);
+        $payoutCode = 'PAY-'.rand(10000, 99999);
 
         if ($user) {
             // Deduct immediately from wallet balance
@@ -116,6 +118,7 @@ class PayoutController extends Controller
             // Update session payouts list
             $payouts = $user->payouts()->get()->map(function ($p) {
                 $status = in_array($p->status, ['Transferred', 'Approved', 'Paid']) ? 'Paid' : $p->status;
+
                 return [
                     'id' => $p->payout_code,
                     'amount' => (float) $p->amount,
@@ -150,6 +153,6 @@ class PayoutController extends Controller
             session(['payouts' => $payouts]);
         }
 
-        return back()->with('success', 'Withdrawal request of ₹' . number_format($amount) . ' submitted successfully! Status is Pending until Super Admin approves.');
+        return back()->with('success', 'Withdrawal request of ₹'.number_format($amount).' submitted successfully! Status is Pending until Super Admin approves.');
     }
 }

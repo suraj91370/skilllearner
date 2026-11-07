@@ -71,8 +71,8 @@ class RoleLoginAndSidebarTest extends TestCase
             'password' => 'password123',
         ]);
 
-        // Everyone redirects to the 1 single page: /my-courses
-        $loginResponse->assertRedirect('/my-courses');
+        // Everyone redirects to /dashboard
+        $loginResponse->assertRedirect('/dashboard');
 
         $superAdmin = User::where('email', 'superadmin@skilllearner.com')->first();
         $this->assertAuthenticatedAs($superAdmin);
@@ -105,8 +105,8 @@ class RoleLoginAndSidebarTest extends TestCase
             'password' => 'password123',
         ]);
 
-        // Everyone redirects to the 1 single page: /my-courses
-        $loginResponse->assertRedirect('/my-courses');
+        // Everyone redirects to /dashboard
+        $loginResponse->assertRedirect('/dashboard');
 
         $admin = User::where('email', 'admin@skilllearner.com')->first();
         $this->assertAuthenticatedAs($admin);
@@ -137,8 +137,8 @@ class RoleLoginAndSidebarTest extends TestCase
             'password' => 'password123',
         ]);
 
-        // Everyone redirects to the 1 single page: /my-courses
-        $loginResponse->assertRedirect('/my-courses');
+        // Everyone redirects to /dashboard
+        $loginResponse->assertRedirect('/dashboard');
 
         $user = User::where('email', 'user@skilllearner.com')->first();
         $this->assertAuthenticatedAs($user);
@@ -151,7 +151,10 @@ class RoleLoginAndSidebarTest extends TestCase
         $portalResponse->assertSee('User');
         $portalResponse->assertSee('My Course');
         $portalResponse->assertSee('Affiliate Link');
-        $portalResponse->assertSee('Token Purchases');
+        $portalResponse->assertSee('Active Referral');
+        $portalResponse->assertSee('Passive Referral');
+        $portalResponse->assertDontSee('Token Purchases');
+        $portalResponse->assertDontSee('Team Leaderboard');
         $portalResponse->assertSee('Upgrade');
         $portalResponse->assertDontSee('Affiliate Tools');
 
