@@ -55,6 +55,17 @@ class CommissionService
     ];
 
     /**
+     * Package tier rankings for upgrade comparison.
+     */
+    public const PACKAGE_TIERS = [
+        'basic' => 1,
+        'growth' => 2,
+        'advance' => 3,
+        'premium' => 4,
+        'infinity' => 5,
+    ];
+
+    /**
      * Resolve package by slug or name.
      */
     public static function getPackageInfo(string $packageSlugOrName): array
@@ -66,6 +77,77 @@ class CommissionService
     }
 
     /**
+     * Get upgrade pricing details between two packages.
+     * When upgrading, current package value is deducted from target package price.
+     */
+    public static function getUpgradeDetails(?string $currentPackageName, string $targetPackageSlugOrName): array
+    {
+        $targetPkg = self::getPackageInfo($targetPackageSlugOrName);
+        $targetTier = self::PACKAGE_TIERS[$targetPkg['id']] ?? 3;
+
+        if (empty($currentPackageName)) {
+            return [
+                'is_upgrade' => false,
+                'is_current' => false,
+                'is_lower' => false,
+                'current_package' => null,
+                'current_price' => 0,
+                'target_package' => $targetPkg['name'],
+                'target_price' => $targetPkg['price'],
+                'discount' => 0,
+                'payable_price' => $targetPkg['price'],
+            ];
+        }
+
+        $currentPkg = self::getPackageInfo($currentPackageName);
+        $currentTier = self::PACKAGE_TIERS[$currentPkg['id']] ?? 0;
+
+        if ($targetTier < $currentTier) {
+            return [
+                'is_upgrade' => false,
+                'is_current' => false,
+                'is_lower' => true,
+                'current_package' => $currentPkg['name'],
+                'current_price' => $currentPkg['price'],
+                'target_package' => $targetPkg['name'],
+                'target_price' => $targetPkg['price'],
+                'discount' => 0,
+                'payable_price' => 0,
+            ];
+        }
+
+        if ($targetTier === $currentTier) {
+            return [
+                'is_upgrade' => false,
+                'is_current' => true,
+                'is_lower' => false,
+                'current_package' => $currentPkg['name'],
+                'current_price' => $currentPkg['price'],
+                'target_package' => $targetPkg['name'],
+                'target_price' => $targetPkg['price'],
+                'discount' => 0,
+                'payable_price' => 0,
+            ];
+        }
+
+        // Target Tier > Current Tier: Eligible for Differential Upgrade!
+        $discount = $currentPkg['price'];
+        $payable = max(0, $targetPkg['price'] - $discount);
+
+        return [
+            'is_upgrade' => true,
+            'is_current' => false,
+            'is_lower' => false,
+            'current_package' => $currentPkg['name'],
+            'current_price' => $currentPkg['price'],
+            'target_package' => $targetPkg['name'],
+            'target_price' => $targetPkg['price'],
+            'discount' => $discount,
+            'payable_price' => $payable,
+        ];
+    }
+
+    /**
      * Distribute commission across strict 2-tier hierarchy:
      * - Level 1 (Direct Sponsor): Receives Active Income
      * - Level 2 (Direct Sponsor's Sponsor): Receives Passive Income
@@ -73,11 +155,11 @@ class CommissionService
      *
      * Initial status is 'Pending' until Super Admin verifies payment.
      *
-     * @param string $packageSlugOrName Package bought
-     * @param string $buyerName Name of student/buyer
-     * @param string|null $sponsorAffiliateId Affiliate ID of direct sponsor
-     * @param User|null $buyerUser Buyer model if registered
-     * @param string $initialStatus 'Pending' (default) or 'Credited'
+     * @param  string  $packageSlugOrName  Package bought
+     * @param  string  $buyerName  Name of student/buyer
+     * @param  string|null  $sponsorAffiliateId  Affiliate ID of direct sponsor
+     * @param  User|null  $buyerUser  Buyer model if registered
+     * @param  string  $initialStatus  'Pending' (default) or 'Credited'
      * @return array Summary of distributed commissions
      */
     public static function processSale(
@@ -309,8 +391,8 @@ class CommissionService
         // We look at all Tier-1 commissions (both Credited and Pending) to see total package sales volume
         $allTier1Commissions = Commission::where(function ($q) {
             $q->where('commission_type', 'like', '%Tier-1%')
-              ->orWhere('commission_type', 'like', '%Active%')
-              ->orWhere('commission_type', 'like', '%Direct%');
+                ->orWhere('commission_type', 'like', '%Active%')
+                ->orWhere('commission_type', 'like', '%Direct%');
         })->get();
 
         $totalRevenue = 0.0;

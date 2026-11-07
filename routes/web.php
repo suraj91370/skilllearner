@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateTrainingController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
@@ -13,9 +12,9 @@ use App\Http\Controllers\MarketingToolController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
-use App\Http\Controllers\TokenPurchaseController;
 use App\Http\Controllers\VideoController;
 use App\Models\Commission;
 use App\Models\Course;
@@ -556,10 +555,27 @@ Route::get('/', function () {
     ]);
 });
 
-// 2. Packages & Pricing Page
+// 2. Packages & Pricing Page (With Differential Upgrade Pricing for Active Students)
 Route::get('/plans', function (Request $request) {
+    $packages = getPackages();
+    $currentPackageName = null;
+    if (Auth::check()) {
+        $currentPackageName = Auth::user()->active_package;
+    } elseif (session()->has('user.active_package')) {
+        $currentPackageName = session('user.active_package');
+    }
+
+    $currentPackage = $currentPackageName ? CommissionService::getPackageInfo($currentPackageName) : null;
+
+    $packagesWithUpgrade = array_map(function ($p) use ($currentPackageName) {
+        $p['upgrade'] = CommissionService::getUpgradeDetails($currentPackageName, $p['id']);
+
+        return $p;
+    }, $packages);
+
     return view('plans', [
-        'packages' => getPackages(),
+        'packages' => $packagesWithUpgrade,
+        'currentPackage' => $currentPackage,
     ]);
 });
 Route::get('/packages', function (Request $request) {
@@ -641,7 +657,7 @@ Route::post('/forgot-password', function (Request $request) {
                 'created_at' => now(),
             ]
         );
-    } catch (\Throwable $dbEx) {
+    } catch (Throwable $dbEx) {
         Log::warning('Could not store reset token in DB: '.$dbEx->getMessage());
     }
 
@@ -707,7 +723,7 @@ Route::post('/forgot-password', function (Request $request) {
         });
 
         return back()->with('status', 'A password reset link has been dispatched to '.$user->email.'! Please check your inbox and spam folder.');
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         Log::error('SMTP Mail error on forgot password: '.$e->getMessage());
 
         return back()->withInput()->withErrors([
@@ -761,7 +777,7 @@ Route::post('/reset-password', function (Request $request) {
     // Clean up used token
     try {
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         // ignore
     }
 
@@ -790,7 +806,7 @@ Route::get('/test-email', function (Request $request) {
                     ->subject('SkillLearner — Live Email Test Successful ✅');
             });
             $sendResult = true;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $sendError = $e->getMessage();
             $sendResult = false;
         }
@@ -983,15 +999,19 @@ Route::get('/social-community', [SocialCommunityController::class, 'index'])->na
 Route::get('/kyc', [KycController::class, 'index'])->name('portal.kyc');
 Route::post('/kyc', [KycController::class, 'update'])->name('portal.kyc.update');
 Route::get('/affiliate-link', [AffiliateLinkController::class, 'index'])->name('portal.affiliate-link');
-Route::get('/token-purchases', [TokenPurchaseController::class, 'index'])->name('portal.tokens');
+Route::get('/active-referrals', [ReferralController::class, 'activeReferrals'])->name('portal.active-referrals');
+Route::get('/passive-referrals', [ReferralController::class, 'passiveReferrals'])->name('portal.passive-referrals');
+Route::get('/active-referral', fn () => redirect()->route('portal.active-referrals'));
+Route::get('/passive-referral', fn () => redirect()->route('portal.passive-referrals'));
+Route::get('/token-purchases', fn () => redirect()->route('portal.active-referrals'));
+Route::get('/certificates', fn () => redirect()->route('portal.courses'));
+Route::get('/team-leaderboard', fn () => redirect()->route('portal.leaderboard'));
 Route::get('/affiliate-training', [AffiliateTrainingController::class, 'index'])->name('portal.training');
 Route::get('/marketing-tool', [MarketingToolController::class, 'index'])->name('portal.marketing');
 Route::get('/my-payout', [PayoutController::class, 'index'])->name('portal.payout');
 Route::post('/payout-request', [PayoutController::class, 'requestPayout'])->name('portal.payout-request');
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('portal.leaderboard');
-Route::get('/team-leaderboard', [LeaderboardController::class, 'teamLeaderboard'])->name('portal.team-leaderboard');
 Route::get('/qualification', [QualificationController::class, 'index'])->name('portal.qualification');
-Route::get('/certificates', [CertificateController::class, 'index'])->name('portal.certificates');
 
 // 7.1 Admin & Super Admin Management Routes (Protected by role middleware)
 Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function () {
@@ -1086,17 +1106,41 @@ Route::get('/courses/{slug}', function ($slug) {
     ]);
 });
 
-// Dedicated Buy Now Checkout Page
+// Dedicated Buy Now Checkout Page (With Differential Upgrade Pricing for Active Students)
 Route::get('/buy-now', function (Request $request) {
     $courses = getCourses();
     $packages = getPackages();
+
+    $currentPackageName = null;
+    if (Auth::check()) {
+        $currentPackageName = Auth::user()->active_package;
+    } elseif (session()->has('user.active_package')) {
+        $currentPackageName = session('user.active_package');
+    }
+
+    $currentPackage = $currentPackageName ? CommissionService::getPackageInfo($currentPackageName) : null;
+
+    $packagesWithUpgrade = array_map(function ($p) use ($currentPackageName) {
+        $p['upgrade'] = CommissionService::getUpgradeDetails($currentPackageName, $p['id']);
+
+        return $p;
+    }, $packages);
 
     $courseSlug = $request->query('course');
     $packageId = $request->query('package');
 
     $selectedCourse = $courses[0];
-    $selectedPackage = $packages[1]; // Advance Package
+    $selectedPackage = $packagesWithUpgrade[2]; // Default: Advance Package
     $type = 'package';
+
+    // If logged in student has a current package and no specific package is requested, default to next higher tier
+    if ($currentPackage && empty($packageId) && empty($courseSlug)) {
+        if (strtolower($currentPackage['id']) === 'advance') {
+            $selectedPackage = $packagesWithUpgrade[3]; // Premium Package
+        } elseif (strtolower($currentPackage['id']) === 'premium') {
+            $selectedPackage = $packagesWithUpgrade[4]; // Infinity Package
+        }
+    }
 
     if ($courseSlug) {
         $found = collect($courses)->firstWhere('slug', $courseSlug);
@@ -1105,8 +1149,8 @@ Route::get('/buy-now', function (Request $request) {
             $type = 'course';
         }
     } elseif ($packageId) {
-        $found = collect($packages)->first(function ($p) use ($packageId) {
-            return strtolower($p['id']) === strtolower($packageId) || strtolower($p['name']) === strtolower($packageId);
+        $found = collect($packagesWithUpgrade)->first(function ($p) use ($packageId) {
+            return strtolower($p['id']) === strtolower($packageId) || strtolower($p['id']) === strtolower(str_replace(' package', '', $packageId)) || strtolower($p['name']) === strtolower($packageId);
         });
         if ($found) {
             $selectedPackage = $found;
@@ -1116,9 +1160,10 @@ Route::get('/buy-now', function (Request $request) {
 
     return view('buy-now', [
         'courses' => $courses,
-        'packages' => $packages,
+        'packages' => $packagesWithUpgrade,
         'selectedCourse' => $selectedCourse,
         'selectedPackage' => $selectedPackage,
+        'currentPackage' => $currentPackage,
         'type' => $type,
     ]);
 });
@@ -1224,11 +1269,16 @@ Route::post('/checkout/login', function (Request $request) {
 
 // Action: Process Buy Now Form Submission
 Route::post('/process-buy-now', function (Request $request) {
+    $authUser = Auth::user();
+    if (! $authUser && session()->has('user.id')) {
+        $authUser = User::find(session('user.id'));
+    }
+
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'phone' => ['required', 'string', 'max:25'],
         'email' => ['required', 'string', 'email', 'max:255'],
-        'password' => ['required', 'string', 'min:6'],
+        'password' => [$authUser ? 'nullable' : 'required', 'string'],
         'package' => ['required', 'string'],
         'referral_code' => ['nullable', 'string', 'max:100'],
         'payment_method' => ['nullable', 'string'],
@@ -1257,11 +1307,83 @@ Route::post('/process-buy-now', function (Request $request) {
     $activePackageName = $pkg['name'];
     $packagePrice = $pkg['price'];
 
-    // Check if user already exists
+    // If user is already logged in or session matches, perform Differential Upgrade
+    if ($authUser && ($authUser->email === $email || empty($email) || (session()->has('user.email') && session('user.email') === $email))) {
+        $upgrade = CommissionService::getUpgradeDetails($authUser->active_package, $packageKey);
+
+        if ($upgrade['is_current']) {
+            return back()->withInput()->with('error', "Aap pehle se {$activePackageName} par hain.");
+        }
+
+        if ($upgrade['is_lower']) {
+            return back()->withInput()->with('error', "Aapka vartaman package ({$authUser->active_package}) is se uncha hai.");
+        }
+
+        $payablePrice = $upgrade['is_upgrade'] ? $upgrade['payable_price'] : $packagePrice;
+
+        // Upgrade user active package
+        $authUser->update([
+            'active_package' => $activePackageName,
+            'name' => $name ?: $authUser->name,
+            'phone' => $phone ?: $authUser->phone,
+        ]);
+
+        if (session()->has('user')) {
+            session(['user.active_package' => $activePackageName]);
+        }
+
+        // Ensure newly included courses are available
+        $courses = Course::all();
+        foreach ($courses as $c) {
+            UserCourse::firstOrCreate([
+                'user_id' => $authUser->id,
+                'course_id' => $c->id,
+            ], [
+                'progress_percent' => 0,
+            ]);
+        }
+
+        // Generate unique Order ID
+        $orderId = 'SKL-UPG-'.rand(100000, 999999);
+
+        $orderData = [
+            'order_id' => $orderId,
+            'package_id' => $pkg['id'],
+            'package_name' => $activePackageName,
+            'amount' => $payablePrice,
+            'original_amount' => $packagePrice,
+            'discount' => $upgrade['discount'],
+            'is_upgrade' => true,
+            'previous_package' => $authUser->active_package,
+            'transaction_id' => 'PENDING',
+            'status' => 'Pending',
+            'user_id' => $authUser->id,
+            'user_name' => $authUser->name,
+            'user_email' => $authUser->email,
+            'sponsor_id' => $authUser->sponsor_id ?? $sponsorId,
+            'payment_method' => $paymentMethod,
+            'created_at' => now()->toDateTimeString(),
+        ];
+
+        session(['last_order' => $orderData]);
+
+        // Distribute upgrade commission in 'Pending' state
+        CommissionService::processSale(
+            $activePackageName,
+            $authUser->name,
+            $authUser->sponsor_id ?? $sponsorId,
+            $authUser,
+            initialStatus: 'Pending'
+        );
+
+        return redirect('/payment-status')->with('success', "Aapka package {$activePackageName} me upgrade order create ho gaya hai! ₹{$upgrade['discount']} ki chhoot mili hai. Payable: ₹{$payablePrice}.");
+    }
+
+    // Check if user already exists (for guest checkout)
     $existingUser = User::where('email', $email)->first();
 
     if ($existingUser) {
-        return back()->withInput()->with('error', 'Is email ke sath account pehle se maujood hai. Kripya seedhe Log In karein.');
+        return back()->withInput()->with('error', 'Is email ke sath account pehle se maujood hai. Kripya pehle Log In karein taaki aapka current package value minus ho sake!');
     }
 
     // Generate unique affiliate ID

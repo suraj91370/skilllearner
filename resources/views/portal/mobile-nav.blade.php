@@ -106,18 +106,6 @@
             <span>Leaderboard</span>
         </a>
 
-        <!-- 6. Team Leaderboard -->
-        <a href="{{ url('/team-leaderboard') }}" class="m-portal-tab {{ $currentActive === 'team-leaderboard' ? 'active' : '' }}">
-            <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            <span>Team</span>
-        </a>
-
-        <!-- 7. Certificate -->
-        <a href="{{ url('/certificates') }}" class="m-portal-tab {{ $currentActive === 'certificates' ? 'active' : '' }}">
-            <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-            <span>Certificate</span>
-        </a>
-
         {{-- ================= AFFILIATE TOOLS (User Only) ================= --}}
         @if ($isUser)
             <!-- Kyc -->
@@ -132,10 +120,16 @@
                 <span>Affiliate Link</span>
             </a>
 
-            <!-- Token Purchases -->
-            <a href="{{ url('/token-purchases') }}" class="m-portal-tab {{ $currentActive === 'tokens' ? 'active' : '' }}">
-                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                <span>Tokens</span>
+            <!-- Active Referral -->
+            <a href="{{ url('/active-referrals') }}" class="m-portal-tab {{ $currentActive === 'active-referrals' ? 'active' : '' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                <span>Active Ref</span>
+            </a>
+
+            <!-- Passive Referral -->
+            <a href="{{ url('/passive-referrals') }}" class="m-portal-tab {{ $currentActive === 'passive-referrals' ? 'active' : '' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span>Passive Ref</span>
             </a>
 
             <!-- Affiliate Training -->
