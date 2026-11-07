@@ -18,12 +18,17 @@ class PortalDataService
             'sponsor_id' => 'SL-ADMIN',
             'active_package' => 'Advance Package',
             'wallet_balance' => 14200,
+            'pending_withdrawal' => 0,
             'today_earning' => 2200,
             'weekly_earning' => 7400,
             'monthly_earning' => 21500,
             'total_earning' => 48600,
             'passive_earning' => 8400,
             'kyc_status' => 'Verified ✅',
+            'upi_id' => 'suraj@okhdfcbank',
+            'bank_name' => 'HDFC Bank',
+            'account_number' => '50100494320380',
+            'ifsc_code' => 'HDFC0000194',
             'role' => 'user',
             'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
         ];
@@ -34,6 +39,8 @@ class PortalDataService
         if (Auth::check()) {
             /** @var User $user */
             $user = Auth::user();
+            $kyc = $user->kyc;
+            $pendingWithdrawal = $user->payouts()->whereIn('status', ['Pending', 'Processing'])->sum('amount');
             session(['user' => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -43,12 +50,17 @@ class PortalDataService
                 'sponsor_id' => $user->sponsor_id ?? 'SL-ADMIN',
                 'active_package' => $user->active_package ?? 'Advance Package',
                 'wallet_balance' => (float) $user->wallet_balance,
+                'pending_withdrawal' => (float) $pendingWithdrawal,
                 'today_earning' => (float) $user->today_earning,
                 'weekly_earning' => (float) $user->weekly_earning,
                 'monthly_earning' => (float) ($user->monthly_earning > 0 ? $user->monthly_earning : ($user->weekly_earning * 2.8)),
                 'total_earning' => (float) $user->total_earning,
                 'passive_earning' => (float) ($user->passive_earning > 0 ? $user->passive_earning : round($user->total_earning * 0.18, 2)),
                 'kyc_status' => $user->kyc_status ?? 'Verified ✅',
+                'upi_id' => $kyc?->upi_id ?? session('user.upi_id', 'suraj@okhdfcbank'),
+                'bank_name' => $kyc?->bank_name ?? session('user.bank_name', 'HDFC Bank'),
+                'account_number' => $kyc?->account_number ?? session('user.account_number', '50100494320380'),
+                'ifsc_code' => $kyc?->ifsc_code ?? session('user.ifsc_code', 'HDFC0000194'),
                 'avatar' => $user->avatar ?? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
                 'role' => $user->role ?? 'user',
             ]]);
@@ -85,17 +97,15 @@ class PortalDataService
             }
 
             $payouts = $user->payouts()->get();
-            if ($payouts->isNotEmpty()) {
-                session(['payouts' => $payouts->map(function ($p) {
-                    return [
-                        'id' => $p->payout_code,
-                        'amount' => (float) $p->amount,
-                        'method' => $p->payment_method,
-                        'status' => $p->status,
-                        'date' => $p->created_at ? $p->created_at->format('Y-m-d') : date('Y-m-d'),
-                    ];
-                })->toArray()]);
-            }
+            session(['payouts' => $payouts->map(function ($p) {
+                return [
+                    'id' => $p->payout_code,
+                    'amount' => (float) $p->amount,
+                    'method' => $p->payment_method,
+                    'status' => $p->status,
+                    'date' => $p->created_at ? $p->created_at->format('Y-m-d') : date('Y-m-d'),
+                ];
+            })->toArray()]);
         }
 
         if (! session()->has('commissions')) {

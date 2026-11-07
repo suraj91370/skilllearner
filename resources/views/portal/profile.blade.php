@@ -127,12 +127,12 @@
 
                         <!-- Dual Action Buttons -->
                         <div class="profile-actions-grid">
-                            <a href="{{ url('/my-payout') }}" class="profile-btn-withdraw">
+                            <button type="button" onclick="openWithdrawModal()" class="profile-btn-withdraw">
                                 WITHDRAW AMOUNT
-                            </a>
-                            <a href="{{ url('/my-payout') }}" class="profile-btn-payout">
+                            </button>
+                            <button type="button" onclick="openPayoutHistoryModal()" class="profile-btn-payout">
                                 PAYOUT HISTORY
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -141,6 +141,21 @@
                      2. RIGHT TABS CONTAINER (Exact to Screenshot)
                      ========================================== -->
                 <div class="profile-tabs-card">
+                    @if(session('success'))
+                        <div class="profile-alert success" style="margin: 1.5rem 1.5rem 0 1.5rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>{{ session('success') }}</span>
+                            <button type="button" onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: inherit;">&times;</button>
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="profile-alert error" style="margin: 1.5rem 1.5rem 0 1.5rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>{{ session('error') }}</span>
+                            <button type="button" onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: inherit;">&times;</button>
+                        </div>
+                    @endif
+
                     <!-- Tab Navigation Header -->
                     <div class="profile-tab-header">
                         <button type="button" class="profile-tab-btn active" id="tab-btn-profileDetails" onclick="switchProfileTab('profileDetails')">
@@ -280,6 +295,134 @@
                 </div>
             </div>
         </main>
+    </div>
+</div>
+
+<!-- ==========================================
+     3. WITHDRAWAL POPUP MODAL (Exact to Screenshot)
+     ========================================== -->
+<div id="withdrawModal" class="payout-modal-overlay" style="display: none;" onclick="handleOverlayClick(event, 'withdrawModal')">
+    <div class="payout-modal-card">
+        <button type="button" class="payout-modal-close" onclick="closeWithdrawModal()" aria-label="Close">&times;</button>
+        <div class="payout-modal-header">
+            <h3 class="payout-modal-title">💸 Request Bank Withdrawal</h3>
+            <p class="payout-modal-balance">
+                Available Balance: <strong class="payout-modal-green">₹{{ number_format(session('user.wallet_balance', 0)) }}</strong>
+            </p>
+        </div>
+        <form method="POST" action="{{ route('portal.payout-request') }}" id="withdrawForm" onsubmit="handleSubmitPrevention(this)">
+            @csrf
+            <div class="payout-form-group">
+                <label class="payout-form-label" for="payout_amount">Amount to Withdraw (Min ₹500)</label>
+                <input 
+                    type="number" 
+                    id="payout_amount" 
+                    name="payout_amount" 
+                    class="payout-form-input" 
+                    value="" 
+                    min="500" 
+                    max="{{ (int)session('user.wallet_balance', 0) }}" 
+                    placeholder="Enter amount (e.g. 1000)" 
+                    required
+                >
+            </div>
+            <div class="payout-form-group">
+                <label class="payout-form-label" for="payout_details">UPI ID or Bank Account Details</label>
+                <input 
+                    type="text" 
+                    id="payout_details" 
+                    name="payout_details" 
+                    class="payout-form-input" 
+                    value="{{ session('user.upi_id', 'suraj@okhdfcbank') }}" 
+                    placeholder="suraj@okhdfcbank or Bank A/C No. & IFSC" 
+                    required
+                >
+            </div>
+            <button type="submit" class="payout-modal-submit-btn">
+                Submit Withdrawal Request
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ==========================================
+     4. PAYOUT HISTORY MODAL (Exact to Screenshot: My Payouts)
+     ========================================== -->
+<div id="payoutHistoryModal" class="payout-modal-overlay" style="display: none;" onclick="handleOverlayClick(event, 'payoutHistoryModal')">
+    <div class="payout-modal-card payout-history-card">
+        <button type="button" class="payout-modal-close" onclick="closePayoutHistoryModal()" aria-label="Close">&times;</button>
+        <div class="payout-modal-header">
+            <h3 class="payout-modal-title">My Payouts</h3>
+            <p class="payout-modal-balance">
+                Summary of all past disbursements and pending withdrawals
+            </p>
+        </div>
+
+        <!-- Metric Summary Chips -->
+        <div class="payout-history-metrics">
+            <div class="payout-history-chip">
+                <div class="chip-val chip-primary">{{ $timesWithdrawn ?? 0 }}</div>
+                <div class="chip-label">Times Withdrawn</div>
+            </div>
+            <div class="payout-history-chip">
+                <div class="chip-val chip-success">₹{{ number_format($totalTransferred ?? 0) }}</div>
+                <div class="chip-label">Total Received</div>
+            </div>
+            <div class="payout-history-chip">
+                <div class="chip-val chip-warning">₹{{ number_format($pendingAmount ?? session('user.pending_withdrawal', 0)) }}</div>
+                <div class="chip-label">Pending Approval</div>
+            </div>
+        </div>
+
+        <!-- History Table: Exact 4 Columns to Screenshot -->
+        <div class="payout-history-table-wrap">
+            <table class="payout-history-table">
+                <thead>
+                    <tr>
+                        <th>CREATED DATE</th>
+                        <th>UPDATED DATE</th>
+                        <th>AMOUNT</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($payouts ?? [] as $p)
+                        <tr>
+                            <td class="history-date">{{ $p['created_date'] ?? date('d-m-Y') }}</td>
+                            <td class="history-date">{{ $p['updated_date'] ?? date('d-m-Y') }}</td>
+                            <td class="history-amount">{{ $p['amount_formatted'] ?? number_format($p['amount'], 0, '', '') }}</td>
+                            <td>
+                                @if($p['status'] === 'Paid' || $p['status'] === 'Transferred' || $p['status'] === 'Approved')
+                                    <span class="status-badge status-approved">Paid</span>
+                                @elseif($p['status'] === 'Pending')
+                                    <span class="status-badge status-pending">Pending</span>
+                                @elseif($p['status'] === 'Rejected')
+                                    <span class="status-badge status-rejected">Rejected</span>
+                                @else
+                                    <span class="status-badge">{{ $p['status'] }}</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="history-empty">
+                                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">No payout records found yet.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="payout-history-footer">
+            <button type="button" onclick="switchToWithdrawFromHistory()" class="payout-history-btn-new">
+                + Request New Withdrawal
+            </button>
+            <a href="{{ url('/my-payout') }}" class="payout-history-btn-full">
+                View Full Page &rarr;
+            </a>
+        </div>
     </div>
 </div>
 
@@ -740,10 +883,394 @@
             font-size: 1.25rem;
         }
     }
+
+    /* ==========================================================
+       WITHDRAWAL & PAYOUT HISTORY POPUP MODAL STYLES
+       ========================================================== */
+    .payout-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .payout-modal-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 2.2rem 2rem;
+        max-width: 480px;
+        width: 100%;
+        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        border: 1px solid #e2e8f0;
+        box-sizing: border-box;
+        animation: modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .payout-history-card {
+        max-width: 680px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @keyframes modalPop {
+        0% {
+            opacity: 0;
+            transform: scale(0.94) translateY(8px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .payout-modal-close {
+        position: absolute;
+        top: 18px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 1.7rem;
+        color: #64748b;
+        cursor: pointer;
+        line-height: 1;
+        transition: color 0.15s ease;
+        padding: 4px;
+    }
+    .payout-modal-close:hover {
+        color: #0f172a;
+    }
+
+    .payout-modal-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .payout-modal-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 6px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .payout-modal-balance {
+        font-size: 0.94rem;
+        color: #64748b;
+        margin: 0;
+    }
+
+    .payout-modal-green {
+        color: #05B396;
+        font-weight: 800;
+        font-size: 1.05rem;
+    }
+
+    .payout-form-group {
+        margin-bottom: 1.3rem;
+    }
+
+    .payout-form-label {
+        display: block;
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 6px;
+    }
+
+    .payout-form-input {
+        width: 100%;
+        padding: 0.85rem 1.1rem;
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 0.96rem;
+        font-weight: 700;
+        color: #0f172a;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .payout-form-input:focus {
+        outline: none;
+        border-color: #05B396;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(5, 179, 150, 0.16);
+    }
+
+    .payout-modal-submit-btn {
+        width: 100%;
+        padding: 0.95rem;
+        background: #05B396;
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 14px rgba(5, 179, 150, 0.3);
+        margin-top: 0.4rem;
+    }
+    .payout-modal-submit-btn:hover {
+        background: #04947c;
+        box-shadow: 0 6px 20px rgba(5, 179, 150, 0.4);
+        transform: translateY(-1px);
+    }
+
+    /* Payout History Modal Elements */
+    .payout-history-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.3rem;
+    }
+
+    .payout-history-chip {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.85rem 0.5rem;
+        text-align: center;
+    }
+
+    .chip-val {
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+    .chip-primary { color: #00137a; }
+    .chip-success { color: #05B396; }
+    .chip-warning { color: #d97706; }
+
+    .chip-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-top: 4px;
+    }
+
+    .payout-history-table-wrap {
+        overflow-y: auto;
+        max-height: 320px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        margin-bottom: 1.2rem;
+    }
+
+    .payout-history-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        text-align: left;
+    }
+
+    .payout-history-table th {
+        background: #f8fafc;
+        padding: 0.75rem 1rem;
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        border-bottom: 1px solid #e2e8f0;
+        position: sticky;
+        top: 0;
+    }
+
+    .payout-history-table td {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    .payout-history-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .history-code code {
+        font-family: monospace;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .history-amount {
+        font-weight: 800;
+        color: #05B396;
+        font-size: 0.95rem;
+    }
+
+    .history-method {
+        color: #475569;
+        font-size: 0.84rem;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .history-date {
+        color: #64748b;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .history-empty {
+        text-align: center;
+        padding: 2.2rem 1rem !important;
+    }
+
+    .status-badge {
+        font-size: 0.74rem;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 6px;
+        display: inline-block;
+        white-space: nowrap;
+    }
+    .status-approved {
+        background: #f0fdf4;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+    }
+    .status-pending {
+        background: #fffbeb;
+        color: #b45309;
+        border: 1px solid #fde68a;
+    }
+    .status-processing {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+    }
+    .status-rejected {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    .payout-history-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+    }
+
+    .payout-history-btn-new {
+        background: #05B396;
+        color: #ffffff;
+        border: none;
+        padding: 0.7rem 1.3rem;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .payout-history-btn-new:hover {
+        background: #04947c;
+    }
+
+    .payout-history-btn-full {
+        color: #00137a;
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.15s ease;
+    }
+    .payout-history-btn-full:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .payout-history-metrics {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        .payout-modal-card {
+            padding: 1.6rem 1.2rem;
+        }
+    }
 </style>
 
 @push('scripts')
 <script>
+    function openWithdrawModal() {
+        const modal = document.getElementById('withdrawModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            const amountInput = document.getElementById('payout_amount');
+            if (amountInput) setTimeout(() => amountInput.focus(), 100);
+        }
+    }
+
+    function closeWithdrawModal() {
+        const modal = document.getElementById('withdrawModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    function openPayoutHistoryModal() {
+        const modal = document.getElementById('payoutHistoryModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePayoutHistoryModal() {
+        const modal = document.getElementById('payoutHistoryModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    function switchToWithdrawFromHistory() {
+        closePayoutHistoryModal();
+        setTimeout(() => openWithdrawModal(), 150);
+    }
+
+    function handleOverlayClick(e, modalId) {
+        if (e.target && e.target.id === modalId) {
+            if (modalId === 'withdrawModal') closeWithdrawModal();
+            if (modalId === 'payoutHistoryModal') closePayoutHistoryModal();
+        }
+    }
+
+    function handleSubmitPrevention(form) {
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = 'Submitting Request...';
+        }
+    }
+
+    // Keyboard ESC listener
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeWithdrawModal();
+            closePayoutHistoryModal();
+        }
+    });
     function switchProfileTab(tabKey) {
         // Remove active class from buttons
         document.querySelectorAll('.profile-tab-btn').forEach(btn => {

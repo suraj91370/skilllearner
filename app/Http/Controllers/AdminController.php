@@ -312,15 +312,43 @@ class AdminController extends Controller
     public function updatePayoutStatus(Request $request, Payout $payout): RedirectResponse
     {
         $validated = $request->validate([
-            'status' => ['required', 'in:Transferred,Processing,Rejected'],
+            'status' => ['required', 'in:Transferred,Processing,Rejected,Approved'],
         ]);
+
+        $newStatus = $validated['status'] === 'Approved' ? 'Transferred' : $validated['status'];
+        $oldStatus = $payout->status;
+
+        // If rejecting a pending or processing request, refund amount to user wallet
+        if ($newStatus === 'Rejected' && in_array($oldStatus, ['Pending', 'Processing'])) {
+            if ($payout->user) {
+                $payout->user->increment('wallet_balance', $payout->amount);
+            }
+        }
+
+        // If re-approving a rejected request, re-deduct if funds exist
+        if ($newStatus === 'Transferred' && $oldStatus === 'Rejected') {
+            if ($payout->user && $payout->user->wallet_balance >= $payout->amount) {
+                $payout->user->decrement('wallet_balance', $payout->amount);
+            }
+        }
 
         $payout->update([
-            'status' => $validated['status'],
-            'processed_at' => $validated['status'] === 'Transferred' ? now() : null,
+            'status' => $newStatus,
+            'processed_at' => $newStatus === 'Transferred' ? now() : null,
         ]);
 
-        return back()->with('success', "Payout #{$payout->payout_code} status updated to {$validated['status']}.");
+        // Refresh user session if modifying the current logged-in user
+        if (Auth::id() === $payout->user_id) {
+            PortalDataService::ensureUserSession();
+        }
+
+        $message = match ($newStatus) {
+            'Transferred' => "Payout #{$payout->payout_code} (₹" . number_format($payout->amount) . ") approved and marked as Transferred! ✅",
+            'Rejected' => "Payout #{$payout->payout_code} rejected. ₹" . number_format($payout->amount) . " refunded to affiliate wallet. ❌",
+            default => "Payout #{$payout->payout_code} status updated to {$newStatus}.",
+        };
+
+        return back()->with('success', $message);
     }
 
     /**
