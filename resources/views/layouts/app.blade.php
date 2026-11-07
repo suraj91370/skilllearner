@@ -929,13 +929,12 @@
                             </svg>
                             <span>My Profile</span>
                         </a>
-                        <a href="{{ url('/my-courses') }}" class="dropdown-link-item">
+                        <a href="{{ url('/videos') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="3" width="6" height="14" rx="1"></rect>
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="10 8 16 12 10 16 10 8"></polygon>
                             </svg>
-                            <span>My Courses</span>
+                            <span>My Course</span>
                         </a>
                         <a href="{{ url('/active-referrals') }}" class="dropdown-link-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1157,21 +1156,12 @@
                         <span>Dashboard</span>
                     </a>
 
-                    <!-- 2. My Course -->
-                    <a href="{{ url('/my-courses') }}" id="mob-link-courses" class="mobile-portal-link {{ request()->is('my-courses*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                        <span>My Course</span>
-                    </a>
-
-                    <!-- 3. Videos -->
-                    <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') ? 'active' : '' }}">
+                    <!-- 2. My Course (Previously Videos) -->
+                    <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') || request()->is('my-courses*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
                         </svg>
-                        <span>Videos (Masterclasses)</span>
+                        <span>My Course</span>
                     </a>
 
                     <!-- 4. Profile -->

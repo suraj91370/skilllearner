@@ -140,23 +140,13 @@
             <span>Dashboard</span>
         </a>
 
-        <!-- My Course -->
-        <a href="{{ url('/my-courses') }}" class="sidebar-item {{ $currentActive === 'courses' ? 'active' : '' }}">
-            <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-            </svg>
-            <span>My Course</span>
-        </a>
-
-        <!-- Videos (Masterclasses) -->
-        <a href="{{ url('/videos') }}" class="sidebar-item {{ $currentActive === 'videos' ? 'active' : '' }}">
+        <!-- My Course (Previously Videos) -->
+        <a href="{{ url('/videos') }}" class="sidebar-item {{ in_array($currentActive, ['videos', 'courses']) ? 'active' : '' }}">
             <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polygon points="10 8 16 12 10 16 10 8"></polygon>
             </svg>
-            <span>Videos</span>
-            <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Watch</span>
+            <span>My Course</span>
         </a>
 
         <!-- Profile -->
