@@ -54,10 +54,24 @@
 
             <!-- Table Card -->
             <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 18px; box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04); overflow: hidden;">
-                <div style="padding: 1.2rem 1.6rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                <div style="padding: 1.2rem 1.6rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0;">
                         Payout Queue ({{ count($payouts) }})
                     </h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <a href="{{ url('/admin/payout-requests') }}" style="padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-decoration: none; {{ $currentFilter === 'all' ? 'background: #05B396; color: #fff;' : 'background: #f1f5f9; color: #475569;' }}">
+                            All
+                        </a>
+                        <a href="{{ url('/admin/payout-requests?status=pending') }}" style="padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-decoration: none; {{ $currentFilter === 'pending' ? 'background: #f59e0b; color: #fff;' : 'background: #f1f5f9; color: #475569;' }}">
+                            Pending
+                        </a>
+                        <a href="{{ url('/admin/payout-requests?status=transferred') }}" style="padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-decoration: none; {{ $currentFilter === 'transferred' ? 'background: #10b981; color: #fff;' : 'background: #f1f5f9; color: #475569;' }}">
+                            Approved
+                        </a>
+                        <a href="{{ url('/admin/payout-requests?status=rejected') }}" style="padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-decoration: none; {{ $currentFilter === 'rejected' ? 'background: #ef4444; color: #fff;' : 'background: #f1f5f9; color: #475569;' }}">
+                            Rejected
+                        </a>
+                    </div>
                 </div>
 
                 <div style="overflow-x: auto;">
@@ -67,7 +81,7 @@
                                 <th style="padding: 0.85rem 1.4rem;">Reference Code</th>
                                 <th style="padding: 0.85rem 1rem;">Affiliate User</th>
                                 <th style="padding: 0.85rem 1rem;">Amount</th>
-                                <th style="padding: 0.85rem 1rem;">Payment Method</th>
+                                <th style="padding: 0.85rem 1rem;">Payment Method / UPI</th>
                                 <th style="padding: 0.85rem 1rem;">Date</th>
                                 <th style="padding: 0.85rem 1rem;">Status</th>
                                 <th style="padding: 0.85rem 1.4rem; text-align: right;">Action</th>
@@ -83,35 +97,52 @@
                                         <div style="font-weight: 700; color: #0f172a;">{{ $p->user?->name ?? 'Affiliate #'.$p->user_id }}</div>
                                         <div style="font-size: 0.78rem; color: #64748b;">{{ $p->user?->email }}</div>
                                     </td>
-                                    <td style="padding: 0.95rem 1rem; font-weight: 800; color: #05B396; font-size: 1rem;">
+                                    <td style="padding: 0.95rem 1rem; font-weight: 800; color: #05B396; font-size: 1.05rem;">
                                         ₹{{ number_format($p->amount, 2) }}
                                     </td>
-                                    <td style="padding: 0.95rem 1rem; color: #334155; font-size: 0.84rem;">
+                                    <td style="padding: 0.95rem 1rem; color: #334155; font-size: 0.84rem; font-weight: 600;">
                                         {{ $p->payment_method }}
                                     </td>
                                     <td style="padding: 0.95rem 1rem; color: #64748b; font-size: 0.82rem;">
-                                        {{ $p->created_at ? $p->created_at->format('d M Y') : 'Recent' }}
+                                        {{ $p->created_at ? $p->created_at->format('d M Y, h:i A') : 'Recent' }}
                                     </td>
                                     <td style="padding: 0.95rem 1rem;">
-                                        @if($p->status === 'Transferred')
-                                            <span style="background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Transferred ✅</span>
+                                        @if($p->status === 'Transferred' || $p->status === 'Approved')
+                                            <span style="background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; border: 1px solid #bbf7d0;">Approved &amp; Paid ✅</span>
+                                        @elseif($p->status === 'Pending')
+                                            <span style="background: #fffbeb; color: #b45309; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; border: 1px solid #fde68a;">Pending Approval ⏳</span>
                                         @elseif($p->status === 'Processing')
-                                            <span style="background: #fffbeb; color: #b45309; font-weight: 800; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Processing ⏳</span>
+                                            <span style="background: #eff6ff; color: #1d4ed8; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; border: 1px solid #bfdbfe;">Processing 🔄</span>
+                                        @elseif($p->status === 'Rejected')
+                                            <span style="background: #fef2f2; color: #991b1b; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; border: 1px solid #fecaca;">Rejected (Refunded) ❌</span>
                                         @else
-                                            <span style="background: #fef2f2; color: #991b1b; font-weight: 800; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">{{ $p->status }}</span>
+                                            <span style="background: #f8fafc; color: #475569; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px;">{{ $p->status }}</span>
                                         @endif
                                     </td>
                                     <td style="padding: 0.95rem 1.4rem; text-align: right;">
-                                        @if($p->status !== 'Transferred')
-                                            <form method="POST" action="{{ url('/admin/payout/'.$p->id.'/status') }}" style="display: inline;">
-                                                @csrf
-                                                <input type="hidden" name="status" value="Transferred">
-                                                <button type="submit" style="background: #05B396; border: none; color: #fff; padding: 0.4rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.25);">
-                                                    Mark Transferred
-                                                </button>
-                                            </form>
+                                        @if(in_array($p->status, ['Pending', 'Processing']))
+                                            <div style="display: inline-flex; gap: 6px; align-items: center;">
+                                                <form method="POST" action="{{ url('/admin/payout/'.$p->id.'/status') }}" style="display: inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="Transferred">
+                                                    <button type="submit" style="background: #05B396; border: none; color: #fff; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; box-shadow: 0 2px 8px rgba(5, 179, 150, 0.25); display: inline-flex; align-items: center; gap: 4px;">
+                                                        <span>Approve &amp; Pay</span>
+                                                    </button>
+                                                </form>
+                                                <form method="POST" action="{{ url('/admin/payout/'.$p->id.'/status') }}" style="display: inline;" onsubmit="return confirm('Reject payout #{{ $p->payout_code }}? ₹{{ number_format($p->amount) }} will be refunded to user wallet.')">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="Rejected">
+                                                    <button type="submit" style="background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; padding: 0.45rem 0.75rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                                                        Reject
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @elseif($p->status === 'Transferred' || $p->status === 'Approved')
+                                            <span style="color: #166534; font-size: 0.8rem; font-weight: 700;">Completed ✅</span>
+                                        @elseif($p->status === 'Rejected')
+                                            <span style="color: #991b1b; font-size: 0.8rem; font-weight: 700;">Refunded ↩️</span>
                                         @else
-                                            <span style="color: #64748b; font-size: 0.8rem; font-weight: 600;">Complete</span>
+                                            <span style="color: #64748b; font-size: 0.8rem; font-weight: 600;">-</span>
                                         @endif
                                     </td>
                                 </tr>

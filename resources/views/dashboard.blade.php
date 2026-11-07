@@ -391,20 +391,29 @@
 
             <!-- PANEL 4: SOCIAL COMMUNITY -->
             <section id="panel-community" class="portal-tab-panel" style="display: none;">
-                <div style="background: #ffffff; padding: 2rem; border-radius: 16px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                    <h3 style="font-size: 1.4rem; color: #0f172a; font-weight: 800; margin-bottom: 0.5rem;">🌐 Official Mentorship Communities</h3>
-                    <p style="color: #64748b; margin-bottom: 1.8rem; font-size: 0.92rem;">Join daily live Q&amp;A sessions, access sales scripts, and network with over 12,000+ top student creators.</p>
+                <div style="background: #ffffff; padding: 2rem; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800; margin-bottom: 1.5rem;">🌐 Official Social Communities</h3>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem;">
-                        <div style="padding: 1.4rem; border-radius: 12px; background: #f0fdf4; border: 1px solid #bbf7d0;">
-                            <h4 style="color: #166534; font-weight: 800;">💬 VIP WhatsApp Mastermind</h4>
-                            <p style="font-size: 0.85rem; color: #15803d; margin: 6px 0 12px;">Instant support, daily lead tactics &amp; closing scripts directly from trainers.</p>
-                            <a href="https://chat.whatsapp.com" target="_blank" class="btn btn-primary" style="background: #16a34a; font-size: 0.85rem; padding: 0.5rem 1rem;">Join WhatsApp Group ➔</a>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem;">
+                        <!-- WhatsApp -->
+                        <div style="padding: 1.5rem 1.2rem; border-radius: 14px; background: #f0fdf4; border: 1px solid #bbf7d0; text-align: center;">
+                            <h4 style="color: #166534; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">💬 WhatsApp Channel</h4>
+                            <a href="https://whatsapp.com/channel/0029VbEHttyHrDZfE7sHaM1f" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: #16a34a; font-size: 0.88rem; padding: 0.65rem 1.2rem; font-weight: 700; width: 100%; display: block; border-radius: 8px; text-decoration: none;">Join WhatsApp ➔</a>
                         </div>
-                        <div style="padding: 1.4rem; border-radius: 12px; background: #f0f9ff; border: 1px solid #bae6fd;">
-                            <h4 style="color: #0369a1; font-weight: 800;">📢 Telegram Broadcast Channel</h4>
-                            <p style="font-size: 0.85rem; color: #0284c7; margin: 6px 0 12px;">Weekly webinar links, top earner leaderboards &amp; payout updates.</p>
-                            <a href="https://t.me" target="_blank" class="btn btn-primary" style="background: #0284c7; font-size: 0.85rem; padding: 0.5rem 1rem;">Join Telegram Channel ➔</a>
+                        <!-- Instagram -->
+                        <div style="padding: 1.5rem 1.2rem; border-radius: 14px; background: #fdf2f8; border: 1px solid #fbcfe8; text-align: center;">
+                            <h4 style="color: #9d174d; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">📸 Instagram Official</h4>
+                            <a href="https://www.instagram.com/skilllearner_official?utm_source=qr&xtok=MTVwcXZiOGd1cTM3bQ==" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: #db2777; font-size: 0.88rem; padding: 0.65rem 1.2rem; font-weight: 700; width: 100%; display: block; border-radius: 8px; text-decoration: none;">Follow on Instagram ➔</a>
+                        </div>
+                        <!-- YouTube -->
+                        <div style="padding: 1.5rem 1.2rem; border-radius: 14px; background: #fef2f2; border: 1px solid #fecaca; text-align: center;">
+                            <h4 style="color: #991b1b; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">🎥 YouTube Channel</h4>
+                            <a href="https://www.youtube.com/@Skilllearner_official" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: #dc2626; font-size: 0.88rem; padding: 0.65rem 1.2rem; font-weight: 700; width: 100%; display: block; border-radius: 8px; text-decoration: none;">Subscribe on YouTube ➔</a>
+                        </div>
+                        <!-- Facebook -->
+                        <div style="padding: 1.5rem 1.2rem; border-radius: 14px; background: #eff6ff; border: 1px solid #bfdbfe; text-align: center;">
+                            <h4 style="color: #1e40af; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">👥 Facebook Community</h4>
+                            <a href="https://www.facebook.com/share/g/1FFBMXrPmb/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: #2563eb; font-size: 0.88rem; padding: 0.65rem 1.2rem; font-weight: 700; width: 100%; display: block; border-radius: 8px; text-decoration: none;">Join Facebook ➔</a>
                         </div>
                     </div>
                 </div>

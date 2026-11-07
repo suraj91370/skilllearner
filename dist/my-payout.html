@@ -2252,44 +2252,65 @@
 
         <!-- Right Content Area -->
         <main class="portal-content-area">
-            <div class="portal-box-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <div>
-                        <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800;">💳 Bank &amp; UPI Withdrawal Portal</h3>
-                        <p style="color: #64748b; font-size: 0.92rem;">Available to Withdraw: <strong style="color: #10b981; font-size: 1.3rem;">₹14,200</strong></p>
-                    </div>
-                    <button type="button" onclick="openPayoutModal()" class="btn btn-primary" style="background: #10b981; font-weight: 700; padding: 0.75rem 1.4rem;">
-                        + Request New Withdrawal
+            <!-- Page Header: Exact to Screenshot -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.3px;">
+                    My Payouts
+                </h2>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 0.92rem; color: #64748b;">
+                        Wallet Balance: <strong style="color: #05B396; font-size: 1.15rem;">₹14,200</strong>
+                    </span>
+                    <button type="button" onclick="openPayoutModal()" class="btn btn-primary" style="background: #05B396; font-weight: 700; padding: 0.65rem 1.3rem; border-radius: 8px; border: none; color: #ffffff; cursor: pointer; box-shadow: 0 4px 12px rgba(5, 179, 150, 0.25);">
+                        + Request Withdrawal
                     </button>
                 </div>
+            </div>
 
-                <div class="table-responsive-wrapper">
-                    <table style="border-collapse: collapse; font-size: 0.92rem; text-align: left; width: 100%;">
+            <!-- Table Card: Exact to Screenshot -->
+            <div style="background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.02); overflow: hidden;">
+                <div class="table-responsive-wrapper" style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
                         <thead>
-                            <tr style="border-bottom: 1px solid #e2e8f0; color: #64748b;">
-                                <th style="padding: 10px;">Payout ID</th>
-                                <th style="padding: 10px;">Amount</th>
-                                <th style="padding: 10px;">Destination Account</th>
-                                <th style="padding: 10px;">Status</th>
-                                <th style="padding: 10px;">Date</th>
+                            <tr style="border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                                <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.4px;">CREATED DATE</th>
+                                <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.4px;">UPDATED DATE</th>
+                                <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.4px;">AMOUNT</th>
+                                <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.4px;">STATUS</th>
                             </tr>
                         </thead>
                         <tbody>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; color: #1e293b;">
-                                    <td style="padding: 12px 10px;"><code>PAY-1082</code></td>
-                                    <td style="padding: 12px 10px; font-weight: 700; color: #0f172a;">₹5,000</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">UPI (suraj@okaxis)</td>
-                                    <td style="padding: 12px 10px; color: #10b981; font-weight: 600;">● Transferred</td>
-                                    <td style="padding: 12px 10px; color: #64748b; font-size: 0.82rem;">2026-10-23</td>
-                                </tr>
-                                                            <tr style="border-bottom: 1px solid #f1f5f9; color: #1e293b;">
-                                    <td style="padding: 12px 10px;"><code>PAY-1049</code></td>
-                                    <td style="padding: 12px 10px; font-weight: 700; color: #0f172a;">₹10,000</td>
-                                    <td style="padding: 12px 10px; color: #64748b;">HDFC Bank (A/C ...4819)</td>
-                                    <td style="padding: 12px 10px; color: #10b981; font-weight: 600;">● Transferred</td>
-                                    <td style="padding: 12px 10px; color: #64748b; font-size: 0.82rem;">2026-10-16</td>
-                                </tr>
-                                                    </tbody>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">19-10-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">19-10-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">1045</td>
+                                <td style="padding: 16px 24px;"><span style="background: #10b981; color: #ffffff; font-weight: 700; font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; display: inline-block;">Paid</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">03-10-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">03-10-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">1794</td>
+                                <td style="padding: 16px 24px;"><span style="background: #10b981; color: #ffffff; font-weight: 700; font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; display: inline-block;">Paid</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">22-09-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">22-09-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">1000</td>
+                                <td style="padding: 16px 24px;"><span style="background: #10b981; color: #ffffff; font-weight: 700; font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; display: inline-block;">Paid</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">18-08-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">18-08-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">1200</td>
+                                <td style="padding: 16px 24px;"><span style="background: #10b981; color: #ffffff; font-weight: 700; font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; display: inline-block;">Paid</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">16-08-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">16-08-2026</td>
+                                <td style="padding: 16px 24px; color: #334155; font-weight: 500;">15000</td>
+                                <td style="padding: 16px 24px;"><span style="background: #10b981; color: #ffffff; font-weight: 700; font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; display: inline-block;">Paid</span></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -2298,21 +2319,25 @@
 </div>
 
 <!-- Modal for Payout -->
-<div id="payoutModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; padding: 1rem;">
-    <div class="modal-box" style="background: #ffffff; border-radius: 16px; padding: 2rem; max-width: 480px; width: 100%; border: 1px solid #e2e8f0; box-shadow: 0 20px 45px rgba(0,0,0,0.2); position: relative;">
-        <button type="button" onclick="closePayoutModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer;">&times;</button>
-        <h3 style="margin-bottom: 0.5rem; color: #0f172a; font-weight: 800; font-size: 1.3rem;">💸 Request Bank Withdrawal</h3>
-        <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 1.5rem;">Available Balance: <strong style="color: #10b981;">₹14,200</strong></p>
+<div id="payoutModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; box-sizing: border-box;" onclick="handlePayoutModalClick(event)">
+    <div class="modal-box" style="background: #ffffff; border-radius: 18px; padding: 2.2rem 2rem; max-width: 480px; width: 100%; border: 1px solid #e2e8f0; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.3); position: relative; box-sizing: border-box;">
+        <button type="button" onclick="closePayoutModal()" style="position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.6rem; color: #64748b; cursor: pointer; line-height: 1;">&times;</button>
+        <h3 style="margin-bottom: 0.4rem; color: #0f172a; font-weight: 800; font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">💸 Request Bank Withdrawal</h3>
+        <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 1.5rem;">Available Balance: <strong style="color: #05B396; font-size: 1.05rem;">₹14,200</strong></p>
         
-        <form method="POST" action="/payout-request">
-            <input type="hidden" name="_token" value="eIVMutMHYdOI2rRXKmvgNDve9PxjXWdaJ9icIDrQ" autocomplete="off">            <div style="margin-bottom: 1.2rem;">
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 4px;">Amount to Withdraw (Min ₹500)</label>
-                <input type="number" name="payout_amount" value="2000" min="500" max="14200" style="width: 100%; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.95rem; font-weight: 700;" required>
+        <form id="payoutWithdrawForm" onsubmit="event.preventDefault(); alert('Withdrawal request submitted! Status: Pending admin approval.'); closePayoutModal();">
+            <div style="margin-bottom: 1.3rem;">
+                <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Amount to Withdraw (Min ₹500)</label>
+                <input type="number" name="payout_amount" value="" min="500" placeholder="Enter amount (e.g. 1000)" style="width: 100%; padding: 0.85rem 1.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 0.96rem; font-weight: 700; box-sizing: border-box;" required>
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 4px;">UPI ID or Bank Account Details</label>
-                <input type="text" name="payout_details" value="suraj@okhdfcbank" placeholder="yourname@okhdfcbank or HDFC A/C No." style="width: 100%; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.92rem;" required>
+                <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 6px;">UPI ID or Bank Account Details</label>
+                <input type="text" name="payout_details" value="suraj@okhdfcbank" placeholder="suraj@okhdfcbank or Bank A/C No. & IFSC" style="width: 100%; padding: 0.85rem 1.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 0.96rem; font-weight: 600; box-sizing: border-box;" required>
             </div>
+            <button type="submit" style="width: 100%; padding: 0.95rem; background: #05B396; font-weight: 800; border-radius: 10px; border: none; color: #ffffff; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.3);">Submit Withdrawal Request</button>
+        </form>
+    </div>
+</div>
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; background: #05B396; font-weight: 800; border-radius: 8px; border: none; color: #ffffff; cursor: pointer;">Submit Withdrawal Request</button>
         </form>
     </div>

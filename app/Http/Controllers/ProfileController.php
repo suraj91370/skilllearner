@@ -13,8 +13,49 @@ class ProfileController extends Controller
     {
         PortalDataService::ensureUserSession();
 
+        $user = Auth::user();
+        if ($user) {
+            $payouts = $user->payouts()->get()->map(function ($p) {
+                $status = in_array($p->status, ['Transferred', 'Approved', 'Paid']) ? 'Paid' : $p->status;
+                return [
+                    'id' => $p->payout_code,
+                    'amount' => (float) $p->amount,
+                    'amount_formatted' => number_format($p->amount, 0, '', ''),
+                    'method' => $p->payment_method,
+                    'status' => $status,
+                    'created_date' => $p->created_at ? $p->created_at->format('d-m-Y') : date('d-m-Y'),
+                    'updated_date' => $p->updated_at ? $p->updated_at->format('d-m-Y') : date('d-m-Y'),
+                    'date' => $p->created_at ? $p->created_at->format('d-m-Y') : date('d-m-Y'),
+                ];
+            })->toArray();
+        } else {
+            $sessionPayouts = session('payouts', []);
+            $payouts = array_map(function ($p) {
+                $created = $p['created_date'] ?? ($p['date'] ?? date('d-m-Y'));
+                $status = in_array($p['status'] ?? '', ['Transferred', 'Approved', 'Paid']) ? 'Paid' : ($p['status'] ?? 'Pending');
+                return [
+                    'id' => $p['id'] ?? 'PAY-'.rand(1000, 9999),
+                    'amount' => (float) ($p['amount'] ?? 0),
+                    'amount_formatted' => number_format((float) ($p['amount'] ?? 0), 0, '', ''),
+                    'method' => $p['method'] ?? 'UPI',
+                    'status' => $status,
+                    'created_date' => date('d-m-Y', strtotime($created)),
+                    'updated_date' => date('d-m-Y', strtotime($p['updated_date'] ?? $created)),
+                    'date' => date('d-m-Y', strtotime($created)),
+                ];
+            }, $sessionPayouts);
+        }
+
+        $totalTransferred = collect($payouts)->where('status', 'Paid')->sum('amount');
+        $timesWithdrawn = collect($payouts)->where('status', 'Paid')->count();
+        $pendingAmount = collect($payouts)->whereIn('status', ['Pending', 'Processing'])->sum('amount');
+
         return view('portal.profile', [
             'active' => 'profile',
+            'payouts' => $payouts,
+            'totalTransferred' => $totalTransferred,
+            'timesWithdrawn' => $timesWithdrawn,
+            'pendingAmount' => $pendingAmount,
         ]);
     }
 
