@@ -112,7 +112,6 @@
 @push('scripts')
 <script>
     function handleForgotSubmit(e) {
-        // If running in static/demo mode, show instant feedback
         const emailInput = document.getElementById('resetEmail');
         if (emailInput && emailInput.value) {
             const form = document.getElementById('forgotPasswordForm');
@@ -122,6 +121,14 @@
                 document.getElementById('sentEmailDisplay').textContent = emailInput.value;
                 document.getElementById('clientResetSuccess').style.display = 'block';
                 form.style.display = 'none';
+            } else {
+                const btn = document.getElementById('resetSubmitBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>Sending Email...</span>';
+                    btn.style.opacity = '0.75';
+                    btn.style.cursor = 'wait';
+                }
             }
         }
     }

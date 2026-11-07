@@ -1498,11 +1498,11 @@
         box-shadow: 0 2px 8px rgba(0, 19, 122, 0.25);
     }
 
-    /* Revenue Grid - 2 cols desktop, 1 col mobile */
+    /* Revenue Grid - 3 cols desktop, 2 cols mobile (User Request) */
     .dashboard-revenue-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.15rem;
         margin-bottom: 1.5rem;
     }
 
@@ -1640,8 +1640,42 @@
 
     @media (max-width: 768px) {
         .dashboard-revenue-grid {
-            grid-template-columns: 1fr;
-            gap: 0.9rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .revenue-card {
+            padding: 1rem 0.95rem 0.85rem;
+            border-radius: 10px;
+        }
+
+        .revenue-amount {
+            font-size: clamp(1.2rem, 3.8vw, 1.55rem);
+            line-height: 1.1;
+        }
+
+        .revenue-icon-box svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .revenue-label {
+            font-size: 0.82rem;
+            margin-bottom: 0.55rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .revenue-divider {
+            margin-bottom: 0.45rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .profile-banner-decor-left,
@@ -1655,12 +1689,36 @@
             min-height: 170px;
         }
 
-        .revenue-amount {
-            font-size: 1.85rem;
-        }
-
         .dashboard-graph-card {
             padding: 1.2rem 1rem;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .dashboard-revenue-grid {
+            gap: 0.55rem;
+        }
+
+        .revenue-card {
+            padding: 0.85rem 0.75rem 0.75rem;
+        }
+
+        .revenue-amount {
+            font-size: 1.15rem;
+        }
+
+        .revenue-icon-box svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .revenue-label {
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.65rem;
         }
     }
 </style>
@@ -2619,7 +2677,7 @@
                 <!-- Card 1: Today's Revenue (Blue) -->
                 <div class="revenue-card card-today">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹0</div>
+                        <div class="revenue-amount counter-anim" data-target="0">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -2635,7 +2693,7 @@
                 <!-- Card 2: 7 Days Revenue (Orange) -->
                 <div class="revenue-card card-7days">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹120</div>
+                        <div class="revenue-amount counter-anim" data-target="120">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -2652,7 +2710,7 @@
                 <!-- Card 3: 30 Days Revenue (Red) -->
                 <div class="revenue-card card-30days">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹1,225</div>
+                        <div class="revenue-amount counter-anim" data-target="1225">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
@@ -2668,7 +2726,7 @@
                 <!-- Card 4: All Time Revenue (Purple) -->
                 <div class="revenue-card card-alltime">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹82,084</div>
+                        <div class="revenue-amount counter-anim" data-target="82084">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
@@ -2687,7 +2745,7 @@
                 <!-- Card 5: All Time Passive (Magenta/Pink - User Requested Passive Income) -->
                 <div class="revenue-card card-passive">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹2,771</div>
+                        <div class="revenue-amount counter-anim" data-target="2771">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="28" height="28" viewBox="0 0 28 28">
                                 <circle cx="14" cy="14" r="13" fill="#ffffff" />
@@ -2703,7 +2761,7 @@
                 <!-- Card 6: Industry Revenue (Project Emerald Teal #05B396) -->
                 <div class="revenue-card card-industry">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹427,539</div>
+                        <div class="revenue-amount counter-anim" data-target="427539">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="28" height="28" viewBox="0 0 28 28">
                                 <circle cx="14" cy="14" r="13" fill="#ffffff" />
@@ -3680,11 +3738,11 @@
         box-shadow: 0 2px 8px rgba(0, 19, 122, 0.25);
     }
 
-    /* Revenue Grid - 2 cols desktop, 1 col mobile */
+    /* Revenue Grid - 3 cols desktop, 2 cols mobile (User Request) */
     .dashboard-revenue-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.15rem;
         margin-bottom: 1.5rem;
     }
 
@@ -3822,8 +3880,42 @@
 
     @media (max-width: 768px) {
         .dashboard-revenue-grid {
-            grid-template-columns: 1fr;
-            gap: 0.9rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .revenue-card {
+            padding: 1rem 0.95rem 0.85rem;
+            border-radius: 10px;
+        }
+
+        .revenue-amount {
+            font-size: clamp(1.2rem, 3.8vw, 1.55rem);
+            line-height: 1.1;
+        }
+
+        .revenue-icon-box svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .revenue-label {
+            font-size: 0.82rem;
+            margin-bottom: 0.55rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .revenue-divider {
+            margin-bottom: 0.45rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .profile-banner-decor-left,
@@ -3837,12 +3929,36 @@
             min-height: 170px;
         }
 
-        .revenue-amount {
-            font-size: 1.85rem;
-        }
-
         .dashboard-graph-card {
             padding: 1.2rem 1rem;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .dashboard-revenue-grid {
+            gap: 0.55rem;
+        }
+
+        .revenue-card {
+            padding: 0.85rem 0.75rem 0.75rem;
+        }
+
+        .revenue-amount {
+            font-size: 1.15rem;
+        }
+
+        .revenue-icon-box svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .revenue-label {
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.65rem;
         }
     }
 </style>
@@ -4006,6 +4122,47 @@
                 alert('✅ Referral Link Copied to Clipboard!\n' + input.value);
             });
         }
+    }
+
+    // Number Count-Up Animation (Starts from 0 and increases smoothly to target total)
+    function animateRevenueCounters() {
+        const counters = document.querySelectorAll('.counter-anim');
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target')) || 0;
+            if (target <= 0) {
+                counter.innerText = '₹0';
+                return;
+            }
+
+            const duration = 1600; // 1.6s smooth easing count-up
+            let startTimestamp = null;
+
+            function step(timestamp) {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const elapsed = timestamp - startTimestamp;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Ease Out Quart: 1 - (1 - progress)^4
+                const easeOutProgress = 1 - Math.pow(1 - progress, 4);
+                const currentVal = Math.floor(easeOutProgress * target);
+
+                counter.innerText = '₹' + currentVal.toLocaleString('en-US');
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    counter.innerText = '₹' + Math.round(target).toLocaleString('en-US');
+                }
+            }
+
+            window.requestAnimationFrame(step);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', animateRevenueCounters);
+    } else {
+        animateRevenueCounters();
     }
 </script>
 </body>

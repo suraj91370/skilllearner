@@ -960,11 +960,11 @@
         box-shadow: 0 2px 8px rgba(0, 19, 122, 0.25);
     }
 
-    /* Revenue Grid - 2 cols desktop, 1 col mobile */
+    /* Revenue Grid - 3 cols desktop, 2 cols mobile (User Request) */
     .dashboard-revenue-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.15rem;
         margin-bottom: 1.5rem;
     }
 
@@ -1102,8 +1102,42 @@
 
     @media (max-width: 768px) {
         .dashboard-revenue-grid {
-            grid-template-columns: 1fr;
-            gap: 0.9rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .revenue-card {
+            padding: 1rem 0.95rem 0.85rem;
+            border-radius: 10px;
+        }
+
+        .revenue-amount {
+            font-size: clamp(1.2rem, 3.8vw, 1.55rem);
+            line-height: 1.1;
+        }
+
+        .revenue-icon-box svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .revenue-label {
+            font-size: 0.82rem;
+            margin-bottom: 0.55rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .revenue-divider {
+            margin-bottom: 0.45rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .profile-banner-decor-left,
@@ -1117,12 +1151,36 @@
             min-height: 170px;
         }
 
-        .revenue-amount {
-            font-size: 1.85rem;
-        }
-
         .dashboard-graph-card {
             padding: 1.2rem 1rem;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .dashboard-revenue-grid {
+            gap: 0.55rem;
+        }
+
+        .revenue-card {
+            padding: 0.85rem 0.75rem 0.75rem;
+        }
+
+        .revenue-amount {
+            font-size: 1.15rem;
+        }
+
+        .revenue-icon-box svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .revenue-label {
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .revenue-detail-link {
+            font-size: 0.65rem;
         }
     }
 

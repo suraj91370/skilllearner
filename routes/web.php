@@ -23,10 +23,15 @@ use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\Video;
 use App\Services\CommissionService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 // Demo User Data Definition
 if (! function_exists('getDemoUserData')) {
@@ -601,18 +606,367 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/my-account', [AuthController::class, 'showLoginForm'])->name('account');
 Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
 
-// Forgot Password
+// Forgot & Reset Password
 Route::get('/forgot-password', function () {
     return view('forgot-password');
 })->name('password.request');
+
 Route::get('/forget-password', function () {
     return redirect()->route('password.request');
 });
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
 
-    return back()->with('status', 'A password reset link has been sent to '.e($request->email).'. Please check your inbox!');
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (! $user) {
+        return back()->withInput()->withErrors([
+            'email' => 'No account found with this email address. Please make sure you entered the correct registered email.',
+        ]);
+    }
+
+    // Generate secure 64-character token
+    $token = Str::random(64);
+
+    // Save token in password_reset_tokens table
+    try {
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'email' => $user->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]
+        );
+    } catch (\Throwable $dbEx) {
+        Log::warning('Could not store reset token in DB: '.$dbEx->getMessage());
+    }
+
+    $resetUrl = route('password.reset', ['token' => $token, 'email' => $user->email]);
+
+    // Send Real Email via configured Mailer (SMTP / Gmail / Brevo / etc.)
+    try {
+        Mail::send([], [], function ($message) use ($user, $resetUrl) {
+            $message->to($user->email, $user->name)
+                ->subject('Reset Your Password — SkillLearner')
+                ->html('
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #1e293b;">
+                        <div style="max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+                            
+                            <!-- Header -->
+                            <div style="background: #00137a; padding: 28px 30px; text-align: center;">
+                                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Skill<span style="color: #05B396;">Learner</span></h1>
+                                <p style="color: #94a3b8; margin: 6px 0 0; font-size: 13px; font-weight: 600;">BUILD SKILLS | BUILD FUTURE</p>
+                            </div>
+
+                            <!-- Body Content -->
+                            <div style="padding: 35px 30px;">
+                                <h2 style="color: #0f172a; font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px;">Hello '.e($user->name).',</h2>
+                                
+                                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+                                    We received a request to reset the password for your SkillLearner account. Click the button below to choose a new password:
+                                </p>
+
+                                <div style="text-align: center; margin: 32px 0;">
+                                    <a href="'.$resetUrl.'" style="background: #05B396; color: #ffffff; padding: 14px 34px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 700; display: inline-block; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35);">
+                                        Reset Password
+                                    </a>
+                                </div>
+
+                                <div style="background: #f1f5f9; border-left: 4px solid #05B396; padding: 12px 16px; border-radius: 6px; margin: 24px 0;">
+                                    <p style="margin: 0; color: #334155; font-size: 13px; line-height: 1.5;">
+                                        ⏱️ <strong>Note:</strong> This password reset link will expire in <strong>60 minutes</strong>.
+                                    </p>
+                                </div>
+
+                                <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin-bottom: 24px;">
+                                    If you did not request a password reset, you can safely ignore this email. Your account remains completely secure.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
+
+                                <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin: 0; word-break: break-all;">
+                                    If the button doesn\'t work, copy and paste this link in your browser:<br>
+                                    <a href="'.$resetUrl.'" style="color: #05B396; text-decoration: underline;">'.$resetUrl.'</a>
+                                </p>
+                            </div>
+
+                            <!-- Footer -->
+                            <div style="background: #f8fafc; padding: 18px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
+                                <p style="color: #94a3b8; font-size: 12px; margin: 0;">
+                                    © '.date('Y').' SkillLearner. All rights reserved.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                ');
+        });
+
+        return back()->with('status', 'A password reset link has been dispatched to '.$user->email.'! Please check your inbox and spam folder.');
+    } catch (\Throwable $e) {
+        Log::error('SMTP Mail error on forgot password: '.$e->getMessage());
+
+        return back()->withInput()->withErrors([
+            'email' => 'Could not send email: '.$e->getMessage().'. Please verify your SMTP settings in .env.',
+        ]);
+    }
 })->name('password.email');
+
+// Reset Password Page & Submission
+Route::get('/reset-password/{token}', function (Request $request, string $token) {
+    return view('reset-password', [
+        'token' => $token,
+        'email' => $request->query('email', ''),
+    ]);
+})->name('password.reset');
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required|string',
+        'email' => 'required|email',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+    if (! $user) {
+        return back()->withInput()->withErrors(['email' => 'No user account found with this email address.']);
+    }
+
+    // Verify token from database
+    $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
+
+    $isValid = false;
+    if ($record) {
+        if ($record->token === $request->token || Hash::check($request->token, $record->token)) {
+            // Check expiry (60 mins)
+            if (! Carbon::parse($record->created_at)->addMinutes(60)->isPast()) {
+                $isValid = true;
+            }
+        }
+    }
+
+    // If local/testing or valid token
+    if (! $isValid && ! app()->environment('local')) {
+        return back()->withInput()->withErrors(['email' => 'This password reset link is invalid or has expired. Please request a new one.']);
+    }
+
+    // Update password
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    // Clean up used token
+    try {
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+    } catch (\Throwable $e) {
+        // ignore
+    }
+
+    return redirect()->route('login')->with('success', 'Your password has been successfully reset! You can now log in with your new password.');
+})->name('password.update');
+
+// 5.1 SMTP Quick Test & Diagnostic Dashboard
+Route::get('/test-email', function (Request $request) {
+    $recipient = $request->query('to', 'suraj913708@gmail.com');
+    $doSend = $request->has('send');
+
+    $mailer = config('mail.default', 'log');
+    $smtpHost = config('mail.mailers.smtp.host', '127.0.0.1');
+    $smtpPort = config('mail.mailers.smtp.port', 2525);
+    $smtpUser = config('mail.mailers.smtp.username');
+    $hasPassword = ! empty(config('mail.mailers.smtp.password'));
+    $fromAddress = config('mail.from.address');
+
+    $sendResult = null;
+    $sendError = null;
+
+    if ($doSend) {
+        try {
+            Mail::raw("SkillLearner Live Test Email!\n\nIf you see this in your inbox, your SMTP configuration is 100% working!\nDelivered to: ".$recipient."\nMailer Used: ".$mailer."\nTimestamp: ".now()->toDateTimeString(), function ($message) use ($recipient) {
+                $message->to($recipient)
+                    ->subject('SkillLearner — Live Email Test Successful ✅');
+            });
+            $sendResult = true;
+        } catch (\Throwable $e) {
+            $sendError = $e->getMessage();
+            $sendResult = false;
+        }
+    }
+
+    // Read last few lines of laravel.log
+    $logFile = storage_path('logs/laravel.log');
+    $recentLog = '';
+    if (file_exists($logFile)) {
+        $lines = file($logFile);
+        $recentLines = array_slice($lines, -35);
+        $recentLog = implode('', $recentLines);
+    }
+
+    $isLogMode = ($mailer === 'log');
+
+    $html = '
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mail Diagnostics & Live Test — SkillLearner</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; margin: 0; padding: 30px 15px; }
+            .diag-container { max-width: 760px; margin: 0 auto; }
+            .card { background: #ffffff; border-radius: 14px; padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; margin-bottom: 24px; }
+            .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0.3px; }
+            .badge-warn { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+            .badge-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+            .table-config { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+            .table-config td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
+            .table-config td:first-child { font-weight: 600; color: #64748b; width: 35%; }
+            .btn { display: inline-block; background: #05B396; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; font-size: 15px; }
+            .btn:hover { background: #049e84; }
+            pre { background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 8px; font-size: 12px; overflow-x: auto; max-height: 240px; }
+            .step-box { background: #f0fdf4; border-left: 4px solid #05B396; padding: 14px 18px; border-radius: 6px; margin-top: 14px; font-size: 14px; line-height: 1.6; }
+        </style>
+    </head>
+    <body>
+    <div class="diag-container">
+        
+        <div style="text-align: center; margin-bottom: 25px;">
+            <h1 style="margin: 0 0 6px; color: #00137a; font-size: 26px;">SkillLearner Mail Diagnostics &amp; Live Test</h1>
+            <p style="margin: 0; color: #64748b; font-size: 14px;">Diagnose why emails are not reaching your inbox and send live test emails.</p>
+        </div>';
+
+    if ($sendResult === true) {
+        if ($isLogMode) {
+            $html .= '
+            <div class="card" style="background: #fffbeb; border-color: #fde68a;">
+                <h3 style="margin-top: 0; color: #b45309;">⚠️ Email Processed in "LOG" Mode (Simulated)</h3>
+                <p style="margin: 6px 0; color: #92400e; font-size: 14px;">
+                    Laravel executed the send command, <strong>BUT your .env file is currently set to <code>MAIL_MAILER=log</code></strong>.<br>
+                    Because of this, no email was sent over the internet to Gmail. Instead, the full email was saved to <code>storage/logs/laravel.log</code>.
+                </p>
+                <p style="margin: 10px 0 0; color: #78350f; font-size: 13px; font-weight: 600;">
+                    👉 To receive emails in your REAL Gmail inbox, you must change <code>MAIL_MAILER=smtp</code> in your <code>.env</code> file (see instructions below).
+                </p>
+            </div>';
+        } else {
+            $html .= '
+            <div class="card" style="background: #f0fdf4; border-color: #86efac; text-align: center;">
+                <h3 style="margin-top: 0; color: #15803d; font-size: 22px;">🎉 Real Email Sent Successfully!</h3>
+                <p style="margin: 8px 0; color: #166534; font-size: 15px;">
+                    Laravel successfully connected to your SMTP server and delivered an email to:<br>
+                    <strong style="font-size: 18px; color: #0f172a;">'.e($recipient).'</strong>
+                </p>
+                <p style="margin: 12px 0 0; color: #4b5563; font-size: 13px;">
+                    Please check your Gmail inbox (also check the <strong>Spam</strong> and <strong>Promotions</strong> folders right now)!
+                </p>
+            </div>';
+        }
+    } elseif ($sendResult === false) {
+        $html .= '
+        <div class="card" style="background: #fef2f2; border-color: #fca5a5;">
+            <h3 style="margin-top: 0; color: #b91c1c;">❌ SMTP Error: Email Failed to Send</h3>
+            <p style="margin: 6px 0; color: #7f1d1d; font-size: 14px;">Your mail server rejected the connection or credentials:</p>
+            <pre style="background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; white-space: pre-wrap;">'.e($sendError).'</pre>
+            <p style="margin: 12px 0 0; font-size: 13px; color: #374151;">
+                <strong>Common Fix:</strong> If you are using Gmail, make sure you use a 16-character <strong>Google App Password</strong> (not your regular Gmail password) and that 2-Step Verification is turned ON.
+            </p>
+        </div>';
+    }
+
+    $html .= '
+        <!-- Card 1: Current Configuration -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="font-size: 18px; margin: 0; color: #0f172a;">1. Current Mail Settings (from .env)</h2>
+                '.($isLogMode ? '<span class="badge badge-warn">⚠️ LOG MODE (Simulated)</span>' : '<span class="badge badge-success">🟢 SMTP MODE (Real)</span>').'
+            </div>
+            
+            <table class="table-config">
+                <tr>
+                    <td>MAIL_MAILER (Driver)</td>
+                    <td><strong style="color: '.($isLogMode ? '#d97706' : '#05B396').';">'.$mailer.'</strong> '.($isLogMode ? '— <em>(Emails go to storage/logs/laravel.log only)</em>' : '— <em>(Connected to SMTP)</em>').'</td>
+                </tr>
+                <tr>
+                    <td>MAIL_HOST</td>
+                    <td><code>'.$smtpHost.'</code></td>
+                </tr>
+                <tr>
+                    <td>MAIL_PORT</td>
+                    <td><code>'.$smtpPort.'</code></td>
+                </tr>
+                <tr>
+                    <td>MAIL_USERNAME</td>
+                    <td><code>'.($smtpUser ?: '<span style="color: #ef4444;">null / Not Configured</span>').'</code></td>
+                </tr>
+                <tr>
+                    <td>MAIL_PASSWORD</td>
+                    <td>'.($hasPassword ? '<span style="color: #05B396; font-weight: 600;">•••••••••••••••• (Set)</span>' : '<span style="color: #ef4444; font-weight: 600;">❌ Not Set (Empty)</span>').'</td>
+                </tr>
+                <tr>
+                    <td>MAIL_FROM_ADDRESS</td>
+                    <td><code>'.$fromAddress.'</code></td>
+                </tr>
+            </table>
+
+            '.($isLogMode ? '
+            <div class="step-box" style="background: #fffbeb; border-left-color: #f59e0b; color: #92400e; margin-top: 18px;">
+                <strong>Kyu mail nahi aa raha?</strong><br>
+                Aapki <code>.env</code> file me <code>MAIL_MAILER=log</code> likha hua hai. Jab tak <code>MAIL_MAILER=smtp</code> aur Google App Password nahi daalenge, tab tak real mail nahi aayega!
+            </div>' : '').'
+        </div>
+
+        <!-- Card 2: Send Live Test Email -->
+        <div class="card">
+            <h2 style="font-size: 18px; margin: 0 0 12px; color: #0f172a;">2. Send Live Test Email Now</h2>
+            <p style="margin: 0 0 16px; color: #64748b; font-size: 14px;">Enter your email to test whether Laravel can deliver an email right now:</p>
+            
+            <form method="GET" action="'.url('/test-email').'" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="hidden" name="send" value="1">
+                <input type="email" name="to" value="'.e($recipient).'" required placeholder="your-email@gmail.com" style="flex: 1; min-width: 260px; padding: 12px 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 15px;">
+                <button type="submit" class="btn">🚀 Send Test Email</button>
+            </form>
+        </div>
+
+        <!-- Card 3: Google App Password Setup Steps -->
+        <div class="card">
+            <h2 style="font-size: 18px; margin: 0 0 12px; color: #0f172a;">3. Gmail se Real Email bhejne ke 3 Steps</h2>
+            <ol style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8; color: #334155;">
+                <li>Google Account kholein: <a href="https://myaccount.google.com/security" target="_blank" style="color: #05B396; font-weight: 600;">myaccount.google.com/security</a> aur <strong>2-Step Verification</strong> ON karein.</li>
+                <li>Direct link open karein: <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color: #05B396; font-weight: 600;">myaccount.google.com/apppasswords</a></li>
+                <li>App name me <code>SkillLearner</code> likhein aur <strong>Create</strong> karein. Google 16-letter ka password dega.</li>
+                <li>Apni <code>.env</code> file me ye likhein:
+                    <pre style="background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 6px; margin: 8px 0; font-size: 13px;">MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=suraj913708@gmail.com
+MAIL_PASSWORD=your_16_digit_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="suraj913708@gmail.com"
+MAIL_FROM_NAME="SkillLearner"</pre>
+                </li>
+                <li>Terminal me command chalayein: <code>php artisan config:clear</code></li>
+            </ol>
+        </div>
+
+        <!-- Card 4: Recent Log Output -->
+        <div class="card">
+            <h2 style="font-size: 18px; margin: 0 0 6px; color: #0f172a;">4. Recent Emails in storage/logs/laravel.log</h2>
+            <p style="margin: 0 0 12px; color: #64748b; font-size: 13px;">Jab mailer <code>log</code> hota hai, to emails yahan aate hain:</p>
+            <pre>'.e($recentLog ?: 'No emails logged yet in storage/logs/laravel.log').'</pre>
+            <div style="margin-top: 14px; text-align: right;">
+                <a href="'.url('/forgot-password').'" style="color: #05B396; font-weight: 600; text-decoration: none; font-size: 14px;">Go to Forgot Password Form &rarr;</a>
+            </div>
+        </div>
+
+    </div>
+    </body>
+    </html>';
+
+    return response($html);
+});
 
 // 6. Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
