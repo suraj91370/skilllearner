@@ -97,7 +97,7 @@
                 <!-- Card 1: Today's Revenue (Blue) -->
                 <div class="revenue-card card-today">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.today_earning', 0)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.today_earning', 0) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -113,7 +113,7 @@
                 <!-- Card 2: 7 Days Revenue (Orange) -->
                 <div class="revenue-card card-7days">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.weekly_earning', 120)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.weekly_earning', 120) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -130,7 +130,7 @@
                 <!-- Card 3: 30 Days Revenue (Red) -->
                 <div class="revenue-card card-30days">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.monthly_earning', 1225)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.monthly_earning', 1225) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
@@ -146,7 +146,7 @@
                 <!-- Card 4: All Time Revenue (Purple) -->
                 <div class="revenue-card card-alltime">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.total_earning', 82084)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.total_earning', 82084) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
@@ -165,7 +165,7 @@
                 <!-- Card 5: All Time Passive (Magenta/Pink - User Requested Passive Income) -->
                 <div class="revenue-card card-passive">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.passive_earning', 2771)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.passive_earning', 2771) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="28" height="28" viewBox="0 0 28 28">
                                 <circle cx="14" cy="14" r="13" fill="#ffffff" />
@@ -181,7 +181,7 @@
                 <!-- Card 6: Industry Revenue (Project Emerald Teal #05B396) -->
                 <div class="revenue-card card-industry">
                     <div class="revenue-card-top">
-                        <div class="revenue-amount">₹{{ number_format(session('user.industry_revenue', 427539)) }}</div>
+                        <div class="revenue-amount counter-anim" data-target="{{ (float) session('user.industry_revenue', 427539) }}">₹0</div>
                         <div class="revenue-icon-box">
                             <svg width="28" height="28" viewBox="0 0 28 28">
                                 <circle cx="14" cy="14" r="13" fill="#ffffff" />
@@ -341,6 +341,47 @@
                 }
             });
         }
+    }
+
+    // Number Count-Up Animation (Starts from 0 and increases smoothly to target total)
+    function animateRevenueCounters() {
+        const counters = document.querySelectorAll('.counter-anim');
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target')) || 0;
+            if (target <= 0) {
+                counter.innerText = '₹0';
+                return;
+            }
+
+            const duration = 1600; // 1.6s smooth easing count-up
+            let startTimestamp = null;
+
+            function step(timestamp) {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const elapsed = timestamp - startTimestamp;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Ease Out Quart: 1 - (1 - progress)^4
+                const easeOutProgress = 1 - Math.pow(1 - progress, 4);
+                const currentVal = Math.floor(easeOutProgress * target);
+
+                counter.innerText = '₹' + currentVal.toLocaleString('en-US');
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    counter.innerText = '₹' + Math.round(target).toLocaleString('en-US');
+                }
+            }
+
+            window.requestAnimationFrame(step);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', animateRevenueCounters);
+    } else {
+        animateRevenueCounters();
     }
 </script>
 @endpush

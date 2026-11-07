@@ -128,6 +128,12 @@
         <div style="display: flex; justify-content: center; width: 100%;">
             <div class="login-card-box" style="background: #ffffff; border-radius: 16px; padding: 2.8rem 2.4rem; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 1px solid #f1f5f9; width: 100%; max-width: 480px;">
                 
+                @if (session('success'))
+                    <div style="background: #f0fdf4; border-left: 4px solid #05B396; color: #166534; padding: 0.85rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 @if (session('error'))
                     <div style="background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.85rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
                         {{ session('error') }}
