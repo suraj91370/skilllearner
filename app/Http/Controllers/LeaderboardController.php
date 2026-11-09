@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commission;
+use App\Models\User;
 use App\Services\PortalDataService;
 use Illuminate\Http\Request;
 
@@ -11,41 +13,10 @@ class LeaderboardController extends Controller
     {
         PortalDataService::ensureUserSession();
 
-        $dailyLeaderboard = [
-            ['rank' => 1, 'name' => 'VISHU', 'earnings' => 3440, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 2, 'name' => 'Shweta', 'earnings' => 2100, 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 3, 'name' => 'Neha', 'earnings' => 1851, 'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 4, 'name' => 'ℜShreya', 'earnings' => 1800, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 5, 'name' => 'Nawaz { Sponsored }', 'earnings' => 1300, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 6, 'name' => 'Mannat Sharma', 'earnings' => 700, 'avatar' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=160&auto=format&fit=crop&q=80'],
-        ];
-
-        $weeklyLeaderboard = [
-            ['rank' => 1, 'name' => 'Shivani', 'earnings' => 21713, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 2, 'name' => 'Akanksha', 'earnings' => 16136, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 3, 'name' => 'VISHU', 'earnings' => 9120, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 4, 'name' => 'Neha', 'earnings' => 7751, 'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 5, 'name' => 'Neha', 'earnings' => 4000, 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 6, 'name' => 'Prince', 'earnings' => 3880, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
-        ];
-
-        $monthlyLeaderboard = [
-            ['rank' => 1, 'name' => 'Shivani', 'earnings' => 42879, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 2, 'name' => 'Akanksha', 'earnings' => 40939, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 3, 'name' => 'Neha', 'earnings' => 22097, 'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 4, 'name' => 'Prince', 'earnings' => 13467, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 5, 'name' => 'Neha', 'earnings' => 11530, 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 6, 'name' => 'VISHU (Blaze Leader)', 'earnings' => 11349, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80'],
-        ];
-
-        $allTimeLeaderboard = [
-            ['rank' => 1, 'name' => 'Akanksha', 'earnings' => 364641, 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 2, 'name' => 'Shivani', 'earnings' => 188438, 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 3, 'name' => 'Alok', 'earnings' => 177927, 'avatar' => 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 4, 'name' => 'ℜShreya', 'earnings' => 173745, 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 5, 'name' => 'Piyush Kashyap', 'earnings' => 157397, 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80'],
-            ['rank' => 6, 'name' => 'Ravi Sir', 'earnings' => 91116, 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80'],
-        ];
+        $dailyLeaderboard = $this->getLeaderboard('today');
+        $weeklyLeaderboard = $this->getLeaderboard('7days');
+        $monthlyLeaderboard = $this->getLeaderboard('30days');
+        $allTimeLeaderboard = $this->getLeaderboard('alltime');
 
         return view('portal.leaderboard', [
             'dailyLeaderboard' => $dailyLeaderboard,
@@ -54,6 +25,76 @@ class LeaderboardController extends Controller
             'allTimeLeaderboard' => $allTimeLeaderboard,
             'active' => 'leaderboard',
         ]);
+    }
+
+    /**
+     * Get dynamic leaderboard rankings for a given timeframe.
+     *
+     * @param  string  $timeframe  'today' | '7days' | '30days' | 'alltime'
+     */
+    protected function getLeaderboard(string $timeframe = 'today', int $limit = 10): array
+    {
+        $column = match ($timeframe) {
+            'today' => 'today_earning',
+            '7days' => 'weekly_earning',
+            '30days' => 'monthly_earning',
+            default => 'total_earning',
+        };
+
+        $startDate = match ($timeframe) {
+            'today' => now()->startOfDay(),
+            '7days' => now()->subDays(6)->startOfDay(),
+            '30days' => now()->subDays(29)->startOfDay(),
+            default => null,
+        };
+
+        // Query commissions in date range where status is 'Credited'
+        $commQuery = Commission::where('status', 'Credited');
+        if ($startDate) {
+            $commQuery->where('created_at', '>=', $startDate);
+        }
+        $commissionSums = $commQuery
+            ->selectRaw('user_id, SUM(amount) as total')
+            ->groupBy('user_id')
+            ->pluck('total', 'user_id');
+
+        $users = User::select(['id', 'name', 'avatar', 'today_earning', 'weekly_earning', 'monthly_earning', 'total_earning'])->get();
+
+        $ranked = [];
+        foreach ($users as $user) {
+            $colVal = (float) ($user->{$column} ?? 0);
+            $commVal = (float) ($commissionSums[$user->id] ?? 0);
+            $earnings = max($colVal, $commVal);
+
+            if ($earnings > 0) {
+                $avatar = $user->avatar;
+                if (empty($avatar)) {
+                    $avatar = 'https://ui-avatars.com/api/?name='.urlencode($user->name ?: 'Student').'&background=0284c7&color=ffffff&bold=true';
+                } elseif (! str_starts_with($avatar, 'http')) {
+                    $avatar = url($avatar);
+                }
+
+                $ranked[] = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'earnings' => $earnings,
+                    'avatar' => $avatar,
+                ];
+            }
+        }
+
+        // Sort descending by earnings
+        usort($ranked, fn ($a, $b) => $b['earnings'] <=> $a['earnings']);
+
+        // Assign ranks (1-based)
+        $leaderboard = [];
+        $rank = 1;
+        foreach (array_slice($ranked, 0, $limit) as $item) {
+            $item['rank'] = $rank++;
+            $leaderboard[] = $item;
+        }
+
+        return $leaderboard;
     }
 
     public function teamLeaderboard(Request $request)
