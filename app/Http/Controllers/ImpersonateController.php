@@ -18,11 +18,11 @@ class ImpersonateController extends Controller
         $currentUser = Auth::user();
         $currentRole = $currentUser?->role ?? session('user.role', 'user');
 
-        // Check if current user is Super Admin or if already impersonating
-        $isSuperAdmin = ($currentRole === 'super_admin') || session()->has('impersonated_by');
+        // Check if current user is Super Admin or Admin, or if already impersonating
+        $hasPermission = in_array($currentRole, ['super_admin', 'admin']) || session()->has('impersonated_by');
 
-        if (! $isSuperAdmin) {
-            return back()->with('error', 'Only Super Admins can login to other accounts.');
+        if (! $hasPermission) {
+            return back()->with('error', 'Only Administrators can login to other accounts.');
         }
 
         // Prevent self-impersonation
@@ -30,9 +30,10 @@ class ImpersonateController extends Controller
             return back()->with('error', 'You are already logged into this account.');
         }
 
-        // Store the original Super Admin ID if not already impersonating
+        // Store the original Admin ID if not already impersonating
         if (! session()->has('impersonated_by')) {
-            session()->put('impersonated_by', $currentUser->id);
+            $adminId = $currentUser?->id ?? session('user.id');
+            session()->put('impersonated_by', $adminId);
         }
 
         $superAdminId = session('impersonated_by');
@@ -53,7 +54,7 @@ class ImpersonateController extends Controller
                 ->with('success', "Logged in as {$user->name} (".ucfirst($user->role).').');
         }
 
-        return redirect()->route('portal.courses')
+        return redirect()->route('portal.dashboard')
             ->with('success', "Logged in as student {$user->name}. You are now viewing their student portal.");
     }
 

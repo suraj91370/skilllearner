@@ -195,8 +195,13 @@
 
                                     <!-- Action / Change Role (Super Admin can change role & Login As) -->
                                     <td style="padding: 0.95rem 1.4rem; text-align: right;">
+                                        @php
+                                            $currentActiveRole = Auth::user()?->role ?? session('user.role', 'user');
+                                            $canLoginAs = in_array($currentActiveRole, ['super_admin', 'admin']) && (Auth::id() !== $u->id);
+                                            $isSuper = $currentActiveRole === 'super_admin';
+                                        @endphp
                                         <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: nowrap;">
-                                            @if(session('user.role') === 'super_admin' && (Auth::id() !== $u->id))
+                                            @if($canLoginAs)
                                                 <a href="{{ route('admin.impersonate', $u->id) }}" 
                                                    class="btn-impersonate-action"
                                                    onclick="return confirm('Kya aap {{ $u->name }} ({{ strtoupper($u->role ?? 'User') }}) ke account me login karna chahte hain?');"
@@ -206,7 +211,7 @@
                                                 </a>
                                             @endif
 
-                                            @if(session('user.role') === 'super_admin')
+                                            @if($isSuper)
                                                 <form method="POST" action="{{ url('/admin/users/'.$u->id.'/role') }}" style="display: inline-flex; align-items: center; margin: 0;">
                                                     @csrf
                                                     <select name="role" style="font-size: 0.78rem; font-weight: 600; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none; cursor: pointer;" onchange="this.form.submit()">

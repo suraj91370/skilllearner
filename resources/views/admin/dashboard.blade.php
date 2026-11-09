@@ -52,7 +52,7 @@
                 </div>
             @endif
 
-            <!-- 1. Executive Financial Summary Cards (6 KPIs) -->
+            <!-- 1. Executive Financial Summary Cards (8 KPIs including Today & 30 Days Revenue) -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; margin-bottom: 1.8rem;">
                 
                 <!-- KPI 1: Gross Platform Revenue -->
@@ -61,14 +61,40 @@
                         📈 TOTAL PLATFORM REVENUE
                     </div>
                     <div style="font-size: 1.85rem; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 4px;">
-                        ₹{{ number_format($stats['total_revenue']) }}
+                        ₹{{ number_format($stats['total_revenue'] ?? 0) }}
                     </div>
                     <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">
                         Gross sales from all package enrollments
                     </div>
                 </div>
 
-                <!-- KPI 2: Total Active Income -->
+                <!-- KPI 2: Today's Revenue -->
+                <div class="admin-stat-card" style="border-top: 4px solid #2563eb; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.76rem; font-weight: 800; color: #2563eb; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
+                        ⚡ TODAY'S REVENUE
+                    </div>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: #2563eb; line-height: 1.2; margin-bottom: 4px;">
+                        ₹{{ number_format($stats['today_revenue'] ?? 0) }}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">
+                        Commissions: ₹{{ number_format($stats['today_income'] ?? 0) }}
+                    </div>
+                </div>
+
+                <!-- KPI 3: 30 Days Revenue -->
+                <div class="admin-stat-card" style="border-top: 4px solid #ea580c; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.76rem; font-weight: 800; color: #ea580c; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
+                        📆 30 DAYS REVENUE
+                    </div>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: #ea580c; line-height: 1.2; margin-bottom: 4px;">
+                        ₹{{ number_format($stats['monthly_revenue'] ?? 0) }}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">
+                        Commissions: ₹{{ number_format($stats['monthly_income'] ?? 0) }}
+                    </div>
+                </div>
+
+                <!-- KPI 4: Total Active Income -->
                 <div class="admin-stat-card" style="border-top: 4px solid #10b981; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #10b981; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
                         ⚡ TOTAL ACTIVE INCOME
@@ -81,7 +107,7 @@
                     </div>
                 </div>
 
-                <!-- KPI 3: Total Passive Income -->
+                <!-- KPI 5: Total Passive Income -->
                 <div class="admin-stat-card" style="border-top: 4px solid #7c3aed; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #7c3aed; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
                         💎 TOTAL PASSIVE INCOME
@@ -94,7 +120,7 @@
                     </div>
                 </div>
 
-                <!-- KPI 4: Net Retained Profit -->
+                <!-- KPI 6: Net Retained Profit -->
                 <div class="admin-stat-card" style="border-top: 4px solid #0284c7; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #0284c7; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
                         🛡️ NET PLATFORM PROFIT
@@ -107,7 +133,7 @@
                     </div>
                 </div>
 
-                <!-- KPI 5: Pending Commission Queue -->
+                <!-- KPI 7: Pending Commission Queue -->
                 <div class="admin-stat-card" style="border-top: 4px solid #f59e0b; background: #fffbeb; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #fde68a;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #b45309; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
                         ⏳ PENDING APPROVALS
@@ -120,7 +146,7 @@
                     </div>
                 </div>
 
-                <!-- KPI 6: Total Commissions Paid -->
+                <!-- KPI 8: Total Commissions Paid -->
                 <div class="admin-stat-card" style="border-top: 4px solid #64748b; background: #ffffff; border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #64748b; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px;">
                         📊 TOTAL COMMISSIONS PAID

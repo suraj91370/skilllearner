@@ -66,6 +66,8 @@ const routes = [
     { url: '/my-payout', fileKey: 'my-payout' },
     { url: '/leaderboard', fileKey: 'leaderboard' },
     { url: '/qualification', fileKey: 'qualification' },
+    { url: '/webinars', fileKey: 'webinars' },
+    { url: '/live-offers', fileKey: 'live-offers' },
     { url: '/courses/affiliate-marketing-masterclass', fileKey: 'courses_affiliate-marketing-masterclass', subPath: 'courses/affiliate-marketing-masterclass' },
     { url: '/courses/ai-chatgpt-automation', fileKey: 'courses_ai-chatgpt-automation', subPath: 'courses/ai-chatgpt-automation' },
     { url: '/courses/short-form-video-editing', fileKey: 'courses_short-form-video-editing', subPath: 'courses/short-form-video-editing' },

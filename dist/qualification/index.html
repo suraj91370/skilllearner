@@ -570,12 +570,38 @@
             line-height: 1.15;
             letter-spacing: -1.5px;
             margin-bottom: 1.4rem;
-         color: #0B4F4A; }
-        .hero-title .title-skill { color: #0B4F4A; }
-        .hero-title .title-future { color: #0A6B5C; }
-        .hero-subtitle { color: #000000 !important; font-weight: 700 !important; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem; }
-        .hero-image-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; }
-        .hero-tree-img { width: 100%; max-width: 950px; height: auto; border-radius: 18px; object-fit: contain; }
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-skill {
+            color: #0B4F4A;
+        }
+
+        .hero-title .title-future {
+            color: #0A6B5C;
+        }
+
+        .hero-subtitle {
+            color: #000000 !important;
+            font-weight: 700 !important;
+            font-size: 1.25rem;
+            max-width: 720px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-image-wrapper {
+            margin-top: 3.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-tree-img {
+            width: 100%;
+            max-width: 950px;
+            height: auto;
+            border-radius: 18px;
+            object-fit: contain;
+        }
 
         /* Modals */
         .modal {
@@ -681,9 +707,19 @@
                 letter-spacing: -0.8px !important;
                 margin-bottom: 1rem !important;
             }
-            .hero-subtitle { font-size: 1.05rem !important; margin-bottom: 1.8rem !important; }
-            .hero-image-wrapper { margin-top: 2rem !important; }
-            .hero-tree-img { border-radius: 12px !important; }
+
+            .hero-subtitle {
+                font-size: 1.05rem !important;
+                margin-bottom: 1.8rem !important;
+            }
+
+            .hero-image-wrapper {
+                margin-top: 2rem !important;
+            }
+
+            .hero-tree-img {
+                border-radius: 12px !important;
+            }
 
             header.nav {
                 padding: 0.65rem 0.85rem;
@@ -741,7 +777,10 @@
                 font-size: 1.85rem !important;
                 letter-spacing: -0.5px !important;
             }
-            .hero-subtitle { font-size: 0.95rem !important; }
+
+            .hero-subtitle {
+                font-size: 0.95rem !important;
+            }
 
             header.nav {
                 padding: 0.55rem 0.6rem;
@@ -806,7 +845,7 @@
             background-color: #f8fafc !important;
             color: #0f172a;
         }
-    
+
         /* Dual Mobile Drawers (Left Website Nav | Right Student Portal) */
         .mobile-drawer-left {
             left: -340px !important;
@@ -815,9 +854,11 @@
             transition: left 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
             box-shadow: 15px 0 40px rgba(0, 0, 0, 0.18) !important;
         }
+
         .mobile-drawer-left.active {
             left: 0 !important;
         }
+
         .mobile-drawer-right {
             right: -340px !important;
             left: auto !important;
@@ -825,12 +866,15 @@
             transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
             box-shadow: -15px 0 40px rgba(0, 0, 0, 0.18) !important;
         }
+
         .mobile-drawer-right.active {
             right: 0 !important;
         }
+
         .mobile-left-toggle {
             display: none;
         }
+
         .mobile-portal-toggle-btn {
             display: none;
             background: transparent;
@@ -844,12 +888,15 @@
             flex-shrink: 0;
             text-decoration: none !important;
         }
+
         .mobile-portal-toggle-btn:active {
             transform: scale(0.92);
         }
+
         .mobile-portal-nav {
             display: none !important;
         }
+
         .profile-svg-btn {
             width: 38px !important;
             height: 38px !important;
@@ -867,6 +914,7 @@
             padding: 0 !important;
             flex-shrink: 0 !important;
         }
+
         .profile-svg-btn:hover {
             background: #048873 !important;
             border-color: #048873 !important;
@@ -874,55 +922,163 @@
             box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35) !important;
             transform: translateY(-1px) !important;
         }
+
         .profile-svg-btn svg {
             width: 20px !important;
             height: 20px !important;
             stroke: #ffffff !important;
         }
+
         @media (max-width: 992px) {
-            .mobile-toggle { display: flex !important; }
-            .mobile-left-toggle { display: flex !important; }
-            .mobile-portal-toggle-btn { display: flex !important; }
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
-            header.nav { padding: 0.65rem 1rem !important; }
-            nav.menu { display: none !important; }
-        }
-        @media (max-width: 640px) {
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
-            .mobile-left-toggle { display: flex !important; }
-            .mobile-portal-toggle-btn { display: flex !important; }
-            header.nav { padding: 0.5rem 0.65rem !important; }
-            .brand-logo-img { max-width: 125px !important; }
-        }
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
-            .mobile-left-toggle { display: flex !important; }
-            .mobile-portal-toggle-btn { display: flex !important; }
-            header.nav { padding: 0.5rem 0.65rem !important; }
-            .brand-logo-img { max-width: 125px !important; }
-        }
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
-            .mobile-left-toggle { display: flex !important; }
-            .mobile-portal-toggle-btn { display: flex !important; }
-            header.nav { padding: 0.5rem 0.65rem !important; }
-            .brand-logo-img { max-width: 125px !important; }
-        }
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
-            .mobile-left-toggle { display: flex !important; }
-            .mobile-portal-toggle-btn { display: flex !important; }
-            header.nav { padding: 0.5rem 0.65rem !important; }
-            .brand-logo-img { max-width: 125px !important; }
+            .mobile-toggle {
+                display: flex !important;
+            }
+
+            .mobile-left-toggle {
+                display: flex !important;
+            }
+
+            .mobile-portal-toggle-btn {
+                display: flex !important;
+            }
+
+            .user-menu-wrapper {
+                display: none !important;
+            }
+
+            .sl-circle-badge {
+                display: none !important;
+            }
+
+            .mobile-portal-nav {
+                display: none !important;
+            }
+
+            header.nav {
+                padding: 0.65rem 1rem !important;
+            }
+
+            nav.menu {
+                display: none !important;
+            }
         }
 
+        @media (max-width: 640px) {
+            .user-menu-wrapper {
+                display: none !important;
+            }
+
+            .sl-circle-badge {
+                display: none !important;
+            }
+
+            .mobile-portal-nav {
+                display: none !important;
+            }
+
+            .mobile-left-toggle {
+                display: flex !important;
+            }
+
+            .mobile-portal-toggle-btn {
+                display: flex !important;
+            }
+
+            header.nav {
+                padding: 0.5rem 0.65rem !important;
+            }
+
+            .brand-logo-img {
+                max-width: 125px !important;
+            }
+        }
+
+        .user-menu-wrapper {
+            display: none !important;
+        }
+
+        .sl-circle-badge {
+            display: none !important;
+        }
+
+        .mobile-portal-nav {
+            display: none !important;
+        }
+
+        .mobile-left-toggle {
+            display: flex !important;
+        }
+
+        .mobile-portal-toggle-btn {
+            display: flex !important;
+        }
+
+        header.nav {
+            padding: 0.5rem 0.65rem !important;
+        }
+
+        .brand-logo-img {
+            max-width: 125px !important;
+        }
+        }
+
+        .user-menu-wrapper {
+            display: none !important;
+        }
+
+        .sl-circle-badge {
+            display: none !important;
+        }
+
+        .mobile-portal-nav {
+            display: none !important;
+        }
+
+        .mobile-left-toggle {
+            display: flex !important;
+        }
+
+        .mobile-portal-toggle-btn {
+            display: flex !important;
+        }
+
+        header.nav {
+            padding: 0.5rem 0.65rem !important;
+        }
+
+        .brand-logo-img {
+            max-width: 125px !important;
+        }
+        }
+
+        .user-menu-wrapper {
+            display: none !important;
+        }
+
+        .sl-circle-badge {
+            display: none !important;
+        }
+
+        .mobile-portal-nav {
+            display: none !important;
+        }
+
+        .mobile-left-toggle {
+            display: flex !important;
+        }
+
+        .mobile-portal-toggle-btn {
+            display: flex !important;
+        }
+
+        header.nav {
+            padding: 0.5rem 0.65rem !important;
+        }
+
+        .brand-logo-img {
+            max-width: 125px !important;
+        }
+        }
     </style>
     <style>
         /* ==========================================================
@@ -1034,7 +1190,9 @@
             text-overflow: ellipsis;
         }
 
-        .sidebar-section-label { display: none !important; }
+        .sidebar-section-label {
+            display: none !important;
+        }
 
         .sidebar-item-badge-pill {
             margin-left: auto;
@@ -1185,8 +1343,8 @@
 
         /* Mobile Quick Tab Slider */
         .mobile-portal-nav {
-        display: none !important;
-        margin-bottom: 0 !important;
+            display: none !important;
+            margin-bottom: 0 !important;
         }
 
         .mobile-nav-header-row {
@@ -1267,7 +1425,7 @@
         /* Right Content Area */
         .portal-content-area {
             min-width: 0;
-        
+
             padding-top: 1.25rem;
         }
 
@@ -1557,25 +1715,27 @@
 
             /* Hide desktop sidebar on mobile, show quick horizontal slider */
             .portal-sidebar-card {
-            background: #ffffff;
-            border: 1.5px solid #a7f3d0;
-            border-top: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
-            padding: 0.5rem 0 0 0;
-            position: sticky;
-            top: 66px;
-            max-height: calc(100vh - 66px);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
+                background: #ffffff;
+                border: 1.5px solid #a7f3d0;
+                border-top: none;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 18px;
+                border-bottom-right-radius: 18px;
+                box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+                padding: 0.5rem 0 0 0;
+                position: sticky;
+                top: 66px;
+                max-height: calc(100vh - 66px);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
 
-            .mobile-portal-nav { display: none !important; }
+            .mobile-portal-nav {
+                display: none !important;
+            }
 
             .courses-cards-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1865,25 +2025,54 @@
             });
         })();
     </script>
-<style>
+    <style>
         /* Hide elements on mobile view per user request */
         @media (max-width: 992px) {
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .website-nav-toggle-btn { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
+            .user-menu-wrapper {
+                display: none !important;
+            }
+
+            .sl-circle-badge {
+                display: none !important;
+            }
+
+            .website-nav-toggle-btn {
+                display: none !important;
+            }
+
+            .mobile-portal-nav {
+                display: none !important;
+            }
         }
+
         @media (max-width: 640px) {
-            .user-menu-wrapper { display: none !important; }
-            .sl-circle-badge { display: none !important; }
-            .website-nav-toggle-btn { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
+            .user-menu-wrapper {
+                display: none !important;
+            }
+
+            .sl-circle-badge {
+                display: none !important;
+            }
+
+            .website-nav-toggle-btn {
+                display: none !important;
+            }
+
+            .mobile-portal-nav {
+                display: none !important;
+            }
         }
+
         @media (max-width: 380px) {
-            .user-menu-wrapper { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
+            .user-menu-wrapper {
+                display: none !important;
+            }
+
+            .mobile-portal-nav {
+                display: none !important;
+            }
         }
-</style>
+    </style>
 </head>
 
 <body class="is-portal-page">
@@ -1894,14 +2083,15 @@
     <header class="nav">
         <!-- Logo: SkillLearner Official Logo -->
         <div style="display: flex; align-items: center; gap: 6px;">
-            <button class="mobile-toggle mobile-left-toggle" id="mobileLeftMenuBtn" aria-label="Toggle Website Navigation" onclick="window.toggleLeftDrawer(event)" title="Website Menu">
+            <button class="mobile-toggle mobile-left-toggle" id="mobileLeftMenuBtn"
+                aria-label="Toggle Website Navigation" onclick="window.toggleLeftDrawer(event)" title="Website Menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
             <a href="/" class="brand" aria-label="SkillLearner Home">
-            <img src="/images/logo.png" alt="SkillLearner" class="brand-logo-img">
-        </a>
+                <img src="/images/logo.png" alt="SkillLearner" class="brand-logo-img">
+            </a>
         </div>
 
         <!-- Desktop Navigation Menu (Matching Image 1: Home, About, Course Package, Contact, Courses, Job) -->
@@ -1959,7 +2149,7 @@
                         </svg>
                         <span>Affiliate Panel</span>
                     </a>
-                        <a href="/profile" class="dropdown-link-item">
+                    <a href="/profile" class="dropdown-link-item">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -1968,12 +2158,13 @@
                         <span>My Profile</span>
                     </a>
                     <a href="/videos" class="dropdown-link-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                            </svg>
-                            <span>My Course</span>
-                        </a>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+                        <span>My Course</span>
+                    </a>
                     <a href="/certificates" class="dropdown-link-item">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1982,7 +2173,7 @@
                         </svg>
                         <span>Certificates</span>
                     </a>
-                    
+
                     <a href="/my-payout" class="dropdown-link-item">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2005,12 +2196,16 @@
             </div>
 
             <!-- Mobile Hamburger Toggle Button (Always visible on mobile, turns into X when active) -->
-            
+
             <!-- Mobile Student Portal Button (Visible only on mobile <= 992px) -->
-            <button class="mobile-portal-toggle-btn" id="mobilePortalToggleBtn" onclick="window.toggleRightDrawer(event)" aria-label="Student Portal" title="Open Student Portal">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Vansh Tandon" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; display: block;">
+            <button class="mobile-portal-toggle-btn" id="mobilePortalToggleBtn"
+                onclick="window.toggleRightDrawer(event)" aria-label="Student Portal" title="Open Student Portal">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                    alt="Vansh Tandon"
+                    style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; display: block;">
             </button>
-            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="window.toggleRightDrawer(event)" style="display: none;">
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation"
+                onclick="window.toggleRightDrawer(event)" style="display: none;">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -2024,11 +2219,15 @@
     <!-- Left Slide-In Drawer: Main Website Navigation (Matches User Screenshot: Home, About, Package, Contact, Courses, Job) -->
     <div class="mobile-drawer mobile-drawer-left" id="mobileLeftDrawer">
         <!-- Drawer Header with Logo & Close Button -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
             <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="/images/logo.png" alt="SkillLearner" style="width: auto; max-width: 140px; object-fit: contain;">
+                <img src="/images/logo.png" alt="SkillLearner"
+                    style="width: auto; max-width: 140px; object-fit: contain;">
             </a>
-            <button type="button" id="mobileLeftCloseBtn" onclick="window.closeLeftDrawer()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+            <button type="button" id="mobileLeftCloseBtn" onclick="window.closeLeftDrawer()"
+                aria-label="Close Navigation"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
 
         <!-- Main Website Navigation -->
@@ -2038,9 +2237,11 @@
 
             <!-- Package Accordion -->
             <div>
-                <button type="button" class="mobile-accordion-btn" id="mobileCoursePackageBtn" onclick="window.toggleMobileAccordion(event)">
+                <button type="button" class="mobile-accordion-btn" id="mobileCoursePackageBtn"
+                    onclick="window.toggleMobileAccordion(event)">
                     <span style="">Package</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#05B396" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#05B396" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </button>
@@ -2055,24 +2256,29 @@
 
             <a href="/contact" class="mobile-nav-link ">Contact</a>
             <a href="/courses" class="mobile-nav-link ">Courses</a>
-            <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="mobile-nav-link">Job</a>
+            <a href="javascript:void(0)"
+                onclick="alert('Placement & Freelance Job board unlocks upon course completion!')"
+                class="mobile-nav-link">Job</a>
         </div>
 
-        
+
         <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9;">
-            <button type="button" onclick="window.closeLeftDrawer(); window.openRightDrawer();" class="btn btn-secondary" style="width: 100%; font-weight: 700; color: #05B396; border-color: #05B396;">
+            <button type="button" onclick="window.closeLeftDrawer(); window.openRightDrawer();"
+                class="btn btn-secondary" style="width: 100%; font-weight: 700; color: #05B396; border-color: #05B396;">
                 <span>Open Student Portal &rarr;</span>
             </button>
         </div>
     </div>
-    
+
 
     <!-- Mobile Slide-In Drawer Navigation Menu -->
     <div class="mobile-drawer mobile-drawer-right" id="mobileDrawer">
         <!-- Drawer Header with Title & Close Button -->
-        <div style="display: flex; justify-content: flex-end; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
-            
-            <button type="button" id="mobileCloseBtn" onclick="window.closeRightDrawer()" aria-label="Close Navigation" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
+        <div
+            style="display: flex; justify-content: flex-end; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.8rem;">
+
+            <button type="button" id="mobileCloseBtn" onclick="window.closeRightDrawer()" aria-label="Close Navigation"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">&times;</button>
         </div>
         <!-- Logged In Student Profile Summary Box -->
         <div
@@ -2453,7 +2659,11 @@
                     <div class="sidebar-role-header">
                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
                             <span class="sidebar-role-badge user">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> User
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg> User
                             </span>
                         </div>
                         <div class="sidebar-role-user-name" title="Vansh Tandon">
@@ -2475,13 +2685,16 @@
                             <span>Dashboard</span>
                         </a>
 
-        <!-- My Course -->
+                        <!-- My Course -->
                         <a href="/videos" class="sidebar-item ">
-            <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="10 8 16 12 10 16 10 8"></polygon>
-            </svg>
-            <span>My Course</span>
+                            <svg class="side-icon" width="18" height="18"
+                                style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                            </svg>
+                            <span>My Course</span>
                         </a>
 
                         <!-- Profile -->
@@ -2654,94 +2867,31 @@
                 <!-- Right Content Area -->
                 <main class="portal-content-area">
                     <div class="portal-box-card">
-                        <div style="margin-bottom: 2rem;">
-                            <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800;">🏖️ National &amp; Global
-                                Tour Qualifications</h3>
-                            <p style="color: #64748b; font-size: 0.95rem;">Track your eligibility for fully sponsored
-                                luxury trips, trophy stages, and five-star networking retreats.</p>
-                        </div>
+                        <!-- <div style="margin-bottom: 1.8rem;">
+                            <h3 style="font-size: 1.5rem; color: #0f172a; font-weight: 800; margin: 0 0 4px;">🏖️ National &amp; Global Tour Qualifications</h3>
+                            <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Track your eligibility for fully sponsored luxury trips, trophy stages, and five-star networking retreats.</p>
+                        </div> -->
 
-                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Empty State: No qualification found! -->
+                        <div
+                            style="text-align: center; padding: 4.5rem 1.5rem; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,0.02); margin-top: 1rem;">
                             <div
-                                style="border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.6rem; background: #ffffff;">
-                                <div
-                                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;">
-                                    <div>
-                                        <span
-                                            style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">OFFICIAL
-                                            CONTEST</span>
-                                        <h4 style="font-size: 1.3rem; color: #0f172a; font-weight: 800; margin: 4px 0;">
-                                            Goa Luxury National Conclave 2026</h4>
-                                        <p style="font-size: 0.88rem; color: #64748b; margin: 0;">
-                                            <strong>Rewards:</strong> 3 Days / 2 Nights 5-Star Resort Stay, Gala Dinner,
-                                            Trophy Presentation
-                                        </p>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <span
-                                            style="background: #f0fdfa; border: 1px solid #a7f3d0; color: #05B396; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;">
-                                            In Progress (48.6%)
-                                        </span>
-                                        <div style="font-size: 0.78rem; color: #64748b; margin-top: 6px;">Deadline: 30th
-                                            November 2026</div>
-                                    </div>
-                                </div>
-
-                                <!-- Progress Bar -->
-                                <div style="margin: 1.2rem 0 0.8rem;">
-                                    <div
-                                        style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">
-                                        <span style="color: #0f172a;">Achieved: ₹48,600</span>
-                                        <span style="color: #05B396;">Target: ₹100,000 (48.6%)</span>
-                                    </div>
-                                    <div
-                                        style="width: 100%; height: 12px; background: #f1f5f9; border-radius: 10px; overflow: hidden;">
-                                        <div
-                                            style="width: 48.6%; height: 100%; background: linear-gradient(90deg, #05B396 0%, #048873 100%); border-radius: 10px; transition: width 0.5s ease;">
-                                        </div>
-                                    </div>
-                                </div>
+                                style="width: 72px; height: 72px; margin: 0 auto 1.2rem; border-radius: 50%; background: #f8fafc; border: 1.5px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                                🏖️
                             </div>
-                            <div
-                                style="border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.6rem; background: #ffffff;">
-                                <div
-                                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;">
-                                    <div>
-                                        <span
-                                            style="font-size: 0.75rem; color: #05B396; font-weight: 800; text-transform: uppercase;">OFFICIAL
-                                            CONTEST</span>
-                                        <h4 style="font-size: 1.3rem; color: #0f172a; font-weight: 800; margin: 4px 0;">
-                                            Dubai International Creator Summit</h4>
-                                        <p style="font-size: 0.88rem; color: #64748b; margin: 0;">
-                                            <strong>Rewards:</strong> All-Expense Paid International Flight, Desert
-                                            Safari, Yacht Mastermind
-                                        </p>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <span
-                                            style="background: #f0fdfa; border: 1px solid #a7f3d0; color: #05B396; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;">
-                                            In Progress (13.8%)
-                                        </span>
-                                        <div style="font-size: 0.78rem; color: #64748b; margin-top: 6px;">Deadline: 31st
-                                            December 2026</div>
-                                    </div>
-                                </div>
-
-                                <!-- Progress Bar -->
-                                <div style="margin: 1.2rem 0 0.8rem;">
-                                    <div
-                                        style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">
-                                        <span style="color: #0f172a;">Achieved: ₹48,600</span>
-                                        <span style="color: #05B396;">Target: ₹350,000 (13.9%)</span>
-                                    </div>
-                                    <div
-                                        style="width: 100%; height: 12px; background: #f1f5f9; border-radius: 10px; overflow: hidden;">
-                                        <div
-                                            style="width: 13.9%; height: 100%; background: linear-gradient(90deg, #05B396 0%, #048873 100%); border-radius: 10px; transition: width 0.5s ease;">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h3 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0 0 0.5rem;">
+                                No qualification found!
+                            </h3>
+                            <p
+                                style="color: #64748b; font-size: 0.92rem; max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                                Currently, there are no active national or international qualification contests running.
+                                Upcoming luxury retreats and stage recognition targets will be announced here.
+                            </p>
+                            <a href="/dashboard"
+                                style="background: #05B396; color: #ffffff; font-weight: 700; padding: 9px 20px; border-radius: 8px; text-decoration: none; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>Go to Dashboard</span>
+                                <span>&rarr;</span>
+                            </a>
                         </div>
                     </div>
                 </main>
@@ -2770,44 +2920,44 @@
 
             /* Left Sidebar Card (Matches Home Page Emerald Theme) */
             .portal-sidebar-card {
-            background: #ffffff;
-            border: 1.5px solid #a7f3d0;
-            border-top: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
-            padding: 0.5rem 0 0 0;
-            position: sticky;
-            top: 66px;
-            max-height: calc(100vh - 66px);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
+                background: #ffffff;
+                border: 1.5px solid #a7f3d0;
+                border-top: none;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 18px;
+                border-bottom-right-radius: 18px;
+                box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+                padding: 0.5rem 0 0 0;
+                position: sticky;
+                top: 66px;
+                max-height: calc(100vh - 66px);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
 
-        .portal-sidebar-card::-webkit-scrollbar {
-            width: 5px;
-        }
+            .portal-sidebar-card::-webkit-scrollbar {
+                width: 5px;
+            }
 
-        .portal-sidebar-card::-webkit-scrollbar-track {
-            background: transparent;
-        }
+            .portal-sidebar-card::-webkit-scrollbar-track {
+                background: transparent;
+            }
 
-        .portal-sidebar-card::-webkit-scrollbar-thumb {
-            background: rgba(5, 179, 150, 0.3);
-            border-radius: 10px;
-        }
+            .portal-sidebar-card::-webkit-scrollbar-thumb {
+                background: rgba(5, 179, 150, 0.3);
+                border-radius: 10px;
+            }
 
-        .portal-sidebar-card::-webkit-scrollbar-thumb:hover {
-            background: rgba(5, 179, 150, 0.65);
-        }
+            .portal-sidebar-card::-webkit-scrollbar-thumb:hover {
+                background: rgba(5, 179, 150, 0.65);
+            }
 
             /* Role Header in Sidebar */
             .sidebar-role-header {
-            flex-shrink: 0;
+                flex-shrink: 0;
                 padding: 0.85rem 1.1rem;
                 margin: 0.35rem 0.8rem 0.65rem 0.8rem;
                 border-radius: 12px;
@@ -2858,7 +3008,9 @@
                 text-overflow: ellipsis;
             }
 
-            .sidebar-section-label { display: none !important; }
+            .sidebar-section-label {
+                display: none !important;
+            }
 
             .sidebar-item-badge-pill {
                 margin-left: auto;
@@ -2876,15 +3028,15 @@
             }
 
             .portal-sidebar-nav {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-bottom: 0.85rem;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(5, 179, 150, 0.35) transparent;
-        }
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding-bottom: 0.85rem;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(5, 179, 150, 0.35) transparent;
+            }
 
             .sidebar-item {
                 display: flex;
@@ -3009,8 +3161,8 @@
 
             /* Mobile Quick Tab Slider */
             .mobile-portal-nav {
-        display: none !important;
-        margin-bottom: 0 !important;
+                display: none !important;
+                margin-bottom: 0 !important;
             }
 
             .mobile-nav-header-row {
@@ -3091,9 +3243,9 @@
             /* Right Content Area */
             .portal-content-area {
                 min-width: 0;
-            
-            padding-top: 1.25rem;
-        }
+
+                padding-top: 1.25rem;
+            }
 
             .welcome-heading {
                 font-size: 1.85rem;
@@ -3381,25 +3533,27 @@
 
                 /* Hide desktop sidebar on mobile, show quick horizontal slider */
                 .portal-sidebar-card {
-            background: #ffffff;
-            border: 1.5px solid #a7f3d0;
-            border-top: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
-            padding: 0.5rem 0 0 0;
-            position: sticky;
-            top: 66px;
-            max-height: calc(100vh - 66px);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
+                    background: #ffffff;
+                    border: 1.5px solid #a7f3d0;
+                    border-top: none;
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                    border-bottom-left-radius: 18px;
+                    border-bottom-right-radius: 18px;
+                    box-shadow: 0 10px 25px rgba(5, 179, 150, 0.06);
+                    padding: 0.5rem 0 0 0;
+                    position: sticky;
+                    top: 66px;
+                    max-height: calc(100vh - 66px);
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                    box-sizing: border-box;
+                }
 
-                .mobile-portal-nav { display: none !important; }
+                .mobile-portal-nav {
+                    display: none !important;
+                }
 
                 .courses-cards-grid {
                     grid-template-columns: repeat(2, 1fr);
@@ -3576,9 +3730,9 @@
         // User Profile Dropdown Toggle
         function toggleUserMenu(e) {
             e.stopPropagation();
-            
 
-            
+
+
         });
 
         // Modal Handlers
