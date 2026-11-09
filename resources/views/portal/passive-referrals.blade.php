@@ -32,65 +32,6 @@
                 </div>
             </div>
 
-            <!-- Top Metric Cards -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.15rem; margin-bottom: 1.6rem;">
-                <!-- Card 1: Total Passive Members -->
-                <div style="background: #ffffff; border-radius: 14px; padding: 1.3rem 1.4rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
-                    <div>
-                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
-                            Passive Members (Tier-2)
-                        </div>
-                        <div style="font-size: 1.9rem; font-weight: 800; color: #0f172a; line-height: 1;">
-                            {{ $totalCount }}
-                        </div>
-                    </div>
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(236, 72, 153, 0.12); display: flex; align-items: center; justify-content: center; color: #db2777;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Card 2: Total Passive Commissions -->
-                <div style="background: #ffffff; border-radius: 14px; padding: 1.3rem 1.4rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
-                    <div>
-                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
-                            Total Passive Earning
-                        </div>
-                        <div style="font-size: 1.9rem; font-weight: 800; color: #db2777; line-height: 1;">
-                            ₹{{ number_format($totalPassiveCommissions) }}
-                        </div>
-                    </div>
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(219, 39, 119, 0.12); display: flex; align-items: center; justify-content: center; color: #db2777;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="1" x2="12" y2="23"></line>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Card 3: Model Explanation -->
-                <div style="background: #ffffff; border-radius: 14px; padding: 1.3rem 1.4rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
-                    <div>
-                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
-                            Commission Source
-                        </div>
-                        <div style="font-size: 1.35rem; font-weight: 800; color: #00137a; line-height: 1.2;">
-                            Level-2 Indirect
-                        </div>
-                    </div>
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(0, 19, 122, 0.08); display: flex; align-items: center; justify-content: center; color: #00137a;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
             <!-- Table Card -->
             <div style="background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,0.02); overflow: hidden;">
                 

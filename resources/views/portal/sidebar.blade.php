@@ -204,6 +204,24 @@
                 <span>Affiliate Link</span>
             </a>
 
+            <!-- Active Referral (Direct Referrals / Tier-1) -->
+            <a href="{{ url('/active-referrals') }}" class="sidebar-item {{ $currentActive === 'active-referrals' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <polyline points="17 11 19 13 23 9"></polyline>
+                </svg>
+                <span>Active Referral</span>
+            </a>
+
+            <!-- Passive Referral (Tier-2 / Team Referrals) -->
+            <a href="{{ url('/passive-referrals') }}" class="sidebar-item {{ $currentActive === 'passive-referrals' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span>Passive Referral</span>
+            </a>
+
             <!-- Webinars (Matches Image 1) -->
             <a href="{{ url('/webinars') }}" class="sidebar-item {{ $currentActive === 'webinars' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
