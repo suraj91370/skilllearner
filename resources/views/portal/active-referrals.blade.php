@@ -16,15 +16,10 @@
         <main class="portal-content-area">
             
             <!-- Page Title & Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-                <div>
-                    <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.3px;">
-                        Active Referrals
-                    </h2>
-                    
-                </div>
-
-              
+            <div style="margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.3px;">
+                    Active Referrals
+                </h2>
             </div>
 
             <!-- Table Card -->
@@ -167,22 +162,5 @@
 </div>
 
 @include('portal.styles')
-
-@push('scripts')
-<script>
-    function copyReferralCode(code, btn) {
-        const link = "{{ url('/plans') }}?ref=" + encodeURIComponent(code);
-        navigator.clipboard.writeText(link).then(() => {
-            const original = btn.innerText;
-            btn.innerText = 'Copied!';
-            btn.style.background = '#05B396';
-            setTimeout(() => {
-                btn.innerText = original;
-                btn.style.background = '#00137a';
-            }, 2000);
-        });
-    }
-</script>
-@endpush
 @endsection
 
