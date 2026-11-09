@@ -812,11 +812,11 @@
         <div style="background: var(--success); color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
             ✅ Payout request submitted! Your funds will be transferred to your account within 24 hours.
         </div>
-    {{-- @elseif(session('alert') === 'welcome')
-        <div style="background: #05B396; color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
+    @elseif(session('alert') === 'welcome')
+        {{-- <div style="background: #05B396; color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
             🚀 Welcome to SkillLearner! Your student dashboard is ready and all courses are unlocked.
-        </div>
-    @endif --}}
+        </div> --}}
+    @endif
 
     <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
