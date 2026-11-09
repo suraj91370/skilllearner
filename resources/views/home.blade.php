@@ -426,77 +426,51 @@
             </div>
         </div>
 
-        <!-- 4 Expert Team Cards Grid -->
-        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; margin: 0 auto;">
-            
-            <!-- Expert Mentor 1: Founder -->
-            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/founder.jpg') }}" alt="Adarsh Pandey — Founder & CEO" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
-                </div>
-                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">ADARSH PANDEY</h4>
-                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Founder &amp; CEO – Skilllearner</div>
-                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Founder and CEO with 5+ years of experience in Digital Marketing and Online Business, bringing deep expertise in digital growth and branding.</p>
+        <!-- Expert Team Cards Grid (Dynamic from Admin Mentors Management) -->
+        @php
+            $featuredMentors = \App\Models\Mentor::where('status', 'active')
+                ->where('is_featured', true)
+                ->orderBy('id', 'asc')
+                ->get();
+        @endphp
+        <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem; margin: 0 auto;">
+            @forelse($featuredMentors as $m)
+                @php
+                    $photoUrl = $m->photo;
+                    if (empty($photoUrl)) {
+                        $photoUrl = asset('images/mentor-1.jpg');
+                    } elseif (!str_starts_with($photoUrl, 'http://') && !str_starts_with($photoUrl, 'https://')) {
+                        $photoUrl = asset($photoUrl);
+                    }
+                    $firstName = explode(' ', trim($m->name))[0] ?? '';
+                    $hasNameInBadge = $m->badge && !empty($firstName) && str_contains(strtolower($m->badge), strtolower($firstName));
+                    $cardHeading = $hasNameInBadge ? 'Expert Mentor' : strtoupper($m->name);
+                    $cardBadge = $m->badge ?: ('★ ' . strtoupper($m->name));
+                    $isAmber = str_contains(strtolower($m->designation ?? ''), 'co-founder') || str_contains(strtolower($m->badge ?? ''), 'co-founder') || str_contains(strtolower($m->badge ?? ''), 'soumyadip');
+                    $accentColor = $isAmber ? '#D97706' : '#0A6B5C';
+                    $badgeBg = $isAmber ? 'rgba(217, 119, 6, 0.1)' : 'rgba(11, 79, 74, 0.08)';
+                    $badgeColor = $isAmber ? '#D97706' : '#0B4F4A';
+                @endphp
+                <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+                    <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
+                        <img src="{{ $photoUrl }}" alt="{{ $m->name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
                     </div>
-                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 10px 14px; border-radius: 50px; font-size: 0.88rem; font-weight: 700;">★ FOUNDER &amp; CEO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Expert Mentor 2: Co-Founder -->
-            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/co-founder.jpg') }}" alt="Ravi Gond — Co-Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
-                </div>
-                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">RAVI GOND</h4>
-                        <div style="font-size: 0.82rem; font-weight: 700; color: #D97706; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Co-Founder – Skilllearner</div>
-                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Co-Founder with 4+ years of experience in Digital Marketing and Online Business, specializing in sales strategies and online branding.</p>
-                    </div>
-                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 10px 14px; border-radius: 50px; font-size: 0.88rem; font-weight: 700;">★ CO-FOUNDER</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Expert Mentor 3: Pavan Prajapati -->
-            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-1.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
-                </div>
-                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Dedicated mentor offering practical guidance, hands-on masterclasses, and career coaching to help learners achieve measurable digital growth.</p>
-                    </div>
-                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(11, 79, 74, 0.08); color: #0B4F4A; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ PAVAN PRAJAPATI</span>
+                    <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">{{ $cardHeading }}</h4>
+                            <div style="font-size: 0.82rem; font-weight: 700; color: {{ $accentColor }}; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">{{ $m->designation ?: 'SkillLearner EdTech' }}</div>
+                            <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">{{ $m->bio }}</p>
+                        </div>
+                        <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                            <span style="background: {{ $badgeBg }}; color: {{ $badgeColor }}; padding: 10px 14px; border-radius: 50px; font-size: 0.88rem; font-weight: 700;">{{ $cardBadge }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Expert Mentor 4: Soumyadip Pania -->
-            <div class="team-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
-                <div style="width: 100%; height: 300px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/mentor-2.jpg') }}" alt="SkillLearner Expert Mentor" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+            @empty
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #64748b; background: #ffffff; border-radius: 16px; border: 1px dashed #cbd5e1;">
+                    <p style="margin: 0; font-size: 1rem; font-weight: 600;">No mentors currently featured on the homepage.</p>
                 </div>
-                <div style="padding: 1.5rem 1.3rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Expert Mentor</h4>
-                        <div style="font-size: 0.82rem; font-weight: 700; color: #0A6B5C; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">SkillLearner EdTech</div>
-                        <p style="color: #64748b; font-size: 0.86rem; line-height: 1.55; margin: 0;">Empowering students with actionable digital skills, real-time problem solving, and proven strategies to succeed in competitive markets.</p>
-                    </div>
-                    <div style="margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: rgba(217, 119, 6, 0.1); color: #D97706; padding: 12px 14px; border-radius: 50px; font-size: 0.95rem; font-weight: 700;">★ SOUMYADIP PANIA</span>
-                    </div>
-                </div>
-            </div>
-
+            @endforelse
         </div>
     </div>
 </section>

@@ -50,8 +50,8 @@
                                     </td>
                                     <td style="padding: 12px 10px; color: #64748b;">{{ $t['leader'] }}</td>
                                     <td style="padding: 12px 10px; color: #64748b;">{{ $t['members'] }} Creators</td>
-                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;">
-                                        ₹{{ number_format($t['total_volume']) }}
+                                    <td style="padding: 12px 10px; text-align: right; color: #10b981; font-weight: 800; font-size: 1.05rem;" class="counter-anim" data-target="{{ (float) $t['total_volume'] }}">
+                                        ₹0
                                     </td>
                                 </tr>
                             @endforeach
@@ -64,4 +64,49 @@
 </div>
 
 @include('portal.styles')
+
+@push('scripts')
+<script>
+    (function () {
+        function animateTeamCounters() {
+            const counters = document.querySelectorAll('.counter-anim');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target')) || 0;
+                if (target <= 0) {
+                    counter.innerText = '₹0';
+                    return;
+                }
+
+                const duration = 1600;
+                let startTimestamp = null;
+
+                function step(timestamp) {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const elapsed = timestamp - startTimestamp;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    const easeOutProgress = 1 - Math.pow(1 - progress, 4);
+                    const currentVal = Math.floor(easeOutProgress * target);
+
+                    counter.innerText = '₹' + currentVal.toLocaleString('en-US');
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        counter.innerText = '₹' + Math.round(target).toLocaleString('en-US');
+                    }
+                }
+
+                window.requestAnimationFrame(step);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', animateTeamCounters);
+        } else {
+            animateTeamCounters();
+        }
+    })();
+</script>
+@endpush
 @endsection

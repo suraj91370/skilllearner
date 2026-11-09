@@ -78,7 +78,7 @@
                                         <span class="podium-rank-pill">2nd</span>
                                     </div>
                                     <span class="podium-name-pill" title="{{ $rank2['name'] }}">{{ $rank2['name'] }}</span>
-                                    <div class="podium-amount">₹{{ number_format((float) $rank2['earnings']) }}</div>
+                                    <div class="podium-amount counter-anim" data-target="{{ (float) $rank2['earnings'] }}">₹0</div>
                                 </div>
                                 @endif
 
@@ -112,7 +112,7 @@
                                         <span class="podium-rank-pill">1st</span>
                                     </div>
                                     <span class="podium-name-pill" title="{{ $rank1['name'] }}">{{ $rank1['name'] }}</span>
-                                    <div class="podium-amount">₹{{ number_format((float) $rank1['earnings']) }}</div>
+                                    <div class="podium-amount counter-anim" data-target="{{ (float) $rank1['earnings'] }}">₹0</div>
                                 </div>
                                 @endif
 
@@ -143,7 +143,7 @@
                                         <span class="podium-rank-pill">3rd</span>
                                     </div>
                                     <span class="podium-name-pill" title="{{ $rank3['name'] }}">{{ $rank3['name'] }}</span>
-                                    <div class="podium-amount">₹{{ number_format((float) $rank3['earnings']) }}</div>
+                                    <div class="podium-amount counter-anim" data-target="{{ (float) $rank3['earnings'] }}">₹0</div>
                                 </div>
                                 @endif
                             </div>
@@ -158,7 +158,7 @@
                                         <img src="{{ $item['avatar'] }}" alt="{{ $item['name'] }}" class="podium-row-avatar">
                                         <span class="podium-row-name">{{ $item['name'] }}</span>
                                     </div>
-                                    <div class="podium-row-amount">₹ {{ number_format((float) $item['earnings']) }}</div>
+                                    <div class="podium-row-amount counter-anim" data-target="{{ (float) $item['earnings'] }}">₹0</div>
                                 </div>
                                 @endforeach
                             </div>
@@ -172,4 +172,50 @@
 </div>
 
 @include('portal.styles')
+
+@push('scripts')
+<script>
+    (function () {
+        function animateLeaderboardCounters() {
+            const counters = document.querySelectorAll('.counter-anim');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target')) || 0;
+                if (target <= 0) {
+                    counter.innerText = '₹0';
+                    return;
+                }
+
+                const duration = 1600; // 1.6s smooth easing count-up
+                let startTimestamp = null;
+
+                function step(timestamp) {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const elapsed = timestamp - startTimestamp;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Ease Out Quart: 1 - (1 - progress)^4
+                    const easeOutProgress = 1 - Math.pow(1 - progress, 4);
+                    const currentVal = Math.floor(easeOutProgress * target);
+
+                    counter.innerText = '₹' + currentVal.toLocaleString('en-US');
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        counter.innerText = '₹' + Math.round(target).toLocaleString('en-US');
+                    }
+                }
+
+                window.requestAnimationFrame(step);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', animateLeaderboardCounters);
+        } else {
+            animateLeaderboardCounters();
+        }
+    })();
+</script>
+@endpush
 @endsection
