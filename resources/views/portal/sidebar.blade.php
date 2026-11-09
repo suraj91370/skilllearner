@@ -204,22 +204,23 @@
                 <span>Affiliate Link</span>
             </a>
 
-            <!-- Active Referral (Direct Referrals / Tier-1) -->
-            <a href="{{ url('/active-referrals') }}" class="sidebar-item {{ $currentActive === 'active-referrals' ? 'active' : '' }}">
+            <!-- Webinars (Matches Image 1) -->
+            <a href="{{ url('/webinars') }}" class="sidebar-item {{ $currentActive === 'webinars' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="8.5" cy="7" r="4"></circle>
-                    <polyline points="17 11 19 13 23 9"></polyline>
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                 </svg>
-                <span>Active Referral</span>
+                <span>Webinars</span>
             </a>
 
-            <!-- Passive Referral (Tier-2 / Team Referrals) -->
-            <a href="{{ url('/passive-referrals') }}" class="sidebar-item {{ $currentActive === 'passive-referrals' ? 'active' : '' }}">
+            <!-- Live Offers (Matches Image 1) -->
+            <a href="{{ url('/live-offers') }}" class="sidebar-item {{ $currentActive === 'live-offers' ? 'active' : '' }}">
                 <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
                 </svg>
-                <span>Passive Referral</span>
+                <span>Live Offers</span>
             </a>
 
             <!-- Affiliate Training -->

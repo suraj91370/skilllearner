@@ -812,11 +812,11 @@
         <div style="background: var(--success); color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
             ✅ Payout request submitted! Your funds will be transferred to your account within 24 hours.
         </div>
-    @elseif(session('alert') === 'welcome')
+    {{-- @elseif(session('alert') === 'welcome')
         <div style="background: #05B396; color: #fff; text-align: center; padding: 10px; font-weight: 700; font-size: 0.95rem;">
             🚀 Welcome to SkillLearner! Your student dashboard is ready and all courses are unlocked.
         </div>
-    @endif
+    @endif --}}
 
     <!-- Top Navigation Bar (Matches Home Page Emerald Theme) -->
     <header class="nav">
@@ -1214,22 +1214,23 @@
                         <span>My Payout</span>
                     </a>
 
-                    <!-- Active Referral -->
-                    <a href="{{ url('/active-referrals') }}" id="mob-link-active-referrals" class="mobile-portal-link {{ request()->is('active-referrals*') ? 'active' : '' }}">
+                    <!-- Webinars (Matches Image 1) -->
+                    <a href="{{ url('/webinars') }}" id="mob-link-webinars" class="mobile-portal-link {{ request()->is('webinars*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <polyline points="17 11 19 13 23 9"></polyline>
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                         </svg>
-                        <span>Active Referral</span>
+                        <span>Webinars</span>
                     </a>
 
-                    <!-- Passive Referral -->
-                    <a href="{{ url('/passive-referrals') }}" id="mob-link-passive-referrals" class="mobile-portal-link {{ request()->is('passive-referrals*') ? 'active' : '' }}">
+                    <!-- Live Offers (Matches Image 1) -->
+                    <a href="{{ url('/live-offers') }}" id="mob-link-live-offers" class="mobile-portal-link {{ request()->is('live-offers*') ? 'active' : '' }}">
                         <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
                         </svg>
-                        <span>Passive Referral</span>
+                        <span>Live Offers</span>
                     </a>
 
                     <!-- 10. Affiliate Training -->
