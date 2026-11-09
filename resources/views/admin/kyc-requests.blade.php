@@ -77,11 +77,11 @@
                             </div>
                             <div>
                                 <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">BANK &amp; ACCOUNT</span>
-                                <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">{{ $kyc->bank_name ?? 'HDFC Bank' }} ({{ $kyc->account_number ?? '••••4819' }})</div>
+                                <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">{{ $kyc->bank_name ?? 'Not submitted' }} @if($kyc->account_number) ({{ $kyc->account_number }}) @endif</div>
                             </div>
                             <div>
                                 <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">UPI ID &amp; IFSC</span>
-                                <div style="font-weight: 700; color: #05B396; font-size: 0.9rem;">{{ $kyc->upi_id ?? 'suraj@okaxis' }}</div>
+                                <div style="font-weight: 700; color: #05B396; font-size: 0.9rem;">{{ $kyc->upi_id ?? ($kyc->ifsc_code ?? 'Not submitted') }}</div>
                             </div>
                         </div>
 
