@@ -11,6 +11,7 @@ class KycVerification extends Model
         'aadhar_number',
         'pan_number',
         'bank_name',
+        'holder_name',
         'account_number',
         'ifsc_code',
         'upi_id',

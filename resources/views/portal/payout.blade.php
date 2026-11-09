@@ -126,8 +126,8 @@
                 <input 
                     type="text" 
                     name="payout_details" 
-                    value="{{ session('user.upi_id', 'suraj@okhdfcbank') }}" 
-                    placeholder="suraj@okhdfcbank or Bank A/C No. & IFSC" 
+                    value="{{ session('user.upi_id') ?? '' }}" 
+                    placeholder="Enter UPI ID or Bank A/C No. & IFSC" 
                     style="width: 100%; padding: 0.85rem 1.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 0.96rem; font-weight: 600; box-sizing: border-box;" 
                     required
                 >

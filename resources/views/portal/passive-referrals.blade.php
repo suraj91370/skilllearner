@@ -19,16 +19,8 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.3px;">
-                        Passive Referrals (Tier-2)
+                        Passive Referrals
                     </h2>
-                    <p style="margin: 4px 0 0; color: #64748b; font-size: 0.95rem;">
-                        Aapke direct referral members ne aage jinhe refer kiya hai, unki details aur unse aane wali passive earnings yahan dikhti hain.
-                    </p>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 10px; background: #ffffff; padding: 6px 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-                    <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Your Code:</span>
-                    <strong style="color: #05B396; font-size: 1rem; letter-spacing: 0.5px;">{{ $affiliateId }}</strong>
                 </div>
             </div>
 

@@ -238,23 +238,23 @@
                             <div class="profile-kyc-grid">
                                 <div class="profile-kyc-item">
                                     <span class="kyc-field-title">Bank Name</span>
-                                    <div class="kyc-field-val">HDFC Bank</div>
+                                    <div class="kyc-field-val">{{ session('user.bank_name') ?: 'Not Provided' }}</div>
                                 </div>
                                 <div class="profile-kyc-item">
                                     <span class="kyc-field-title">Account Holder Name</span>
-                                    <div class="kyc-field-val">{{ session('user.name', 'Addy') }}</div>
+                                    <div class="kyc-field-val">{{ session('user.holder_name') ?: (session('user.name') ?: 'Not Provided') }}</div>
                                 </div>
                                 <div class="profile-kyc-item">
                                     <span class="kyc-field-title">Account Number</span>
-                                    <div class="kyc-field-val">50100494320380</div>
+                                    <div class="kyc-field-val">{{ session('user.account_number') ?: 'Not Provided' }}</div>
                                 </div>
                                 <div class="profile-kyc-item">
                                     <span class="kyc-field-title">IFSC Code</span>
-                                    <div class="kyc-field-val">HDFC0000194</div>
+                                    <div class="kyc-field-val">{{ session('user.ifsc_code') ?: 'Not Provided' }}</div>
                                 </div>
                                 <div class="profile-kyc-item" style="grid-column: 1 / -1;">
                                     <span class="kyc-field-title">UPI ID</span>
-                                    <div class="kyc-field-val">adarshpandey3851-3@okhdfcbank</div>
+                                    <div class="kyc-field-val">{{ session('user.upi_id') ?: 'Not Provided' }}</div>
                                 </div>
                             </div>
 
@@ -333,8 +333,8 @@
                     id="payout_details" 
                     name="payout_details" 
                     class="payout-form-input" 
-                    value="{{ session('user.upi_id', 'suraj@okhdfcbank') }}" 
-                    placeholder="suraj@okhdfcbank or Bank A/C No. & IFSC" 
+                    value="{{ session('user.upi_id') ?? '' }}" 
+                    placeholder="Enter UPI ID or Bank A/C No. & IFSC" 
                     required
                 >
             </div>
