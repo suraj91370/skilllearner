@@ -15,18 +15,124 @@ class DashboardController extends Controller
     {
         PortalDataService::ensureUserSession();
 
+        $authUser = Auth::user();
         $pendingCommissions = 0.0;
-        if (Auth::check()) {
-            /** @var User $authUser */
-            $authUser = Auth::user();
+        if ($authUser) {
             $pendingCommissions = (float) $authUser->commissions()->where('status', 'Pending')->sum('amount');
         }
+
+        // 1. Core Revenue Metrics (Strictly 0 fallback)
+        $todayEarning = $authUser ? (float) $authUser->today_earning : (float) session('user.today_earning', 0);
+        $weeklyEarning = $authUser ? (float) $authUser->weekly_earning : (float) session('user.weekly_earning', 0);
+        $monthlyEarning = $authUser ? (float) $authUser->monthly_earning : (float) session('user.monthly_earning', 0);
+        $totalEarning = $authUser ? (float) $authUser->total_earning : (float) session('user.total_earning', 0);
+        $passiveEarning = $authUser ? (float) $authUser->passive_earning : (float) session('user.passive_earning', 0);
+        $industryRevenue = (float) (User::sum('total_earning') ?: 0);
+
+        // 2. Dynamic 7 Days Sales Graph
+        $sevenDays = [];
+        $carbonNow = now();
+        for ($i = 6; $i >= 0; $i--) {
+            $dt = (clone $carbonNow)->subDays($i);
+            $key = $dt->format('Y-m-d');
+            $sevenDays[$key] = [
+                'day_name' => $dt->isToday() ? 'Today' : $dt->format('D'),
+                'short_date' => $dt->format('d M'),
+                'amount' => 0.0,
+            ];
+        }
+
+        if ($authUser) {
+            $commissions = Commission::where('user_id', $authUser->id)
+                ->where('status', 'Credited')
+                ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+                ->get();
+
+            foreach ($commissions as $comm) {
+                if ($comm->created_at) {
+                    $cKey = $comm->created_at->format('Y-m-d');
+                    if (isset($sevenDays[$cKey])) {
+                        $sevenDays[$cKey]['amount'] += (float) $comm->amount;
+                    }
+                }
+            }
+
+            // If user has weekly_earning but no granular commission records, allocate today_earning to today
+            $sumGraph = array_sum(array_column($sevenDays, 'amount'));
+            if ($sumGraph == 0 && $todayEarning > 0) {
+                $todayKey = $carbonNow->format('Y-m-d');
+                if (isset($sevenDays[$todayKey])) {
+                    $sevenDays[$todayKey]['amount'] = $todayEarning;
+                }
+            }
+        }
+
+        // Calculate Y-scale and points for SVG
+        $amounts = array_column($sevenDays, 'amount');
+        $maxVal = !empty($amounts) ? max($amounts) : 0;
+
+        $maxScale = 100;
+        if ($maxVal > 0) {
+            if ($maxVal <= 500) {
+                $maxScale = (int) (ceil($maxVal / 50) * 50);
+            } elseif ($maxVal <= 5000) {
+                $maxScale = (int) (ceil($maxVal / 500) * 500);
+            } else {
+                $maxScale = (int) (ceil($maxVal / 1000) * 1000);
+            }
+            if ($maxScale < $maxVal) {
+                $maxScale = (int) $maxVal;
+            }
+        }
+
+        // Build SVG graph data points
+        $graphPoints = [];
+        $xCoords = [75, 195, 315, 435, 555, 675, 795];
+        $idx = 0;
+        foreach ($sevenDays as $dateKey => $dayData) {
+            $val = $dayData['amount'];
+            $x = $xCoords[$idx] ?? (75 + $idx * 120);
+            $y = ($maxScale > 0 && $val > 0) ? round(295 - (($val / $maxScale) * 260), 1) : 295.0;
+            $graphPoints[] = [
+                'x' => $x,
+                'y' => $y,
+                'amount' => $val,
+                'day_name' => $dayData['day_name'],
+                'date' => $dayData['short_date'],
+            ];
+            $idx++;
+        }
+
+        $polylinePoints = implode(' ', array_map(fn($p) => "{$p['x']},{$p['y']}", $graphPoints));
+        $firstX = $graphPoints[0]['x'] ?? 75;
+        $lastX = $graphPoints[count($graphPoints) - 1]['x'] ?? 795;
+        $polygonPoints = "{$polylinePoints} {$lastX},295 {$firstX},295";
+
+        $yAxisTicks = [
+            ['y' => 35,  'label' => '₹' . number_format($maxScale)],
+            ['y' => 87,  'label' => '₹' . number_format(round($maxScale * 0.8))],
+            ['y' => 139, 'label' => '₹' . number_format(round($maxScale * 0.6))],
+            ['y' => 191, 'label' => '₹' . number_format(round($maxScale * 0.4))],
+            ['y' => 243, 'label' => '₹' . number_format(round($maxScale * 0.2))],
+            ['y' => 295, 'label' => '₹0'],
+        ];
 
         return view('portal.dashboard', [
             'commissions' => session('commissions', []),
             'payouts' => session('payouts', []),
             'packages' => CommissionService::PACKAGES,
             'pendingCommissions' => $pendingCommissions,
+            'todayEarning' => $todayEarning,
+            'weeklyEarning' => $weeklyEarning,
+            'monthlyEarning' => $monthlyEarning,
+            'totalEarning' => $totalEarning,
+            'passiveEarning' => $passiveEarning,
+            'industryRevenue' => $industryRevenue,
+            'graphPoints' => $graphPoints,
+            'polylinePoints' => $polylinePoints,
+            'polygonPoints' => $polygonPoints,
+            'yAxisTicks' => $yAxisTicks,
+            'maxVal' => $maxVal,
             'active' => 'dashboard',
         ]);
     }
