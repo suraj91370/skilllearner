@@ -1110,13 +1110,29 @@
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px dashed #cbd5e1;">
+                        <!-- Admin Dashboard -->
+                        <a href="{{ url('/admin') }}" class="mobile-portal-link {{ request()->is('admin') ? 'active' : '' }}" style="background: rgba(5, 179, 150, 0.08); color: #05B396; font-weight: 700;">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+                            </svg>
+                            <span>Revenue &amp; Dashboard</span>
+                        </a>
+
+                        <!-- Mentor Management (Super Admin & Admin) -->
+                        <a href="{{ url('/admin/mentors') }}" class="mobile-portal-link {{ request()->is('admin/mentors*') ? 'active' : '' }}" style="border-left-color: #7c3aed;">
+                            <svg class="mob-icon" style="color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span style="font-weight: 700; color: #7c3aed;">Mentor Management</span>
+                        </a>
+
                         @if ($drawerIsSuper)
                             <!-- Course Option Show / Hide -->
                             <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}" style="border-left-color: #7c3aed;">
                                 <svg class="mob-icon" style="color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                                 </svg>
-                                <span style="font-weight: 700; color: #7c3aed;">Course Option (Show/Hide)</span>
+                                <span>Course Option (Show/Hide)</span>
                             </a>
 
                             <!-- Video Option Show / Hide -->
@@ -1124,16 +1140,10 @@
                                 <svg class="mob-icon" style="color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                                 </svg>
-                                <span style="font-weight: 700; color: #7c3aed;">Video Option (Show/Hide)</span>
+                                <span>Video Option (Show/Hide)</span>
                             </a>
                         @endif
 
-                        <a href="{{ url('/admin') }}" class="mobile-portal-link {{ request()->is('admin') ? 'active' : '' }}" style="background: rgba(5, 179, 150, 0.08); color: #05B396; font-weight: 700;">
-                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
-                            </svg>
-                            <span>Revenue &amp; Dashboard</span>
-                        </a>
                         <a href="{{ url('/admin/users') }}" class="mobile-portal-link {{ request()->is('admin/users*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -1161,153 +1171,192 @@
                             </a>
                         @endif
                     </div>
+
+                    <!-- Essential Admin Shortcuts -->
+                    <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
+                        PORTAL VIEW
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <a href="{{ url('/dashboard') }}" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>Student Dashboard</span>
+                        </a>
+                        <a href="{{ url('/leaderboard') }}" class="mobile-portal-link {{ request()->is('leaderboard*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span>Leaderboard</span>
+                        </a>
+                        <a href="{{ url('/profile') }}" class="mobile-portal-link {{ request()->is('profile*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>My Profile</span>
+                        </a>
+                        <a href="{{ url('/social-community') }}" class="mobile-portal-link {{ request()->is('social-community*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Social Community</span>
+                        </a>
+                    </div>
+                @else
+                    {{-- Student / Affiliate Mobile Drawer Controls --}}
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <!-- 1. Dashboard -->
+                        <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+
+                        <!-- 2. My Course -->
+                        <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') || request()->is('my-courses*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                            </svg>
+                            <span>My Course</span>
+                        </a>
+
+                        <!-- 4. Profile -->
+                        <a href="{{ url('/profile') }}" id="mob-link-profile" class="mobile-portal-link {{ request()->is('profile*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Profile</span>
+                        </a>
+
+                        <!-- 5. Affiliate Link -->
+                        <a href="{{ url('/affiliate-link') }}" id="mob-link-affiliate-link" class="mobile-portal-link {{ request()->is('affiliate-link*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            </svg>
+                            <span>Affiliate Link</span>
+                        </a>
+
+                        <!-- 6. Social Community -->
+                        <a href="{{ url('/social-community') }}" id="mob-link-community" class="mobile-portal-link {{ request()->is('social-community*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Social Community</span>
+                        </a>
+
+                        <!-- 7. Kyc -->
+                        <a href="{{ url('/kyc') }}" id="mob-link-kyc" class="mobile-portal-link {{ request()->is('kyc*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span>Kyc</span>
+                        </a>
+
+                        <!-- 8. My Payout -->
+                        <a href="{{ url('/my-payout') }}" id="mob-link-payout" class="mobile-portal-link {{ request()->is('my-payout*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                            <span>My Payout</span>
+                        </a>
+
+                        <!-- Active Referral -->
+                        <a href="{{ url('/active-referrals') }}" id="mob-link-active-referrals" class="mobile-portal-link {{ request()->is('active-referrals*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
+                            </svg>
+                            <span>Active Referral</span>
+                        </a>
+
+                        <!-- Passive Referral -->
+                        <a href="{{ url('/passive-referrals') }}" id="mob-link-passive-referrals" class="mobile-portal-link {{ request()->is('passive-referrals*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                            <span>Passive Referral</span>
+                        </a>
+
+                        <!-- Webinars -->
+                        <a href="{{ url('/webinars') }}" id="mob-link-webinars" class="mobile-portal-link {{ request()->is('webinars*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            <span>Webinars</span>
+                        </a>
+
+                        <!-- Live Offers -->
+                        <a href="{{ url('/live-offers') }}" id="mob-link-live-offers" class="mobile-portal-link {{ request()->is('live-offers*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="6"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                            </svg>
+                            <span>Live Offers</span>
+                        </a>
+
+                        <!-- Affiliate Training -->
+                        <a href="{{ url('/affiliate-training') }}" id="mob-link-training" class="mobile-portal-link {{ request()->is('affiliate-training*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            <span>Affiliate Training</span>
+                        </a>
+
+                        <!-- Marketing Tool -->
+                        <a href="{{ url('/marketing-tool') }}" id="mob-link-marketing" class="mobile-portal-link {{ request()->is('marketing-tool*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                            <span>Marketing Tool</span>
+                        </a>
+
+                        <!-- Leaderboard -->
+                        <a href="{{ url('/leaderboard') }}" id="mob-link-leaderboard" class="mobile-portal-link {{ request()->is('leaderboard*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span>Leaderboard</span>
+                        </a>
+
+                        <!-- Qualification -->
+                        <a href="{{ url('/qualification') }}" id="mob-link-qualification" class="mobile-portal-link {{ request()->is('qualification*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                            <span>Qualification</span>
+                        </a>
+                    </div>
                 @endif
-
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                    <!-- 1. Dashboard -->
-                    <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                        <span>Dashboard</span>
-                    </a>
-
-                    <!-- 2. My Course (Previously Videos) -->
-                    <a href="{{ url('/videos') }}" id="mob-link-videos" class="mobile-portal-link {{ request()->is('videos*') || request()->is('my-courses*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
-                        </svg>
-                        <span>My Course</span>
-                    </a>
-
-                    <!-- 4. Profile -->
-                    <a href="{{ url('/profile') }}" id="mob-link-profile" class="mobile-portal-link {{ request()->is('profile*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <span>Profile</span>
-                    </a>
-
-                    <!-- 5. Affiliate Link -->
-                    <a href="{{ url('/affiliate-link') }}" id="mob-link-affiliate-link" class="mobile-portal-link {{ request()->is('affiliate-link*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                        </svg>
-                        <span>Affiliate Link</span>
-                    </a>
-
-                    <!-- 6. Social Community -->
-                    <a href="{{ url('/social-community') }}" id="mob-link-community" class="mobile-portal-link {{ request()->is('social-community*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                        <span>Social Community</span>
-                    </a>
-
-                    <!-- 7. Kyc -->
-                    <a href="{{ url('/kyc') }}" id="mob-link-kyc" class="mobile-portal-link {{ request()->is('kyc*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
-                        <span>Kyc</span>
-                    </a>
-
-                    <!-- 8. My Payout -->
-                    <a href="{{ url('/my-payout') }}" id="mob-link-payout" class="mobile-portal-link {{ request()->is('my-payout*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                            <line x1="2" y1="10" x2="22" y2="10"></line>
-                        </svg>
-                        <span>My Payout</span>
-                    </a>
-
-                    <!-- Active Referral -->
-                    <a href="{{ url('/active-referrals') }}" id="mob-link-active-referrals" class="mobile-portal-link {{ request()->is('active-referrals*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <polyline points="17 11 19 13 23 9"></polyline>
-                        </svg>
-                        <span>Active Referral</span>
-                    </a>
-
-                    <!-- Passive Referral -->
-                    <a href="{{ url('/passive-referrals') }}" id="mob-link-passive-referrals" class="mobile-portal-link {{ request()->is('passive-referrals*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                        <span>Passive Referral</span>
-                    </a>
-
-                    <!-- Webinars (Matches Image 1) -->
-                    <a href="{{ url('/webinars') }}" id="mob-link-webinars" class="mobile-portal-link {{ request()->is('webinars*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                        </svg>
-                        <span>Webinars</span>
-                    </a>
-
-                    <!-- Live Offers (Matches Image 1) -->
-                    <a href="{{ url('/live-offers') }}" id="mob-link-live-offers" class="mobile-portal-link {{ request()->is('live-offers*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <circle cx="12" cy="12" r="6"></circle>
-                            <circle cx="12" cy="12" r="2"></circle>
-                        </svg>
-                        <span>Live Offers</span>
-                    </a>
-
-                    <!-- 10. Affiliate Training -->
-                    <a href="{{ url('/affiliate-training') }}" id="mob-link-training" class="mobile-portal-link {{ request()->is('affiliate-training*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                        </svg>
-                        <span>Affiliate Training</span>
-                    </a>
-
-                    <!-- 11. Marketing Tool -->
-                    <a href="{{ url('/marketing-tool') }}" id="mob-link-marketing" class="mobile-portal-link {{ request()->is('marketing-tool*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 17 12 22 22 17"></polyline>
-                            <polyline points="2 12 12 17 22 12"></polyline>
-                        </svg>
-                        <span>Marketing Tool</span>
-                    </a>
-
-                    <!-- 12. Leaderboard -->
-                    <a href="{{ url('/leaderboard') }}" id="mob-link-leaderboard" class="mobile-portal-link {{ request()->is('leaderboard*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
-                        <span>Leaderboard</span>
-                    </a>
-
-                    <!-- 14. Qualification -->
-                    <a href="{{ url('/qualification') }}" id="mob-link-qualification" class="mobile-portal-link {{ request()->is('qualification*') ? 'active' : '' }}">
-                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="8" r="7"></circle>
-                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                        </svg>
-                        <span>Qualification</span>
-                    </a>
-                </div>
 
                 <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">
                     <a href="{{ url('/logout') }}" class="btn btn-secondary" style="width: 100%; color: #ef4444; border-color: rgba(239, 68, 68, 0.3); font-weight: 700; text-align: center; justify-content: center;">

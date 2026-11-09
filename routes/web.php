@@ -9,6 +9,7 @@ use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\MarketingToolController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualificationController;
@@ -22,6 +23,7 @@ use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\Video;
 use App\Services\CommissionService;
+use App\Services\PortalDataService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1013,14 +1015,16 @@ Route::post('/payout-request', [PayoutController::class, 'requestPayout'])->name
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('portal.leaderboard');
 Route::get('/qualification', [QualificationController::class, 'index'])->name('portal.qualification');
 Route::get('/webinars', function () {
-    \App\Services\PortalDataService::ensureUserSession();
+    PortalDataService::ensureUserSession();
+
     return view('portal.webinars', [
         'active' => 'webinars',
         'webinars' => [],
     ]);
 })->name('portal.webinars');
 Route::get('/live-offers', function () {
-    \App\Services\PortalDataService::ensureUserSession();
+    PortalDataService::ensureUserSession();
+
     return view('portal.live-offers', [
         'active' => 'live-offers',
         'offers' => [],
@@ -1045,6 +1049,17 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/kyc/{kyc}/reject', [AdminController::class, 'rejectKyc'])->name('admin.kyc.reject');
     Route::get('/payout-requests', [AdminController::class, 'payoutRequests'])->name('admin.payouts');
     Route::post('/payout/{payout}/status', [AdminController::class, 'updatePayoutStatus'])->name('admin.payouts.status');
+
+    // Mentor Management Routes (Add, Edit, Block, Delete, Assign Courses, Revenue Share %, KYC, Payouts)
+    Route::get('/mentors', [MentorController::class, 'index'])->name('admin.mentors');
+    Route::post('/mentors', [MentorController::class, 'store'])->name('admin.mentors.store');
+    Route::put('/mentors/{mentor}', [MentorController::class, 'update'])->name('admin.mentors.update');
+    Route::post('/mentors/{mentor}/toggle-status', [MentorController::class, 'toggleStatus'])->name('admin.mentors.toggle-status');
+    Route::post('/mentors/{mentor}/toggle-featured', [MentorController::class, 'toggleFeatured'])->name('admin.mentors.toggle-featured');
+    Route::delete('/mentors/{mentor}', [MentorController::class, 'destroy'])->name('admin.mentors.destroy');
+    Route::post('/mentors/{mentor}/kyc', [MentorController::class, 'updateKyc'])->name('admin.mentors.kyc');
+    Route::post('/mentors/{mentor}/payouts', [MentorController::class, 'createPayout'])->name('admin.mentors.payouts.store');
+    Route::post('/mentors/payouts/{payout}/process', [MentorController::class, 'processPayout'])->name('admin.mentors.payouts.process');
 });
 
 // Super Admin Only System Settings & Video Management
