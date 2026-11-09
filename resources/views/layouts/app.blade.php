@@ -774,6 +774,23 @@
                 gap: 0.75rem;
             }
         }
+
+        /* Pagination SVG Safeguard (Prevents unbound SVG expansion) */
+        nav[role="navigation"] svg,
+        svg.w-5,
+        svg.h-5,
+        .w-5,
+        .h-5 {
+            width: 16px !important;
+            height: 16px !important;
+            max-width: 16px !important;
+            max-height: 16px !important;
+            min-width: 16px !important;
+            min-height: 16px !important;
+            display: inline-block !important;
+            vertical-align: middle !important;
+            flex-shrink: 0 !important;
+        }
     </style>
     @php
         $isPortalOrAdmin = request()->is('admin*') || request()->is('my-courses*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('kyc*') || request()->is('affiliate*') || request()->is('*referral*') || request()->is('marketing*') || request()->is('my-payout*') || request()->is('leaderboard*') || request()->is('qualification*') || request()->is('social-community*');

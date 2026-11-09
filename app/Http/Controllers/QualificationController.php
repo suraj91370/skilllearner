@@ -11,24 +11,8 @@ class QualificationController extends Controller
     {
         PortalDataService::ensureUserSession();
 
-        $trips = [
-            [
-                'title' => 'Goa Luxury National Conclave 2026',
-                'target' => 100000,
-                'achieved' => session('user.total_earning', 48600),
-                'deadline' => '30th November 2026',
-                'status' => 'In Progress (48.6%)',
-                'rewards' => '3 Days / 2 Nights 5-Star Resort Stay, Gala Dinner, Trophy Presentation',
-            ],
-            [
-                'title' => 'Dubai International Creator Summit',
-                'target' => 350000,
-                'achieved' => session('user.total_earning', 48600),
-                'deadline' => '31st December 2026',
-                'status' => 'In Progress (13.8%)',
-                'rewards' => 'All-Expense Paid International Flight, Desert Safari, Yacht Mastermind',
-            ],
-        ];
+        // Qualification tour contests (Empty array until admin launches active contests)
+        $trips = [];
 
         return view('portal.qualification', [
             'trips' => $trips,

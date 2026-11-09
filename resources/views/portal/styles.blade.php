@@ -1490,4 +1490,34 @@
             font-size: 0.92rem !important;
         }
     }
+
+    /* ==========================================================
+       PAGINATION GLOBAL SAFEGUARD & STYLING
+       Prevents unbound SVG expansion & renders clean modern pills
+       ========================================================== */
+    nav[role="navigation"] svg,
+    .portal-pagination-wrapper svg,
+    .pagination-controls svg,
+    svg.w-5,
+    svg.h-5,
+    .w-5,
+    .h-5 {
+        width: 16px !important;
+        height: 16px !important;
+        min-width: 16px !important;
+        max-width: 16px !important;
+        min-height: 16px !important;
+        max-height: 16px !important;
+        display: inline-block !important;
+        vertical-align: middle !important;
+        flex-shrink: 0 !important;
+    }
+
+    .portal-pagination-wrapper a.pagination-btn:hover,
+    .portal-pagination-wrapper a.pagination-page:hover {
+        border-color: #05B396 !important;
+        color: #05B396 !important;
+        background: #f0fdf4 !important;
+        transform: translateY(-1px);
+    }
 </style>

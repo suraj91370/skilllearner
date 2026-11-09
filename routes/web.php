@@ -1014,11 +1014,17 @@ Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('porta
 Route::get('/qualification', [QualificationController::class, 'index'])->name('portal.qualification');
 Route::get('/webinars', function () {
     \App\Services\PortalDataService::ensureUserSession();
-    return view('portal.webinars', ['active' => 'webinars']);
+    return view('portal.webinars', [
+        'active' => 'webinars',
+        'webinars' => [],
+    ]);
 })->name('portal.webinars');
 Route::get('/live-offers', function () {
     \App\Services\PortalDataService::ensureUserSession();
-    return view('portal.live-offers', ['active' => 'live-offers']);
+    return view('portal.live-offers', [
+        'active' => 'live-offers',
+        'offers' => [],
+    ]);
 })->name('portal.live-offers');
 
 // 7.1 Admin & Super Admin Management Routes (Protected by role middleware)

@@ -371,6 +371,9 @@ class CommissionService
      */
     public static function getPlatformRevenueStats(): array
     {
+        $todayStart = now()->startOfDay();
+        $thirtyDaysAgo = now()->subDays(30)->startOfDay();
+
         // Total commissions by type & status
         $creditedCommissions = Commission::where('status', 'Credited')->get();
         $pendingCommissions = Commission::where('status', 'Pending')->get();
@@ -381,6 +384,15 @@ class CommissionService
 
         $totalPassiveIncome = (float) $creditedCommissions
             ->filter(fn ($c) => str_contains(strtolower($c->commission_type), 'passive'))
+            ->sum('amount');
+
+        // Today & 30 Days user commissions earned
+        $todayIncome = (float) $creditedCommissions
+            ->filter(fn ($c) => $c->created_at && $c->created_at >= $todayStart)
+            ->sum('amount');
+
+        $monthlyIncome = (float) $creditedCommissions
+            ->filter(fn ($c) => $c->created_at && $c->created_at >= $thirtyDaysAgo)
             ->sum('amount');
 
         $pendingAmount = (float) $pendingCommissions->sum('amount');
@@ -397,6 +409,8 @@ class CommissionService
 
         $totalRevenue = 0.0;
         $creditedRevenue = 0.0;
+        $todayRevenue = 0.0;
+        $monthlyRevenue = 0.0;
         $packageCounts = [
             'Basic Package' => 0,
             'Growth Package' => 0,
@@ -414,16 +428,18 @@ class CommissionService
                 $creditedRevenue += $pkgPrice;
             }
 
+            if ($t1->created_at && $t1->created_at >= $todayStart) {
+                $todayRevenue += $pkgPrice;
+            }
+
+            if ($t1->created_at && $t1->created_at >= $thirtyDaysAgo) {
+                $monthlyRevenue += $pkgPrice;
+            }
+
             $matchedPkgName = $pkgInfo['name'];
             if (isset($packageCounts[$matchedPkgName])) {
                 $packageCounts[$matchedPkgName]++;
             }
-        }
-
-        // If no referral orders recorded yet, compute sensible baseline
-        if ($totalRevenue <= 0) {
-            $totalRevenue = 54900.0;
-            $creditedRevenue = 54900.0;
         }
 
         $totalCommissionsPaid = $totalActiveIncome + $totalPassiveIncome;
@@ -431,6 +447,10 @@ class CommissionService
 
         return [
             'total_revenue' => $totalRevenue,
+            'today_revenue' => $todayRevenue,
+            'monthly_revenue' => $monthlyRevenue,
+            'today_income' => $todayIncome,
+            'monthly_income' => $monthlyIncome,
             'credited_revenue' => $creditedRevenue,
             'total_active_income' => $totalActiveIncome,
             'total_passive_income' => $totalPassiveIncome,
