@@ -969,12 +969,14 @@
     }
 
     .revenue-card {
-        border-radius: 12px;
-        padding: 1.35rem 1.6rem 1.15rem;
+        border-radius: 14px;
+        padding: 1.35rem 1.6rem;
         color: #ffffff;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        min-height: 116px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         position: relative;
         overflow: hidden;
@@ -989,7 +991,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.35rem;
     }
 
     .revenue-amount {
@@ -1011,7 +1013,7 @@
         font-size: 0.96rem;
         font-weight: 600;
         opacity: 0.95;
-        margin-bottom: 0.85rem;
+        margin-bottom: 0;
     }
 
     .revenue-divider {

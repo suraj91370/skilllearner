@@ -11,24 +11,25 @@ class PortalDataService
     public static function getDemoUserData(): array
     {
         return [
-            'name' => 'Vansh Tandon',
-            'email' => 'vansh@skilllearner.com',
+            'name' => 'Demo User',
+            'email' => 'user@skilllearner.com',
             'phone' => '+91 98765 43210',
-            'affiliate_id' => 'SL-8821',
+            'affiliate_id' => 'SL-1001',
             'sponsor_id' => 'SL-ADMIN',
             'active_package' => 'Advance Package',
-            'wallet_balance' => 14200,
+            'wallet_balance' => 0,
             'pending_withdrawal' => 0,
-            'today_earning' => 2200,
-            'weekly_earning' => 7400,
-            'monthly_earning' => 21500,
-            'total_earning' => 48600,
-            'passive_earning' => 8400,
+            'today_earning' => 0,
+            'weekly_earning' => 0,
+            'monthly_earning' => 0,
+            'total_earning' => 0,
+            'passive_earning' => 0,
+            'industry_revenue' => 0,
             'kyc_status' => 'Verified ✅',
-            'upi_id' => 'suraj@okhdfcbank',
-            'bank_name' => 'HDFC Bank',
-            'account_number' => '50100494320380',
-            'ifsc_code' => 'HDFC0000194',
+            'upi_id' => '',
+            'bank_name' => '',
+            'account_number' => '',
+            'ifsc_code' => '',
             'role' => 'user',
             'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
         ];
@@ -53,9 +54,10 @@ class PortalDataService
                 'pending_withdrawal' => (float) $pendingWithdrawal,
                 'today_earning' => (float) $user->today_earning,
                 'weekly_earning' => (float) $user->weekly_earning,
-                'monthly_earning' => (float) ($user->monthly_earning > 0 ? $user->monthly_earning : ($user->weekly_earning * 2.8)),
+                'monthly_earning' => (float) $user->monthly_earning,
                 'total_earning' => (float) $user->total_earning,
-                'passive_earning' => (float) ($user->passive_earning > 0 ? $user->passive_earning : round($user->total_earning * 0.18, 2)),
+                'passive_earning' => (float) $user->passive_earning,
+                'industry_revenue' => (float) (User::sum('total_earning') ?: 0),
                 'kyc_status' => $user->kyc_status ?? 'Verified ✅',
                 'upi_id' => $kyc?->upi_id ?? session('user.upi_id', 'suraj@okhdfcbank'),
                 'bank_name' => $kyc?->bank_name ?? session('user.bank_name', 'HDFC Bank'),
@@ -83,18 +85,16 @@ class PortalDataService
             /** @var User $user */
             $user = Auth::user();
             $commissions = $user->commissions()->get();
-            if ($commissions->isNotEmpty()) {
-                session(['commissions' => $commissions->map(function ($c) {
-                    return [
-                        'name' => $c->buyer_name,
-                        'package' => $c->package_name,
-                        'amount' => (float) $c->amount,
-                        'type' => $c->commission_type,
-                        'time' => $c->created_at ? $c->created_at->diffForHumans() : 'Recently',
-                        'status' => $c->status,
-                    ];
-                })->toArray()]);
-            }
+            session(['commissions' => $commissions->map(function ($c) {
+                return [
+                    'name' => $c->buyer_name,
+                    'package' => $c->package_name,
+                    'amount' => (float) $c->amount,
+                    'type' => $c->commission_type,
+                    'time' => $c->created_at ? $c->created_at->diffForHumans() : 'Recently',
+                    'status' => $c->status,
+                ];
+            })->toArray()]);
 
             $payouts = $user->payouts()->get();
             session(['payouts' => $payouts->map(function ($p) {
@@ -106,23 +106,16 @@ class PortalDataService
                     'date' => $p->created_at ? $p->created_at->format('Y-m-d') : date('Y-m-d'),
                 ];
             })->toArray()]);
+
+            return;
         }
 
         if (! session()->has('commissions')) {
-            session(['commissions' => [
-                ['name' => 'Rahul Sharma (via Direct Member)', 'package' => 'Advance Package', 'amount' => 200, 'type' => 'Passive Income (Tier-2)', 'time' => '10 mins ago', 'status' => 'Pending'],
-                ['name' => 'Amit Verma', 'package' => 'Advance Package', 'amount' => 1900, 'type' => 'Active Income (Tier-1)', 'time' => '1 hour ago', 'status' => 'Credited'],
-                ['name' => 'Karan Joshi (via Direct Member)', 'package' => 'Infinity Package', 'amount' => 500, 'type' => 'Passive Income (Tier-2)', 'time' => '3 hours ago', 'status' => 'Credited'],
-                ['name' => 'Sneha Patel', 'package' => 'Growth Package', 'amount' => 840, 'type' => 'Active Income (Tier-1)', 'time' => 'Yesterday', 'status' => 'Credited'],
-                ['name' => 'Priya Nair', 'package' => 'Basic Package', 'amount' => 420, 'type' => 'Active Income (Tier-1)', 'time' => '2 days ago', 'status' => 'Credited'],
-            ]]);
+            session(['commissions' => []]);
         }
 
         if (! session()->has('payouts')) {
-            session(['payouts' => [
-                ['id' => 'PAY-1082', 'amount' => 5000, 'method' => 'UPI (suraj@okaxis)', 'status' => 'Transferred', 'date' => date('Y-m-d', strtotime('-3 days'))],
-                ['id' => 'PAY-1049', 'amount' => 10000, 'method' => 'HDFC Bank (A/C ...4819)', 'status' => 'Transferred', 'date' => date('Y-m-d', strtotime('-10 days'))],
-            ]]);
+            session(['payouts' => []]);
         }
     }
 
