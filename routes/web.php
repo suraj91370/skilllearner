@@ -683,7 +683,11 @@ Route::post('/forgot-password', function (Request $request) {
         return back()->with('status', 'A password reset link has been dispatched to '.$user->email.'! Please check your inbox and spam folder.');
     }
 
-    return back()->with('status', 'A password reset request has been processed for '.$user->email.'. If you do not see the email, please check your spam folder or verify SMTP configuration.');
+    $lastErr = EmailNotificationService::getLastError() ?? 'SMTP Connection Failed';
+
+    return back()->withInput()->withErrors([
+        'email' => 'Email deliver nahi ho payi: '.$lastErr.'. Kripya .env mein MAIL_PASSWORD Hostinger ka daalein ya testing ke liye MAIL_MAILER=log set karein.',
+    ]);
 })->name('password.email');
 
 // Reset Password Page & Submission

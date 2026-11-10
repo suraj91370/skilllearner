@@ -14,6 +14,19 @@ use Throwable;
 class EmailNotificationService
 {
     /**
+     * Store the last error encountered during an email dispatch attempt.
+     */
+    protected static ?string $lastError = null;
+
+    /**
+     * Get the last error message.
+     */
+    public static function getLastError(): ?string
+    {
+        return self::$lastError;
+    }
+
+    /**
      * Send Passive Referral (Level-2) email notification to affiliate.
      */
     public static function sendPassiveReferral(
@@ -22,8 +35,11 @@ class EmailNotificationService
         ?string $buyerName = null,
         ?string $packageName = null
     ): bool {
+        self::$lastError = null;
+
         if (empty($user->email)) {
-            Log::warning("Skipped sending Passive Referral email: User #{$user->id} has no email.");
+            self::$lastError = "User #{$user->id} has no registered email address.";
+            Log::warning('Skipped sending Passive Referral email: '.self::$lastError);
 
             return false;
         }
@@ -42,6 +58,7 @@ class EmailNotificationService
 
             return true;
         } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
             Log::error("Failed to send Passive Referral email to {$user->email}: ".$e->getMessage());
 
             return false;
@@ -57,8 +74,11 @@ class EmailNotificationService
         ?string $buyerName = null,
         ?string $packageName = null
     ): bool {
+        self::$lastError = null;
+
         if (empty($user->email)) {
-            Log::warning("Skipped sending Active Referral email: User #{$user->id} has no email.");
+            self::$lastError = "User #{$user->id} has no registered email address.";
+            Log::warning('Skipped sending Active Referral email: '.self::$lastError);
 
             return false;
         }
@@ -77,6 +97,7 @@ class EmailNotificationService
 
             return true;
         } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
             Log::error("Failed to send Active Referral email to {$user->email}: ".$e->getMessage());
 
             return false;
@@ -88,8 +109,11 @@ class EmailNotificationService
      */
     public static function sendAccountCreated(User $user, ?string $packageName = null): bool
     {
+        self::$lastError = null;
+
         if (empty($user->email)) {
-            Log::warning("Skipped sending Account Created email: User #{$user->id} has no email.");
+            self::$lastError = "User #{$user->id} has no registered email address.";
+            Log::warning('Skipped sending Account Created email: '.self::$lastError);
 
             return false;
         }
@@ -108,6 +132,7 @@ class EmailNotificationService
 
             return true;
         } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
             Log::error("Failed to send Account Created email to {$user->email}: ".$e->getMessage());
 
             return false;
@@ -119,8 +144,11 @@ class EmailNotificationService
      */
     public static function sendForgotPassword(User $user, string $resetUrl): bool
     {
+        self::$lastError = null;
+
         if (empty($user->email)) {
-            Log::warning("Skipped sending Password Reset email: User #{$user->id} has no email.");
+            self::$lastError = "User #{$user->id} has no registered email address.";
+            Log::warning('Skipped sending Password Reset email: '.self::$lastError);
 
             return false;
         }
@@ -137,10 +165,10 @@ class EmailNotificationService
 
             return true;
         } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
             Log::error("Failed to send Password Reset email to {$user->email}: ".$e->getMessage());
 
             return false;
         }
     }
 }
-
