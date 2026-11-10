@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\Video;
 use App\Services\CommissionService;
+use App\Services\EmailNotificationService;
 use App\Services\PortalDataService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -675,73 +676,14 @@ Route::post('/forgot-password', function (Request $request) {
 
     $resetUrl = route('password.reset', ['token' => $token, 'email' => $user->email]);
 
-    // Send Real Email via configured Mailer (SMTP / Gmail / Brevo / etc.)
-    try {
-        Mail::send([], [], function ($message) use ($user, $resetUrl) {
-            $message->to($user->email, $user->name)
-                ->subject('Reset Your Password — SkillLearner')
-                ->html('
-                    <div style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #1e293b;">
-                        <div style="max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
-                            
-                            <!-- Header -->
-                            <div style="background: #00137a; padding: 28px 30px; text-align: center;">
-                                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Skill<span style="color: #05B396;">Learner</span></h1>
-                                <p style="color: #94a3b8; margin: 6px 0 0; font-size: 13px; font-weight: 600;">BUILD SKILLS | BUILD FUTURE</p>
-                            </div>
+    // Send Branded Email via EmailNotificationService
+    $sent = EmailNotificationService::sendForgotPassword($user, $resetUrl);
 
-                            <!-- Body Content -->
-                            <div style="padding: 35px 30px;">
-                                <h2 style="color: #0f172a; font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px;">Hello '.e($user->name).',</h2>
-                                
-                                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
-                                    We received a request to reset the password for your SkillLearner account. Click the button below to choose a new password:
-                                </p>
-
-                                <div style="text-align: center; margin: 32px 0;">
-                                    <a href="'.$resetUrl.'" style="background: #05B396; color: #ffffff; padding: 14px 34px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 700; display: inline-block; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.35);">
-                                        Reset Password
-                                    </a>
-                                </div>
-
-                                <div style="background: #f1f5f9; border-left: 4px solid #05B396; padding: 12px 16px; border-radius: 6px; margin: 24px 0;">
-                                    <p style="margin: 0; color: #334155; font-size: 13px; line-height: 1.5;">
-                                        ⏱️ <strong>Note:</strong> This password reset link will expire in <strong>60 minutes</strong>.
-                                    </p>
-                                </div>
-
-                                <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin-bottom: 24px;">
-                                    If you did not request a password reset, you can safely ignore this email. Your account remains completely secure.
-                                </p>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
-
-                                <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin: 0; word-break: break-all;">
-                                    If the button doesn\'t work, copy and paste this link in your browser:<br>
-                                    <a href="'.$resetUrl.'" style="color: #05B396; text-decoration: underline;">'.$resetUrl.'</a>
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div style="background: #f8fafc; padding: 18px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
-                                <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-                                    © '.date('Y').' SkillLearner. All rights reserved.
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-                ');
-        });
-
+    if ($sent) {
         return back()->with('status', 'A password reset link has been dispatched to '.$user->email.'! Please check your inbox and spam folder.');
-    } catch (Throwable $e) {
-        Log::error('SMTP Mail error on forgot password: '.$e->getMessage());
-
-        return back()->withInput()->withErrors([
-            'email' => 'Could not send email: '.$e->getMessage().'. Please verify your SMTP settings in .env.',
-        ]);
     }
+
+    return back()->with('status', 'A password reset request has been processed for '.$user->email.'. If you do not see the email, please check your spam folder or verify SMTP configuration.');
 })->name('password.email');
 
 // Reset Password Page & Submission
@@ -1508,6 +1450,9 @@ Route::post('/process-buy-now', function (Request $request) {
         ]);
     }
 
+    // Send branded welcome email notification
+    EmailNotificationService::sendAccountCreated($user, $activePackageName);
+
     // Generate unique Order ID
     $orderId = 'SKL-'.rand(100000, 999999);
 
@@ -1611,3 +1556,142 @@ Route::get('/payment-status', function (Request $request) {
         'order' => $order,
     ]);
 })->name('payment.status');
+
+// ==========================================
+// BRANDED EMAIL TEMPLATES PREVIEW (FOR VERIFICATION)
+// ==========================================
+Route::prefix('/admin/emails-preview')->group(function () {
+    Route::get('/passive-referral', function () {
+        return new App\Mail\PassiveReferralMail(
+            userName: 'Adarsh Pandey',
+            amount: 20.00,
+            buyerName: 'Rahul Sharma',
+            packageName: 'Advance Package'
+        );
+    })->name('email.preview.passive');
+
+    Route::get('/active-referral', function () {
+        return new App\Mail\ActiveReferralMail(
+            userName: 'Adarsh Pandey',
+            amount: 420.00,
+            buyerName: 'Rahul Sharma',
+            packageName: 'Basic Package'
+        );
+    })->name('email.preview.active');
+
+    Route::get('/account-created', function () {
+        return new App\Mail\AccountCreatedMail(
+            userName: 'Adarsh Pandey',
+            email: 'adarsh@example.com',
+            affiliateId: 'SKL-9824',
+            packageName: 'Advance Package'
+        );
+    })->name('email.preview.created');
+
+    Route::get('/forgot-password', function () {
+        return new App\Mail\ForgotPasswordMail(
+            userName: 'Adarsh Pandey',
+            resetUrl: url('/reset-password/sample-token?email=adarsh@example.com')
+        );
+    })->name('email.preview.forgot');
+});
+
+// Interactive Web Email Testing Tool
+Route::match(['get', 'post'], '/admin/send-test-email', function (Request $request) {
+    $to = $request->input('to', config('mail.from.address', 'info@skilllearner.org'));
+    $type = $request->input('type', 'passive');
+    $result = null;
+    $error = null;
+
+    if ($request->isMethod('post') || $request->boolean('send')) {
+        try {
+            $mailable = match ($type) {
+                'active' => new App\Mail\ActiveReferralMail('Adarsh Pandey', 420.00, 'Rahul Sharma', 'Basic Package'),
+                'created', 'welcome' => new App\Mail\AccountCreatedMail('Adarsh Pandey', $to, 'SKL-9824', 'Advance Package'),
+                'forgot' => new App\Mail\ForgotPasswordMail('Adarsh Pandey', url('/reset-password/sample-token?email='.urlencode($to))),
+                default => new App\Mail\PassiveReferralMail('Adarsh Pandey', 20.00, 'Rahul Sharma', 'Advance Package'),
+            };
+
+            Mail::to($to)->send($mailable);
+            $result = "✅ Success! [{$type}] test email dispatched to {$to} via driver '".config('mail.default')."'. Check your inbox / spam!";
+        } catch (\Throwable $e) {
+            $error = $e->getMessage();
+        }
+    }
+
+    $mailer = config('mail.default');
+    $host = config('mail.mailers.smtp.host');
+    $port = config('mail.mailers.smtp.port');
+    $user = config('mail.mailers.smtp.username');
+
+    $html = <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Skilllearner Email Testing Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #f8fafc; padding: 30px 16px; margin: 0; }
+        .box { max-width: 600px; margin: 0 auto; background: #1e293b; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #334155; }
+        h1 { color: #05B396; font-size: 22px; margin-top: 0; }
+        .config-box { background: #0b132b; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; }
+        .config-box strong { color: #f1f5f9; }
+        .alert-success { background: #064e3b; border: 1px solid #059669; color: #a7f3d0; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; }
+        .alert-error { background: #7f1d1d; border: 1px solid #dc2626; color: #fecaca; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #cbd5e1; }
+        input, select { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 14px; margin-bottom: 16px; }
+        button { width: 100%; background: #05B396; color: #fff; border: 0; padding: 13px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #048a74; }
+        .links { margin-top: 24px; padding-top: 18px; border-top: 1px solid #334155; display: flex; flex-wrap: wrap; gap: 8px; }
+        .links a { background: #334155; color: #38bdf8; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .links a:hover { background: #475569; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🚀 Skilllearner Email Testing Tool</h1>
+        <div class="config-box">
+            <strong>Mailer:</strong> {$mailer} | <strong>Host:</strong> {$host}:{$port}<br>
+            <strong>Username:</strong> {$user}
+        </div>
+
+HTML;
+
+    if ($result) {
+        $html .= '<div class="alert-success">'.e($result).'</div>';
+    }
+    if ($error) {
+        $html .= '<div class="alert-error"><strong>❌ Error:</strong> '.e($error).'<br><small style="margin-top:6px;display:block;">Tip: Verify that MAIL_PASSWORD in your .env matches your Hostinger email password.</small></div>';
+    }
+
+    $html .= <<<HTML
+        <form method="POST" action="/admin/send-test-email">
+            <input type="hidden" name="_token" value="{$request->session()->token()}">
+            <label>Recipient Email Address (Where to send test email):</label>
+            <input type="email" name="to" value="{$to}" required placeholder="your-email@gmail.com">
+
+            <label>Select Template Type:</label>
+            <select name="type">
+                <option value="passive">Passive Referral (20.00 INR)</option>
+                <option value="active">Active Referral (420.00 INR)</option>
+                <option value="welcome">Account Created / Welcome</option>
+                <option value="forgot">Forgot Password</option>
+            </select>
+
+            <button type="submit">Send Test Email Now &rarr;</button>
+        </form>
+
+        <div class="links">
+            <span style="font-size: 12px; color: #94a3b8; width: 100%;">Direct In-Browser Previews (No SMTP needed):</span>
+            <a href="/admin/emails-preview/passive-referral" target="_blank">👁️ Preview Passive Referral</a>
+            <a href="/admin/emails-preview/active-referral" target="_blank">👁️ Preview Active Referral</a>
+            <a href="/admin/emails-preview/account-created" target="_blank">👁️ Preview Welcome / Account</a>
+            <a href="/admin/emails-preview/forgot-password" target="_blank">👁️ Preview Forgot Password</a>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+
+    return response($html);
+})->name('admin.send-test-email');
