@@ -141,7 +141,11 @@ class AuthController extends Controller
         }
 
         // Send branded welcome email notification
-        EmailNotificationService::sendAccountCreated($user, $user->active_package);
+        $emailSent = EmailNotificationService::sendAccountCreated($user, $user->active_package);
+        if (! $emailSent) {
+            $err = EmailNotificationService::getLastError();
+            session()->flash('warning', "Account create ho gaya hai, lekin welcome email nahi bhej paye ({$err}). Kripya .env mein SMTP check karein.");
+        }
 
         Auth::login($user);
         $request->session()->regenerate();
