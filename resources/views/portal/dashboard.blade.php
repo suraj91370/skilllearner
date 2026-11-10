@@ -21,7 +21,8 @@
             @endif
 
             @php
-                $hour = (int) date('G');
+                $istTime = now('Asia/Kolkata');
+                $hour = (int) $istTime->format('G');
                 if ($hour >= 5 && $hour < 12) {
                     $greeting = 'Good Morning';
                 } elseif ($hour >= 12 && $hour < 17) {
@@ -225,9 +226,12 @@
 
                             <!-- Data Point Markers -->
                             @foreach ($graphPoints as $pt)
-                            <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="{{ $pt['amount'] > 0 ? '6' : '4.5' }}" fill="#05B396" stroke="#ffffff" stroke-width="{{ $pt['amount'] > 0 ? '2.5' : '2' }}" class="graph-point">
-                                <title>{{ $pt['day_name'] }} ({{ $pt['date'] }}): ₹{{ number_format($pt['amount']) }}</title>
-                            </circle>
+                            <g class="graph-point-group">
+                                <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="18" fill="transparent" class="graph-point-hit">
+                                    <title>{{ $pt['day_name'] }} ({{ $pt['date'] }}): ₹{{ number_format($pt['amount']) }}</title>
+                                </circle>
+                                <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="{{ $pt['amount'] > 0 ? '6' : '4.5' }}" fill="#05B396" stroke="#ffffff" stroke-width="{{ $pt['amount'] > 0 ? '2.5' : '2' }}" class="graph-point" />
+                            </g>
                             @endforeach
 
                             <!-- X-Axis Day Labels -->

@@ -26,6 +26,42 @@
 
 <!-- Packages Showcase -->
 <section class="container" id="packages">
+    @php
+        $activeSale = \App\Services\PackageService::getActiveFlashSale();
+    @endphp
+
+    @if($activeSale && $activeSale->isLive())
+        <div style="background: linear-gradient(135deg, #1e1b4b 0%, #311054 50%, #4c1d95 100%); border: 2px solid #a855f7; border-radius: 16px; padding: 1.2rem 1.8rem; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <span style="font-size: 2.2rem; filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.6));">⚡</span>
+                <div>
+                    <div style="display: inline-flex; align-items: center; gap: 6px; background: #fef08a; color: #854d0e; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px;">
+                        {{ $activeSale->badge_text ?: 'FLASH SALE ACTIVE' }}
+                    </div>
+                    <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff;">
+                        {{ $activeSale->title }}
+                    </div>
+                    @if($activeSale->banner_message)
+                        <div style="font-size: 0.88rem; color: #e2e8f0; margin-top: 2px;">
+                            {{ $activeSale->banner_message }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            @if($activeSale->show_timer && $activeSale->ends_at)
+                <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 10px 16px; text-align: center;">
+                    <div style="font-size: 0.72rem; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">
+                        ENDS IN
+                    </div>
+                    <div id="homeFlashTimer" data-ends="{{ $activeSale->ends_at->toIso8601String() }}" style="font-family: monospace; font-size: 1.3rem; font-weight: 900; color: #fde047; letter-spacing: 1.5px;">
+                        00h : 00m : 00s
+                    </div>
+                </div>
+            @endif
+        </div>
+    @endif
+
     <div style="text-align: center; margin-bottom: 3.5rem;">
         <div style="text-transform: uppercase; letter-spacing: 2.5px; color: #0B4F4A; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">Packages & Tiers</div>
         <h2 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color:#0A6B5C;">Select Your Learning Track</h2>
@@ -57,12 +93,22 @@
                 </h3>
 
                 <div style="text-align: center; margin-bottom: 1rem;">
-                    <div style="display: inline-flex; align-items: baseline; gap: 8px;">
-                        <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
-                        @if(!empty($pkg['old_price']))
-                            <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
-                        @endif
-                    </div>
+                    @if(!empty($pkg['has_active_offer']) && !empty($pkg['promo_discount']))
+                        <div style="display: inline-block; background: #ef4444; color: #fff; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; margin-bottom: 4px; letter-spacing: 0.5px;">
+                            {{ $pkg['promo_badge'] ?? '⚡ SPECIAL OFFER' }}
+                        </div>
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 1.85rem; font-weight: 900; color: #10b981;">₹{{ number_format($pkg['promo_price']) }}</span>
+                            <span style="font-size: 1rem; text-decoration: line-through; color: #94a3b8; font-weight: 700;">₹{{ number_format($pkg['price']) }}</span>
+                        </div>
+                    @else
+                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
+                            @if(!empty($pkg['old_price']))
+                                <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
+                            @endif
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Access Badge -->
@@ -802,5 +848,44 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const timerElem = document.getElementById('homeFlashTimer');
+    if (!timerElem) return;
+    const endsAttr = timerElem.getAttribute('data-ends');
+    if (!endsAttr) return;
+
+    const targetDate = new Date(endsAttr).getTime();
+
+    function updateTimer() {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+
+        if (dist <= 0) {
+            timerElem.innerText = 'EXPIRED';
+            return;
+        }
+
+        const days = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((dist % (1000 * 60)) / 1000);
+
+        let str = '';
+        if (days > 0) {
+            str += days + 'd : ';
+        }
+        str += String(hours).padStart(2, '0') + 'h : ' +
+               String(minutes).padStart(2, '0') + 'm : ' +
+               String(seconds).padStart(2, '0') + 's';
+
+        timerElem.innerText = str;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+});
+</script>
 @endpush
 @endsection

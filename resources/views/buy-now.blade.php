@@ -264,6 +264,40 @@
                         @endif
                     </div>
 
+                    <!-- Coupon Code Input Box -->
+                    <div style="background: #ffffff; border: 1.5px dashed #05B396; border-radius: 10px; padding: 12px 14px; margin: 1.2rem 0;">
+                        <label for="couponCodeInput" style="display: block; font-size: 0.86rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                            🎟️ Have a Coupon Code?
+                        </label>
+                        <div style="display: flex; gap: 8px;">
+                            <input 
+                                type="text" 
+                                id="couponCodeInput" 
+                                placeholder="Enter coupon code" 
+                                style="flex: 1; text-transform: uppercase; font-family: monospace; font-weight: 800; padding: 0.6rem 0.85rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; outline: none;"
+                            >
+                            <button 
+                                type="button" 
+                                onclick="applyCouponCode()" 
+                                id="applyCouponBtn" 
+                                style="background: #05B396; color: #ffffff; border: none; border-radius: 8px; padding: 0.6rem 1.1rem; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;"
+                            >
+                                Apply
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="removeCouponCode()" 
+                                id="removeCouponBtn" 
+                                style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.84rem; font-weight: 700; cursor: pointer; white-space: nowrap;"
+                            >
+                                ✕ Remove
+                            </button>
+                        </div>
+                        <div id="couponFeedbackMessage" style="display: none; margin-top: 8px; font-size: 0.82rem; font-weight: 700;"></div>
+                    </div>
+                    <input type="hidden" name="coupon_code" id="hiddenCouponCodeInput" value="">
+                    <input type="hidden" name="coupon_discount" id="hiddenCouponDiscountInput" value="0">
+
                     <!-- Terms & Conditions Checkbox (Not checked by default) -->
                     <div style="margin: 1.2rem 0 1.2rem 0;">
                         <label class="terms-checkbox-label">
@@ -846,6 +880,126 @@
             pwdInput.type = 'text';
         } else {
             pwdInput.type = 'password';
+        }
+    }
+
+    let activeCouponDiscount = 0;
+
+    async function applyCouponCode() {
+        const codeInput = document.getElementById('couponCodeInput');
+        const code = (codeInput ? codeInput.value : '').trim().toUpperCase();
+        const msgBox = document.getElementById('couponFeedbackMessage');
+        const hiddenPkg = document.getElementById('hiddenPackageInput');
+        const pkgId = hiddenPkg ? hiddenPkg.value : 'advance';
+        const emailInput = document.getElementById('emailInput');
+        const email = emailInput ? emailInput.value : '';
+
+        if (!code) {
+            if (msgBox) {
+                msgBox.style.display = 'block';
+                msgBox.style.color = '#dc2626';
+                msgBox.innerText = '⚠️ Please enter a coupon code.';
+            }
+            return;
+        }
+
+        const applyBtn = document.getElementById('applyCouponBtn');
+        if (applyBtn) {
+            applyBtn.innerText = 'Checking...';
+            applyBtn.disabled = true;
+        }
+
+        try {
+            const resp = await fetch('{{ route("api.apply-coupon") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    code: code,
+                    package: pkgId,
+                    email: email
+                })
+            });
+
+            const data = await resp.json();
+
+            if (data.success && data.data) {
+                activeCouponDiscount = data.data.discount_amount || 0;
+                document.getElementById('hiddenCouponCodeInput').value = data.data.code;
+                document.getElementById('hiddenCouponDiscountInput').value = activeCouponDiscount;
+
+                if (msgBox) {
+                    msgBox.style.display = 'block';
+                    msgBox.style.color = '#16a34a';
+                    msgBox.innerText = '✓ ' + data.message;
+                }
+
+                if (codeInput) codeInput.readOnly = true;
+                if (applyBtn) applyBtn.style.display = 'none';
+                const removeBtn = document.getElementById('removeCouponBtn');
+                if (removeBtn) removeBtn.style.display = 'inline-block';
+
+                // Recalculate and update price display
+                const p = allPackagesData[pkgId];
+                if (p) {
+                    const base = p.is_upgrade ? p.payable_price : p.price;
+                    const finalPayable = Math.max(0, base - activeCouponDiscount);
+                    const netSpan = document.getElementById('netPayableAmount');
+                    if (netSpan) netSpan.innerText = '₹' + finalPayable.toLocaleString();
+                    const btnPrice = document.getElementById('btnPriceDisplay');
+                    if (btnPrice) btnPrice.innerText = '₹' + finalPayable.toLocaleString();
+                }
+            } else {
+                if (msgBox) {
+                    msgBox.style.display = 'block';
+                    msgBox.style.color = '#dc2626';
+                    msgBox.innerText = '⚠️ ' + (data.message || 'Invalid coupon code.');
+                }
+            }
+        } catch (err) {
+            if (msgBox) {
+                msgBox.style.display = 'block';
+                msgBox.style.color = '#dc2626';
+                msgBox.innerText = '⚠️ Could not verify coupon. Please try again.';
+            }
+        } finally {
+            if (applyBtn && applyBtn.style.display !== 'none') {
+                applyBtn.innerText = 'Apply';
+                applyBtn.disabled = false;
+            }
+        }
+    }
+
+    function removeCouponCode() {
+        activeCouponDiscount = 0;
+        const codeInput = document.getElementById('couponCodeInput');
+        if (codeInput) {
+            codeInput.value = '';
+            codeInput.readOnly = false;
+        }
+        document.getElementById('hiddenCouponCodeInput').value = '';
+        document.getElementById('hiddenCouponDiscountInput').value = '0';
+
+        const applyBtn = document.getElementById('applyCouponBtn');
+        if (applyBtn) {
+            applyBtn.style.display = 'inline-block';
+            applyBtn.innerText = 'Apply';
+            applyBtn.disabled = false;
+        }
+        const removeBtn = document.getElementById('removeCouponBtn');
+        if (removeBtn) removeBtn.style.display = 'none';
+
+        const msgBox = document.getElementById('couponFeedbackMessage');
+        if (msgBox) msgBox.style.display = 'none';
+
+        // Reset to original package price
+        const hiddenPkg = document.getElementById('hiddenPackageInput');
+        const pkgId = hiddenPkg ? hiddenPkg.value : 'advance';
+        if (allPackagesData[pkgId]) {
+            selectPackage(pkgId);
         }
     }
 

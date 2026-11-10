@@ -970,13 +970,13 @@
 
     .revenue-card {
         border-radius: 16px;
-        padding: 1.5rem 1.7rem 1.4rem;
+        padding: 1.25rem 1.6rem 1.15rem;
         color: #ffffff;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        min-height: 128px;
+        justify-content: center;
+        min-height: 104px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         position: relative;
         overflow: hidden;
@@ -991,15 +991,15 @@
     .revenue-card.card-passive,
     .revenue-card.card-industry {
         grid-column: 1 / -1;
-        padding: 1.6rem 1.85rem 1.5rem;
-        min-height: 138px;
+        padding: 1.35rem 1.75rem 1.25rem;
+        min-height: 112px;
     }
 
     .revenue-card-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.45rem;
+        margin-bottom: 0.25rem;
     }
 
     .revenue-amount {
@@ -1113,41 +1113,54 @@
         display: block;
     }
 
-    .graph-point {
+    .graph-point-group {
         cursor: pointer;
-        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .graph-point:hover {
-        transform: scale(1.35);
-        transform-origin: center;
+    .graph-point-hit {
+        fill: transparent;
+        cursor: pointer;
+        pointer-events: all;
+    }
+
+    .graph-point {
+        cursor: pointer;
+        pointer-events: none;
+        transition: r 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+    }
+
+    .graph-point-group:hover .graph-point {
+        r: 8px;
+        stroke-width: 3.5px;
+        filter: drop-shadow(0 0 6px rgba(5, 179, 150, 0.5));
     }
 
     @media (max-width: 768px) {
         .dashboard-revenue-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.85rem;
+            gap: 0.75rem;
         }
 
         .revenue-card {
-            padding: 1.25rem 1.15rem 1.1rem;
+            padding: 0.95rem 1rem 0.85rem;
             border-radius: 14px;
-            min-height: 120px;
+            min-height: 94px;
+            justify-content: center;
         }
 
         /* Passive & Industry Revenue cards each take 1 full line (full width) on mobile */
         .revenue-card.card-passive,
         .revenue-card.card-industry {
             grid-column: 1 / -1;
-            padding: 1.4rem 1.4rem 1.25rem;
-            min-height: 130px;
+            padding: 1.05rem 1.25rem 0.95rem;
+            min-height: 100px;
         }
 
         .revenue-card-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.2rem;
         }
 
         .revenue-amount {
@@ -1178,7 +1191,8 @@
             font-size: clamp(0.95rem, 3.2vw, 1.08rem);
             font-weight: 700;
             letter-spacing: 0.2px;
-            margin-bottom: 0;
+            margin: 0;
+            line-height: 1.2;
             opacity: 0.98;
             white-space: nowrap;
             overflow: hidden;
@@ -1220,20 +1234,25 @@
 
     @media (max-width: 420px) {
         .dashboard-revenue-grid {
-            gap: 0.75rem;
+            gap: 0.65rem;
         }
 
         .revenue-card {
-            padding: 1.15rem 1rem 1rem;
+            padding: 0.85rem 0.9rem 0.8rem;
             border-radius: 13px;
-            min-height: 112px;
+            min-height: 86px;
+            justify-content: center;
         }
 
         .revenue-card.card-passive,
         .revenue-card.card-industry {
             grid-column: 1 / -1;
-            padding: 1.3rem 1.2rem 1.15rem;
-            min-height: 122px;
+            padding: 0.95rem 1.1rem 0.9rem;
+            min-height: 94px;
+        }
+
+        .revenue-card-top {
+            margin-bottom: 0.15rem;
         }
 
         .revenue-amount {
@@ -1263,7 +1282,8 @@
         .revenue-label {
             font-size: 0.92rem;
             font-weight: 700;
-            margin-bottom: 0;
+            margin: 0;
+            line-height: 1.2;
             letter-spacing: 0.2px;
         }
 

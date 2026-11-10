@@ -66,12 +66,21 @@ class CommissionService
     ];
 
     /**
-     * Resolve package by slug or name.
+     * Resolve package by slug or name (Dynamically linked to Super Admin Packages & Offers).
      */
     public static function getPackageInfo(string $packageSlugOrName): array
     {
         $key = strtolower(trim($packageSlugOrName));
         $key = str_replace(' package', '', $key);
+
+        try {
+            $dynPkg = PackageService::getPackageBySlug($key, false);
+            if (! empty($dynPkg)) {
+                return $dynPkg;
+            }
+        } catch (\Throwable $e) {
+            // Fallback to static constant
+        }
 
         return self::PACKAGES[$key] ?? self::PACKAGES['advance'];
     }

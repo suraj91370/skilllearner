@@ -11,6 +11,8 @@ class Package extends Model
         'name',
         'price',
         'old_price',
+        'active_income',
+        'passive_income',
         'badge',
         'featured',
         'description',
@@ -24,6 +26,8 @@ class Package extends Model
             'featured' => 'boolean',
             'price' => 'decimal:2',
             'old_price' => 'decimal:2',
+            'active_income' => 'decimal:2',
+            'passive_income' => 'decimal:2',
             'courses_included' => 'array',
         ];
     }
