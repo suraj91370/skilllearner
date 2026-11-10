@@ -16,6 +16,34 @@
         </a>
     </div>
 
+    @php
+        $activeSale = \App\Services\PackageService::getActiveFlashSale();
+    @endphp
+
+    @if($activeSale && $activeSale->isLive())
+        <div style="max-width: 820px; margin: 0 auto 2rem; background: linear-gradient(135deg, #1e1b4b 0%, #311054 50%, #4c1d95 100%); border: 2px solid #a855f7; border-radius: 14px; padding: 1.1rem 1.6rem; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 2rem;">⚡</span>
+                <div>
+                    <div style="display: inline-block; background: #fef08a; color: #854d0e; font-size: 0.7rem; font-weight: 900; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
+                        {{ $activeSale->badge_text ?: 'FLASH SALE' }}
+                    </div>
+                    <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 2px;">
+                        {{ $activeSale->title }}
+                    </div>
+                </div>
+            </div>
+            @if($activeSale->show_timer && $activeSale->ends_at)
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 8px 14px; text-align: center;">
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px;">ENDS IN</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; font-weight: 900; color: #fde047;">
+                        {{ $activeSale->ends_at->diffForHumans(['parts' => 2]) }}
+                    </div>
+                </div>
+            @endif
+        </div>
+    @endif
+
     @if(!empty($currentPackage))
         <div style="max-width: 820px; margin: 0 auto 2.5rem; background: linear-gradient(135deg, rgba(5, 179, 150, 0.12), rgba(15, 23, 42, 0.8)); border: 2px solid #05B396; border-radius: 14px; padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 8px 24px rgba(5, 179, 150, 0.15);">
             <div style="display: flex; align-items: center; gap: 14px;">
@@ -89,12 +117,22 @@
                             Included in Your Tier
                         </div>
                     @else
-                        <div style="display: inline-flex; align-items: baseline; gap: 8px;">
-                            <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
-                            @if(!empty($pkg['old_price']))
-                                <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
-                            @endif
-                        </div>
+                        @if(!empty($pkg['has_active_offer']) && !empty($pkg['promo_discount']))
+                            <div style="display: inline-block; background: #ef4444; color: #fff; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; margin-bottom: 4px; letter-spacing: 0.5px;">
+                                {{ $pkg['promo_badge'] ?? '⚡ SPECIAL OFFER' }}
+                            </div>
+                            <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                                <span style="font-size: 1.85rem; font-weight: 900; color: #10b981;">₹{{ number_format($pkg['promo_price']) }}</span>
+                                <span style="font-size: 1rem; text-decoration: line-through; color: #94a3b8; font-weight: 700;">₹{{ number_format($pkg['price']) }}</span>
+                            </div>
+                        @else
+                            <div style="display: inline-flex; align-items: baseline; gap: 8px;">
+                                <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff;">₹{{ number_format($pkg['price']) }}</span>
+                                @if(!empty($pkg['old_price']))
+                                    <span style="font-size: 0.95rem; text-decoration: line-through; color: #64748b; font-weight: 600;">₹{{ number_format($pkg['old_price']) }}</span>
+                                @endif
+                            </div>
+                        @endif
                     @endif
                 </div>
 

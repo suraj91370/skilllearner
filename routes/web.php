@@ -10,6 +10,7 @@ use App\Http\Controllers\KycController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\MarketingToolController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualificationController;
@@ -242,107 +243,116 @@ if (! function_exists('initDefaultCommissions')) {
     }
 }
 
-// Packages Data with Prices and Descriptions
+// Packages Data with Dynamic Super Admin Pricing, Offers and Discounts
 if (! function_exists('getPackages')) {
     function getPackages()
     {
-        return [
-            [
-                'id' => 'basic',
-                'name' => 'Basic Package',
-                'price' => 599,
-                'active_income' => 420,
-                'passive_income' => 50,
-                'old_price' => 1199,
-                'image' => 'images/packages/basic.png',
-                'color' => '#A855F7',
-                'border_color' => 'rgba(168, 85, 247, 0.45)',
-                'bg_gradient' => 'linear-gradient(180deg, #1b0c33 0%, #0d0519 100%)',
-                'badge' => '',
-                'featured' => false,
-                'access_badge' => 'Get Access of 3+ Courses',
-                'total_courses_count' => 3,
-                'previous_access' => null,
-                'desc' => 'Foundational digital skillset covering Affiliate Marketing basics, spoken English fluency, and high-impact communication.',
-                'courses_included' => ['What Is Affiliate Marketing', 'Spoken English', 'Communication Skill'],
-            ],
-            [
-                'id' => 'growth',
-                'name' => 'Growth Package',
-                'price' => 1199,
-                'active_income' => 840,
-                'passive_income' => 100,
-                'old_price' => 2499,
-                'image' => 'images/packages/growth.png',
-                'color' => '#10B981',
-                'border_color' => 'rgba(16, 185, 129, 0.45)',
-                'bg_gradient' => 'linear-gradient(180deg, #063124 0%, #021711 100%)',
-                'badge' => '',
-                'featured' => false,
-                'access_badge' => 'Get Access of 6+ Courses',
-                'total_courses_count' => 6,
-                'previous_access' => '+ Full Access of Basic Package',
-                'desc' => 'Accelerate your creative monetization with Canva graphic design, viral reel workflows, and VN mobile video editing.',
-                'courses_included' => ['Canva Graphic Designing', 'Reel Mastery by Canva', 'VN Editing Course'],
-            ],
-            [
-                'id' => 'advance',
-                'name' => 'Advance Package',
-                'price' => 2499,
-                'active_income' => 1900,
-                'passive_income' => 200,
-                'old_price' => 4999,
-                'image' => 'images/packages/advance.png',
-                'color' => '#0284C7',
-                'border_color' => 'rgba(2, 132, 199, 0.45)',
-                'bg_gradient' => 'linear-gradient(180deg, #07263e 0%, #021320 100%)',
-                'badge' => '',
-                'featured' => false,
-                'access_badge' => 'Get Access of 9+ Courses',
-                'total_courses_count' => 9,
-                'previous_access' => '+ Full Access of Basic & Growth Packages',
-                'desc' => '',
-                'courses_included' => ['E-mail Marketing', 'Sales Mastery', 'Video Marketing'],
-            ],
-            [
-                'id' => 'premium',
-                'name' => 'Premium Package',
-                'price' => 4999,
-                'active_income' => 3800,
-                'passive_income' => 400,
-                'old_price' => 9999,
-                'image' => 'images/packages/premium.png',
-                'color' => '#F59E0B',
-                'border_color' => 'rgba(245, 158, 11, 0.45)',
-                'bg_gradient' => 'linear-gradient(180deg, #331c02 0%, #150a00 100%)',
-                'badge' => '',
-                'featured' => false,
-                'access_badge' => 'Get Access of 12+ Courses',
-                'total_courses_count' => 12,
-                'previous_access' => '+ Full Access of Basic, Growth & Advance Packages',
-                'desc' => 'High-ticket authority skills including full YouTube channel monetization, Meta Facebook advertising, and professional web design.',
-                'courses_included' => ['YouTube Mastery', 'Facebook Ads', 'Web Designing'],
-            ],
-            [
-                'id' => 'infinity',
-                'name' => 'Infinity Package',
-                'price' => 7999,
-                'active_income' => 5500,
-                'passive_income' => 500,
-                'old_price' => 15999,
-                'image' => 'images/packages/infinity.png',
-                'color' => '#EF4444',
-                'border_color' => 'rgba(239, 68, 68, 0.45)',
-                'bg_gradient' => 'linear-gradient(180deg, #330606 0%, #160202 100%)',
-                'badge' => '',
-                'featured' => false,
-                'access_badge' => 'Get Access of 15+ Courses',
-                'total_courses_count' => 15,
-                'previous_access' => '+ Full Access of All Previous Packages (Complete Access)',
-                'desc' => 'VIP flagship bundle mastering 0 to Hero AI Content Creation, Artificial Intelligence tools, and Stock Market wealth generation.',
-                'courses_included' => ['0 to Hero AI Content Creation', 'Artificial Intelligence', 'Stock Market Course'],
-            ],
-        ];
+        try {
+            return \App\Services\PackageService::getAllPackages(true);
+        } catch (\Throwable $e) {
+            return [
+                [
+                    'id' => 'basic',
+                    'slug' => 'basic',
+                    'name' => 'Basic Package',
+                    'price' => 599,
+                    'active_income' => 420,
+                    'passive_income' => 50,
+                    'old_price' => 1199,
+                    'image' => 'images/packages/basic.png',
+                    'color' => '#A855F7',
+                    'border_color' => 'rgba(168, 85, 247, 0.45)',
+                    'bg_gradient' => 'linear-gradient(180deg, #1b0c33 0%, #0d0519 100%)',
+                    'badge' => '',
+                    'featured' => false,
+                    'access_badge' => 'Get Access of 3+ Courses',
+                    'total_courses_count' => 3,
+                    'previous_access' => null,
+                    'desc' => 'Foundational digital skillset covering Affiliate Marketing basics, spoken English fluency, and high-impact communication.',
+                    'courses_included' => ['What Is Affiliate Marketing', 'Spoken English', 'Communication Skill'],
+                ],
+                [
+                    'id' => 'growth',
+                    'slug' => 'growth',
+                    'name' => 'Growth Package',
+                    'price' => 1199,
+                    'active_income' => 840,
+                    'passive_income' => 100,
+                    'old_price' => 2499,
+                    'image' => 'images/packages/growth.png',
+                    'color' => '#10B981',
+                    'border_color' => 'rgba(168, 85, 247, 0.45)',
+                    'bg_gradient' => 'linear-gradient(180deg, #063124 0%, #021711 100%)',
+                    'badge' => '',
+                    'featured' => false,
+                    'access_badge' => 'Get Access of 6+ Courses',
+                    'total_courses_count' => 6,
+                    'previous_access' => '+ Full Access of Basic Package',
+                    'desc' => 'Accelerate your creative monetization with Canva graphic design, viral reel workflows, and VN mobile video editing.',
+                    'courses_included' => ['Canva Graphic Designing', 'Reel Mastery by Canva', 'VN Editing Course'],
+                ],
+                [
+                    'id' => 'advance',
+                    'slug' => 'advance',
+                    'name' => 'Advance Package',
+                    'price' => 2499,
+                    'active_income' => 1900,
+                    'passive_income' => 200,
+                    'old_price' => 4999,
+                    'image' => 'images/packages/advance.png',
+                    'color' => '#0284C7',
+                    'border_color' => 'rgba(2, 132, 199, 0.45)',
+                    'bg_gradient' => 'linear-gradient(180deg, #07263e 0%, #021320 100%)',
+                    'badge' => 'MOST POPULAR',
+                    'featured' => true,
+                    'access_badge' => 'Get Access of 9+ Courses',
+                    'total_courses_count' => 9,
+                    'previous_access' => '+ Full Access of Basic & Growth Packages',
+                    'desc' => 'High-converting mastery bundle with Email Marketing automation, Sales Closing mastery, and Video Marketing frameworks.',
+                    'courses_included' => ['E-mail Marketing', 'Sales Mastery', 'Video Marketing'],
+                ],
+                [
+                    'id' => 'premium',
+                    'slug' => 'premium',
+                    'name' => 'Premium Package',
+                    'price' => 4999,
+                    'active_income' => 3800,
+                    'passive_income' => 400,
+                    'old_price' => 9999,
+                    'image' => 'images/packages/premium.png',
+                    'color' => '#F59E0B',
+                    'border_color' => 'rgba(245, 158, 11, 0.45)',
+                    'bg_gradient' => 'linear-gradient(180deg, #331c02 0%, #150a00 100%)',
+                    'badge' => 'BEST VALUE',
+                    'featured' => false,
+                    'access_badge' => 'Get Access of 12+ Courses',
+                    'total_courses_count' => 12,
+                    'previous_access' => '+ Full Access of Basic, Growth & Advance Packages',
+                    'desc' => 'High-ticket authority skills including full YouTube channel monetization, Meta Facebook advertising, and professional web design.',
+                    'courses_included' => ['YouTube Mastery', 'Facebook Ads', 'Web Designing'],
+                ],
+                [
+                    'id' => 'infinity',
+                    'slug' => 'infinity',
+                    'name' => 'Infinity Package',
+                    'price' => 7999,
+                    'active_income' => 5500,
+                    'passive_income' => 500,
+                    'old_price' => 15999,
+                    'image' => 'images/packages/infinity.png',
+                    'color' => '#EF4444',
+                    'border_color' => 'rgba(239, 68, 68, 0.45)',
+                    'bg_gradient' => 'linear-gradient(180deg, #330606 0%, #160202 100%)',
+                    'badge' => 'VIP ALL ACCESS',
+                    'featured' => false,
+                    'access_badge' => 'Get Access of 15+ Courses',
+                    'total_courses_count' => 15,
+                    'previous_access' => '+ Full Access of All Previous Packages (Complete Access)',
+                    'desc' => 'VIP flagship bundle mastering 0 to Hero AI Content Creation, Artificial Intelligence tools, and Stock Market wealth generation.',
+                    'courses_included' => ['0 to Hero AI Content Creation', 'Artificial Intelligence', 'Stock Market Course'],
+                ],
+            ];
+        }
     }
 }
 
@@ -1078,9 +1088,30 @@ Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     Route::get('/courses', [AdminController::class, 'courses'])->name('admin.courses');
     Route::post('/courses/{course}/toggle-visibility', [AdminController::class, 'toggleCourseVisibility'])->name('admin.courses.toggle-visibility');
 
+    // Offer, Coupon, Flash Sale & 5 Package Management
+    Route::get('/offers', [OfferController::class, 'index'])->name('admin.offers');
+    Route::post('/offers', [OfferController::class, 'storeOffer'])->name('admin.offers.store');
+    Route::put('/offers/{id}', [OfferController::class, 'updateOffer'])->name('admin.offers.update');
+    Route::post('/offers/{id}/toggle-status', [OfferController::class, 'toggleOfferStatus'])->name('admin.offers.toggle-status');
+    Route::post('/offers/{id}/stop', [OfferController::class, 'stopOffer'])->name('admin.offers.stop');
+    Route::delete('/offers/{id}', [OfferController::class, 'destroyOffer'])->name('admin.offers.destroy');
+
+    Route::post('/coupons', [OfferController::class, 'storeCoupon'])->name('admin.coupons.store');
+    Route::put('/coupons/{id}', [OfferController::class, 'updateCoupon'])->name('admin.coupons.update');
+    Route::post('/coupons/{id}/toggle-status', [OfferController::class, 'toggleCouponStatus'])->name('admin.coupons.toggle-status');
+    Route::delete('/coupons/{id}', [OfferController::class, 'destroyCoupon'])->name('admin.coupons.destroy');
+
+    Route::post('/packages/{slug}', [OfferController::class, 'updatePackage'])->name('admin.packages.update');
+
+    // Live Web Migration Runner (Hostinger / cPanel helper)
+    Route::get('/run-migrations', [OfferController::class, 'runMigrationsWeb'])->name('admin.run-migrations');
+
     // Super Admin User/Admin Impersonation ("Login As")
     Route::get('/impersonate/{user}', [ImpersonateController::class, 'impersonate'])->name('admin.impersonate');
 });
+
+// Public AJAX endpoint to validate and calculate coupon discount at checkout
+Route::post('/api/apply-coupon', [OfferController::class, 'applyCouponAjax'])->name('api.apply-coupon');
 
 // Leave Impersonation (Return to Super Admin Account)
 Route::get('/impersonate-leave', [ImpersonateController::class, 'leave'])->name('admin.impersonate.leave');
@@ -1334,7 +1365,29 @@ Route::post('/process-buy-now', function (Request $request) {
 
     $pkg = CommissionService::getPackageInfo($packageKey);
     $activePackageName = $pkg['name'];
-    $packagePrice = $pkg['price'];
+    $packagePrice = (float) $pkg['price'];
+
+    // Check for optional Coupon Code discount
+    $couponCode = strtoupper(trim((string) $request->input('coupon_code', '')));
+    $couponDiscount = 0;
+    if (! empty($couponCode)) {
+        $couponCheck = \App\Services\PackageService::validateCoupon($couponCode, $packageKey, $packagePrice, $email);
+        if (! empty($couponCheck['valid'])) {
+            $couponDiscount = (float) $couponCheck['discount_amount'];
+            \App\Services\PackageService::recordRedemption([
+                'coupon_id' => $couponCheck['coupon_id'] ?? null,
+                'user_name' => $name ?: ($authUser?->name ?? 'Student'),
+                'user_email' => $email ?: ($authUser?->email ?? ''),
+                'user_phone' => $phone ?: ($authUser?->phone ?? ''),
+                'package_slug' => $packageKey,
+                'package_name' => $activePackageName,
+                'code_used' => $couponCode,
+                'original_amount' => $packagePrice,
+                'discount_amount' => $couponDiscount,
+                'final_amount' => max(0, $packagePrice - $couponDiscount),
+            ]);
+        }
+    }
 
     // If user is already logged in or session matches, perform Differential Upgrade
     if ($authUser && ($authUser->email === $email || empty($email) || (session()->has('user.email') && session('user.email') === $email))) {
@@ -1349,6 +1402,9 @@ Route::post('/process-buy-now', function (Request $request) {
         }
 
         $payablePrice = $upgrade['is_upgrade'] ? $upgrade['payable_price'] : $packagePrice;
+        if ($couponDiscount > 0) {
+            $payablePrice = max(0, $payablePrice - $couponDiscount);
+        }
 
         // Upgrade user active package
         $authUser->update([
@@ -1455,11 +1511,16 @@ Route::post('/process-buy-now', function (Request $request) {
     // Generate unique Order ID
     $orderId = 'SKL-'.rand(100000, 999999);
 
+    $finalGuestAmount = max(0, $packagePrice - $couponDiscount);
+
     $orderData = [
         'order_id' => $orderId,
         'package_id' => $pkg['id'],
         'package_name' => $activePackageName,
-        'amount' => $packagePrice,
+        'amount' => $finalGuestAmount,
+        'original_amount' => $packagePrice,
+        'discount' => $couponDiscount,
+        'coupon_code' => $couponCode ?: null,
         'transaction_id' => 'PENDING',
         'status' => 'Pending',
         'user_id' => $user->id,

@@ -118,6 +118,16 @@
                     <span class="sidebar-item-badge-pill super">Show/Hide</span>
                 </a>
 
+                <!-- Offer & Discount Management (Super Admin ONLY) -->
+                <a href="{{ url('/admin/offers') }}" class="sidebar-item {{ $currentActive === 'admin-offers' ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                    </svg>
+                    <span>Offer &amp; Discounts</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(245, 158, 11, 0.18); color: #d97706;">5 Packages</span>
+                </a>
+
                 <!-- Video Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/videos') }}" class="sidebar-item {{ $currentActive === 'admin-videos' ? 'active' : '' }}">
                     <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

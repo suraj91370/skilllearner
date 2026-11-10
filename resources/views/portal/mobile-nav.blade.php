@@ -53,6 +53,12 @@
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                     <span>Video Option (Show/Hide)</span>
                 </a>
+
+                <!-- Super Admin Offers & Discounts -->
+                <a href="{{ url('/admin/offers') }}" class="m-portal-tab {{ $currentActive === 'admin-offers' ? 'active' : '' }}" style="{{ $currentActive === 'admin-offers' ? '' : 'border: 1.5px solid #d97706; color: #d97706; background: #fffbeb;' }}">
+                    <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                    <span>Offers &amp; Discounts</span>
+                </a>
             @endif
 
             <a href="{{ url('/admin/users') }}" class="m-portal-tab {{ $currentActive === 'admin-users' ? 'active' : '' }}">
