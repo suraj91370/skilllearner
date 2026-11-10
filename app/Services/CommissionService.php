@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Commission;
 use App\Models\User;
+use App\Services\EmailNotificationService;
 use Illuminate\Support\Facades\Auth;
 
 class CommissionService
@@ -224,6 +225,9 @@ class CommissionService
                     'time' => 'Just now',
                     'status' => $initialStatus,
                 ]);
+
+                // Dispatch active referral email
+                EmailNotificationService::sendActiveReferral($tier1User, $activeAmount, $buyerName, $pkg['name']);
             } else {
                 // Add pending entry to session commission log without inflating wallet
                 self::appendSessionCommissionOnly($tier1User->id, [
@@ -280,6 +284,14 @@ class CommissionService
                             'time' => 'Just now',
                             'status' => $initialStatus,
                         ]);
+
+                        // Dispatch passive referral email
+                        EmailNotificationService::sendPassiveReferral(
+                            $tier2User,
+                            $passiveAmount,
+                            "{$buyerName} (via {$tier1User->name})",
+                            $pkg['name']
+                        );
                     } else {
                         self::appendSessionCommissionOnly($tier2User->id, [
                             'name' => "{$buyerName} (via {$tier1User->name})",
@@ -343,6 +355,23 @@ class CommissionService
             'time' => 'Just now',
             'status' => 'Credited',
         ]);
+
+        // Dispatch branded email notification to affiliate
+        if ($isPassive) {
+            EmailNotificationService::sendPassiveReferral(
+                $user,
+                $amount,
+                $commission->buyer_name,
+                $commission->package_name
+            );
+        } else {
+            EmailNotificationService::sendActiveReferral(
+                $user,
+                $amount,
+                $commission->buyer_name,
+                $commission->package_name
+            );
+        }
 
         return true;
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\UserCourse;
+use App\Services\EmailNotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -138,6 +139,9 @@ class AuthController extends Controller
                 'progress_percent' => 0,
             ]);
         }
+
+        // Send branded welcome email notification
+        EmailNotificationService::sendAccountCreated($user, $user->active_package);
 
         Auth::login($user);
         $request->session()->regenerate();
