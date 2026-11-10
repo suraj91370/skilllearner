@@ -2,6 +2,138 @@
 
 @section('title', 'Offer, Coupon & 5 Package Pricing Management — Super Admin')
 
+@push('styles')
+<style>
+    /* Desktop & Base Offers Page Styling */
+    .offers-header-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .offers-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1.1rem;
+        margin-bottom: 1.8rem;
+    }
+    .package-pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    .offers-list-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.2rem;
+    }
+    .modal-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 1rem;
+    }
+    .pkg-checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    .modal-sheet-card {
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 680px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 1.8rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        position: relative;
+        box-sizing: border-box;
+    }
+    .offers-tabs-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+    .offers-tabs-scroll::-webkit-scrollbar {
+        height: 4px;
+    }
+    .offers-tabs-scroll::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    /* Mobile Responsive Optimizations (< 768px) */
+    @media (max-width: 768px) {
+        .portal-greeting-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.85rem !important;
+        }
+        .offers-header-actions {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+        }
+        .offers-header-actions .btn {
+            font-size: 0.82rem !important;
+            padding: 0.6rem 0.65rem !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+        .offers-header-actions .btn:last-child {
+            grid-column: span 2;
+        }
+        .offers-kpi-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.75rem !important;
+            margin-bottom: 1.2rem !important;
+        }
+        .admin-stat-card {
+            padding: 1rem !important;
+            border-radius: 10px !important;
+        }
+        .admin-stat-card .stat-val {
+            font-size: 1.45rem !important;
+        }
+        .package-pricing-grid,
+        .offers-list-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.1rem !important;
+        }
+        .modal-sheet-card {
+            padding: 1.25rem 1rem !important;
+            max-width: 95% !important;
+            border-radius: 12px !important;
+        }
+    }
+
+    /* Extra Small Screen Optimizations (< 480px) */
+    @media (max-width: 480px) {
+        .welcome-heading {
+            font-size: 1.35rem !important;
+            flex-wrap: wrap !important;
+        }
+        .admin-stat-card {
+            padding: 0.85rem !important;
+        }
+        .admin-stat-card .stat-val {
+            font-size: 1.3rem !important;
+        }
+        .modal-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+        .pkg-checkbox-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        .portal-box-card {
+            padding: 1rem !important;
+            border-radius: 10px !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="student-portal-wrapper">
     <!-- Top Mobile Quick Tab Slider -->
@@ -15,7 +147,7 @@
         <!-- Right Content Area -->
         <main class="portal-content-area">
             <!-- Header & Welcome Banner -->
-            <div class="portal-greeting-row" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div class="portal-greeting-row">
                 <div>
                     <h2 class="welcome-heading" style="font-size: 1.65rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 10px;">
                         <span>🏷️ Offer &amp; Discount Management</span>
@@ -27,7 +159,7 @@
                         Manage flash sales, coupon codes, festival discounts, bundle offers, and set the dynamic pricing &amp; referral commissions for your 5 core packages.
                     </p>
                 </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <div class="offers-header-actions">
                     <button type="button" onclick="openOfferModal()" class="btn" style="background: #05B396; color: #fff; font-size: 0.85rem; font-weight: 700; padding: 0.55rem 1.1rem; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(5,179,150,0.25);">
                         <span>⚡ Launch Offer</span>
                     </button>
@@ -64,13 +196,13 @@
             @endif
 
             <!-- 1. Executive Summary KPI Cards -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; margin-bottom: 1.8rem;">
+            <div class="offers-kpi-grid">
                 <!-- KPI 1: Active Offers -->
                 <div class="admin-stat-card" style="border-top: 4px solid #05B396; background: #ffffff; border-radius: 12px; padding: 1.3rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.76rem; font-weight: 800; color: #05B396; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px;">
                         ⚡ ACTIVE OFFERS &amp; FLASH SALES
                     </div>
-                    <div style="font-size: 1.85rem; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 4px;">
+                    <div class="stat-val" style="font-size: 1.85rem; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 4px;">
                         {{ $stats['active_offers'] }} <span style="font-size: 0.95rem; font-weight: 600; color: #64748b;">/ {{ $stats['total_offers'] }} total</span>
                     </div>
                     <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">
@@ -83,7 +215,7 @@
                     <div style="font-size: 0.76rem; font-weight: 800; color: #7c3aed; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px;">
                         🎟️ ACTIVE COUPON CODES
                     </div>
-                    <div style="font-size: 1.85rem; font-weight: 900; color: #7c3aed; line-height: 1.2; margin-bottom: 4px;">
+                    <div class="stat-val" style="font-size: 1.85rem; font-weight: 900; color: #7c3aed; line-height: 1.2; margin-bottom: 4px;">
                         {{ $stats['active_coupons'] }} <span style="font-size: 0.95rem; font-weight: 600; color: #64748b;">/ {{ $stats['total_coupons'] }} total</span>
                     </div>
                     <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">
@@ -96,7 +228,7 @@
                     <div style="font-size: 0.76rem; font-weight: 800; color: #2563eb; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px;">
                         👥 TOTAL USERS REDEEMED
                     </div>
-                    <div style="font-size: 1.85rem; font-weight: 900; color: #2563eb; line-height: 1.2; margin-bottom: 4px;">
+                    <div class="stat-val" style="font-size: 1.85rem; font-weight: 900; color: #2563eb; line-height: 1.2; margin-bottom: 4px;">
                         {{ number_format($stats['total_redemptions']) }}
                     </div>
                     <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">
@@ -109,7 +241,7 @@
                     <div style="font-size: 0.76rem; font-weight: 800; color: #ea580c; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px;">
                         💰 TOTAL DISCOUNT GIVEN
                     </div>
-                    <div style="font-size: 1.85rem; font-weight: 900; color: #ea580c; line-height: 1.2; margin-bottom: 4px;">
+                    <div class="stat-val" style="font-size: 1.85rem; font-weight: 900; color: #ea580c; line-height: 1.2; margin-bottom: 4px;">
                         ₹{{ number_format($stats['total_discount_given']) }}
                     </div>
                     <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">
@@ -119,7 +251,7 @@
             </div>
 
             <!-- 2. Master Navigation Tabs -->
-            <div style="background: #ffffff; border-radius: 12px; padding: 6px; display: flex; gap: 8px; margin-bottom: 1.8rem; border: 1px solid #e2e8f0; overflow-x: auto; flex-wrap: nowrap;">
+            <div class="offers-tabs-scroll" style="background: #ffffff; border-radius: 12px; padding: 6px; display: flex; gap: 8px; margin-bottom: 1.8rem; border: 1px solid #e2e8f0; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch;">
                 <a href="{{ route('admin.offers', ['tab' => 'offers']) }}" class="tab-btn {{ $currentTab === 'offers' ? 'active' : '' }}" style="padding: 0.65rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; {{ $currentTab === 'offers' ? 'background: #05B396; color: #fff;' : 'color: #64748b; background: transparent;' }}">
                     <span>⚡ Offers &amp; Flash Sales ({{ $offers->count() }})</span>
                 </a>
@@ -165,7 +297,7 @@
                             </button>
                         </div>
                     @else
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem;">
+                        <div class="offers-list-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem;">
                             @foreach($offers as $offer)
                                 @php
                                     $isLive = method_exists($offer, 'isLive') ? $offer->isLive() : ($offer->status === 'active');
@@ -327,8 +459,8 @@
                             </button>
                         </div>
                     @else
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
+                        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                            <table style="width: 100%; min-width: 620px; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
                                 <thead>
                                     <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.78rem; text-transform: uppercase;">
                                         <th style="padding: 12px 14px;">Coupon Code</th>
@@ -443,7 +575,7 @@
                         </p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                    <div class="package-pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
                         @foreach($packages as $pkg)
                             <div style="background: #ffffff; border: 2px solid {{ $pkg['color'] ?? '#05B396' }}; border-radius: 14px; padding: 1.4rem; box-shadow: 0 6px 18px rgba(0,0,0,0.04); position: relative; display: flex; flex-direction: column; justify-content: space-between;">
                                 <form method="POST" action="{{ route('admin.packages.update', $pkg['id']) }}">
@@ -561,8 +693,8 @@
                             </p>
                         </div>
                     @else
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
+                        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                            <table style="width: 100%; min-width: 620px; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
                                 <thead>
                                     <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.78rem; text-transform: uppercase;">
                                         <th style="padding: 12px 14px;">Student / Buyer</th>
@@ -624,7 +756,7 @@
 {{-- MODAL 1: LAUNCH OFFER (FLASH SALE, FESTIVAL, BUNDLE)     --}}
 {{-- ======================================================== --}}
 <div id="offerModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); z-index: 99999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1.5rem; box-sizing: border-box;">
-    <div style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; box-sizing: border-box;">
+    <div class="modal-sheet-card" style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; box-sizing: border-box;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.8rem;">
             <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
                 <span>⚡ Launch New Offer / Flash Sale</span>
@@ -644,7 +776,7 @@
             </div>
 
             <!-- Offer Type & Discount Type (Two Columns) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Offer Type
@@ -669,7 +801,7 @@
             </div>
 
             <!-- Discount Value & Badge Text -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Discount Value <span style="color: #ef4444;">*</span>
@@ -718,7 +850,7 @@
                 <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
                     Select Applicable Packages (Ye offer kin packages par lagega)
                 </label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div class="pkg-checkbox-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
                     <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
                         <input type="checkbox" name="applicable_packages[]" value="basic" checked> Basic
                     </label>
@@ -741,7 +873,7 @@
             </div>
 
             <!-- Start Date & End Date (With Timer) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Start Date &amp; Time
@@ -788,7 +920,7 @@
 {{-- MODAL 2: CREATE COUPON CODE                              --}}
 {{-- ======================================================== --}}
 <div id="couponModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); z-index: 99999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1.5rem; box-sizing: border-box;">
-    <div style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; box-sizing: border-box;">
+    <div class="modal-sheet-card" style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; box-sizing: border-box;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.8rem;">
             <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
                 <span>🎟️ Create Coupon Code</span>
@@ -800,7 +932,7 @@
             @csrf
 
             <!-- Coupon Code & Discount Type -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Coupon Code <span style="color: #ef4444;">*</span>
@@ -819,7 +951,7 @@
             </div>
 
             <!-- Discount Value & Max Discount Cap -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Discount Value <span style="color: #ef4444;">*</span>
@@ -835,7 +967,7 @@
             </div>
 
             <!-- Usage Limit & Per-User Limit -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Total Usage Limit (Overall uses)
@@ -851,7 +983,7 @@
             </div>
 
             <!-- Minimum Order Amount & Expiry Date -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
+            <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;">
                 <div>
                     <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
                         Min Order Amount (₹)
@@ -871,7 +1003,7 @@
                 <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
                     Select Applicable Packages
                 </label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div class="pkg-checkbox-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
                     <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
                         <input type="checkbox" name="applicable_packages[]" value="basic" checked> Basic
                     </label>
