@@ -18,6 +18,10 @@ use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\VideoController;
+use App\Mail\AccountCreatedMail;
+use App\Mail\ActiveReferralMail;
+use App\Mail\ForgotPasswordMail;
+use App\Mail\PassiveReferralMail;
 use App\Models\Commission;
 use App\Models\Course;
 use App\Models\User;
@@ -25,9 +29,11 @@ use App\Models\UserCourse;
 use App\Models\Video;
 use App\Services\CommissionService;
 use App\Services\EmailNotificationService;
+use App\Services\PackageService;
 use App\Services\PortalDataService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -249,8 +255,8 @@ if (! function_exists('getPackages')) {
     function getPackages()
     {
         try {
-            return \App\Services\PackageService::getAllPackages(true);
-        } catch (\Throwable $e) {
+            return PackageService::getAllPackages(true);
+        } catch (Throwable $e) {
             return [
                 [
                     'id' => 'basic',
@@ -1054,6 +1060,20 @@ Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     // Live Web Migration Runner (Hostinger / cPanel helper)
     Route::get('/run-migrations', [OfferController::class, 'runMigrationsWeb'])->name('admin.run-migrations');
 
+    // Live Web Cache Clear (Hostinger / cPanel helper)
+    Route::get('/clear-cache', function () {
+        if (! Auth::check() || Auth::user()->role !== 'super_admin') {
+            abort(403, 'Unauthorized. Super Admin access required.');
+        }
+
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+
+        return redirect()->back()->with('success', '✅ All live caches (Blade views, application cache, routes) have been cleared successfully!');
+    })->name('admin.clear-cache');
+
     // Super Admin User/Admin Impersonation ("Login As")
     Route::get('/impersonate/{user}', [ImpersonateController::class, 'impersonate'])->name('admin.impersonate');
 });
@@ -1319,10 +1339,10 @@ Route::post('/process-buy-now', function (Request $request) {
     $couponCode = strtoupper(trim((string) $request->input('coupon_code', '')));
     $couponDiscount = 0;
     if (! empty($couponCode)) {
-        $couponCheck = \App\Services\PackageService::validateCoupon($couponCode, $packageKey, $packagePrice, $email);
+        $couponCheck = PackageService::validateCoupon($couponCode, $packageKey, $packagePrice, $email);
         if (! empty($couponCheck['valid'])) {
             $couponDiscount = (float) $couponCheck['discount_amount'];
-            \App\Services\PackageService::recordRedemption([
+            PackageService::recordRedemption([
                 'coupon_id' => $couponCheck['coupon_id'] ?? null,
                 'user_name' => $name ?: ($authUser?->name ?? 'Student'),
                 'user_email' => $email ?: ($authUser?->email ?? ''),
@@ -1568,7 +1588,7 @@ Route::get('/payment-status', function (Request $request) {
 // ==========================================
 Route::prefix('/admin/emails-preview')->group(function () {
     Route::get('/passive-referral', function () {
-        return new App\Mail\PassiveReferralMail(
+        return new PassiveReferralMail(
             userName: 'Adarsh Pandey',
             amount: 20.00,
             buyerName: 'Rahul Sharma',
@@ -1577,7 +1597,7 @@ Route::prefix('/admin/emails-preview')->group(function () {
     })->name('email.preview.passive');
 
     Route::get('/active-referral', function () {
-        return new App\Mail\ActiveReferralMail(
+        return new ActiveReferralMail(
             userName: 'Adarsh Pandey',
             amount: 420.00,
             buyerName: 'Rahul Sharma',
@@ -1586,7 +1606,7 @@ Route::prefix('/admin/emails-preview')->group(function () {
     })->name('email.preview.active');
 
     Route::get('/account-created', function () {
-        return new App\Mail\AccountCreatedMail(
+        return new AccountCreatedMail(
             userName: 'Adarsh Pandey',
             email: 'adarsh@example.com',
             affiliateId: 'SKL-9824',
@@ -1595,7 +1615,7 @@ Route::prefix('/admin/emails-preview')->group(function () {
     })->name('email.preview.created');
 
     Route::get('/forgot-password', function () {
-        return new App\Mail\ForgotPasswordMail(
+        return new ForgotPasswordMail(
             userName: 'Adarsh Pandey',
             resetUrl: url('/reset-password/sample-token?email=adarsh@example.com')
         );
@@ -1612,15 +1632,15 @@ Route::match(['get', 'post'], '/admin/send-test-email', function (Request $reque
     if ($request->isMethod('post') || $request->boolean('send')) {
         try {
             $mailable = match ($type) {
-                'active' => new App\Mail\ActiveReferralMail('Adarsh Pandey', 420.00, 'Rahul Sharma', 'Basic Package'),
-                'created', 'welcome' => new App\Mail\AccountCreatedMail('Adarsh Pandey', $to, 'SKL-9824', 'Advance Package'),
-                'forgot' => new App\Mail\ForgotPasswordMail('Adarsh Pandey', url('/reset-password/sample-token?email='.urlencode($to))),
-                default => new App\Mail\PassiveReferralMail('Adarsh Pandey', 20.00, 'Rahul Sharma', 'Advance Package'),
+                'active' => new ActiveReferralMail('Adarsh Pandey', 420.00, 'Rahul Sharma', 'Basic Package'),
+                'created', 'welcome' => new AccountCreatedMail('Adarsh Pandey', $to, 'SKL-9824', 'Advance Package'),
+                'forgot' => new ForgotPasswordMail('Adarsh Pandey', url('/reset-password/sample-token?email='.urlencode($to))),
+                default => new PassiveReferralMail('Adarsh Pandey', 20.00, 'Rahul Sharma', 'Advance Package'),
             };
 
             Mail::to($to)->send($mailable);
             $result = "✅ Success! [{$type}] test email dispatched to {$to} via driver '".config('mail.default')."'. Check your inbox / spam!";
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $error = $e->getMessage();
         }
     }
