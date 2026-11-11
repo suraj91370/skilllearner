@@ -242,6 +242,20 @@
                                                         <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>👤 User</option>
                                                     </select>
                                                 </form>
+
+                                                @if(Auth::id() !== $u->id)
+                                                    <form method="POST" action="{{ route('admin.users.delete', $u->id) }}" style="display: inline-flex; align-items: center; margin: 0;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" 
+                                                                onclick="return confirm('⚠️ DANGER: Kya aap sach me user \'{{ addslashes($u->name) }}\' (ID: {{ $u->affiliate_id ?? $u->id }}) aur iska SARA DATA (Commissions, Payouts, KYC, Courses) permanently HARD DELETE karna chahte hain? Yeh action revert nahi kiya ja sakta!');"
+                                                                title="Permanently hard delete user & all related records"
+                                                                class="btn-delete-user-action">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @else
                                                 <span style="font-size: 0.78rem; color: #94a3b8; font-style: italic;">Super Admin Only</span>
                                             @endif
@@ -405,6 +419,28 @@
         color: #ffffff;
         transform: translateY(-1px);
         box-shadow: 0 3px 8px rgba(5, 179, 150, 0.35);
+    }
+    .btn-delete-user-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+        font-size: 0.74rem;
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .btn-delete-user-action:hover {
+        background: #dc2626;
+        color: #ffffff;
+        border-color: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(220, 38, 38, 0.3);
     }
 </style>
 @endpush

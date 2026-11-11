@@ -1001,6 +1001,7 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
     Route::post('/users/{user}/toggle-payment', [AdminController::class, 'toggleUserPaymentStatus'])->name('admin.users.toggle-payment');
     Route::post('/users/{user}/industry-revenue', [AdminController::class, 'updateIndustryRevenue'])->name('admin.users.industry-revenue');
+    Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
     Route::get('/kyc-requests', [AdminController::class, 'kycRequests'])->name('admin.kyc');
     Route::post('/kyc/{kyc}/approve', [AdminController::class, 'approveKyc'])->name('admin.kyc.approve');
     Route::post('/kyc/{kyc}/reject', [AdminController::class, 'rejectKyc'])->name('admin.kyc.reject');
