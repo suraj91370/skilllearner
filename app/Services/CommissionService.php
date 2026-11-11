@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Commission;
 use App\Models\User;
-use App\Services\EmailNotificationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -75,16 +74,25 @@ class CommissionService
         $key = strtolower(trim($packageSlugOrName));
         $key = str_replace(' package', '', $key);
 
+        $fallback = self::PACKAGES[$key] ?? self::PACKAGES['advance'];
+
         try {
             $dynPkg = PackageService::getPackageBySlug($key, false);
             if (! empty($dynPkg)) {
+                if (empty($dynPkg['active_income']) || (float) $dynPkg['active_income'] <= 0) {
+                    $dynPkg['active_income'] = (float) ($fallback['active_income'] ?? 420);
+                }
+                if (empty($dynPkg['passive_income']) || (float) $dynPkg['passive_income'] <= 0) {
+                    $dynPkg['passive_income'] = (float) ($fallback['passive_income'] ?? 50);
+                }
+
                 return $dynPkg;
             }
         } catch (\Throwable $e) {
             // Fallback to static constant
         }
 
-        return self::PACKAGES[$key] ?? self::PACKAGES['advance'];
+        return $fallback;
     }
 
     /**
@@ -341,11 +349,21 @@ class CommissionService
         $isPassive = str_contains(strtolower($commission->commission_type), 'passive');
         $amount = (float) $commission->amount;
 
+        // Auto-heal zero amount from package configuration if it was logged as 0
+        if ($amount <= 0 && ! empty($commission->package_name)) {
+            $pkgInfo = self::getPackageInfo($commission->package_name);
+            $amount = $isPassive ? (float) $pkgInfo['passive_income'] : (float) $pkgInfo['active_income'];
+            $commission->amount = $amount;
+        }
+
         // Credit user balance in DB
         self::creditUserEarnings($user, $amount, $isPassive);
 
-        // Update commission record status
-        $commission->update(['status' => 'Credited']);
+        // Update commission record status and healed amount
+        $commission->update([
+            'status' => 'Credited',
+            'amount' => $amount,
+        ]);
 
         // Sync session if currently logged in
         self::syncCurrentSessionIfMatched($user->id, $amount, $isPassive, [

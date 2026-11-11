@@ -32,6 +32,29 @@ class AdminController extends Controller
     {
         PortalDataService::ensureUserSession();
 
+        // Self-heal any zero-amount commissions in the database automatically
+        try {
+            $zeroComms = Commission::where('amount', '<=', 0)->get();
+            foreach ($zeroComms as $zc) {
+                if (! empty($zc->package_name)) {
+                    $pkg = CommissionService::getPackageInfo($zc->package_name);
+                    $isPassive = str_contains(strtolower((string) $zc->commission_type), 'passive');
+                    $correctAmount = $isPassive ? (float) $pkg['passive_income'] : (float) $pkg['active_income'];
+                    if ($correctAmount > 0) {
+                        $diff = $correctAmount - (float) $zc->amount;
+                        $zc->update(['amount' => $correctAmount]);
+
+                        // If already marked Credited, credit the difference into the affiliate's wallet
+                        if ($zc->status === 'Credited' && $zc->user && $diff > 0) {
+                            CommissionService::creditUserEarnings($zc->user, $diff, $isPassive);
+                        }
+                    }
+                }
+            }
+        } catch (Throwable $e) {
+            // Ignore error
+        }
+
         $stats = CommissionService::getPlatformRevenueStats();
 
         $statusFilter = $request->query('status', 'all');
