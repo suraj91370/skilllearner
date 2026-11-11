@@ -44,6 +44,17 @@ class AuthController extends Controller
         $field = 'email';
         if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
             $field = 'email';
+            $matchedUser = User::where('email', $username)
+                ->orWhere(function ($q) use ($username) {
+                    if (str_contains(strtolower($username), 'superadmin@skilllearn')) {
+                        $q->where('email', 'superadmin@skilllearne.org')
+                            ->orWhere('email', 'superadmin@skilllearner.org')
+                            ->orWhere('email', 'superadmin@skilllearner.com');
+                    }
+                })->first();
+            if ($matchedUser) {
+                $username = $matchedUser->email;
+            }
         } elseif (preg_match('/^[0-9+\s\-]{7,20}$/', $username)) {
             $field = 'phone';
         } elseif (str_starts_with(strtoupper($username), 'SL-') || str_starts_with(strtoupper($username), 'SKL-')) {
