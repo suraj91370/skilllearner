@@ -40,6 +40,14 @@ class AdminController extends Controller
                     $pkg = CommissionService::getPackageInfo($zc->package_name);
                     $isPassive = str_contains(strtolower((string) $zc->commission_type), 'passive');
                     $correctAmount = $isPassive ? (float) $pkg['passive_income'] : (float) $pkg['active_income'];
+
+                    // Cap commission to affiliate's own active package tier
+                    if ($zc->user && ! empty($zc->user->active_package)) {
+                        $userPkg = CommissionService::getPackageInfo($zc->user->active_package);
+                        $userMax = $isPassive ? (float) ($userPkg['passive_income'] ?? $correctAmount) : (float) ($userPkg['active_income'] ?? $correctAmount);
+                        $correctAmount = min($correctAmount, $userMax);
+                    }
+
                     if ($correctAmount > 0) {
                         $diff = $correctAmount - (float) $zc->amount;
                         $zc->update(['amount' => $correctAmount]);
