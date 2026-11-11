@@ -13,6 +13,7 @@ class Commission extends Model
         'amount',
         'commission_type',
         'status',
+        'created_at',
     ];
 
     protected function casts(): array

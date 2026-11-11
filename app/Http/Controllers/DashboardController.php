@@ -6,6 +6,7 @@ use App\Models\Commission;
 use App\Models\User;
 use App\Services\CommissionService;
 use App\Services\PortalDataService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,19 +20,26 @@ class DashboardController extends Controller
         $pendingCommissions = 0.0;
         if ($authUser) {
             $pendingCommissions = (float) $authUser->commissions()->where('status', 'Pending')->sum('amount');
+            $earnings = CommissionService::calculateUserEarnings($authUser);
+            $todayEarning = $earnings['today'];
+            $weeklyEarning = $earnings['weekly'];
+            $monthlyEarning = $earnings['monthly'];
+            $totalEarning = $earnings['total'];
+            $passiveEarning = $earnings['passive'];
+            $industryRevenue = (float) ($authUser->industry_revenue ?? 0.00);
+        } else {
+            $todayEarning = (float) session('user.today_earning', 0);
+            $weeklyEarning = (float) session('user.weekly_earning', 0);
+            $monthlyEarning = (float) session('user.monthly_earning', 0);
+            $totalEarning = (float) session('user.total_earning', 0);
+            $passiveEarning = (float) session('user.passive_earning', 0);
+            $industryRevenue = (float) session('user.industry_revenue', 0);
         }
 
-        // 1. Core Revenue Metrics (Strictly 0 fallback)
-        $todayEarning = $authUser ? (float) $authUser->today_earning : (float) session('user.today_earning', 0);
-        $weeklyEarning = $authUser ? (float) $authUser->weekly_earning : (float) session('user.weekly_earning', 0);
-        $monthlyEarning = $authUser ? (float) $authUser->monthly_earning : (float) session('user.monthly_earning', 0);
-        $totalEarning = $authUser ? (float) $authUser->total_earning : (float) session('user.total_earning', 0);
-        $passiveEarning = $authUser ? (float) $authUser->passive_earning : (float) session('user.passive_earning', 0);
-        $industryRevenue = (float) (User::sum('total_earning') ?: 0);
-
-        // 2. Dynamic 7 Days Sales Graph
+        // 2. Dynamic 7 Days Sales Graph (Strictly Indian Standard Time - Asia/Kolkata)
+        $timezone = 'Asia/Kolkata';
+        $carbonNow = Carbon::now($timezone);
         $sevenDays = [];
-        $carbonNow = now();
         for ($i = 6; $i >= 0; $i--) {
             $dt = (clone $carbonNow)->subDays($i);
             $key = $dt->format('Y-m-d');
@@ -43,26 +51,19 @@ class DashboardController extends Controller
         }
 
         if ($authUser) {
+            $sevenDaysStart = (clone $carbonNow)->subDays(6)->startOfDay();
             $commissions = Commission::where('user_id', $authUser->id)
                 ->where('status', 'Credited')
-                ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+                ->where('created_at', '>=', $sevenDaysStart)
                 ->get();
 
             foreach ($commissions as $comm) {
                 if ($comm->created_at) {
-                    $cKey = $comm->created_at->format('Y-m-d');
+                    $cDate = Carbon::parse($comm->created_at)->timezone($timezone);
+                    $cKey = $cDate->format('Y-m-d');
                     if (isset($sevenDays[$cKey])) {
                         $sevenDays[$cKey]['amount'] += (float) $comm->amount;
                     }
-                }
-            }
-
-            // If user has weekly_earning but no granular commission records, allocate today_earning to today
-            $sumGraph = array_sum(array_column($sevenDays, 'amount'));
-            if ($sumGraph == 0 && $todayEarning > 0) {
-                $todayKey = $carbonNow->format('Y-m-d');
-                if (isset($sevenDays[$todayKey])) {
-                    $sevenDays[$todayKey]['amount'] = $todayEarning;
                 }
             }
         }
@@ -162,15 +163,6 @@ class DashboardController extends Controller
         if (Auth::check()) {
             /** @var User $authUser */
             $authUser = Auth::user();
-            $authUser->increment('wallet_balance', $amount);
-            $authUser->increment('today_earning', $amount);
-            $authUser->increment('weekly_earning', $amount);
-            $authUser->increment('monthly_earning', $amount);
-            $authUser->increment('total_earning', $amount);
-
-            if ($isPassive) {
-                $authUser->increment('passive_earning', $amount);
-            }
 
             Commission::create([
                 'user_id' => $authUser->id,
@@ -180,20 +172,34 @@ class DashboardController extends Controller
                 'commission_type' => $typeName,
                 'status' => 'Credited',
             ]);
-        }
 
-        // 2. Update Session User data
-        $user = session('user', []);
-        $user['wallet_balance'] = ((float) ($user['wallet_balance'] ?? 0)) + $amount;
-        $user['today_earning'] = ((float) ($user['today_earning'] ?? 0)) + $amount;
-        $user['weekly_earning'] = ((float) ($user['weekly_earning'] ?? 0)) + $amount;
-        $user['monthly_earning'] = ((float) ($user['monthly_earning'] ?? 0)) + $amount;
-        $user['total_earning'] = ((float) ($user['total_earning'] ?? 0)) + $amount;
+            CommissionService::creditUserEarnings($authUser, $amount, $isPassive);
+            $earnings = CommissionService::calculateUserEarnings($authUser);
 
-        if ($isPassive) {
-            $user['passive_earning'] = ((float) ($user['passive_earning'] ?? 0)) + $amount;
+            // Update Session User data
+            $user = session('user', []);
+            $user['wallet_balance'] = (float) $authUser->wallet_balance;
+            $user['today_earning'] = (float) $earnings['today'];
+            $user['weekly_earning'] = (float) $earnings['weekly'];
+            $user['monthly_earning'] = (float) $earnings['monthly'];
+            $user['total_earning'] = (float) $earnings['total'];
+            $user['passive_earning'] = (float) $earnings['passive'];
+            $user['industry_revenue'] = (float) ($authUser->industry_revenue ?? 0.00);
+            session(['user' => $user]);
+        } else {
+            // Update Session User data
+            $user = session('user', []);
+            $user['wallet_balance'] = ((float) ($user['wallet_balance'] ?? 0)) + $amount;
+            $user['today_earning'] = ((float) ($user['today_earning'] ?? 0)) + $amount;
+            $user['weekly_earning'] = ((float) ($user['weekly_earning'] ?? 0)) + $amount;
+            $user['monthly_earning'] = ((float) ($user['monthly_earning'] ?? 0)) + $amount;
+            $user['total_earning'] = ((float) ($user['total_earning'] ?? 0)) + $amount;
+
+            if ($isPassive) {
+                $user['passive_earning'] = ((float) ($user['passive_earning'] ?? 0)) + $amount;
+            }
+            session(['user' => $user]);
         }
-        session(['user' => $user]);
 
         // 3. Prepend to session commissions list
         $commissions = session('commissions', []);

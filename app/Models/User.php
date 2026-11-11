@@ -24,6 +24,7 @@ use Illuminate\Notifications\Notifiable;
     'monthly_earning',
     'total_earning',
     'passive_earning',
+    'industry_revenue',
     'kyc_status',
     'avatar',
     'role',
@@ -51,6 +52,7 @@ class User extends Authenticatable
             'monthly_earning' => 'decimal:2',
             'total_earning' => 'decimal:2',
             'passive_earning' => 'decimal:2',
+            'industry_revenue' => 'decimal:2',
         ];
     }
 

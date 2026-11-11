@@ -115,6 +115,7 @@
                                 <th style="padding: 0.85rem 1rem;">Role</th>
                                 <th style="padding: 0.85rem 1rem;">Package</th>
                                 <th style="padding: 0.85rem 1rem;">Wallet Balance</th>
+                                <th style="padding: 0.85rem 1rem;">Industry Revenue</th>
                                 <th style="padding: 0.85rem 1rem;">KYC Status</th>
                                 <th style="padding: 0.85rem 1rem;">Payment / ID</th>
                                 <th style="padding: 0.85rem 1.4rem; text-align: right;">Action</th>
@@ -161,6 +162,27 @@
                                     <td style="padding: 0.95rem 1rem;">
                                         <div style="font-weight: 800; color: #0f172a;">₹{{ number_format($u->wallet_balance, 2) }}</div>
                                         <div style="font-size: 0.75rem; color: #64748b;">Earned: ₹{{ number_format($u->total_earning, 2) }}</div>
+                                    </td>
+
+                                    <!-- Industry Revenue (Admin Editable) -->
+                                    <td style="padding: 0.95rem 1rem;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div>
+                                                <div style="font-weight: 800; color: #05B396; font-size: 0.92rem;">
+                                                    ₹{{ number_format((float) ($u->industry_revenue ?? 0), 2) }}
+                                                </div>
+                                                <div style="font-size: 0.72rem; color: #64748b;">
+                                                    {{ ($u->industry_revenue ?? 0) > 0 ? 'Custom set' : 'Default (₹0)' }}
+                                                </div>
+                                            </div>
+                                            <button type="button" 
+                                                    onclick="openEditIndustryRevenueModal('{{ $u->id }}', '{{ addslashes($u->name) }}', '{{ (float) ($u->industry_revenue ?? 0) }}')"
+                                                    title="Change Industry Revenue" 
+                                                    style="background: #f0fdfa; border: 1px solid #05B396; color: #05B396; border-radius: 6px; padding: 4px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; transition: all 0.15s ease;">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                <span>Edit</span>
+                                            </button>
+                                        </div>
                                     </td>
 
                                     <!-- KYC Status -->
@@ -228,7 +250,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" style="padding: 3rem 1rem; text-align: center; color: #64748b;">
+                                    <td colspan="8" style="padding: 3rem 1rem; text-align: center; color: #64748b;">
                                         No users found matching your search.
                                     </td>
                                 </tr>
@@ -238,9 +260,81 @@
                 </div>
             </div>
 
+            <!-- Edit Industry Revenue Modal -->
+            <div id="industryRevenueModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); z-index: 9999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1rem;">
+                <div style="background: #ffffff; border-radius: 18px; max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 1.5px solid #a7f3d0; overflow: hidden;">
+                    <!-- Modal Header -->
+                    <div style="background: linear-gradient(135deg, #00137a 0%, #05B396 100%); padding: 1.2rem 1.4rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.2rem;">🏢</span>
+                            <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Update Industry Revenue</h3>
+                        </div>
+                        <button type="button" onclick="closeEditIndustryRevenueModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">&times;</button>
+                    </div>
+
+                    <!-- Modal Form -->
+                    <form id="industryRevenueForm" method="POST" action="" style="padding: 1.4rem;">
+                        @csrf
+                        <p style="font-size: 0.88rem; color: #475569; margin: 0 0 1rem; line-height: 1.5;">
+                            Set custom <strong>Industry Revenue</strong> for <span id="modalUserName" style="color: #0f172a; font-weight: 700;"></span>. This will immediately reflect on their student dashboard.
+                        </p>
+
+                        <div style="margin-bottom: 1.2rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Industry Revenue Amount (₹)
+                            </label>
+                            <div style="position: relative;">
+                                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: #05B396; font-size: 1.05rem;">₹</span>
+                                <input type="number" 
+                                       step="0.01" 
+                                       min="0" 
+                                       name="industry_revenue" 
+                                       id="modalIndustryRevenueInput" 
+                                       required 
+                                       placeholder="0.00"
+                                       style="width: 100%; box-sizing: border-box; padding: 0.75rem 1rem 0.75rem 2rem; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1rem; font-weight: 800; color: #0f172a; outline: none;">
+                            </div>
+                            <div style="font-size: 0.75rem; color: #64748b; margin-top: 5px;">
+                                Enter any amount (e.g. 0, 5000, 410940). Default is 0.
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem;">
+                            <button type="button" onclick="closeEditIndustryRevenueModal()" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 0.65rem 1.1rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
+                                Cancel
+                            </button>
+                            <button type="submit" style="background: #05B396; color: #ffffff; border: none; padding: 0.65rem 1.3rem; border-radius: 8px; font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 12px rgba(5, 179, 150, 0.35);">
+                                Save Industry Revenue
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </main>
     </div>
 </div>
+
+<script>
+    function openEditIndustryRevenueModal(userId, userName, currentAmount) {
+        const modal = document.getElementById('industryRevenueModal');
+        const form = document.getElementById('industryRevenueForm');
+        const nameSpan = document.getElementById('modalUserName');
+        const input = document.getElementById('modalIndustryRevenueInput');
+
+        form.action = '{{ url("/admin/users") }}/' + userId + '/industry-revenue';
+        nameSpan.textContent = userName;
+        input.value = currentAmount || 0;
+
+        modal.style.display = 'flex';
+        setTimeout(() => input.focus(), 100);
+    }
+
+    function closeEditIndustryRevenueModal() {
+        const modal = document.getElementById('industryRevenueModal');
+        modal.style.display = 'none';
+    }
+</script>
 
 @include('portal.styles')
 

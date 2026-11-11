@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Commission;
 use App\Models\User;
 use App\Services\EmailNotificationService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CommissionService
@@ -394,14 +395,107 @@ class CommissionService
     public static function creditUserEarnings(User $user, float $amount, bool $isPassive = false): void
     {
         $user->increment('wallet_balance', $amount);
-        $user->increment('today_earning', $amount);
-        $user->increment('weekly_earning', $amount);
-        $user->increment('monthly_earning', $amount);
         $user->increment('total_earning', $amount);
 
         if ($isPassive) {
             $user->increment('passive_earning', $amount);
         }
+
+        // Recalculate rolling time-window earnings in IST
+        self::calculateUserEarnings($user);
+    }
+
+    /**
+     * Compute and synchronize a user's rolling revenue based on Indian Standard Time (IST / Asia/Kolkata).
+     *
+     * Today's Revenue:
+     * - Counted strictly between 00:00:00 (00:01) and 23:59:59 IST of the current day.
+     * - Once midnight passes in IST, Today's Revenue resets to 0.00 until new earnings occur today.
+     *
+     * 7 Days Revenue:
+     * - Rolling 7-day window (subDays(6)->startOfDay() through today->endOfDay() in IST).
+     * - On a new day (e.g. next Monday), the day from 8 days ago debits (drops) and today credits.
+     *
+     * 30 Days Revenue:
+     * - Rolling 30-day window (subDays(29)->startOfDay() through today->endOfDay() in IST).
+     *
+     * Industry Revenue:
+     * - Default is 0.00, customizable per-user by Super Admin.
+     */
+    public static function calculateUserEarnings(User $user): array
+    {
+        $timezone = 'Asia/Kolkata';
+        $nowIst = Carbon::now($timezone);
+
+        // Today: 00:00:00 to 23:59:59 IST
+        $todayStart = (clone $nowIst)->startOfDay();
+        $todayEnd = (clone $nowIst)->endOfDay();
+
+        // 7 Days Rolling Window: 6 days ago startOfDay through today endOfDay
+        $sevenDaysStart = (clone $nowIst)->subDays(6)->startOfDay();
+
+        // 30 Days Rolling Window: 29 days ago startOfDay through today endOfDay
+        $thirtyDaysStart = (clone $nowIst)->subDays(29)->startOfDay();
+
+        $creditedComms = $user->commissions()
+            ->where('status', 'Credited')
+            ->get();
+
+        $today = 0.0;
+        $weekly = 0.0;
+        $monthly = 0.0;
+        $total = 0.0;
+        $passive = 0.0;
+
+        foreach ($creditedComms as $c) {
+            $amt = (float) $c->amount;
+            $total += $amt;
+
+            if (str_contains(strtolower((string) $c->commission_type), 'passive')) {
+                $passive += $amt;
+            }
+
+            if ($c->created_at) {
+                $cDate = Carbon::parse($c->created_at)->timezone($timezone);
+
+                if ($cDate->between($todayStart, $todayEnd)) {
+                    $today += $amt;
+                }
+                if ($cDate->between($sevenDaysStart, $todayEnd)) {
+                    $weekly += $amt;
+                }
+                if ($cDate->between($thirtyDaysStart, $todayEnd)) {
+                    $monthly += $amt;
+                }
+            }
+        }
+
+        // If user has no commission records at all, fallback to total_earning / passive_earning from model, but today remains 0.00
+        if ($creditedComms->isEmpty()) {
+            $total = (float) $user->total_earning;
+            $passive = (float) $user->passive_earning;
+            $today = 0.0;
+            $weekly = 0.0;
+            $monthly = 0.0;
+        }
+
+        // Keep the database columns synchronized with current rolling values
+        $user->update([
+            'today_earning' => $today,
+            'weekly_earning' => $weekly,
+            'monthly_earning' => $monthly,
+            'total_earning' => $total,
+            'passive_earning' => $passive,
+        ]);
+
+        return [
+            'today' => $today,
+            'weekly' => $weekly,
+            'monthly' => $monthly,
+            'total' => $total,
+            'passive' => $passive,
+            'industry_revenue' => (float) ($user->industry_revenue ?? 0.00),
+        ];
     }
 
     /**

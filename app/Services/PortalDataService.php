@@ -41,6 +41,7 @@ class PortalDataService
         if (Auth::check()) {
             /** @var User $user */
             $user = Auth::user();
+            $earnings = CommissionService::calculateUserEarnings($user);
             $kyc = $user->kyc;
             $pendingWithdrawal = $user->payouts()->whereIn('status', ['Pending', 'Processing'])->sum('amount');
             session(['user' => [
@@ -53,12 +54,12 @@ class PortalDataService
                 'active_package' => $user->active_package ?? 'Advance Package',
                 'wallet_balance' => (float) $user->wallet_balance,
                 'pending_withdrawal' => (float) $pendingWithdrawal,
-                'today_earning' => (float) $user->today_earning,
-                'weekly_earning' => (float) $user->weekly_earning,
-                'monthly_earning' => (float) $user->monthly_earning,
-                'total_earning' => (float) $user->total_earning,
-                'passive_earning' => (float) $user->passive_earning,
-                'industry_revenue' => (float) (User::sum('total_earning') ?: 0),
+                'today_earning' => (float) $earnings['today'],
+                'weekly_earning' => (float) $earnings['weekly'],
+                'monthly_earning' => (float) $earnings['monthly'],
+                'total_earning' => (float) $earnings['total'],
+                'passive_earning' => (float) $earnings['passive'],
+                'industry_revenue' => (float) ($user->industry_revenue ?? 0.00),
                 'kyc_status' => $user->kyc_status ?? ($kyc?->status === 'Approved' ? 'Verified ✅' : ($kyc ? $kyc->status : 'Pending')),
                 'holder_name' => $kyc?->holder_name ?? session('user.holder_name', ''),
                 'upi_id' => $kyc?->upi_id ?? session('user.upi_id', ''),

@@ -218,6 +218,33 @@ class AdminController extends Controller
     }
 
     /**
+     * Update a user's Industry Revenue (Super Admin / Admin).
+     */
+    public function updateIndustryRevenue(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can update Industry Revenue.');
+        }
+
+        $validated = $request->validate([
+            'industry_revenue' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $newAmount = (float) $validated['industry_revenue'];
+        $user->update(['industry_revenue' => $newAmount]);
+
+        // If currently logged in as this user or in session, update session too
+        if (session('user.id') === $user->id) {
+            session(['user.industry_revenue' => $newAmount]);
+        }
+
+        return back()->with('success', "Industry Revenue for {$user->name} successfully updated to ₹".number_format($newAmount, 2).'.');
+    }
+
+    /**
      * Display KYC Approvals queue (Super Admin & Admin).
      */
     public function kycRequests(Request $request): View
