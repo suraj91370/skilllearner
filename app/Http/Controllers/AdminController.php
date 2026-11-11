@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Commission;
 use App\Models\Course;
 use App\Models\KycVerification;
+use App\Models\Mentor;
+use App\Models\MentorPayout;
+use App\Models\OfferRedemption;
 use App\Models\Payout;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\UserCourse;
 use App\Services\CommissionService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
+use Throwable;
 
 class AdminController extends Controller
 {
@@ -24,6 +31,29 @@ class AdminController extends Controller
     public function dashboard(Request $request): View
     {
         PortalDataService::ensureUserSession();
+
+        // Self-heal any zero-amount commissions in the database automatically
+        try {
+            $zeroComms = Commission::where('amount', '<=', 0)->get();
+            foreach ($zeroComms as $zc) {
+                if (! empty($zc->package_name)) {
+                    $pkg = CommissionService::getPackageInfo($zc->package_name);
+                    $isPassive = str_contains(strtolower((string) $zc->commission_type), 'passive');
+                    $correctAmount = $isPassive ? (float) $pkg['passive_income'] : (float) $pkg['active_income'];
+                    if ($correctAmount > 0) {
+                        $diff = $correctAmount - (float) $zc->amount;
+                        $zc->update(['amount' => $correctAmount]);
+
+                        // If already marked Credited, credit the difference into the affiliate's wallet
+                        if ($zc->status === 'Credited' && $zc->user && $diff > 0) {
+                            CommissionService::creditUserEarnings($zc->user, $diff, $isPassive);
+                        }
+                    }
+                }
+            }
+        } catch (Throwable $e) {
+            // Ignore error
+        }
 
         $stats = CommissionService::getPlatformRevenueStats();
 
@@ -215,6 +245,114 @@ class AdminController extends Controller
         $statusLabel = $newStatus === 'paid' ? 'Paid & Active (User can now log in)' : 'Pending Payment (Login Blocked)';
 
         return back()->with('success', "Payment status for {$user->name} updated to {$statusLabel}.");
+    }
+
+    /**
+     * Update a user's Industry Revenue (Super Admin / Admin).
+     */
+    public function updateIndustryRevenue(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can update Industry Revenue.');
+        }
+
+        $validated = $request->validate([
+            'industry_revenue' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $newAmount = (float) $validated['industry_revenue'];
+        $user->update(['industry_revenue' => $newAmount]);
+
+        // If currently logged in as this user or in session, update session too
+        if (session('user.id') === $user->id) {
+            session(['user.industry_revenue' => $newAmount]);
+        }
+
+        return back()->with('success', "Industry Revenue for {$user->name} successfully updated to ₹".number_format($newAmount, 2).'.');
+    }
+
+    /**
+     * Permanently hard delete a user and ALL their associated data (Super Admin Only).
+     */
+    public function deleteUser(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if ($currentRole !== 'super_admin') {
+            return back()->with('error', 'Only Super Admins have permission to permanently delete users.');
+        }
+
+        if ($user->id === $currentUser?->id) {
+            return back()->with('error', 'Security Violation: You cannot delete your own Super Admin account.');
+        }
+
+        $userName = $user->name;
+        $userEmail = $user->email;
+        $userAffiliateId = $user->affiliate_id;
+
+        DB::transaction(function () use ($user) {
+            $userId = $user->id;
+            $userEmail = $user->email;
+
+            // 1. Delete all commissions for this user
+            Commission::where('user_id', $userId)->delete();
+
+            // 2. Delete all payouts
+            Payout::where('user_id', $userId)->delete();
+
+            // 3. Delete KYC verification records and documents
+            $kyc = KycVerification::where('user_id', $userId)->first();
+            if ($kyc) {
+                if (! empty($kyc->document_path) && file_exists(public_path($kyc->document_path))) {
+                    @unlink(public_path($kyc->document_path));
+                }
+                $kyc->delete();
+            }
+
+            // 4. Delete enrolled courses and course progress
+            UserCourse::where('user_id', $userId)->delete();
+
+            // 5. Delete coupon/offer redemptions
+            OfferRedemption::where('user_id', $userId)->delete();
+
+            // 6. Delete mentor profile & payouts if user is a mentor
+            $mentors = Mentor::where('user_id', $userId)->get();
+            foreach ($mentors as $mentor) {
+                MentorPayout::where('mentor_id', $mentor->id)->delete();
+                if (! empty($mentor->photo) && file_exists(public_path($mentor->photo))) {
+                    @unlink(public_path($mentor->photo));
+                }
+                $mentor->delete();
+            }
+
+            // 7. Delete password reset tokens
+            if (! empty($userEmail)) {
+                DB::table('password_reset_tokens')->where('email', $userEmail)->delete();
+            }
+
+            // 8. Delete active session records if database session driver is used
+            try {
+                if (Schema::hasTable('sessions')) {
+                    DB::table('sessions')->where('user_id', $userId)->delete();
+                }
+            } catch (Throwable) {
+                // Ignore if sessions table does not exist or driver is file/cookie
+            }
+
+            // 9. Clean up avatar file if stored locally in public
+            if (! empty($user->avatar) && str_starts_with($user->avatar, 'uploads/') && file_exists(public_path($user->avatar))) {
+                @unlink(public_path($user->avatar));
+            }
+
+            // 10. Hard delete the user record itself
+            $user->delete();
+        });
+
+        return back()->with('success', "User '{$userName}' ({$userEmail} | ID: {$userAffiliateId}) and ALL associated data have been permanently hard deleted.");
     }
 
     /**

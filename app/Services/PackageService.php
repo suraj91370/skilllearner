@@ -132,11 +132,11 @@ class PackageService
             $current = $packagesMap[$slug] ?? $defaults;
             $merged = array_merge($defaults, $current);
 
-            // Ensure numeric values are floats/ints
-            $merged['price'] = (float) ($merged['price'] ?? $defaults['price']);
-            $merged['old_price'] = (float) ($merged['old_price'] ?? $defaults['old_price']);
-            $merged['active_income'] = (float) ($merged['active_income'] ?? $defaults['active_income']);
-            $merged['passive_income'] = (float) ($merged['passive_income'] ?? $defaults['passive_income']);
+            // Ensure numeric values are floats/ints with robust default fallback
+            $merged['price'] = (float) (! empty($merged['price']) && (float) $merged['price'] > 0 ? $merged['price'] : $defaults['price']);
+            $merged['old_price'] = (float) (! empty($merged['old_price']) ? $merged['old_price'] : $defaults['old_price']);
+            $merged['active_income'] = (float) (! empty($merged['active_income']) && (float) $merged['active_income'] > 0 ? $merged['active_income'] : $defaults['active_income']);
+            $merged['passive_income'] = (float) (! empty($merged['passive_income']) && (float) $merged['passive_income'] > 0 ? $merged['passive_income'] : $defaults['passive_income']);
 
             // Attach active promotional discount if an offer applies to this package
             if ($activeOffer && $activeOffer->appliesToPackage($slug)) {
@@ -253,13 +253,35 @@ class PackageService
                     foreach ($dbPackages as $dbPkg) {
                         $s = strtolower($dbPkg->slug);
                         if (isset(self::DEFAULT_PACKAGES[$s])) {
+                            $defaultActive = (float) self::DEFAULT_PACKAGES[$s]['active_income'];
+                            $defaultPassive = (float) self::DEFAULT_PACKAGES[$s]['passive_income'];
+
+                            $activeInc = ! empty($dbPkg->active_income) && (float) $dbPkg->active_income > 0
+                                ? (float) $dbPkg->active_income
+                                : $defaultActive;
+                            $passiveInc = ! empty($dbPkg->passive_income) && (float) $dbPkg->passive_income > 0
+                                ? (float) $dbPkg->passive_income
+                                : $defaultPassive;
+
+                            // Self-heal database row if active_income is missing or zero
+                            if (empty($dbPkg->active_income) || (float) $dbPkg->active_income <= 0) {
+                                try {
+                                    $dbPkg->update([
+                                        'active_income' => $defaultActive,
+                                        'passive_income' => $defaultPassive,
+                                    ]);
+                                } catch (\Throwable $e) {
+                                    // Ignore if read-only
+                                }
+                            }
+
                             $config[$s] = [
-                                'price' => (float) $dbPkg->price,
+                                'price' => (float) ($dbPkg->price > 0 ? $dbPkg->price : self::DEFAULT_PACKAGES[$s]['price']),
                                 'old_price' => $dbPkg->old_price ? (float) $dbPkg->old_price : null,
-                                'active_income' => (float) ($dbPkg->active_income ?? 0),
-                                'passive_income' => (float) ($dbPkg->passive_income ?? 0),
+                                'active_income' => $activeInc,
+                                'passive_income' => $passiveInc,
                                 'badge' => $dbPkg->badge,
-                                'name' => $dbPkg->name,
+                                'name' => $dbPkg->name ?: self::DEFAULT_PACKAGES[$s]['name'],
                                 'desc' => $dbPkg->description,
                             ];
                         }
@@ -516,4 +538,3 @@ class PackageService
         }
     }
 }
-
