@@ -222,7 +222,7 @@
                                             $canLoginAs = in_array($currentActiveRole, ['super_admin', 'admin']) && (Auth::id() !== $u->id);
                                             $isSuper = $currentActiveRole === 'super_admin';
                                         @endphp
-                                        <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: nowrap;">
+                                        <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">
                                             @if($canLoginAs)
                                                 <a href="{{ route('admin.impersonate', $u->id) }}" 
                                                    class="btn-impersonate-action"
