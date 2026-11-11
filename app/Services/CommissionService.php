@@ -207,7 +207,18 @@ class CommissionService
         $tier1User = self::findUserByAffiliateId($sponsorAffiliateId);
 
         if ($tier1User) {
-            $activeAmount = (float) $pkg['active_income'];
+            $buyerActiveIncome = (float) $pkg['active_income'];
+
+            // Cap active income to the sponsor's own active package tier:
+            // e.g. If sponsor owns Growth Package (Active: ₹840) and buyer buys Advance Package (Active: ₹1900),
+            // sponsor receives only up to Growth Package's active income: ₹840.
+            if (! empty($tier1User->active_package)) {
+                $sponsorPkg = self::getPackageInfo($tier1User->active_package);
+                $sponsorMaxActive = (float) ($sponsorPkg['active_income'] ?? $buyerActiveIncome);
+                $activeAmount = min($buyerActiveIncome, $sponsorMaxActive);
+            } else {
+                $activeAmount = $buyerActiveIncome;
+            }
 
             // If already verified/credited upon sale, credit immediately
             if ($initialStatus === 'Credited') {
@@ -267,7 +278,16 @@ class CommissionService
 
                 // Ensure Tier 2 is a distinct user and exists
                 if ($tier2User && $tier2User->id !== $tier1User->id) {
-                    $passiveAmount = (float) $pkg['passive_income'];
+                    $buyerPassiveIncome = (float) $pkg['passive_income'];
+
+                    // Cap passive income to Tier-2 sponsor's own active package tier:
+                    if (! empty($tier2User->active_package)) {
+                        $tier2Pkg = self::getPackageInfo($tier2User->active_package);
+                        $tier2MaxPassive = (float) ($tier2Pkg['passive_income'] ?? $buyerPassiveIncome);
+                        $passiveAmount = min($buyerPassiveIncome, $tier2MaxPassive);
+                    } else {
+                        $passiveAmount = $buyerPassiveIncome;
+                    }
 
                     // If already verified/credited upon sale, credit immediately
                     if ($initialStatus === 'Credited') {
@@ -352,7 +372,14 @@ class CommissionService
         // Auto-heal zero amount from package configuration if it was logged as 0
         if ($amount <= 0 && ! empty($commission->package_name)) {
             $pkgInfo = self::getPackageInfo($commission->package_name);
-            $amount = $isPassive ? (float) $pkgInfo['passive_income'] : (float) $pkgInfo['active_income'];
+            $buyerAmount = $isPassive ? (float) $pkgInfo['passive_income'] : (float) $pkgInfo['active_income'];
+            if (! empty($user->active_package)) {
+                $userPkg = self::getPackageInfo($user->active_package);
+                $userMax = $isPassive ? (float) ($userPkg['passive_income'] ?? $buyerAmount) : (float) ($userPkg['active_income'] ?? $buyerAmount);
+                $amount = min($buyerAmount, $userMax);
+            } else {
+                $amount = $buyerAmount;
+            }
             $commission->amount = $amount;
         }
 
