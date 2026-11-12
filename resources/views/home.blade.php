@@ -383,23 +383,39 @@
 
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
         
-        <div style="text-align: center; margin-bottom: 3.5rem;">
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
-                <span>✨ VISIONARY LEADERSHIP</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.8rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.8rem;">
+                    <span>✨ VISIONARY LEADERSHIP</span>
+                </div>
+                <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.5rem; color: #0f172a; line-height: 1.2;">
+                    Meet Our <span style="color: #0B4F4A;">Founder</span> &amp; <span style="color: #0A6B5C;">Co-Founder</span>
+                </h2>
+                <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0; font-weight: 500;">
+                    Dedicated to transforming digital education across India through practical mastery, high-demand skills, and sustainable career growth.
+                </p>
             </div>
-            <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
-                Meet Our <span style="color: #0B4F4A;">Founder</span> &amp; <span style="color: #0A6B5C;">Co-Founder</span>
-            </h2>
-            <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0 auto; font-weight: 500;">
-                Dedicated to transforming digital education across India through practical mastery, high-demand skills, and sustainable career growth.
-            </p>
+
+            <!-- Left / Right Slider Controls for Founders -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" id="founderScrollPrev" aria-label="Scroll Left" style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1.5px solid #cbd5e1; color: #0B4F4A; font-size: 1.2rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.2s;">
+                    ❮
+                </button>
+                <button type="button" id="founderScrollNext" aria-label="Scroll Right" style="width: 44px; height: 44px; border-radius: 50%; background: #0B4F4A; border: 1.5px solid #0B4F4A; color: #ffffff; font-size: 1.2rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(11, 79, 74, 0.25); transition: all 0.2s;">
+                    ❯
+                </button>
+            </div>
         </div>
 
-        <!-- 2 Founders Side-by-Side Grid -->
-        <div class="founders-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem;">
+        <div class="founder-swipe-hint" style="display: none; align-items: center; justify-content: center; gap: 6px; color: #0A6B5C; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;">
+            <span>👉 Swipe horizontally to view founders ➔</span>
+        </div>
+
+        <!-- Founders Horizontal Scroll Slider (Left to Right) -->
+        <div id="foundersScrollTrack" class="horizontal-scroll-slider founders-slider" style="display: flex; gap: 2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; padding: 0.5rem 0.25rem 1.8rem;">
             
-            <!-- Founder Card (Image 2) -->
-            <div class="founder-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+            <!-- Founder Card (Adarsh Pandey) -->
+            <div class="founder-card" style="flex: 0 0 calc(50% - 1rem); min-width: 320px; max-width: 560px; scroll-snap-align: start; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
                 <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
                     <img src="{{ asset('images/founder.jpg') }}" alt="Adarsh Pandey — Founder & CEO" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
                     <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
@@ -430,8 +446,8 @@
                 </div>
             </div>
 
-            <!-- Co-Founder Card (Image 1) -->
-            <div class="founder-card" style="background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
+            <!-- Co-Founder Card (Ravi Gond) -->
+            <div class="founder-card" style="flex: 0 0 calc(50% - 1rem); min-width: 320px; max-width: 560px; scroll-snap-align: start; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
                 <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
                     <img src="{{ asset('images/co-founder.jpg') }}" alt="Ravi Gond — Co-Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
                     <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
@@ -557,22 +573,38 @@
 
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
         
-        <div style="text-align: center; margin-bottom: 3.5rem;">
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
-                <span>⭐ STUDENT SUCCESS STORIES</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.8rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.8rem;">
+                    <span>⭐ STUDENT SUCCESS STORIES</span>
+                </div>
+                <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.5rem; color: #0f172a; line-height: 1.2;">
+                    Hear From Our <span style="color: #0B4F4A;">Top Achievers</span> &amp; <span style="color: #0A6B5C;">Affiliates</span>
+                </h2>
+                <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0; font-weight: 500;">
+                    Real students, real practical mastery, and real income growth. See how SkillLearner is transforming lives across India.
+                </p>
             </div>
-            <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
-                Hear From Our <span style="color: #0B4F4A;">Top Achievers</span> &amp; <span style="color: #0A6B5C;">Affiliates</span>
-            </h2>
-            <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0 auto; font-weight: 500;">
-                Real students, real practical mastery, and real income growth. See how SkillLearner is transforming lives across India.
-            </p>
+
+            <!-- Left / Right Slider Controls for Testimonials -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" id="testiScrollPrev" aria-label="Scroll Left" style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1.5px solid #cbd5e1; color: #0B4F4A; font-size: 1.2rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.2s;">
+                    ❮
+                </button>
+                <button type="button" id="testiScrollNext" aria-label="Scroll Right" style="width: 44px; height: 44px; border-radius: 50%; background: #0B4F4A; border: 1.5px solid #0B4F4A; color: #ffffff; font-size: 1.2rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(11, 79, 74, 0.25); transition: all 0.2s;">
+                    ❯
+                </button>
+            </div>
         </div>
 
-        <!-- Testimonials Cards Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <div class="testi-swipe-hint" style="display: none; align-items: center; justify-content: center; gap: 6px; color: #0A6B5C; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;">
+            <span>👉 Swipe horizontally to view reviews ➔</span>
+        </div>
+
+        <!-- Testimonials Horizontal Scroll Slider Track (Left to Right) -->
+        <div id="testimonialsScrollTrack" class="horizontal-scroll-slider testimonials-slider" style="display: flex; gap: 1.8rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; padding: 0.5rem 0.25rem 1.8rem;">
             @foreach($homeTestimonials as $t)
-                <div style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div class="testimonial-card" style="flex: 0 0 360px; max-width: 380px; scroll-snap-align: start; background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                     <div>
                         <!-- Rating Stars & Earnings Pill -->
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
@@ -875,6 +907,27 @@
         transform: scale(1.04);
     }
 
+    /* Horizontal Slider Custom Scrollbar & Smooth Tracks */
+    .horizontal-scroll-slider::-webkit-scrollbar {
+        height: 6px;
+    }
+    .horizontal-scroll-slider::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: 10px;
+    }
+    .horizontal-scroll-slider::-webkit-scrollbar-thumb {
+        background: rgba(11, 79, 74, 0.35);
+        border-radius: 10px;
+    }
+    .horizontal-scroll-slider::-webkit-scrollbar-thumb:hover {
+        background: #0B4F4A;
+    }
+    
+    #founderScrollPrev:hover, #founderScrollNext:hover,
+    #testiScrollPrev:hover, #testiScrollNext:hover {
+        transform: scale(1.08);
+    }
+
     /* FAQ Accordion Styles */
     .faq-item.active {
         border-color: rgba(12, 35, 64, 0.35) !important;
@@ -918,11 +971,20 @@
             grid-template-columns: 1fr !important;
             gap: 1rem !important;
         }
-        .founders-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-            max-width: 100% !important;
-            margin: 0 auto;
+        .founder-swipe-hint, .testi-swipe-hint {
+            display: flex !important;
+        }
+        .founders-slider .founder-card {
+            flex: 0 0 88% !important;
+            max-width: 360px !important;
+            scroll-snap-align: center !important;
+            margin: 0 !important;
+        }
+        .testimonials-slider .testimonial-card {
+            flex: 0 0 84% !important;
+            max-width: 330px !important;
+            scroll-snap-align: center !important;
+            margin: 0 !important;
         }
        
         .mentor-swipe-hint {
@@ -980,40 +1042,119 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. Flash Sale Countdown Timer
     const timerElem = document.getElementById('homeFlashTimer');
-    if (!timerElem) return;
-    const endsAttr = timerElem.getAttribute('data-ends');
-    if (!endsAttr) return;
+    if (timerElem) {
+        const endsAttr = timerElem.getAttribute('data-ends');
+        if (endsAttr) {
+            const targetDate = new Date(endsAttr).getTime();
 
-    const targetDate = new Date(endsAttr).getTime();
+            function updateTimer() {
+                const now = new Date().getTime();
+                const dist = targetDate - now;
 
-    function updateTimer() {
-        const now = new Date().getTime();
-        const dist = targetDate - now;
+                if (dist <= 0) {
+                    timerElem.innerText = 'EXPIRED';
+                    return;
+                }
 
-        if (dist <= 0) {
-            timerElem.innerText = 'EXPIRED';
-            return;
+                const days = Math.floor(dist / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((dist % (1000 * 60)) / 1000);
+
+                let str = '';
+                if (days > 0) {
+                    str += days + 'd : ';
+                }
+                str += String(hours).padStart(2, '0') + 'h : ' +
+                       String(minutes).padStart(2, '0') + 'm : ' +
+                       String(seconds).padStart(2, '0') + 's';
+
+                timerElem.innerText = str;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
         }
-
-        const days = Math.floor(dist / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((dist % (1000 * 60)) / 1000);
-
-        let str = '';
-        if (days > 0) {
-            str += days + 'd : ';
-        }
-        str += String(hours).padStart(2, '0') + 'h : ' +
-               String(minutes).padStart(2, '0') + 'm : ' +
-               String(seconds).padStart(2, '0') + 's';
-
-        timerElem.innerText = str;
     }
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    // 2. Founders Horizontal Scroll Track Controls (Left <-> Right)
+    const foundersTrack = document.getElementById('foundersScrollTrack');
+    const founderPrevBtn = document.getElementById('founderScrollPrev');
+    const founderNextBtn = document.getElementById('founderScrollNext');
+
+    if (foundersTrack && founderPrevBtn && founderNextBtn) {
+        founderPrevBtn.addEventListener('click', function() {
+            const scrollAmount = Math.max(340, Math.floor(foundersTrack.clientWidth * 0.8));
+            foundersTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        founderNextBtn.addEventListener('click', function() {
+            const scrollAmount = Math.max(340, Math.floor(foundersTrack.clientWidth * 0.8));
+            const maxScroll = foundersTrack.scrollWidth - foundersTrack.clientWidth;
+            if (foundersTrack.scrollLeft >= maxScroll - 20) {
+                foundersTrack.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                foundersTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        });
+    }
+
+    // 3. Testimonials Horizontal Scroll Track Controls + Continuous Left to Right Auto-Scroll
+    const testiTrack = document.getElementById('testimonialsScrollTrack');
+    const testiPrevBtn = document.getElementById('testiScrollPrev');
+    const testiNextBtn = document.getElementById('testiScrollNext');
+
+    if (testiTrack) {
+        if (testiPrevBtn) {
+            testiPrevBtn.addEventListener('click', function() {
+                const step = Math.max(300, Math.floor(testiTrack.clientWidth * 0.65));
+                testiTrack.scrollBy({ left: -step, behavior: 'smooth' });
+            });
+        }
+
+        if (testiNextBtn) {
+            testiNextBtn.addEventListener('click', function() {
+                const step = Math.max(300, Math.floor(testiTrack.clientWidth * 0.65));
+                const maxScroll = testiTrack.scrollWidth - testiTrack.clientWidth;
+                if (testiTrack.scrollLeft >= maxScroll - 15) {
+                    testiTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    testiTrack.scrollBy({ left: step, behavior: 'smooth' });
+                }
+            });
+        }
+
+        // Auto-Scroll Testimonials Left to Right every 4 seconds (pauses when user hovers or touches)
+        let testiAutoScrollTimer = null;
+        const advanceTestimonials = () => {
+            if (!testiTrack) return;
+            const step = Math.max(320, Math.floor(testiTrack.clientWidth * 0.5));
+            const maxScroll = testiTrack.scrollWidth - testiTrack.clientWidth;
+            if (testiTrack.scrollLeft >= maxScroll - 20) {
+                testiTrack.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                testiTrack.scrollBy({ left: step, behavior: 'smooth' });
+            }
+        };
+
+        const startAutoScroll = () => {
+            if (testiAutoScrollTimer) clearInterval(testiAutoScrollTimer);
+            testiAutoScrollTimer = setInterval(advanceTestimonials, 4200);
+        };
+
+        const stopAutoScroll = () => {
+            if (testiAutoScrollTimer) clearInterval(testiAutoScrollTimer);
+        };
+
+        startAutoScroll();
+
+        testiTrack.addEventListener('mouseenter', stopAutoScroll);
+        testiTrack.addEventListener('mouseleave', startAutoScroll);
+        testiTrack.addEventListener('touchstart', stopAutoScroll, { passive: true });
+        testiTrack.addEventListener('touchend', startAutoScroll, { passive: true });
+    }
 });
 </script>
 @endpush
