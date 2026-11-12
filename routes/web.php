@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateTrainingController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashfreePaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
@@ -1194,7 +1195,7 @@ Route::get('/buy-now', function (Request $request) {
         'currentPackage' => $currentPackage,
         'type' => $type,
     ]);
-});
+})->name('buy.now');
 
 // -------------------------------------------------------------
 // Checkout & Buy-Now Routes
@@ -1517,6 +1518,13 @@ Route::post('/process-buy-now', function (Request $request) {
 
     return redirect('/payment-status')->with('success', 'Order create ho gaya hai! Kripya payment karke UTR submit karein. Admin dwara payment verify hone ke baad hi aapki ID activate hogi aur aap login kar sakenge.');
 })->name('process.buynow');
+
+// ==========================================
+// CASHFREE PAYMENT GATEWAY INTEGRATION
+// ==========================================
+Route::post('/payment/cashfree/initiate', [CashfreePaymentController::class, 'initiatePayment'])->name('payment.cashfree.initiate');
+Route::get('/payment/cashfree/callback', [CashfreePaymentController::class, 'handleCallback'])->name('payment.cashfree.callback');
+Route::post('/payment/cashfree/webhook', [CashfreePaymentController::class, 'handleWebhook'])->name('payment.cashfree.webhook');
 
 // Submit UTR Transaction Reference
 Route::post('/submit-utr', function (Request $request) {

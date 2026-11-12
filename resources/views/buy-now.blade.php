@@ -94,7 +94,7 @@
         {{-- Border Color: Project Color #05B396                            --}}
         {{-- Image 2 (Referral row) REMOVED as requested                    --}}
         {{-- ============================================================== --}}
-        <form method="POST" action="{{ route('process.buynow') }}" id="mainCheckoutForm">
+        <form method="POST" action="{{ route('payment.cashfree.initiate') }}" id="mainCheckoutForm">
             @csrf
             {{-- Hidden input for selected package --}}
             <input type="hidden" name="package" id="hiddenPackageInput" value="{{ $selectedPackage['id'] }}">
@@ -217,15 +217,45 @@
                         Payment Method
                     </h2>
 
-                    <!-- Payment Method: Payment Link (Rounded Pill Box) -->
-                    <label 
-                        id="labelPaymentLink" 
-                        class="payment-method-box active" 
-                        onclick="setPaymentMethod('payment_link')"
-                    >
-                        <input type="radio" name="payment_method" value="payment_link" checked class="payment-radio-input">
-                        <span class="payment-radio-text">Payment Link</span>
-                    </label>
+                    <!-- Payment Methods Selection (Cashfree Instant vs Manual Transfer) -->
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem;">
+                        <!-- Method 1: Cashfree Online Payment (Instant) -->
+                        <label 
+                            id="labelCashfree" 
+                            class="payment-method-box active" 
+                            onclick="setPaymentMethod('cashfree')"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 2px solid #05B396; border-radius: 12px; background: #f0fdf9; cursor: pointer; transition: all 0.2s ease;"
+                        >
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="radio" name="payment_method" value="cashfree" checked class="payment-radio-input" style="accent-color: #05B396; width: 17px; height: 17px;">
+                                <div style="text-align: left;">
+                                    <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                                        <span>Instant Online Payment</span>
+                                        <span style="background: #05B396; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Instant</span>
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: #047857; font-weight: 600; margin-top: 2px;">
+                                        ⚡ Automatic Activation &bull; UPI (GPay, PhonePe, Paytm), Cards, NetBanking
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Method 2: Manual UPI / QR Transfer -->
+                        <label 
+                            id="labelManual" 
+                            class="payment-method-box" 
+                            onclick="setPaymentMethod('manual')"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; background: #ffffff; cursor: pointer; transition: all 0.2s ease;"
+                        >
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="radio" name="payment_method" value="manual" class="payment-radio-input" style="accent-color: #05B396; width: 17px; height: 17px;">
+                                <div style="text-align: left;">
+                                    <div style="font-weight: 700; color: #334155; font-size: 0.92rem;">Manual UPI / QR Transfer</div>
+                                    <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Pay via QR Code &amp; Submit UTR (Requires Admin Verification)</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
 
                     @php
                         $initUpg = $selectedPackage['upgrade'] ?? null;
@@ -865,11 +895,42 @@
     }
 
     function setPaymentMethod(method) {
-        const linkLabel = document.getElementById('labelPaymentLink');
-        if (linkLabel) {
-            linkLabel.classList.add('active');
-            const radio = linkLabel.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
+        const form = document.getElementById('mainCheckoutForm');
+        const labelCashfree = document.getElementById('labelCashfree');
+        const labelManual = document.getElementById('labelManual');
+
+        if (method === 'cashfree') {
+            if (form) form.action = "{{ route('payment.cashfree.initiate') }}";
+            if (labelCashfree) {
+                labelCashfree.classList.add('active');
+                labelCashfree.style.borderColor = '#05B396';
+                labelCashfree.style.background = '#f0fdf9';
+                const radio = labelCashfree.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            }
+            if (labelManual) {
+                labelManual.classList.remove('active');
+                labelManual.style.borderColor = '#cbd5e1';
+                labelManual.style.background = '#ffffff';
+                const radio = labelManual.querySelector('input[type="radio"]');
+                if (radio) radio.checked = false;
+            }
+        } else {
+            if (form) form.action = "{{ route('process.buynow') }}";
+            if (labelManual) {
+                labelManual.classList.add('active');
+                labelManual.style.borderColor = '#05B396';
+                labelManual.style.background = '#f0fdf9';
+                const radio = labelManual.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            }
+            if (labelCashfree) {
+                labelCashfree.classList.remove('active');
+                labelCashfree.style.borderColor = '#cbd5e1';
+                labelCashfree.style.background = '#ffffff';
+                const radio = labelCashfree.querySelector('input[type="radio"]');
+                if (radio) radio.checked = false;
+            }
         }
     }
 
