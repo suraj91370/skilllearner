@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'SkillLearner') }}</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=3">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}?v=3">
+        <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}?v=3">
 
         @fonts
 
