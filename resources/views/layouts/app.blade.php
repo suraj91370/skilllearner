@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'SkillLearner — Build Skill, Build Future')</title>
+
+    <!-- Favicon & Browser Tab Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=3">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon.png') }}?v=3">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}?v=3">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}?v=3">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
