@@ -8,11 +8,35 @@ use Illuminate\Support\Facades\Log;
 class CashfreeService
 {
     /**
+     * Get configured Cashfree App ID (from Setting DB or .env).
+     */
+    public static function getAppId(): string
+    {
+        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_app_id', config('cashfree.app_id', env('CASHFREE_APP_ID', ''))) : config('cashfree.app_id', env('CASHFREE_APP_ID', '')));
+    }
+
+    /**
+     * Get configured Cashfree Secret Key (from Setting DB or .env).
+     */
+    public static function getSecretKey(): string
+    {
+        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_secret_key', config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', ''))) : config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', '')));
+    }
+
+    /**
+     * Get active Cashfree Environment (sandbox or production).
+     */
+    public static function getEnv(): string
+    {
+        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_env', config('cashfree.env', env('CASHFREE_ENV', 'sandbox'))) : config('cashfree.env', env('CASHFREE_ENV', 'sandbox')));
+    }
+
+    /**
      * Get the active Cashfree API base URL based on config/env.
      */
     public static function getBaseUrl(): string
     {
-        $env = config('cashfree.env', 'sandbox');
+        $env = static::getEnv();
         $endpoints = config('cashfree.endpoints', [
             'sandbox' => 'https://sandbox.cashfree.com/pg',
             'production' => 'https://api.cashfree.com/pg',
@@ -27,8 +51,8 @@ class CashfreeService
     public static function getHeaders(): array
     {
         return [
-            'x-client-id' => (string) config('cashfree.app_id', env('CASHFREE_APP_ID', '')),
-            'x-client-secret' => (string) config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', '')),
+            'x-client-id' => static::getAppId(),
+            'x-client-secret' => static::getSecretKey(),
             'x-api-version' => (string) config('cashfree.api_version', '2023-08-01'),
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
@@ -40,10 +64,73 @@ class CashfreeService
      */
     public static function isConfigured(): bool
     {
-        $appId = config('cashfree.app_id', env('CASHFREE_APP_ID', ''));
-        $secret = config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', ''));
+        $appId = static::getAppId();
+        $secret = static::getSecretKey();
 
         return ! empty($appId) && ! empty($secret);
+    }
+
+    /**
+     * Test connection to Cashfree Payment Gateway using provided or saved credentials.
+     */
+    public static function testConnection(?string $appId = null, ?string $secret = null, ?string $env = null): array
+    {
+        $appId = $appId ?: static::getAppId();
+        $secret = $secret ?: static::getSecretKey();
+        $env = $env ?: static::getEnv();
+
+        if (empty($appId) || empty($secret)) {
+            return [
+                'success' => false,
+                'message' => 'Cashfree App ID aur Secret Key dono required hain.',
+            ];
+        }
+
+        $baseUrl = $env === 'production' ? 'https://api.cashfree.com/pg' : 'https://sandbox.cashfree.com/pg';
+        $headers = [
+            'x-client-id' => $appId,
+            'x-client-secret' => $secret,
+            'x-api-version' => '2023-08-01',
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ];
+
+        try {
+            // Ping orders endpoint with a dummy test ID
+            $response = Http::withHeaders($headers)
+                ->timeout(10)
+                ->get("{$baseUrl}/orders/skl_ping_test");
+
+            // In Cashfree API:
+            // 404 means the credentials are valid and authorized (order just wasn't found)
+            // 401 / 403 means authentication failed
+            if ($response->status() === 404 || $response->successful()) {
+                return [
+                    'success' => true,
+                    'message' => "Cashfree ({$env}) credentials valid hain aur connection successfully establish ho gaya! ✅",
+                    'status' => $response->status(),
+                ];
+            }
+
+            if ($response->status() === 401 || $response->status() === 403) {
+                return [
+                    'success' => false,
+                    'message' => "Authentication Failed (HTTP {$response->status()}): Invalid Cashfree App ID ya Secret Key.",
+                    'raw' => $response->json(),
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => "Gateway response status: {$response->status()}",
+                'raw' => $response->json(),
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'success' => false,
+                'message' => "Connection failed: {$e->getMessage()}",
+            ];
+        }
     }
 
     /**

@@ -29,6 +29,7 @@ use Illuminate\Notifications\Notifiable;
     'avatar',
     'role',
     'payment_status',
+    'is_blocked',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -53,7 +54,13 @@ class User extends Authenticatable
             'total_earning' => 'decimal:2',
             'passive_earning' => 'decimal:2',
             'industry_revenue' => 'decimal:2',
+            'is_blocked' => 'boolean',
         ];
+    }
+
+    public function userCourses()
+    {
+        return $this->hasMany(UserCourse::class);
     }
 
     public function commissions()
