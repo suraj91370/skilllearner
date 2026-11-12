@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class CashfreePaymentController extends Controller
 {
@@ -22,7 +23,7 @@ class CashfreePaymentController extends Controller
      * Initiate Cashfree Online Payment from Checkout (/buy-now).
      * Creates or prepares the student order and requests a payment_session_id from Cashfree.
      */
-    public function initiatePayment(Request $request): JsonResponse|RedirectResponse
+    public function initiatePayment(Request $request): JsonResponse|RedirectResponse|View
     {
         $authUser = Auth::user();
 
@@ -168,9 +169,8 @@ class CashfreePaymentController extends Controller
         ]);
 
         if (! $cfOrder['success']) {
-            Log::warning('Cashfree initiate order failed, redirecting to manual checkout: '.($cfOrder['error'] ?? 'Unknown'));
+            Log::warning('💳 [CASHFREE-GATEWAY] Initiate order failed: '.($cfOrder['error'] ?? 'Unknown'));
 
-            // If API credentials are not set or failed, fallback gracefully to existing payment status page
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
@@ -183,6 +183,10 @@ class CashfreePaymentController extends Controller
         }
 
         $paymentSessionId = $cfOrder['payment_session_id'];
+        $isSimulated = ! empty($cfOrder['is_simulated']);
+        session(['is_cashfree_simulated' => $isSimulated]);
+
+        Log::info("💳 [CASHFREE-GATEWAY] Checkout view rendered for Order #{$orderId} | Session: {$paymentSessionId} | Mode: ".($isSimulated ? 'TEST SIMULATOR' : 'LIVE CASHFREE'));
 
         if ($request->expectsJson()) {
             return response()->json([
@@ -190,15 +194,17 @@ class CashfreePaymentController extends Controller
                 'payment_session_id' => $paymentSessionId,
                 'order_id' => $orderId,
                 'environment' => config('cashfree.env', 'sandbox'),
+                'is_simulated' => $isSimulated,
             ]);
         }
 
-        // Render seamless Cashfree Drop Checkout page
+        // Render seamless Cashfree Drop Checkout page (with local interactive simulator when in test mode)
         return view('payment.cashfree-checkout', [
             'paymentSessionId' => $paymentSessionId,
             'orderId' => $orderId,
             'order' => $orderData,
             'environment' => config('cashfree.env', 'sandbox'),
+            'isSimulated' => $isSimulated,
         ]);
     }
 
@@ -208,29 +214,53 @@ class CashfreePaymentController extends Controller
     public function handleCallback(Request $request): RedirectResponse
     {
         $orderId = (string) $request->query('order_id', '');
+        $simStatus = (string) $request->query('sim_status', '');
 
         if (empty($orderId)) {
+            Log::warning('💳 [CASHFREE-GATEWAY] Callback received without order_id query param');
+
             return redirect('/buy-now')->with('error', 'Invalid payment return request (Order ID missing).');
         }
 
-        // Check payment status from Cashfree
+        // Handle simulation override if passed from test simulator
+        if (! empty($simStatus)) {
+            session(['simulated_order_status_'.$orderId => strtoupper($simStatus)]);
+        }
+
+        Log::info('================================================================================');
+        Log::info("💳 [CASHFREE-GATEWAY] 📥 PAYMENT RETURN CALLBACK RECEIVED for Order #{$orderId}");
+
+        // Check payment status from Cashfree or Simulator
         $orderStatusInfo = CashfreeService::getOrder($orderId);
 
         if (! $orderStatusInfo['success']) {
+            Log::error("💳 [CASHFREE-GATEWAY] Verification failed for Order #{$orderId}: ".($orderStatusInfo['error'] ?? 'Unknown error'));
+
             return redirect('/payment-status')->with('error', 'Unable to verify payment with Cashfree: '.($orderStatusInfo['error'] ?? 'Please check status.'));
         }
 
-        $status = $orderStatusInfo['order_status'] ?? 'PENDING';
+        $status = strtoupper((string) ($orderStatusInfo['order_status'] ?? 'PENDING'));
+        Log::info("💳 [CASHFREE-GATEWAY] Order status verified: '{$status}'");
 
         if ($status === 'PAID') {
+            Log::info("💳 [CASHFREE-GATEWAY] ✅ Payment Status is PAID for Order #{$orderId}! Finalizing enrollment...");
             $this->finalizePaidOrder($orderId, $orderStatusInfo);
 
             return redirect('/payment-status')->with('success', '🎉 Many Congratulations! Aapka payment Cashfree dwara successfully verify ho gaya hai. Aapka account active ho chuka hai!');
         }
 
         if (in_array($status, ['FAILED', 'CANCELLED', 'USER_DROPPED'])) {
+            Log::warning("💳 [CASHFREE-GATEWAY] ❌ Payment {$status} for Order #{$orderId}");
+
+            // Update session order status to Failed so payment status page displays retry
+            $order = session('last_order', []);
+            $order['status'] = 'Failed';
+            session(['last_order' => $order]);
+
             return redirect('/payment-status')->with('error', "Payment status: {$status}. Kripya dobara payment karein ya UPI transfer karein.");
         }
+
+        Log::info("💳 [CASHFREE-GATEWAY] ⏳ Payment status pending: {$status}");
 
         return redirect('/payment-status')->with('info', "Payment processing me hai (Status: {$status}). Kuch pal baad page refresh karein.");
     }
@@ -294,6 +324,9 @@ class CashfreePaymentController extends Controller
 
         $packageName = $sessionOrder['package_name'] ?? $user->active_package;
 
+        Log::info("💳 [CASHFREE-GATEWAY] 👤 Activating User: #{$user->id} - {$user->name} ({$user->email})");
+        Log::info("💳 [CASHFREE-GATEWAY] 📦 Setting Active Package: {$packageName}");
+
         // 1. Activate user account
         $user->update([
             'payment_status' => 'paid',
@@ -310,9 +343,11 @@ class CashfreePaymentController extends Controller
                 'progress_percent' => 0,
             ]);
         }
+        Log::info("💳 [CASHFREE-GATEWAY] 🔓 Unlocked " . count($courses) . " courses for User #{$user->id}");
 
         // 3. Distribute 2-Tier commissions in Credited status immediately
         $sponsorId = $user->sponsor_id ?? 'SL-ADMIN';
+        Log::info("💳 [CASHFREE-GATEWAY] 💰 Processing 2-Tier commissions for Sponsor: {$sponsorId}");
         CommissionService::processSale(
             $packageName,
             $user->name,
@@ -320,10 +355,12 @@ class CashfreePaymentController extends Controller
             $user,
             initialStatus: 'Credited'
         );
+        Log::info("💳 [CASHFREE-GATEWAY] ✅ Commissions successfully calculated and credited to sponsor wallet!");
 
         // 4. Send branded welcome email notification
         try {
             EmailNotificationService::sendAccountCreated($user, $packageName);
+            Log::info("💳 [CASHFREE-GATEWAY] 📧 Welcome email sent to {$user->email}");
         } catch (\Throwable $e) {
             Log::warning('Email dispatch failed after Cashfree payment: '.$e->getMessage());
         }

@@ -1546,7 +1546,7 @@ Route::post('/submit-utr', function (Request $request) {
 Route::get('/payment-status', function (Request $request) {
     $order = session('last_order');
 
-    if ($order && ! empty($order['user_email'])) {
+    if ($order && ! empty($order['user_email']) && ($order['payment_method'] ?? '') !== 'cashfree') {
         $buyer = User::where('email', $order['user_email'])->first();
         if ($buyer && $buyer->payment_status === 'paid') {
             $order['status'] = 'Credited';
@@ -1554,7 +1554,7 @@ Route::get('/payment-status', function (Request $request) {
         }
     }
 
-    if (Auth::check()) {
+    if (Auth::check() && ($order['payment_method'] ?? '') !== 'cashfree') {
         $user = Auth::user();
 
         // Check if admin has verified any commission for this student
@@ -1563,7 +1563,7 @@ Route::get('/payment-status', function (Request $request) {
             ->latest()
             ->first();
 
-        if ($creditedComm && session()->has('last_order')) {
+        if ($creditedComm && session()->has('last_order') && ($order['status'] ?? '') !== 'Failed') {
             $order = session('last_order');
             $order['status'] = 'Credited';
             session(['last_order' => $order]);

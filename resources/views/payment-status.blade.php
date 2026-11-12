@@ -71,8 +71,22 @@
 
         @else
             {{-- ========================================================= --}}
-            {{-- STATE A: PAYMENT PENDING VERIFICATION                     --}}
+            {{-- STATE A: PAYMENT PENDING VERIFICATION OR FAILED RETRY    --}}
             {{-- ========================================================= --}}
+            @if(($order['status'] ?? '') === 'Failed' || session('error'))
+                <div style="background: rgba(239, 68, 68, 0.15); border: 1.5px solid #ef4444; border-radius: 12px; padding: 1.1rem 1.3rem; margin-bottom: 1.6rem; text-align: center;">
+                    <div style="font-weight: 800; color: #f87171; font-size: 1.05rem; margin-bottom: 4px;">
+                        ⚠️ {{ session('error') ?: 'Payment could not be completed.' }}
+                    </div>
+                    <div style="color: #fca5a5; font-size: 0.88rem; margin-bottom: 12px;">
+                        Aap dobara online payment try kar sakte hain ya neeche diye gaye QR code se manual transfer kar sakte hain.
+                    </div>
+                    <a href="{{ url('/buy-now') }}" style="display: inline-block; background: #ef4444; color: #fff; font-weight: 800; font-size: 0.88rem; padding: 9px 20px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);">
+                        🔄 Retry Payment Now
+                    </a>
+                </div>
+            @endif
+
             <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); border: 2px solid #f59e0b; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; font-size: 2.5rem; animation: pulse 2s infinite ease-in-out;">
                 ⏳
             </div>
