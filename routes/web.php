@@ -17,6 +17,7 @@ use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\VideoController;
@@ -1046,6 +1047,17 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/mentors/{mentor}/kyc', [MentorController::class, 'updateKyc'])->name('admin.mentors.kyc');
     Route::post('/mentors/{mentor}/payouts', [MentorController::class, 'createPayout'])->name('admin.mentors.payouts.store');
     Route::post('/mentors/payouts/{payout}/process', [MentorController::class, 'processPayout'])->name('admin.mentors.payouts.process');
+
+    // Reports & Analytics Hub (Revenue, Top Courses, Mentors, Users Growth, CSV/Excel/PDF Exports)
+    Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports.index');
+    Route::get('/reports/revenue', [ReportController::class, 'revenue'])->name('admin.reports.revenue');
+    Route::get('/reports/courses', [ReportController::class, 'courses'])->name('admin.reports.courses');
+    Route::get('/reports/mentors', [ReportController::class, 'mentors'])->name('admin.reports.mentors');
+    Route::get('/reports/users', [ReportController::class, 'users'])->name('admin.reports.users');
+    Route::get('/reports/export/csv', [ReportController::class, 'exportCsv'])->name('admin.reports.export.csv');
+    Route::get('/reports/export/excel', [ReportController::class, 'exportExcel'])->name('admin.reports.export.excel');
+    Route::get('/reports/export/pdf', [ReportController::class, 'printable'])->name('admin.reports.export.pdf');
+    Route::get('/reports/printable', [ReportController::class, 'printable'])->name('admin.reports.printable');
 });
 
 // Super Admin Only System Settings & Video Management

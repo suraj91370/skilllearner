@@ -77,6 +77,10 @@
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
                 <span>Orders</span>
             </a>
+            <a href="{{ route('admin.reports.index') }}" class="m-portal-tab {{ str_starts_with($currentActive, 'admin-reports') ? 'active' : '' }}" style="{{ str_starts_with($currentActive, 'admin-reports') ? '' : 'border: 1.5px solid #0284c7; color: #0284c7; background: #f0f9ff;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Reports</span>
+            </a>
             @if ($isSuperAdmin)
                 <a href="{{ url('/admin/payment-gateway') }}" class="m-portal-tab {{ $currentActive === 'admin-payment-gateway' ? 'active' : '' }}" style="{{ $currentActive === 'admin-payment-gateway' ? '' : 'border: 1.5px solid #10b981; color: #10b981; background: #ecfdf5;' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
