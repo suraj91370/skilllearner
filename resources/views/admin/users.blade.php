@@ -18,10 +18,10 @@
             <div class="portal-greeting-row" style="margin-bottom: 1.5rem;">
                 <div>
                     <h2 class="welcome-heading" style="font-size: 1.6rem; margin-bottom: 0.25rem;">
-                        👥 User Management &amp; Role Control
+                        👥 User Management &amp; Access Control
                     </h2>
                     <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
-                        Manage all platform accounts, inspect affiliate details, and control permission levels.
+                        Inspect user profiles, manage course enrollments, track learning progress, block/unblock accounts, and reset credentials.
                     </p>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             @endif
 
             <!-- Role Stat Summary Cards -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-bottom: 1.8rem;">
                 <!-- Total Users -->
                 <div class="admin-stat-card">
                     <div class="admin-stat-label">TOTAL PLATFORM USERS</div>
@@ -51,25 +51,39 @@
                 <div class="admin-stat-card" style="border-top: 3px solid #7c3aed;">
                     <div class="admin-stat-label" style="color: #7c3aed;">👑 SUPER ADMINS</div>
                     <div class="admin-stat-val" style="color: #7c3aed;">{{ $counts['super_admin'] }}</div>
-                    <div class="admin-stat-sub">Full system master access</div>
+                    <div class="admin-stat-sub">Master system access</div>
                 </div>
 
                 <!-- Operations Admins -->
                 <div class="admin-stat-card" style="border-top: 3px solid #0284c7;">
-                    <div class="admin-stat-label" style="color: #0284c7;">🛡️ OPERATIONS ADMINS</div>
+                    <div class="admin-stat-label" style="color: #0284c7;">🛡️ ADMINS</div>
                     <div class="admin-stat-val" style="color: #0284c7;">{{ $counts['admin'] }}</div>
                     <div class="admin-stat-sub">KYC &amp; payout managers</div>
                 </div>
 
                 <!-- Students & Affiliates -->
                 <div class="admin-stat-card" style="border-top: 3px solid #05B396;">
-                    <div class="admin-stat-label" style="color: #05B396;">🎓 STUDENTS / USERS</div>
+                    <div class="admin-stat-label" style="color: #05B396;">🎓 STUDENTS</div>
                     <div class="admin-stat-val" style="color: #05B396;">{{ $counts['user'] }}</div>
                     <div class="admin-stat-sub">Active course learners</div>
                 </div>
+
+                <!-- Blocked Accounts -->
+                <div class="admin-stat-card" style="border-top: 3px solid #ef4444;">
+                    <div class="admin-stat-label" style="color: #ef4444;">🔴 BLOCKED ACCOUNTS</div>
+                    <div class="admin-stat-val" style="color: #ef4444;">{{ $counts['blocked'] }}</div>
+                    <div class="admin-stat-sub">Login access restricted</div>
+                </div>
+
+                <!-- Pending Payment -->
+                <div class="admin-stat-card" style="border-top: 3px solid #f59e0b;">
+                    <div class="admin-stat-label" style="color: #f59e0b;">⏳ PENDING VERIFY</div>
+                    <div class="admin-stat-val" style="color: #f59e0b;">{{ $counts['pending'] }}</div>
+                    <div class="admin-stat-sub">Awaiting verification</div>
+                </div>
             </div>
 
-            <!-- Search Bar & Role Filter Pills -->
+            <!-- Search Bar & Filter Pills -->
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; margin-bottom: 1.5rem;">
                 <form method="GET" action="{{ url('/admin/users') }}" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
                     <!-- Filter Pills -->
@@ -86,6 +100,15 @@
                         <a href="{{ url('/admin/users?role=user') }}" class="admin-filter-pill {{ $currentFilter === 'user' ? 'active' : '' }}">
                             🎓 Users ({{ $counts['user'] }})
                         </a>
+                        <a href="{{ url('/admin/users?status=active') }}" class="admin-filter-pill {{ $currentFilter === 'active' ? 'active' : '' }}">
+                            🟢 Active
+                        </a>
+                        <a href="{{ url('/admin/users?status=blocked') }}" class="admin-filter-pill {{ $currentFilter === 'blocked' ? 'active' : '' }}">
+                            🔴 Blocked ({{ $counts['blocked'] }})
+                        </a>
+                        <a href="{{ url('/admin/users?status=pending') }}" class="admin-filter-pill {{ $currentFilter === 'pending' ? 'active' : '' }}">
+                            ⏳ Pending ({{ $counts['pending'] }})
+                        </a>
                     </div>
 
                     <!-- Search Input -->
@@ -98,7 +121,7 @@
 
             <!-- Users Data Table Card -->
             <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 18px; box-shadow: 0 4px 20px rgba(5, 179, 150, 0.04); overflow: hidden;">
-                <div style="padding: 1.2rem 1.6rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                <div style="padding: 1.2rem 1.6rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0;">
                         Registered Accounts ({{ count($users) }})
                     </h3>
@@ -111,25 +134,33 @@
                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
                         <thead>
                             <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; color: #475569; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">
-                                <th style="padding: 0.85rem 1.4rem;">User</th>
-                                <th style="padding: 0.85rem 1rem;">Role</th>
-                                <th style="padding: 0.85rem 1rem;">Package</th>
-                                <th style="padding: 0.85rem 1rem;">Wallet Balance</th>
-                                <th style="padding: 0.85rem 1rem;">Industry Revenue</th>
-                                <th style="padding: 0.85rem 1rem;">KYC Status</th>
-                                <th style="padding: 0.85rem 1rem;">Payment / ID</th>
-                                <th style="padding: 0.85rem 1.4rem; text-align: right;">Action</th>
+                                <th style="padding: 0.85rem 1.2rem;">User</th>
+                                <th style="padding: 0.85rem 0.8rem;">Role</th>
+                                <th style="padding: 0.85rem 0.8rem;">Status</th>
+                                <th style="padding: 0.85rem 0.8rem;">Package &amp; Courses</th>
+                                <th style="padding: 0.85rem 0.8rem;">Wallet / Earned</th>
+                                <th style="padding: 0.85rem 0.8rem;">Industry Rev</th>
+                                <th style="padding: 0.85rem 0.8rem;">KYC</th>
+                                <th style="padding: 0.85rem 1.2rem; text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($users as $u)
-                                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='#ffffff'">
+                                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease; {{ $u->is_blocked ? 'background: #fff5f5;' : '' }}" onmouseover="this.style.background='{{ $u->is_blocked ? '#fee2e2' : '#f0fdfa' }}'" onmouseout="this.style.background='{{ $u->is_blocked ? '#fff5f5' : '#ffffff' }}'">
+                                    
                                     <!-- User Info -->
-                                    <td style="padding: 0.95rem 1.4rem;">
+                                    <td style="padding: 0.95rem 1.2rem;">
                                         <div style="display: flex; align-items: center; gap: 10px;">
-                                            <img src="{{ $u->avatar ?? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80' }}" alt="{{ $u->name }}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #05B396;">
+                                            <img src="{{ $u->avatar ?? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80' }}" alt="{{ $u->name }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid {{ $u->is_blocked ? '#ef4444' : '#05B396' }};">
                                             <div>
-                                                <div style="font-weight: 800; color: #0f172a; font-size: 0.92rem;">{{ $u->name }}</div>
+                                                <div style="display: flex; align-items: center; gap: 6px;">
+                                                    <a href="{{ route('admin.users.show', $u->id) }}" style="font-weight: 800; color: #0f172a; font-size: 0.92rem; text-decoration: none;" onmouseover="this.style.color='#05B396'" onmouseout="this.style.color='#0f172a'">
+                                                        {{ $u->name }}
+                                                    </a>
+                                                    @if($u->is_blocked)
+                                                        <span style="background: #dc2626; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;">Blocked</span>
+                                                    @endif
+                                                </div>
                                                 <div style="font-size: 0.78rem; color: #64748b;">{{ $u->email }}</div>
                                                 <div style="font-size: 0.72rem; color: #05B396; font-weight: 700;">ID: {{ $u->affiliate_id ?? 'N/A' }}</div>
                                             </div>
@@ -137,7 +168,7 @@
                                     </td>
 
                                     <!-- Role Badge -->
-                                    <td style="padding: 0.95rem 1rem;">
+                                    <td style="padding: 0.95rem 0.8rem;">
                                         @if($u->role === 'super_admin')
                                             <span style="background: rgba(124, 58, 237, 0.12); color: #7c3aed; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(124, 58, 237, 0.3); display: inline-flex; align-items: center; gap: 4px;">
                                                 👑 Super Admin
@@ -153,112 +184,163 @@
                                         @endif
                                     </td>
 
-                                    <!-- Active Package -->
-                                    <td style="padding: 0.95rem 1rem;">
-                                        <span style="font-weight: 700; color: #334155;">{{ $u->active_package ?? 'Advance Package' }}</span>
+                                    <!-- Status (Account & Payment) -->
+                                    <td style="padding: 0.95rem 0.8rem;">
+                                        <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+                                            @if($u->is_blocked)
+                                                <span style="background: #fef2f2; color: #dc2626; font-weight: 800; font-size: 0.72rem; padding: 2px 7px; border-radius: 6px; border: 1px solid #fecaca;">
+                                                    🔒 Blocked
+                                                </span>
+                                            @else
+                                                <span style="background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.72rem; padding: 2px 7px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                                                    🟢 Active
+                                                </span>
+                                            @endif
+
+                                            @if(($u->payment_status ?? 'paid') === 'pending')
+                                                <span style="background: #fffbeb; color: #b45309; font-weight: 700; font-size: 0.72rem; padding: 2px 7px; border-radius: 6px; border: 1px solid #fde68a;">
+                                                    ⏳ Pending Pay
+                                                </span>
+                                            @else
+                                                <span style="background: #f0fdf4; color: #059669; font-weight: 700; font-size: 0.72rem; padding: 2px 7px; border-radius: 6px;">
+                                                    ✔ Paid
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
+
+                                    <!-- Active Package & Enrolled Courses -->
+                                    <td style="padding: 0.95rem 0.8rem;">
+                                        <div style="font-weight: 700; color: #334155; font-size: 0.88rem;">{{ $u->active_package ?? 'Advance Package' }}</div>
+                                        <div style="margin-top: 3px;">
+                                            <a href="{{ route('admin.users.show', $u->id) }}" style="display: inline-flex; align-items: center; gap: 4px; background: #f0fdfa; border: 1px solid #a7f3d0; color: #05B396; font-size: 0.74rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; text-decoration: none;">
+                                                <span>🎓 {{ $u->user_courses_count ?? 0 }} Courses</span>
+                                            </a>
+                                        </div>
                                     </td>
 
                                     <!-- Wallet Balance -->
-                                    <td style="padding: 0.95rem 1rem;">
-                                        <div style="font-weight: 800; color: #0f172a;">₹{{ number_format($u->wallet_balance, 2) }}</div>
-                                        <div style="font-size: 0.75rem; color: #64748b;">Earned: ₹{{ number_format($u->total_earning, 2) }}</div>
+                                    <td style="padding: 0.95rem 0.8rem;">
+                                        <div style="font-weight: 800; color: #0f172a;">₹{{ number_format((float) $u->wallet_balance, 2) }}</div>
+                                        <div style="font-size: 0.75rem; color: #64748b;">Earned: ₹{{ number_format((float) $u->total_earning, 2) }}</div>
                                     </td>
 
                                     <!-- Industry Revenue (Admin Editable) -->
-                                    <td style="padding: 0.95rem 1rem;">
-                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                    <td style="padding: 0.95rem 0.8rem;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
                                             <div>
-                                                <div style="font-weight: 800; color: #05B396; font-size: 0.92rem;">
+                                                <div style="font-weight: 800; color: #0284c7; font-size: 0.88rem;">
                                                     ₹{{ number_format((float) ($u->industry_revenue ?? 0), 2) }}
-                                                </div>
-                                                <div style="font-size: 0.72rem; color: #64748b;">
-                                                    {{ ($u->industry_revenue ?? 0) > 0 ? 'Custom set' : 'Default (₹0)' }}
                                                 </div>
                                             </div>
                                             <button type="button" 
                                                     onclick="openEditIndustryRevenueModal('{{ $u->id }}', '{{ addslashes($u->name) }}', '{{ (float) ($u->industry_revenue ?? 0) }}')"
                                                     title="Change Industry Revenue" 
-                                                    style="background: #f0fdfa; border: 1px solid #05B396; color: #05B396; border-radius: 6px; padding: 4px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; transition: all 0.15s ease;">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                                <span>Edit</span>
+                                                    style="background: #f8fafc; border: 1px solid #cbd5e1; color: #64748b; border-radius: 4px; padding: 3px 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer;">
+                                                Edit
                                             </button>
                                         </div>
                                     </td>
 
                                     <!-- KYC Status -->
-                                    <td style="padding: 0.95rem 1rem;">
+                                    <td style="padding: 0.95rem 0.8rem;">
                                         @if(str_contains(strtolower($u->kyc_status ?? ''), 'verified'))
-                                            <span style="background: #f0fdf4; color: #166534; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Verified ✅</span>
+                                            <span style="background: #f0fdf4; color: #166534; font-weight: 700; font-size: 0.74rem; padding: 3px 8px; border-radius: 6px;">Verified ✅</span>
                                         @else
-                                            <span style="background: #fffbeb; color: #b45309; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px;">Pending ⏳</span>
+                                            <span style="background: #fffbeb; color: #b45309; font-weight: 700; font-size: 0.74rem; padding: 3px 8px; border-radius: 6px;">Pending ⏳</span>
                                         @endif
                                     </td>
 
-                                    <!-- Payment / ID Status -->
-                                    <td style="padding: 0.95rem 1rem;">
-                                        @if(($u->payment_status ?? 'paid') === 'pending')
-                                            <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
-                                                <span style="background: #fef3c7; color: #92400e; font-weight: 800; font-size: 0.72rem; padding: 3px 8px; border-radius: 6px; border: 1px solid #fde68a; display: inline-flex; align-items: center; gap: 4px;">
-                                                    ⏳ Pending Payment
-                                                </span>
-                                                <form method="POST" action="{{ url('/admin/users/'.$u->id.'/toggle-payment') }}" style="margin: 0;">
-                                                    @csrf
-                                                    <button type="submit" onclick="return confirm('Kya aap {{ $u->name }} ka payment approve karke ID activate karna chahte hain? Iske baad user login kar sakega.');" style="background: #05B396; color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(5,179,150,0.3);">
-                                                        <span>✔ Approve ID</span>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        @else
-                                            <span style="background: #f0fdf4; color: #166534; font-weight: 700; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">
-                                                ✔ Paid &amp; Active
-                                            </span>
-                                        @endif
-                                    </td>
-
-                                    <!-- Action / Change Role (Super Admin can change role & Login As) -->
-                                    <td style="padding: 0.95rem 1.4rem; text-align: right;">
+                                    <!-- Action Buttons -->
+                                    <td style="padding: 0.95rem 1.2rem; text-align: right;">
                                         @php
                                             $currentActiveRole = Auth::user()?->role ?? session('user.role', 'user');
                                             $canLoginAs = in_array($currentActiveRole, ['super_admin', 'admin']) && (Auth::id() !== $u->id);
                                             $isSuper = $currentActiveRole === 'super_admin';
                                         @endphp
                                         <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">
+                                            
+                                            <!-- 1. View Profile, Courses & Progress -->
+                                            <a href="{{ route('admin.users.show', $u->id) }}" 
+                                               class="btn-action-pill"
+                                               style="background: #f0fdfa; border: 1.5px solid #05B396; color: #05B396;"
+                                               title="View full profile, course enrollments & certificates">
+                                                <span>👁️ View</span>
+                                            </a>
+
+                                            <!-- 2. Verify Account (if pending) -->
+                                            @if(($u->payment_status ?? 'paid') === 'pending')
+                                                <form method="POST" action="{{ route('admin.users.verify-account', $u->id) }}" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" 
+                                                            onclick="return confirm('Kya aap {{ $u->name }} ka account verify karke activate karna chahte hain?');" 
+                                                            class="btn-action-pill"
+                                                            style="background: #05B396; color: #ffffff; border: none;"
+                                                            title="Approve payment & activate ID">
+                                                        <span>✔ Verify</span>
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            <!-- 3. Reset Password -->
+                                            <button type="button" 
+                                                    onclick="openPasswordResetModal('{{ $u->id }}', '{{ addslashes($u->name) }}')" 
+                                                    class="btn-action-pill"
+                                                    style="background: #f8fafc; border: 1px solid #cbd5e1; color: #334155;"
+                                                    title="Reset user password">
+                                                <span>🔑 Pwd</span>
+                                            </button>
+
+                                            <!-- 4. Block / Unblock Account -->
+                                            @if(Auth::id() !== $u->id)
+                                                <form method="POST" action="{{ route('admin.users.toggle-block', $u->id) }}" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" 
+                                                            onclick="return confirm('Kya aap {{ $u->name }} ko {{ $u->is_blocked ? 'UNBLOCK' : 'BLOCK' }} karna chahte hain?');" 
+                                                            class="btn-action-pill"
+                                                            style="background: {{ $u->is_blocked ? '#ecfdf5' : '#fef2f2' }}; border: 1px solid {{ $u->is_blocked ? '#a7f3d0' : '#fecaca' }}; color: {{ $u->is_blocked ? '#059669' : '#dc2626' }};"
+                                                            title="{{ $u->is_blocked ? 'Unblock user' : 'Block user from logging in' }}">
+                                                        <span>{{ $u->is_blocked ? '🔓 Unblock' : '🔒 Block' }}</span>
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            <!-- 5. Login As (Impersonate) -->
                                             @if($canLoginAs)
                                                 <a href="{{ route('admin.impersonate', $u->id) }}" 
                                                    class="btn-impersonate-action"
-                                                   onclick="return confirm('Kya aap {{ $u->name }} ({{ strtoupper($u->role ?? 'User') }}) ke account me login karna chahte hain?');"
+                                                   onclick="return confirm('Kya aap {{ $u->name }} ke account me login karna chahte hain?');"
                                                    title="Login directly as {{ $u->name }}">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                                                     <span>Login As</span>
                                                 </a>
                                             @endif
 
+                                            <!-- 6. Role Selector (Super Admin) -->
                                             @if($isSuper)
                                                 <form method="POST" action="{{ url('/admin/users/'.$u->id.'/role') }}" style="display: inline-flex; align-items: center; margin: 0;">
                                                     @csrf
-                                                    <select name="role" style="font-size: 0.78rem; font-weight: 600; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none; cursor: pointer;" onchange="this.form.submit()">
+                                                    <select name="role" style="font-size: 0.74rem; font-weight: 600; padding: 4px 6px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; outline: none; cursor: pointer;" onchange="this.form.submit()">
                                                         <option value="super_admin" {{ $u->role === 'super_admin' ? 'selected' : '' }}>👑 Super Admin</option>
                                                         <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>🛡️ Admin</option>
                                                         <option value="user" {{ in_array($u->role, ['user', 'affiliate', 'student']) ? 'selected' : '' }}>👤 User</option>
                                                     </select>
                                                 </form>
 
+                                                <!-- 7. Hard Delete -->
                                                 @if(Auth::id() !== $u->id)
                                                     <form method="POST" action="{{ route('admin.users.delete', $u->id) }}" style="display: inline-flex; align-items: center; margin: 0;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" 
-                                                                onclick="return confirm('⚠️ DANGER: Kya aap sach me user \'{{ addslashes($u->name) }}\' (ID: {{ $u->affiliate_id ?? $u->id }}) aur iska SARA DATA (Commissions, Payouts, KYC, Courses) permanently HARD DELETE karna chahte hain? Yeh action revert nahi kiya ja sakta!');"
-                                                                title="Permanently hard delete user & all related records"
+                                                                onclick="return confirm('⚠️ DANGER: Kya aap sach me user \'{{ addslashes($u->name) }}\' (ID: {{ $u->affiliate_id ?? $u->id }}) aur iska SARA DATA permanently HARD DELETE karna chahte hain?');"
+                                                                title="Permanently hard delete user"
                                                                 class="btn-delete-user-action">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                                             <span>Delete</span>
                                                         </button>
                                                     </form>
                                                 @endif
-                                            @else
-                                                <span style="font-size: 0.78rem; color: #94a3b8; font-style: italic;">Super Admin Only</span>
                                             @endif
+
                                         </div>
                                     </td>
                                 </tr>
@@ -271,6 +353,42 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Reset Password Modal -->
+            <div id="passwordResetModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); z-index: 9999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1rem;">
+                <div style="background: #ffffff; border-radius: 18px; max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 1.5px solid #cbd5e1; overflow: hidden;">
+                    <div style="background: #0f172a; padding: 1.2rem 1.4rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.2rem;">🔑</span>
+                            <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Reset User Password</h3>
+                        </div>
+                        <button type="button" onclick="closePasswordResetModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">&times;</button>
+                    </div>
+
+                    <form id="passwordResetForm" method="POST" action="" style="padding: 1.4rem;">
+                        @csrf
+                        <p style="font-size: 0.88rem; color: #475569; margin: 0 0 1rem; line-height: 1.5;">
+                            Enter a new password for <strong id="resetModalUserName"></strong>. User will immediately be able to log in with this new password.
+                        </p>
+
+                        <div style="margin-bottom: 1.2rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; text-transform: uppercase;">
+                                New Password
+                            </label>
+                            <input type="text" name="password" id="newPasswordInput" required minlength="6" placeholder="Enter at least 6 characters" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-weight: 600; outline: none;">
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" onclick="closePasswordResetModal()" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.86rem;">
+                                Cancel
+                            </button>
+                            <button type="submit" style="background: #05B396; color: #ffffff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.86rem;">
+                                Save Password
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -330,6 +448,26 @@
 </div>
 
 <script>
+    function openPasswordResetModal(userId, userName) {
+        const modal = document.getElementById('passwordResetModal');
+        const form = document.getElementById('passwordResetForm');
+        const nameSpan = document.getElementById('resetModalUserName');
+        const input = document.getElementById('newPasswordInput');
+
+        if (nameSpan) nameSpan.innerText = userName;
+        if (form) form.action = "/admin/users/" + userId + "/reset-password";
+        if (input) input.value = "Skill@" + Math.floor(1000 + Math.random() * 9000);
+
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closePasswordResetModal() {
+        const modal = document.getElementById('passwordResetModal');
+        if (modal) modal.style.display = 'none';
+    }
+
     function openEditIndustryRevenueModal(userId, userName, currentAmount) {
         const modal = document.getElementById('industryRevenueModal');
         const form = document.getElementById('industryRevenueForm');
@@ -399,26 +537,42 @@
         background: #05B396;
         color: #ffffff;
     }
+    .btn-action-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        padding: 4px 9px;
+        border-radius: 6px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+    }
+    .btn-action-pill:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
     .btn-impersonate-action {
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        background: #05B396;
+        background: #0284c7;
         color: #ffffff;
-        font-size: 0.76rem;
+        font-size: 0.74rem;
         font-weight: 700;
-        padding: 5px 11px;
+        padding: 4px 9px;
         border-radius: 6px;
         text-decoration: none;
-        box-shadow: 0 1px 4px rgba(5, 179, 150, 0.25);
+        box-shadow: 0 1px 4px rgba(2, 132, 199, 0.25);
         transition: all 0.2s ease;
         white-space: nowrap;
     }
     .btn-impersonate-action:hover {
-        background: #048873;
+        background: #0369a1;
         color: #ffffff;
         transform: translateY(-1px);
-        box-shadow: 0 3px 8px rgba(5, 179, 150, 0.35);
     }
     .btn-delete-user-action {
         display: inline-flex;
@@ -429,7 +583,7 @@
         border: 1px solid #fecaca;
         font-size: 0.74rem;
         font-weight: 700;
-        padding: 5px 10px;
+        padding: 4px 8px;
         border-radius: 6px;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -440,7 +594,6 @@
         color: #ffffff;
         border-color: #dc2626;
         transform: translateY(-1px);
-        box-shadow: 0 3px 8px rgba(220, 38, 38, 0.3);
     }
 </style>
 @endpush

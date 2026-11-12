@@ -19,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 use Throwable;
@@ -161,15 +162,26 @@ class AdminController extends Controller
         PortalDataService::ensureUserSession();
 
         $roleFilter = $request->query('role');
+        $statusFilter = $request->query('status');
         $search = trim((string) $request->query('search', ''));
 
-        $query = User::query()->latest();
+        $query = User::query()->withCount('userCourses')->latest();
 
         if ($roleFilter && in_array($roleFilter, ['super_admin', 'admin', 'user'])) {
             if ($roleFilter === 'user') {
                 $query->whereIn('role', ['user', 'affiliate', 'student']);
             } else {
                 $query->where('role', $roleFilter);
+            }
+        }
+
+        if ($statusFilter) {
+            if ($statusFilter === 'blocked') {
+                $query->where('is_blocked', true);
+            } elseif ($statusFilter === 'pending') {
+                $query->where('payment_status', 'pending');
+            } elseif ($statusFilter === 'active') {
+                $query->where('is_blocked', false)->where('payment_status', 'paid');
             }
         }
 
@@ -189,15 +201,246 @@ class AdminController extends Controller
             'super_admin' => User::where('role', 'super_admin')->count(),
             'admin' => User::where('role', 'admin')->count(),
             'user' => User::whereIn('role', ['user', 'affiliate', 'student'])->count(),
+            'blocked' => User::where('is_blocked', true)->count(),
+            'pending' => User::where('payment_status', 'pending')->count(),
         ];
 
         return view('admin.users', [
             'users' => $users,
             'counts' => $counts,
-            'currentFilter' => $roleFilter ?? 'all',
+            'currentFilter' => $roleFilter ?? ($statusFilter ?? 'all'),
             'search' => $search,
             'active' => 'admin-users',
         ]);
+    }
+
+    /**
+     * Show full profile, course progress, certificates, and financials for a specific user.
+     */
+    public function showUser(Request $request, User $user): View|JsonResponse
+    {
+        PortalDataService::ensureUserSession();
+
+        $user->loadMissing(['commissions', 'payouts', 'kyc']);
+
+        $allCourses = Course::where('is_visible', true)->get();
+        $userCourses = UserCourse::where('user_id', $user->id)->get()->keyBy('course_id');
+        $sponsor = User::where('affiliate_id', $user->sponsor_id)
+            ->orWhere('email', $user->sponsor_id)
+            ->first();
+
+        // Count completed certificates (courses with progress = 100%)
+        $completedCoursesCount = $userCourses->where('progress_percent', '>=', 100)->count();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'user' => $user,
+                'sponsor' => $sponsor,
+                'courses' => $allCourses->map(function ($c) use ($userCourses) {
+                    $uc = $userCourses->get($c->id);
+
+                    return [
+                        'id' => $c->id,
+                        'title' => $c->title,
+                        'package' => $c->package,
+                        'is_enrolled' => ! empty($uc),
+                        'progress_percent' => $uc?->progress_percent ?? 0,
+                        'completed_at' => $uc?->completed_at?->format('d M, Y H:i'),
+                        'certificate_id' => ! empty($uc) && $uc->progress_percent >= 100 ? 'SL-CERT-'.(1000 + $c->id).'-'.$uc->user_id : null,
+                    ];
+                }),
+                'completed_count' => $completedCoursesCount,
+            ]);
+        }
+
+        return view('admin.user-detail', [
+            'user' => $user,
+            'sponsor' => $sponsor,
+            'allCourses' => $allCourses,
+            'userCourses' => $userCourses,
+            'completedCoursesCount' => $completedCoursesCount,
+            'active' => 'admin-users',
+        ]);
+    }
+
+    /**
+     * Toggle Block / Unblock user account (Super Admin / Admin).
+     */
+    public function toggleUserBlock(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can block or unblock accounts.');
+        }
+
+        if ($user->id === $currentUser?->id) {
+            return back()->with('error', 'Aap apna khud ka account block nahi kar sakte.');
+        }
+
+        if ($user->role === 'super_admin' && $currentRole !== 'super_admin') {
+            return back()->with('error', 'Only another Super Admin can manage a Super Admin account.');
+        }
+
+        $newBlockStatus = ! $user->is_blocked;
+        $user->update(['is_blocked' => $newBlockStatus]);
+
+        $message = $newBlockStatus
+            ? "🔒 User '{$user->name}' ko successfully BLOCK kar diya gaya hai. Ab yeh login nahi kar sakega."
+            : "🔓 User '{$user->name}' ko successfully UNBLOCK kar diya gaya hai. Ab yeh normal login kar sakega.";
+
+        return back()->with('success', $message);
+    }
+
+    /**
+     * Reset user password manually from admin panel.
+     */
+    public function resetUserPassword(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can reset user passwords.');
+        }
+
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:6'],
+        ]);
+
+        $newPassword = (string) $validated['password'];
+        $user->update([
+            'password' => Hash::make($newPassword),
+        ]);
+
+        return back()->with('success', "🔑 Password for '{$user->name}' has been successfully reset to: {$newPassword}");
+    }
+
+    /**
+     * One-click Account & Payment Verification (Admin).
+     */
+    public function verifyUserAccount(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can verify accounts.');
+        }
+
+        $user->update([
+            'payment_status' => 'paid',
+            'kyc_status' => 'Verified',
+            'is_blocked' => false,
+        ]);
+
+        // Auto unlock courses for the user
+        $courses = Course::all();
+        foreach ($courses as $c) {
+            UserCourse::firstOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $c->id,
+            ], [
+                'progress_percent' => 0,
+            ]);
+        }
+
+        // Credit any pending commissions for this buyer
+        $pendingComms = Commission::where('buyer_name', 'like', "%{$user->name}%")
+            ->where('status', 'Pending')
+            ->get();
+        foreach ($pendingComms as $comm) {
+            CommissionService::creditApprovedCommission($comm);
+        }
+
+        return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.");
+    }
+
+    /**
+     * Manually enroll a user into a specific course.
+     */
+    public function enrollCourse(Request $request, User $user): RedirectResponse|JsonResponse
+    {
+        $request->validate([
+            'course_id' => ['required', 'exists:courses,id'],
+        ]);
+
+        $courseId = (int) $request->input('course_id');
+        $course = Course::findOrFail($courseId);
+
+        UserCourse::firstOrCreate([
+            'user_id' => $user->id,
+            'course_id' => $course->id,
+        ], [
+            'progress_percent' => 0,
+        ]);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'message' => "Enrolled in {$course->title}"]);
+        }
+
+        return back()->with('success', "🎓 '{$user->name}' ko '{$course->title}' course me manually enroll kar diya gaya hai.");
+    }
+
+    /**
+     * Manually unenroll a user from a specific course.
+     */
+    public function unenrollCourse(Request $request, User $user): RedirectResponse|JsonResponse
+    {
+        $request->validate([
+            'course_id' => ['required', 'exists:courses,id'],
+        ]);
+
+        $courseId = (int) $request->input('course_id');
+        $course = Course::findOrFail($courseId);
+
+        UserCourse::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->delete();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'message' => "Unenrolled from {$course->title}"]);
+        }
+
+        return back()->with('success', "❌ '{$user->name}' ko '{$course->title}' course se unenroll kar diya gaya hai.");
+    }
+
+    /**
+     * Manually update a user's course progress (and issue certificate on 100%).
+     */
+    public function updateCourseProgress(Request $request, User $user): RedirectResponse|JsonResponse
+    {
+        $request->validate([
+            'course_id' => ['required', 'exists:courses,id'],
+            'progress_percent' => ['required', 'integer', 'min:0', 'max:100'],
+        ]);
+
+        $courseId = (int) $request->input('course_id');
+        $percent = (int) $request->input('progress_percent');
+        $course = Course::findOrFail($courseId);
+
+        $userCourse = UserCourse::updateOrCreate([
+            'user_id' => $user->id,
+            'course_id' => $course->id,
+        ], [
+            'progress_percent' => $percent,
+            'completed_at' => $percent >= 100 ? now() : null,
+        ]);
+
+        $certMsg = $percent >= 100 ? ' (Course 100% complete! Certificate has been generated 🎖️)' : '';
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'progress_percent' => $percent,
+                'completed_at' => $userCourse->completed_at?->format('d M, Y H:i'),
+                'certificate_id' => $percent >= 100 ? 'SL-CERT-'.(1000 + $course->id).'-'.$user->id : null,
+                'message' => "Progress updated to {$percent}%{$certMsg}",
+            ]);
+        }
+
+        return back()->with('success', "📈 '{$user->name}' ka '{$course->title}' me progress {$percent}% set ho gaya hai{$certMsg}.");
     }
 
     /**

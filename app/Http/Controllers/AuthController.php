@@ -78,6 +78,16 @@ class AuthController extends Controller
             /** @var User $user */
             $user = Auth::user();
 
+            if ($user->is_blocked) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()
+                    ->withInput($request->only('username', 'remember'))
+                    ->with('error', '⚠️ Aapka account administration dwara BLOCK kar diya gaya hai. Kripya support/administration se sampark karein.');
+            }
+
             $request->session()->regenerate();
             $this->syncUserSession($user);
 

@@ -1005,10 +1005,19 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/commissions/{commission}/reject', [AdminController::class, 'rejectCommission'])->name('admin.commissions.reject');
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/{user}', [AdminController::class, 'showUser'])->name('admin.users.show');
     Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
     Route::post('/users/{user}/toggle-payment', [AdminController::class, 'toggleUserPaymentStatus'])->name('admin.users.toggle-payment');
+    Route::post('/users/{user}/toggle-block', [AdminController::class, 'toggleUserBlock'])->name('admin.users.toggle-block');
+    Route::post('/users/{user}/reset-password', [AdminController::class, 'resetUserPassword'])->name('admin.users.reset-password');
+    Route::post('/users/{user}/verify-account', [AdminController::class, 'verifyUserAccount'])->name('admin.users.verify-account');
     Route::post('/users/{user}/industry-revenue', [AdminController::class, 'updateIndustryRevenue'])->name('admin.users.industry-revenue');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+
+    // Manual Course Enrollment & Progress Management
+    Route::post('/users/{user}/enroll', [AdminController::class, 'enrollCourse'])->name('admin.users.enroll');
+    Route::post('/users/{user}/unenroll', [AdminController::class, 'unenrollCourse'])->name('admin.users.unenroll');
+    Route::post('/users/{user}/progress', [AdminController::class, 'updateCourseProgress'])->name('admin.users.progress');
     Route::get('/kyc-requests', [AdminController::class, 'kycRequests'])->name('admin.kyc');
     Route::post('/kyc/{kyc}/approve', [AdminController::class, 'approveKyc'])->name('admin.kyc.approve');
     Route::post('/kyc/{kyc}/reject', [AdminController::class, 'rejectKyc'])->name('admin.kyc.reject');
