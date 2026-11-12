@@ -8,10 +8,12 @@ use App\Models\KycVerification;
 use App\Models\Mentor;
 use App\Models\MentorPayout;
 use App\Models\OfferRedemption;
+use App\Models\Order;
 use App\Models\Payout;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserCourse;
+use App\Services\CashfreeService;
 use App\Services\CommissionService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
@@ -20,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 use Throwable;
@@ -854,5 +857,293 @@ class AdminController extends Controller
         }
 
         return back()->with('success', "Course '{$course->title}' is now {$statusText}.");
+    }
+
+    /**
+     * All Orders, Transactions & Refund Management Dashboard (Super Admin & Admin).
+     */
+    public function orders(Request $request): View
+    {
+        PortalDataService::ensureUserSession();
+
+        $statusFilter = $request->query('status'); // all, paid, pending, failed, refunded
+        $methodFilter = $request->query('method'); // cashfree, manual_upi
+        $search = trim((string) $request->query('search', ''));
+
+        $query = Order::query()->with('user')->latest();
+
+        if ($statusFilter && in_array($statusFilter, ['paid', 'pending', 'failed', 'refunded'])) {
+            $query->where('payment_status', $statusFilter);
+        }
+
+        if ($methodFilter && in_array($methodFilter, ['cashfree', 'manual_upi'])) {
+            $query->where('payment_method', $methodFilter);
+        }
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('order_id', 'like', "%{$search}%")
+                    ->orWhere('buyer_name', 'like', "%{$search}%")
+                    ->orWhere('buyer_email', 'like', "%{$search}%")
+                    ->orWhere('buyer_phone', 'like', "%{$search}%")
+                    ->orWhere('transaction_id', 'like', "%{$search}%")
+                    ->orWhere('invoice_number', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $query->paginate(25)->withQueryString();
+
+        $today = now()->startOfDay();
+        $metrics = [
+            'total_orders' => Order::count(),
+            'total_revenue' => (float) Order::where('payment_status', 'paid')->sum('amount'),
+            'today_revenue' => (float) Order::where('payment_status', 'paid')->where('created_at', '>=', $today)->sum('amount'),
+            'paid_count' => Order::where('payment_status', 'paid')->count(),
+            'pending_count' => Order::where('payment_status', 'pending')->count(),
+            'failed_count' => Order::where('payment_status', 'failed')->count(),
+            'refunded_count' => Order::where('payment_status', 'refunded')->count(),
+            'total_refunded' => (float) Order::where('payment_status', 'refunded')->sum('refund_amount'),
+        ];
+
+        return view('admin.orders', [
+            'orders' => $orders,
+            'metrics' => $metrics,
+            'currentStatus' => $statusFilter ?? 'all',
+            'currentMethod' => $methodFilter ?? 'all',
+            'search' => $search,
+            'active' => 'admin-orders',
+        ]);
+    }
+
+    /**
+     * Show single Order details (modal / json response).
+     */
+    public function showOrder(Request $request, Order $order): JsonResponse|View
+    {
+        $order->loadMissing('user');
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'invoice_url' => route('admin.orders.invoice', $order->id),
+            ]);
+        }
+
+        return view('admin.order-detail', [
+            'order' => $order,
+            'active' => 'admin-orders',
+        ]);
+    }
+
+    /**
+     * Generate & Download Official Tax Invoice for an Order.
+     */
+    public function downloadInvoice(Request $request, Order $order): View
+    {
+        $order->loadMissing('user');
+
+        // Ensure unique tax invoice number
+        $order->getOrGenerateInvoiceNumber();
+
+        // Calculate tax breakdown (18% GST standard on online education)
+        $totalPaid = (float) $order->amount;
+        $taxableValue = round($totalPaid / 1.18, 2);
+        $totalGst = round($totalPaid - $taxableValue, 2);
+        $cgst = round($totalGst / 2, 2);
+        $sgst = round($totalGst - $cgst, 2);
+
+        return view('admin.invoice', [
+            'order' => $order,
+            'taxableValue' => $taxableValue,
+            'totalGst' => $totalGst,
+            'cgst' => $cgst,
+            'sgst' => $sgst,
+            'totalPaid' => $totalPaid,
+        ]);
+    }
+
+    /**
+     * Process Refund Request for an Order (Approve, Reject, or Request).
+     */
+    public function processRefund(Request $request, Order $order): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can manage refunds.');
+        }
+
+        $validated = $request->validate([
+            'action' => ['required', 'in:approve,reject,request'],
+            'refund_amount' => ['nullable', 'numeric', 'min:0'],
+            'refund_reason' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $action = $validated['action'];
+        $amount = (float) ($validated['refund_amount'] ?? $order->amount);
+        $reason = trim((string) ($validated['refund_reason'] ?? 'Customer refund request'));
+
+        if ($action === 'approve') {
+            $order->update([
+                'payment_status' => 'refunded',
+                'refund_status' => 'approved',
+                'refund_amount' => $amount,
+                'refund_reason' => $reason,
+                'refunded_at' => now(),
+            ]);
+
+            Log::info("💳 [CASHFREE-REFUND] Refund APPROVED for Order #{$order->order_id} (Amount: ₹{$amount}) - Reason: {$reason} by Admin ID #{$currentUser?->id}");
+
+            return back()->with('success', '✅ Refund of ₹'.number_format($amount, 2)." for Order #{$order->order_id} has been APPROVED.");
+        }
+
+        if ($action === 'reject') {
+            $order->update([
+                'refund_status' => 'rejected',
+                'refund_reason' => $reason,
+            ]);
+
+            Log::info("💳 [CASHFREE-REFUND] Refund REJECTED for Order #{$order->order_id} - Note: {$reason}");
+
+            return back()->with('info', "Refund request for Order #{$order->order_id} has been REJECTED.");
+        }
+
+        // action === 'request'
+        $order->update([
+            'refund_status' => 'requested',
+            'refund_amount' => $amount,
+            'refund_reason' => $reason,
+        ]);
+
+        return back()->with('success', 'Refund request for ₹'.number_format($amount, 2)." submitted for Order #{$order->order_id}.");
+    }
+
+    /**
+     * Manually mark a Failed or Pending order as Paid (Offline / Manual UPI resolution).
+     */
+    public function markOrderPaid(Request $request, Order $order): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins can verify payments.');
+        }
+
+        $transactionId = trim((string) $request->input('transaction_id', $order->transaction_id ?: ('MANUAL_'.time())));
+
+        $order->update([
+            'payment_status' => 'paid',
+            'transaction_id' => $transactionId,
+            'failure_reason' => null,
+            'invoice_number' => $order->invoice_number ?: ('INV-SKL-'.date('Y').'-'.str_pad((string) $order->id, 5, '0', STR_PAD_LEFT)),
+        ]);
+
+        // If user account is linked or exists, activate it
+        $user = $order->user ?: User::where('email', $order->buyer_email)->first();
+        if ($user) {
+            $user->update([
+                'payment_status' => 'paid',
+                'active_package' => $order->package_name,
+            ]);
+
+            // Unlock all courses
+            $courses = Course::all();
+            foreach ($courses as $c) {
+                UserCourse::firstOrCreate([
+                    'user_id' => $user->id,
+                    'course_id' => $c->id,
+                ], [
+                    'progress_percent' => 0,
+                ]);
+            }
+
+            // Distribute 2-tier commissions in Credited status
+            CommissionService::processSale(
+                $order->package_name,
+                $user->name,
+                $user->sponsor_id ?? 'SL-ADMIN',
+                $user,
+                initialStatus: 'Credited'
+            );
+        }
+
+        Log::info("💳 [ORDER-TRACKING] Order #{$order->order_id} manually marked as PAID by Admin #{$currentUser?->id}. Transaction: {$transactionId}");
+
+        return back()->with('success', "✅ Order #{$order->order_id} has been marked as PAID! Account activated and courses unlocked.");
+    }
+
+    /**
+     * Cashfree Payment Gateway Settings Screen (Super Admin Only).
+     */
+    public function paymentGatewaySettings(Request $request): View
+    {
+        PortalDataService::ensureUserSession();
+
+        $appId = CashfreeService::getAppId();
+        $secretKey = CashfreeService::getSecretKey();
+        $env = CashfreeService::getEnv();
+
+        return view('admin.payment-gateway', [
+            'appId' => $appId,
+            'secretKey' => $secretKey,
+            'env' => $env,
+            'isConfigured' => CashfreeService::isConfigured(),
+            'webhookUrl' => url('/payment/cashfree/webhook'),
+            'returnUrl' => url('/payment/cashfree/callback'),
+            'active' => 'admin-payment-gateway',
+        ]);
+    }
+
+    /**
+     * Save Cashfree Payment Gateway Credentials & Settings (Super Admin Only).
+     */
+    public function updatePaymentGatewaySettings(Request $request): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        if (($currentUser?->role ?? session('user.role')) !== 'super_admin') {
+            return back()->with('error', 'Only Super Admins have permission to modify payment gateway settings.');
+        }
+
+        $validated = $request->validate([
+            'cashfree_env' => ['required', 'in:sandbox,production'],
+            'cashfree_app_id' => ['nullable', 'string', 'max:255'],
+            'cashfree_secret_key' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        Setting::set('cashfree_env', $validated['cashfree_env']);
+        if (isset($validated['cashfree_app_id'])) {
+            Setting::set('cashfree_app_id', trim((string) $validated['cashfree_app_id']));
+        }
+        if (! empty($validated['cashfree_secret_key'])) {
+            Setting::set('cashfree_secret_key', trim((string) $validated['cashfree_secret_key']));
+        }
+
+        Log::info("💳 [CASHFREE-SETTINGS] Super Admin updated Payment Gateway settings. Mode: {$validated['cashfree_env']}");
+
+        return back()->with('success', '✅ Cashfree Payment Gateway settings successfully saved!');
+    }
+
+    /**
+     * Test live connectivity to Cashfree with provided or saved credentials.
+     */
+    public function testPaymentGatewayConnection(Request $request): JsonResponse|RedirectResponse
+    {
+        $appId = $request->input('cashfree_app_id');
+        $secret = $request->input('cashfree_secret_key');
+        $env = $request->input('cashfree_env');
+
+        $result = CashfreeService::testConnection($appId, $secret, $env);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json($result);
+        }
+
+        if ($result['success']) {
+            return back()->with('success', $result['message']);
+        }
+
+        return back()->with('error', $result['message']);
     }
 }

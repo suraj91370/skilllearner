@@ -12,6 +12,8 @@ class Course extends Model
         'slug',
         'title',
         'category',
+        'category_id',
+        'subcategory_id',
         'badge',
         'instructor',
         'instructor_avatar',
@@ -55,6 +57,16 @@ class Course extends Model
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function courseCategory()
+    {
+        return $this->belongsTo(CourseCategory::class, 'category_id');
+    }
+
+    public function courseSubcategory()
+    {
+        return $this->belongsTo(CourseCategory::class, 'subcategory_id');
     }
 
     public function users()

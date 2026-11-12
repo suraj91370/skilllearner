@@ -403,8 +403,8 @@
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 1.4rem;">🎖️</span>
                 <div>
-                    <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #ffffff;">Verified Certificate of Completion</h3>
-                    <div style="font-size: 0.76rem; color: #05B396; font-weight: 700;">SkillLearner ISO 9001:2015 Accredited</div>
+                    <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #ffffff;">{{ \App\Models\Setting::get('cert_title', 'CERTIFICATE OF COMPLETION') }}</h3>
+                    <div style="font-size: 0.76rem; color: #05B396; font-weight: 700;">{{ \App\Models\Setting::get('cert_subtitle', 'SkillLearner ISO 9001:2015 Accredited') }}</div>
                 </div>
             </div>
             <button type="button" onclick="closeCertificatePreviewModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">&times;</button>
@@ -414,8 +414,8 @@
         <div style="padding: 2.2rem 2rem; text-align: center; background: radial-gradient(circle, #f0fdf9 0%, #ffffff 80%);">
             <img src="{{ asset('images/logo.png') }}" alt="SkillLearner" style="max-height: 48px; margin-bottom: 1.2rem;" onerror="this.src='/images/logo.png';">
             
-            <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #05B396; margin-bottom: 0.6rem;">
-                CERTIFICATE OF COMPLETION
+            <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: {{ \App\Models\Setting::get('cert_theme_color', '#05B396') }}; margin-bottom: 0.6rem;">
+                {{ \App\Models\Setting::get('cert_title', 'CERTIFICATE OF COMPLETION') }}
             </div>
 
             <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 0.8rem;">This is proudly presented to</p>

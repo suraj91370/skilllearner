@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Services\CashfreeService;
@@ -155,6 +156,26 @@ class CashfreePaymentController extends Controller
         session(['pending_cashfree_order' => $orderData]);
         session(['last_order' => $orderData]);
 
+        // Record or update Order in database for Admin tracking
+        $dbOrder = Order::updateOrCreate([
+            'order_id' => $orderId,
+        ], [
+            'user_id' => $targetUser->id,
+            'buyer_name' => $name,
+            'buyer_email' => $email,
+            'buyer_phone' => $phone,
+            'sponsor_id' => $targetUser->sponsor_id ?? $sponsorId,
+            'package_name' => $packageName,
+            'package_slug' => $packageKey,
+            'amount' => $payableAmount,
+            'original_amount' => $packagePrice,
+            'coupon_code' => $couponCode ?: null,
+            'coupon_discount' => $couponDiscount,
+            'payment_method' => 'cashfree',
+            'payment_status' => 'pending',
+        ]);
+        $orderData['db_order_id'] = $dbOrder->id;
+
         // Call Cashfree PG Order API
         $cfOrder = CashfreeService::createOrder([
             'order_id' => $orderId,
@@ -251,6 +272,13 @@ class CashfreePaymentController extends Controller
 
         if (in_array($status, ['FAILED', 'CANCELLED', 'USER_DROPPED'])) {
             Log::warning("💳 [CASHFREE-GATEWAY] ❌ Payment {$status} for Order #{$orderId}");
+
+            // Update database order as failed for tracking
+            Order::where('order_id', $orderId)->update([
+                'payment_status' => 'failed',
+                'failure_reason' => $status,
+                'gateway_payload' => $orderStatusInfo,
+            ]);
 
             // Update session order status to Failed so payment status page displays retry
             $order = session('last_order', []);
@@ -365,7 +393,20 @@ class CashfreePaymentController extends Controller
             Log::warning('Email dispatch failed after Cashfree payment: '.$e->getMessage());
         }
 
-        // 5. Update session order data
+        // 5. Update database order record & generate invoice number
+        $dbOrder = Order::where('order_id', $orderId)->first();
+        if ($dbOrder) {
+            $invNumber = $dbOrder->invoice_number ?: ('INV-SKL-'.date('Y').'-'.str_pad((string) $dbOrder->id, 5, '0', STR_PAD_LEFT));
+            $dbOrder->update([
+                'payment_status' => 'paid',
+                'transaction_id' => $orderId,
+                'invoice_number' => $invNumber,
+                'gateway_payload' => $paymentDetails,
+            ]);
+            Log::info("💳 [CASHFREE-GATEWAY] 🧾 Tax Invoice generated: {$invNumber} for Order #{$orderId}");
+        }
+
+        // 6. Update session order data
         $finalOrder = array_merge($sessionOrder ?? [], [
             'order_id' => $orderId,
             'status' => 'Credited',
@@ -373,10 +414,11 @@ class CashfreePaymentController extends Controller
             'transaction_id' => $orderId,
             'user_name' => $user->name,
             'user_email' => $user->email,
+            'invoice_number' => $dbOrder?->invoice_number ?? null,
         ]);
         session(['last_order' => $finalOrder]);
 
-        // 6. Auto-login the user if not currently logged in as super admin
+        // 7. Auto-login the user if not currently logged in as super admin
         if (! Auth::check() || Auth::id() === $user->id) {
             Auth::login($user);
             session()->regenerate();

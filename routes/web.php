@@ -5,6 +5,7 @@ use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateTrainingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashfreePaymentController;
+use App\Http\Controllers\ContentManagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
@@ -977,6 +978,10 @@ Route::get('/my-payout', [PayoutController::class, 'index'])->name('portal.payou
 Route::post('/payout-request', [PayoutController::class, 'requestPayout'])->name('portal.payout-request');
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('portal.leaderboard');
 Route::get('/qualification', [QualificationController::class, 'index'])->name('portal.qualification');
+Route::get('/orders/{order}/invoice', [AdminController::class, 'downloadInvoice'])->name('orders.invoice');
+Route::get('/blogs', [ContentManagementController::class, 'publicBlogs'])->name('blogs.index');
+Route::get('/blogs/{slug}', [ContentManagementController::class, 'publicBlogShow'])->name('blogs.show');
+Route::get('/announcements', fn () => redirect()->route('blogs.index'));
 Route::get('/webinars', function () {
     PortalDataService::ensureUserSession();
 
@@ -1024,6 +1029,13 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::get('/payout-requests', [AdminController::class, 'payoutRequests'])->name('admin.payouts');
     Route::post('/payout/{payout}/status', [AdminController::class, 'updatePayoutStatus'])->name('admin.payouts.status');
 
+    // Order, Transaction & Refund Management
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
+    Route::get('/orders/{order}/invoice', [AdminController::class, 'downloadInvoice'])->name('admin.orders.invoice');
+    Route::post('/orders/{order}/refund', [AdminController::class, 'processRefund'])->name('admin.orders.refund');
+    Route::post('/orders/{order}/mark-paid', [AdminController::class, 'markOrderPaid'])->name('admin.orders.mark-paid');
+
     // Mentor Management Routes (Add, Edit, Block, Delete, Assign Courses, Revenue Share %, KYC, Payouts)
     Route::get('/mentors', [MentorController::class, 'index'])->name('admin.mentors');
     Route::post('/mentors', [MentorController::class, 'store'])->name('admin.mentors.store');
@@ -1040,6 +1052,11 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
 Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+
+    // Payment Gateway Configuration (Cashfree)
+    Route::get('/payment-gateway', [AdminController::class, 'paymentGatewaySettings'])->name('admin.payment-gateway');
+    Route::post('/payment-gateway', [AdminController::class, 'updatePaymentGatewaySettings'])->name('admin.payment-gateway.update');
+    Route::post('/payment-gateway/test-connection', [AdminController::class, 'testPaymentGatewayConnection'])->name('admin.payment-gateway.test');
 
     // Video Management & Show/Hide Control
     Route::get('/videos', [VideoController::class, 'index'])->name('admin.videos');
@@ -1066,6 +1083,33 @@ Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     Route::delete('/coupons/{id}', [OfferController::class, 'destroyCoupon'])->name('admin.coupons.destroy');
 
     Route::post('/packages/{slug}', [OfferController::class, 'updatePackage'])->name('admin.packages.update');
+
+    // Content Management (Categories, Banners, Testimonials, FAQ, Blogs, Certificate Template)
+    Route::get('/content/categories', [ContentManagementController::class, 'categoriesIndex'])->name('admin.content.categories');
+    Route::post('/content/categories', [ContentManagementController::class, 'storeCategory'])->name('admin.content.categories.store');
+    Route::put('/content/categories/{category}', [ContentManagementController::class, 'updateCategory'])->name('admin.content.categories.update');
+    Route::delete('/content/categories/{category}', [ContentManagementController::class, 'deleteCategory'])->name('admin.content.categories.delete');
+
+    Route::get('/content/homepage', [ContentManagementController::class, 'homepageIndex'])->name('admin.content.homepage');
+    Route::post('/content/homepage', [ContentManagementController::class, 'updateHomepageContent'])->name('admin.content.homepage.update');
+
+    Route::get('/content/testimonials', [ContentManagementController::class, 'testimonialsIndex'])->name('admin.content.testimonials');
+    Route::post('/content/testimonials', [ContentManagementController::class, 'storeTestimonial'])->name('admin.content.testimonials.store');
+    Route::put('/content/testimonials/{testimonial}', [ContentManagementController::class, 'updateTestimonial'])->name('admin.content.testimonials.update');
+    Route::delete('/content/testimonials/{testimonial}', [ContentManagementController::class, 'deleteTestimonial'])->name('admin.content.testimonials.delete');
+
+    Route::get('/content/faqs', [ContentManagementController::class, 'faqsIndex'])->name('admin.content.faqs');
+    Route::post('/content/faqs', [ContentManagementController::class, 'storeFaq'])->name('admin.content.faqs.store');
+    Route::put('/content/faqs/{faq}', [ContentManagementController::class, 'updateFaq'])->name('admin.content.faqs.update');
+    Route::delete('/content/faqs/{faq}', [ContentManagementController::class, 'deleteFaq'])->name('admin.content.faqs.delete');
+
+    Route::get('/content/blogs', [ContentManagementController::class, 'blogsIndex'])->name('admin.content.blogs');
+    Route::post('/content/blogs', [ContentManagementController::class, 'storeBlog'])->name('admin.content.blogs.store');
+    Route::put('/content/blogs/{blog}', [ContentManagementController::class, 'updateBlog'])->name('admin.content.blogs.update');
+    Route::delete('/content/blogs/{blog}', [ContentManagementController::class, 'deleteBlog'])->name('admin.content.blogs.delete');
+
+    Route::get('/content/certificate', [ContentManagementController::class, 'certificateTemplateIndex'])->name('admin.content.certificate');
+    Route::post('/content/certificate', [ContentManagementController::class, 'updateCertificateTemplate'])->name('admin.content.certificate.update');
 
     // Live Web Migration Runner (Hostinger / cPanel helper)
     Route::get('/run-migrations', [OfferController::class, 'runMigrationsWeb'])->name('admin.run-migrations');
@@ -1514,6 +1558,25 @@ Route::post('/process-buy-now', function (Request $request) {
 
     session(['last_order' => $orderData]);
 
+    \App\Models\Order::updateOrCreate([
+        'order_id' => $orderId,
+    ], [
+        'user_id' => $user->id,
+        'buyer_name' => $user->name,
+        'buyer_email' => $user->email,
+        'buyer_phone' => $user->phone,
+        'sponsor_id' => $user->sponsor_id,
+        'package_name' => $activePackageName,
+        'package_slug' => $packageKey,
+        'amount' => $finalGuestAmount,
+        'original_amount' => $packagePrice,
+        'coupon_code' => $couponCode ?: null,
+        'coupon_discount' => $couponDiscount,
+        'payment_method' => $paymentMethod,
+        'transaction_id' => 'PENDING',
+        'payment_status' => 'pending',
+    ]);
+
     // Distribute 2-Tier commission in 'Pending' state so it appears in Admin Dashboard
     CommissionService::processSale(
         $activePackageName,
@@ -1547,6 +1610,13 @@ Route::post('/submit-utr', function (Request $request) {
     $order['transaction_id'] = $transactionId;
     $order['status'] = 'Pending';
     session(['last_order' => $order]);
+
+    if (! empty($order['order_id'])) {
+        \App\Models\Order::where('order_id', $order['order_id'])->update([
+            'transaction_id' => $transactionId,
+            'payment_status' => 'pending',
+        ]);
+    }
 
     return back()->with('success', "✅ UTR Reference '{$transactionId}' submit ho gaya hai! Admin ise verify karke aapka account activate karega.");
 })->name('payment.submit-utr');

@@ -107,6 +107,17 @@
                 <span>Payout Approvals</span>
             </a>
 
+            <!-- Orders & Payments (Super Admin & Admin) -->
+            <a href="{{ url('/admin/orders') }}" class="sidebar-item {{ $currentActive === 'admin-orders' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                    <line x1="6" y1="15" x2="10" y2="15"></line>
+                </svg>
+                <span>Orders &amp; Payments</span>
+                <span class="sidebar-item-badge-pill">Refunds</span>
+            </a>
+
             @if ($isSuperAdmin)
                 <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
@@ -136,6 +147,27 @@
                     </svg>
                     <span>Video Option</span>
                     <span class="sidebar-item-badge-pill super">Show/Hide</span>
+                </a>
+
+                <!-- Payment Gateway (Cashfree) (Super Admin ONLY) -->
+                <a href="{{ url('/admin/payment-gateway') }}" class="sidebar-item {{ $currentActive === 'admin-payment-gateway' ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <span>Payment Gateway</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(16, 185, 129, 0.18); color: #059669;">Cashfree</span>
+                </a>
+
+                <!-- Content Management (Super Admin ONLY) -->
+                <a href="{{ route('admin.content.categories') }}" class="sidebar-item {{ str_starts_with($currentActive, 'admin-content') ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    <span>Content Manage</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(124, 58, 237, 0.18); color: #7c3aed;">CMS</span>
                 </a>
 
                 {{-- System Settings (Super Admin ONLY) --}}

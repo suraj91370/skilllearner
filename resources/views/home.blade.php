@@ -3,20 +3,35 @@
 @section('title', 'SkillLearner — Build Skill, Build Future')
 
 @section('content')
-<!-- Hero Section -->
+<!-- Top Announcement Ribbon Bar (Admin Controlled) -->
+@if(\App\Models\Setting::get('home_show_announcement', '1') === '1' && \App\Models\Setting::get('home_announcement_bar'))
+    <div style="background: linear-gradient(90deg, #05B396 0%, #047857 100%); color: #ffffff; text-align: center; padding: 0.65rem 1rem; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.3px; box-shadow: 0 2px 10px rgba(5, 179, 150, 0.25);">
+        {{ \App\Models\Setting::get('home_announcement_bar') }}
+    </div>
+@endif
+
+<!-- Hero Section (Dynamic Banners from Admin) -->
 <section class="hero" style="text-align: center; padding: 5rem 2rem 4rem; max-width: 1150px; margin: 0 auto;">
     <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 179, 150, 0.12); border: 1px solid rgba(5, 179, 150, 0.3); color: #05B396; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.8rem;">
-        <span>★ India's #1 Skill & Affiliate Platform</span>
+        <span>{{ \App\Models\Setting::get('home_hero_tag', '✨ NO.1 DIGITAL EDUCATION & AFFILIATE PLATFORM IN INDIA') }}</span>
     </div>
     <h1 class="hero-title" style="color: #0B4F4A;">
-        <span class="title-skill" style="color: #0B4F4A;">Build Skill,</span> <br><span class="title-future" style="color: #0A6B5C;">Build Future.</span>
+        @php
+            $heroTitle = \App\Models\Setting::get('home_hero_title');
+        @endphp
+        @if(empty($heroTitle) || str_contains(strtolower($heroTitle), 'build skill'))
+            <span class="title-skill" style="color: #0B4F4A;">Build Skill,</span> <br><span class="title-future" style="color: #0A6B5C;">Build Future.</span>
+        @else
+            {!! nl2br(e($heroTitle)) !!}
+        @endif
     </h1>
     <p class="hero-subtitle" style="color: #000000; font-weight: 700; font-size: 1.25rem; max-width: 720px; margin: 0 auto 2.5rem;">
-        Unlock your potential with SkillLearner. Explore industry-relevant courses, gain practical knowledge, and develop the skills you need to grow professionally and succeed in the digital world.
+        {{ \App\Models\Setting::get('home_hero_subtitle', 'Unlock your potential with SkillLearner. Explore industry-relevant courses, gain practical knowledge, and develop the skills you need to grow professionally and succeed in the digital world.') }}
     </p>
     <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
-        <a href="{{ url('/courses') }}" class="btn btn-primary" style="background: #05B396; padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">Explore Courses ➔</a>
-        {{-- <a href="{{ url('/plans') }}" class="btn btn-secondary" style="padding: 1rem 2.2rem; font-size: 1.1rem;">Explore Packages</a> --}}
+        <a href="{{ \App\Models\Setting::get('home_hero_cta_link', url('/courses')) }}" class="btn btn-primary" style="background: #05B396; padding: 1rem 2.2rem; font-size: 1.1rem; font-weight: 800;">
+            {{ \App\Models\Setting::get('home_hero_cta_text', 'Explore Courses ➔') }}
+        </a>
     </div>
 
     <div class="hero-image-wrapper" style="margin-top: 3.5rem; display: flex; justify-content: center;">
@@ -24,6 +39,7 @@
     </div>
 </section>
 
+@if(\App\Models\Setting::get('home_show_packages', '1') === '1')
 <!-- Packages Showcase -->
 <section class="container" id="packages">
     @php
@@ -149,7 +165,9 @@
         @endforeach
     </div>
 </section>
+@endif
 
+@if(\App\Models\Setting::get('home_show_why_us', '1') === '1')
 <!-- Why SkillLearner Section -->
 <section style="padding: 4.5rem 1.5rem 5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(253, 242, 248, 0.7) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(243, 232, 255, 0.7) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin: 1rem 0 3.5rem;">
     <!-- Ambient Blur Accents -->
@@ -354,7 +372,9 @@
         </div>
     </div>
 </section>
+@endif
 
+@if(\App\Models\Setting::get('home_show_founders', '1') === '1')
 <!-- Our Founders Section -->
 <section style="padding: 5.5rem 1.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 90% 15%, rgba(254, 243, 199, 0.45) 0%, #ffffff 40%, rgba(240, 253, 250, 0.6) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
     <!-- Ambient Glow Accents -->
@@ -448,7 +468,9 @@
 
     </div>
 </section>
+@endif
 
+@if(\App\Models\Setting::get('home_show_mentors', '1') === '1')
 <!-- Our Expert Team Section -->
 <section style="padding: 5.5rem 1.5rem 6.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(240, 253, 250, 0.6) 0%, #ffffff 50%, rgba(243, 232, 255, 0.4) 100%); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
     <!-- Ambient Accents -->
@@ -520,7 +542,86 @@
         </div>
     </div>
 </section>
+@endif
 
+@if(\App\Models\Setting::get('home_show_testimonials', '1') === '1')
+@php
+    $homeTestimonials = \App\Models\Testimonial::featured()->get();
+@endphp
+@if($homeTestimonials->isNotEmpty())
+<!-- Student Success & Testimonials Section -->
+<section style="padding: 5.5rem 1.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(240, 253, 250, 0.7) 0%, #ffffff 50%, rgba(254, 243, 199, 0.35) 100%); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+    <!-- Ambient Blur Accents -->
+    <div style="position: absolute; top: -50px; left: 10%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(11, 79, 74, 0.1) 0%, transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -50px; right: 5%; width: 260px; height: 260px; background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0; position: relative; z-index: 2;">
+        
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 79, 74, 0.08); border: 1px solid rgba(11, 79, 74, 0.25); color: #0B4F4A; padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">
+                <span>⭐ STUDENT SUCCESS STORIES</span>
+            </div>
+            <h2 style="font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 0.8rem; color: #0f172a; line-height: 1.2;">
+                Hear From Our <span style="color: #0B4F4A;">Top Achievers</span> &amp; <span style="color: #0A6B5C;">Affiliates</span>
+            </h2>
+            <p style="font-size: 1.05rem; line-height: 1.6; color: #64748b; max-width: 680px; margin: 0 auto; font-weight: 500;">
+                Real students, real practical mastery, and real income growth. See how SkillLearner is transforming lives across India.
+            </p>
+        </div>
+
+        <!-- Testimonials Cards Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+            @foreach($homeTestimonials as $t)
+                <div style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                    <div>
+                        <!-- Rating Stars & Earnings Pill -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
+                            <div style="color: #f59e0b; font-size: 1.15rem; letter-spacing: 2px;">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $t->rating)
+                                        ★
+                                    @else
+                                        ☆
+                                    @endif
+                                @endfor
+                            </div>
+                            @if($t->earning_highlight)
+                                <span style="display: inline-flex; align-items: center; gap: 5px; background: rgba(5, 179, 150, 0.1); color: #05B396; font-size: 0.78rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; border: 1px solid rgba(5, 179, 150, 0.25);">
+                                    💰 {{ $t->earning_highlight }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <!-- Review Quote -->
+                        <p style="color: #334155; font-size: 0.98rem; line-height: 1.7; font-weight: 500; margin-bottom: 1.5rem; font-style: italic;">
+                            "{{ $t->content }}"
+                        </p>
+                    </div>
+
+                    <!-- User Info -->
+                    <div style="display: flex; align-items: center; gap: 12px; padding-top: 1.2rem; border-top: 1px solid #f1f5f9;">
+                        @if($t->avatar)
+                            <img src="{{ $t->avatar }}" alt="{{ $t->name }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396;">
+                        @else
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: #0B4F4A; color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                                {{ strtoupper(substr($t->name, 0, 1)) }}
+                            </div>
+                        @endif
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 1rem;">{{ $t->name }}</div>
+                            <div style="font-size: 0.82rem; color: #64748b; font-weight: 600;">{{ $t->role_title ?: 'Verified Student' }}</div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+</section>
+@endif
+@endif
+
+@if(\App\Models\Setting::get('home_show_faq', '1') === '1')
 <!-- Frequently Asked Questions (FAQ) Section -->
 <section style="padding: 5.5rem 1.5rem 6.5rem; position: relative; overflow: hidden; background: radial-gradient(circle at 85% 15%, rgba(240, 253, 250, 0.6) 0%, #ffffff 50%, rgba(254, 243, 199, 0.35) 100%); border-top: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
     <!-- Ambient Blur Accents -->
@@ -549,7 +650,34 @@
         </div>
 
         <!-- FAQ Accordion List -->
+        @php
+            $dbFaqs = \App\Models\Faq::active()->orderBy('sort_order', 'asc')->get();
+        @endphp
         <div class="faq-accordion-list" style="display: flex; flex-direction: column; gap: 1rem;">
+            @if($dbFaqs->isNotEmpty())
+                @foreach($dbFaqs as $faq)
+                    <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
+                        <button class="faq-question-btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.6rem; background: transparent; border: none; cursor: pointer; text-align: left; gap: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 1.2rem;">
+                                <span style="width: 44px; height: 44px; border-radius: 50%; background: #0c2340; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(12, 35, 64, 0.25);">
+                                    ?
+                                </span>
+                                <span style="font-size: 1.12rem; font-weight: 800; color: #0c2340; line-height: 1.35;">
+                                    {{ $faq->question }}
+                                </span>
+                            </div>
+                            <svg class="faq-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c2340" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.3s ease;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div class="faq-answer-drawer" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+                            <div class="faq-answer-content" style="padding: 0 1.6rem 1.5rem 5.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65; border-top: 1px solid #f1f5f9; margin-top: 0.3rem; padding-top: 1rem;">
+                                {!! nl2br(e($faq->answer)) !!}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
             
             <!-- Item 1: What is SkillLearner? -->
             <div class="faq-item" style="background: #ffffff; border: 1.5px solid rgba(226, 232, 240, 0.9); border-radius: 18px; box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;">
@@ -682,7 +810,7 @@
                     </div>
                 </div>
             </div>
-
+            @endif
         </div>
 
     </div>
@@ -721,6 +849,7 @@
         });
     </script>
 </section>
+@endif
 
 @push('styles')
 <style>

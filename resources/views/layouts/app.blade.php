@@ -898,6 +898,7 @@
 
             <a href="{{ url('/contact') }}" class="{{ request()->is('contact') ? 'active' : '' }}">Contact</a>
             <a href="{{ url('/courses') }}" class="{{ request()->is('courses*') ? 'active' : '' }}">Courses</a>
+            <a href="{{ route('blogs.index') }}" class="{{ request()->is('blogs*') ? 'active' : '' }}">Blog</a>
             <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="{{ request()->is('job*') ? 'active' : '' }}">Job</a>
         </nav>
 
@@ -1073,6 +1074,7 @@
 
             <a href="{{ url('/contact') }}" class="mobile-nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact</a>
             <a href="{{ url('/courses') }}" class="mobile-nav-link {{ request()->is('courses*') ? 'active' : '' }}">Courses</a>
+            <a href="{{ route('blogs.index') }}" class="mobile-nav-link {{ request()->is('blogs*') ? 'active' : '' }}">Blog</a>
             <a href="javascript:void(0)" onclick="alert('Placement & Freelance Job board unlocks upon course completion!')" class="mobile-nav-link {{ request()->is('job*') ? 'active' : '' }}">Job</a>
         </div>
 

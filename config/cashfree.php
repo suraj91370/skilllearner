@@ -5,9 +5,7 @@ return [
     |--------------------------------------------------------------------------
     | Cashfree API Credentials
     |--------------------------------------------------------------------------
-    | Obtain your App ID and Secret Key from:
-    | - Sandbox: https://merchant.cashfree.com/merchants/login (Test Merchant)
-    | - Production: https://merchant.cashfree.com/merchants/login
+    | Default values from .env. Runtime overrides are supported via Setting model.
     |
     */
     'app_id' => env('CASHFREE_APP_ID', ''),
