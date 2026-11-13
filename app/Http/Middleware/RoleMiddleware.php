@@ -33,6 +33,11 @@ class RoleMiddleware
             return $next($request);
         }
 
+        // Staff members (sub-admins) are allowed through general admin areas
+        if (($user?->is_staff || in_array($userRole, ['support', 'finance', 'content_manager'], true)) && in_array('admin', $roles, true)) {
+            return $next($request);
+        }
+
         // If no specific roles required, allow through
         if (empty($roles)) {
             return $next($request);

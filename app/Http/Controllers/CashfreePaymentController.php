@@ -204,10 +204,8 @@ class CashfreePaymentController extends Controller
         }
 
         $paymentSessionId = $cfOrder['payment_session_id'];
-        $isSimulated = ! empty($cfOrder['is_simulated']);
-        session(['is_cashfree_simulated' => $isSimulated]);
 
-        Log::info("💳 [CASHFREE-GATEWAY] Checkout view rendered for Order #{$orderId} | Session: {$paymentSessionId} | Mode: ".($isSimulated ? 'TEST SIMULATOR' : 'LIVE CASHFREE'));
+        Log::info("💳 [CASHFREE-GATEWAY] Live checkout rendered for Order #{$orderId} | Session: {$paymentSessionId}");
 
         $activeEnv = CashfreeService::getEnv();
 
@@ -217,17 +215,15 @@ class CashfreePaymentController extends Controller
                 'payment_session_id' => $paymentSessionId,
                 'order_id' => $orderId,
                 'environment' => $activeEnv,
-                'is_simulated' => $isSimulated,
             ]);
         }
 
-        // Render seamless Cashfree Drop Checkout page (with local interactive simulator when in test mode)
+        // Render official Cashfree payment checkout bridge
         return view('payment.cashfree-checkout', [
             'paymentSessionId' => $paymentSessionId,
             'orderId' => $orderId,
             'order' => $orderData,
             'environment' => $activeEnv,
-            'isSimulated' => $isSimulated,
         ]);
     }
 

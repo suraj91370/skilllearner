@@ -181,6 +181,24 @@
                     <span class="sidebar-item-badge-pill super" style="background: rgba(124, 58, 237, 0.18); color: #7c3aed;">CMS</span>
                 </a>
 
+                <!-- Roles & Permissions (RBAC) (Super Admin ONLY) -->
+                <a href="{{ route('admin.roles') }}" class="sidebar-item {{ str_starts_with($currentActive, 'admin-roles') ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>Roles &amp; Staff</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(5, 179, 150, 0.18); color: #05B396;">RBAC</span>
+                </a>
+
+                <!-- Activity Log & Audit Trail (Super Admin ONLY) -->
+                <a href="{{ route('admin.activity-logs') }}" class="sidebar-item {{ $currentActive === 'admin-activity-logs' ? 'active' : '' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    <span>Audit Trail</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(15, 23, 42, 0.12); color: #0f172a;">Logs</span>
+                </a>
+
                 {{-- System Settings (Super Admin ONLY) --}}
                 <a href="{{ url('/admin/settings') }}" class="sidebar-item {{ $currentActive === 'admin-settings' ? 'active' : '' }}">
                     <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

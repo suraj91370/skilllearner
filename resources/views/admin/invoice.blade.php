@@ -264,11 +264,13 @@
         <div class="meta-grid">
             <div class="meta-col">
                 <h4>Sold By / Service Provider</h4>
-                <p><strong>SkillLearner Edutech Private Limited</strong></p>
+                <p><strong>{{ $companyName ?? 'SkillLearner EdTech Private Limited' }}</strong></p>
                 <p>Digital Skill Learning &amp; Affiliate Platform</p>
-                <p>New Delhi, Delhi - 110001, India</p>
-                <p><strong>GSTIN:</strong> 07AABCS1429B1Z2</p>
-                <p><strong>Support Email:</strong> support@skilllearne.org</p>
+                <p>{{ $registeredAddress ?? 'New Delhi, Delhi - 110001, India' }}</p>
+                @if(!empty($gstin))
+                    <p><strong>GSTIN:</strong> {{ $gstin }}</p>
+                @endif
+                <p><strong>Support Email:</strong> {{ $supportEmail ?? 'support@skilllearner.org' }}</p>
             </div>
             <div class="meta-col" style="text-align: right;">
                 <h4>Billed To / Customer Details</h4>
@@ -295,7 +297,7 @@
                         <th style="width: 90px; text-align: center;">SAC Code</th>
                         <th style="width: 50px; text-align: center;">Qty</th>
                         <th style="width: 110px; text-align: right;">Taxable Value</th>
-                        <th style="width: 110px; text-align: right;">GST (18%)</th>
+                        <th style="width: 110px; text-align: right;">GST ({{ $taxRate ?? 18 }}%)</th>
                         <th style="width: 120px; text-align: right;">Total Amount</th>
                     </tr>
                 </thead>
@@ -311,7 +313,7 @@
                             </div>
                         </td>
                         <td style="text-align: center; font-family: monospace; font-weight: 700; color: #475569;">
-                            999293
+                            {{ $sacCode ?? '999293' }}
                         </td>
                         <td style="text-align: center; font-weight: 700;">
                             1
@@ -337,14 +339,16 @@
                     <span>Taxable Value:</span>
                     <strong>₹{{ number_format($taxableValue, 2) }}</strong>
                 </div>
-                <div class="calc-row">
-                    <span>CGST (9.0%):</span>
-                    <strong>₹{{ number_format($cgst, 2) }}</strong>
-                </div>
-                <div class="calc-row">
-                    <span>SGST (9.0%):</span>
-                    <strong>₹{{ number_format($sgst, 2) }}</strong>
-                </div>
+                @if(($taxRate ?? 18) > 0)
+                    <div class="calc-row">
+                        <span>CGST ({{ number_format(($taxRate ?? 18) / 2, 1) }}%):</span>
+                        <strong>₹{{ number_format($cgst, 2) }}</strong>
+                    </div>
+                    <div class="calc-row">
+                        <span>SGST ({{ number_format(($taxRate ?? 18) / 2, 1) }}%):</span>
+                        <strong>₹{{ number_format($sgst, 2) }}</strong>
+                    </div>
+                @endif
                 <div class="calc-row total">
                     <span>Total Amount Paid:</span>
                     <span>₹{{ number_format($totalPaid, 2) }}</span>
@@ -354,13 +358,16 @@
 
         <!-- Amount In Words & Terms -->
         <div style="background: #f8fafc; border-left: 3px solid #05B396; padding: 0.9rem 1.2rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.82rem; color: #334155;">
-            <strong>Amount Paid:</strong> Indian Rupees {{ number_format($totalPaid, 2) }} (All taxes included).
+            <p><strong>Amount Paid:</strong> Indian Rupees {{ number_format($totalPaid, 2) }} (All taxes included).</p>
+            @if(!empty($invoiceTerms))
+                <p style="margin-top: 0.4rem; font-size: 0.76rem; color: #64748b;"><strong>Terms:</strong> {{ $invoiceTerms }}</p>
+            @endif
         </div>
 
         <!-- Footer -->
         <div class="invoice-footer">
             <p>This is a computer-generated electronic tax invoice and does not require a physical signature.</p>
-            <p>SkillLearner Edutech Private Limited • Thank you for learning with us!</p>
+            <p>{{ $companyName ?? 'SkillLearner EdTech Private Limited' }} • Thank you for learning with us!</p>
         </div>
 
     </div>

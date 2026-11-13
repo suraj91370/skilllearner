@@ -181,26 +181,13 @@ class CashfreeService
         $customerEmail = trim((string) ($params['customer_email'] ?? 'student@skilllearner.org'));
         $orderNote = $params['order_note'] ?? 'SkillLearner Course Package Enrollment';
 
-        // Check if Cashfree API credentials are not configured (Local Development / Testing Sandbox Mode)
+        // Verify API credentials exist
         if (! static::isConfigured()) {
-            Log::info('================================================================================');
-            Log::info('💳 [CASHFREE-GATEWAY] 🚀 INITIATING ORDER (LOCAL TEST SIMULATOR MODE)');
-            Log::info("💳 [CASHFREE-GATEWAY] Order ID    : {$orderId}");
-            Log::info("💳 [CASHFREE-GATEWAY] Amount      : ₹{$amount} INR");
-            Log::info("💳 [CASHFREE-GATEWAY] Customer    : {$customerName} ({$customerEmail}, {$cleanPhone})");
-            Log::info("💳 [CASHFREE-GATEWAY] Note        : {$orderNote}");
-            Log::info('💳 [CASHFREE-GATEWAY] Notice      : CASHFREE_APP_ID/SECRET empty in .env. Running interactive Test Gateway Simulator.');
-            Log::info('================================================================================');
-
-            session(['simulated_order_'.$orderId => true]);
-            session(['simulated_order_status_'.$orderId => 'ACTIVE']);
+            Log::error('💳 [CASHFREE-GATEWAY] Cannot initiate order: API credentials missing in database settings.');
 
             return [
-                'success' => true,
-                'payment_session_id' => 'session_sim_'.$orderId,
-                'order_id' => $orderId,
-                'order_status' => 'ACTIVE',
-                'is_simulated' => true,
+                'success' => false,
+                'error' => 'Cashfree API credentials are not configured. Please enter your App ID and Secret Key in Admin > Payment Gateway.',
             ];
         }
 
@@ -294,23 +281,6 @@ class CashfreeService
      */
     public static function getOrder(string $orderId): array
     {
-        // If not configured or marked as simulated order, resolve through local simulator
-        if (! static::isConfigured() || session('simulated_order_'.$orderId) || str_starts_with($orderId, 'sim_') || session('is_cashfree_simulated')) {
-            $simStatus = session('simulated_order_status_'.$orderId, 'PAID');
-            $sessionOrder = session('pending_cashfree_order', []);
-            $amount = (float) ($sessionOrder['amount'] ?? 0);
-
-            Log::info("💳 [CASHFREE-GATEWAY] 🔍 [LOCAL TEST MODE] Verifying Order #{$orderId} status via Simulator => {$simStatus}");
-
-            return [
-                'success' => true,
-                'order_status' => strtoupper((string) $simStatus),
-                'order_amount' => $amount,
-                'order_currency' => 'INR',
-                'is_simulated' => true,
-            ];
-        }
-
         $baseUrl = static::getBaseUrl();
         $headers = static::getHeaders();
 

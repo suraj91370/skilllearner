@@ -3,13 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SkillLearner — Build Skill, Build Future')</title>
+    <title>@yield('title', \App\Models\Setting::get('seo_meta_title', 'SkillLearner — Build Skill, Build Future'))</title>
+    <meta name="description" content="@yield('meta_description', \App\Models\Setting::get('seo_meta_description', 'SkillLearner is India\'s premier digital education and affiliate platform empowering students with practical high-income skills.'))">
+    <meta name="keywords" content="@yield('meta_keywords', \App\Models\Setting::get('seo_meta_keywords', 'affiliate marketing, digital skills, online courses, career growth, skilllearner'))">
+
+    @if($gaId = \App\Models\Setting::get('google_analytics_id'))
+        <!-- Google Analytics 4 -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $gaId }}');
+        </script>
+    @endif
+
+    @if($pixelId = \App\Models\Setting::get('meta_pixel_id'))
+        <!-- Meta Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ $pixelId }}');
+            fbq('track', 'PageView');
+        </script>
+    @endif
+
+    {!! \App\Models\Setting::get('header_scripts', '') !!}
 
     <!-- Favicon & Browser Tab Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=3">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon.png') }}?v=3">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}?v=3">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}?v=3">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset(\App\Models\Setting::get('site_favicon', 'favicon.png')) }}?v=3">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset(\App\Models\Setting::get('site_favicon', 'favicon.png')) }}?v=3">
+    <link rel="shortcut icon" type="image/png" href="{{ asset(\App\Models\Setting::get('site_logo', 'images/logo.png')) }}?v=3">
+    <link rel="apple-touch-icon" href="{{ asset(\App\Models\Setting::get('site_logo', 'images/logo.png')) }}?v=3">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1508,7 +1539,7 @@
                             </div>
                             <div>
                                 <div class="contact-title">Our Address</div>
-                                <div class="contact-value" style="color: #94a3b8;">Mumbai Maharashtra</div>
+                                <div class="contact-value" style="color: #94a3b8;">{{ \App\Models\Setting::get('contact_address', 'Mumbai, Maharashtra, India') }}</div>
                             </div>
                         </div>
 
@@ -1521,7 +1552,7 @@
                             </div>
                             <div>
                                 <div class="contact-title">Call Us</div>
-                                <a href="tel:8318373108" class="contact-value">8318373108</a>
+                                <a href="tel:{{ preg_replace('/[^0-9]/', '', \App\Models\Setting::get('contact_phone', '8318373108')) }}" class="contact-value">{{ \App\Models\Setting::get('contact_phone', '8318373108') }}</a>
                             </div>
                         </div>
 
@@ -1535,7 +1566,7 @@
                             </div>
                             <div>
                                 <div class="contact-title">Mail Us</div>
-                                <a href="mailto:support.skilllearner@gmail.com" class="contact-value">support.skilllearner@gmail.com</a>
+                                <a href="mailto:{{ \App\Models\Setting::get('contact_email', 'support@skilllearner.org') }}" class="contact-value">{{ \App\Models\Setting::get('contact_email', 'support@skilllearner.org') }}</a>
                             </div>
                         </div>
 

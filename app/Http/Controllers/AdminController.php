@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Commission;
 use App\Models\Course;
 use App\Models\KycVerification;
@@ -13,12 +14,14 @@ use App\Models\Payout;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserCourse;
+use App\Services\BackupService;
 use App\Services\CashfreeService;
 use App\Services\CommissionService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -289,6 +292,19 @@ class AdminController extends Controller
         $newBlockStatus = ! $user->is_blocked;
         $user->update(['is_blocked' => $newBlockStatus]);
 
+        ActivityLog::record(
+            $newBlockStatus ? 'USER_BLOCKED' : 'USER_UNBLOCKED',
+            'users',
+            ($newBlockStatus ? 'Blocked' : 'Unblocked')." user account '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+                'new_status' => $newBlockStatus ? 'blocked' : 'active',
+            ],
+            $request
+        );
+
         $message = $newBlockStatus
             ? "🔒 User '{$user->name}' ko successfully BLOCK kar diya gaya hai. Ab yeh login nahi kar sakega."
             : "🔓 User '{$user->name}' ko successfully UNBLOCK kar diya gaya hai. Ab yeh normal login kar sakega.";
@@ -316,6 +332,18 @@ class AdminController extends Controller
         $user->update([
             'password' => Hash::make($newPassword),
         ]);
+
+        ActivityLog::record(
+            'PASSWORD_RESET',
+            'users',
+            "Reset password for user '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+            ],
+            $request
+        );
 
         return back()->with('success', "🔑 Password for '{$user->name}' has been successfully reset to: {$newPassword}");
     }
@@ -357,6 +385,18 @@ class AdminController extends Controller
             CommissionService::creditApprovedCommission($comm);
         }
 
+        ActivityLog::record(
+            'USER_VERIFIED',
+            'users',
+            "Manually verified account and marked paid for '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+            ],
+            $request
+        );
+
         return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.");
     }
 
@@ -378,6 +418,18 @@ class AdminController extends Controller
         ], [
             'progress_percent' => 0,
         ]);
+
+        ActivityLog::record(
+            'COURSE_ENROLLED',
+            'courses',
+            "Enrolled user '{$user->name}' into course '{$course->title}'",
+            [
+                'target_user_id' => $user->id,
+                'course_id' => $course->id,
+                'course_title' => $course->title,
+            ],
+            $request
+        );
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['success' => true, 'message' => "Enrolled in {$course->title}"]);
@@ -401,6 +453,18 @@ class AdminController extends Controller
         UserCourse::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->delete();
+
+        ActivityLog::record(
+            'COURSE_UNENROLLED',
+            'courses',
+            "Unenrolled user '{$user->name}' from course '{$course->title}'",
+            [
+                'target_user_id' => $user->id,
+                'course_id' => $course->id,
+                'course_title' => $course->title,
+            ],
+            $request
+        );
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['success' => true, 'message' => "Unenrolled from {$course->title}"]);
@@ -547,6 +611,19 @@ class AdminController extends Controller
         $userName = $user->name;
         $userEmail = $user->email;
         $userAffiliateId = $user->affiliate_id;
+
+        ActivityLog::record(
+            'USER_DELETED',
+            'users',
+            "Permanently deleted user account '{$userName}' ({$userEmail}, Affiliate ID: {$userAffiliateId})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $userEmail,
+                'target_user_name' => $userName,
+                'affiliate_id' => $userAffiliateId,
+            ],
+            $request
+        );
 
         DB::transaction(function () use ($user) {
             $userId = $user->id;
@@ -750,16 +827,326 @@ class AdminController extends Controller
     {
         PortalDataService::ensureUserSession();
 
+        $currentTab = (string) $request->query('tab', 'general');
         $settings = Setting::allSettings();
+        $backups = BackupService::listBackups();
+
+        $defaultConn = config('database.default', 'mysql');
+        $serverInfo = [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'database_driver' => DB::connection()->getDriverName(),
+            'database_name' => config("database.connections.{$defaultConn}.database", 'careerfixx_db'),
+            'memory_limit' => ini_get('memory_limit'),
+            'max_upload' => ini_get('upload_max_filesize'),
+            'post_max_size' => ini_get('post_max_size'),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'PHP CLI / Laragon',
+            'is_maintenance' => (string) ($settings['maintenance_mode'] ?? '0') === '1',
+            'backups_count' => count($backups),
+        ];
 
         return view('admin.settings', [
             'settings' => $settings,
+            'backups' => $backups,
+            'serverInfo' => $serverInfo,
+            'currentTab' => $currentTab,
             'active' => 'admin-settings',
         ]);
     }
 
     /**
-     * Save Platform Settings (Super Admin Only).
+     * Save General Branding, Contact Info & SEO Settings (Super Admin Only).
+     */
+    public function updateGeneralSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'site_name' => ['required', 'string', 'max:100'],
+            'site_tagline' => ['nullable', 'string', 'max:255'],
+            'contact_email' => ['nullable', 'email', 'max:100'],
+            'contact_phone' => ['nullable', 'string', 'max:30'],
+            'contact_whatsapp' => ['nullable', 'string', 'max:30'],
+            'contact_address' => ['nullable', 'string', 'max:500'],
+            'social_instagram' => ['nullable', 'string', 'max:255'],
+            'social_youtube' => ['nullable', 'string', 'max:255'],
+            'social_telegram' => ['nullable', 'string', 'max:255'],
+            'social_facebook' => ['nullable', 'string', 'max:255'],
+            'social_linkedin' => ['nullable', 'string', 'max:255'],
+            'seo_meta_title' => ['nullable', 'string', 'max:255'],
+            'seo_meta_description' => ['nullable', 'string', 'max:1000'],
+            'seo_meta_keywords' => ['nullable', 'string', 'max:1000'],
+            'google_analytics_id' => ['nullable', 'string', 'max:50'],
+            'meta_pixel_id' => ['nullable', 'string', 'max:50'],
+            'header_scripts' => ['nullable', 'string', 'max:5000'],
+            'site_logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,svg', 'max:2048'],
+            'site_favicon' => ['nullable', 'file', 'mimes:ico,png,jpg,svg', 'max:1024'],
+        ]);
+
+        // Handle Site Logo file upload
+        if ($request->hasFile('site_logo')) {
+            $logoFile = $request->file('site_logo');
+            $logoName = 'logo_'.time().'.'.$logoFile->getClientOriginalExtension();
+            $logoFile->move(public_path('images'), $logoName);
+            Setting::set('site_logo', 'images/'.$logoName);
+            Setting::set('site_logo_dark', 'images/'.$logoName);
+        }
+
+        // Handle Site Favicon file upload
+        if ($request->hasFile('site_favicon')) {
+            $favFile = $request->file('site_favicon');
+            $favName = 'favicon_'.time().'.'.$favFile->getClientOriginalExtension();
+            $favFile->move(public_path('images'), $favName);
+            Setting::set('site_favicon', 'images/'.$favName);
+        }
+
+        foreach ([
+            'site_name', 'site_tagline', 'contact_email', 'contact_phone', 'contact_whatsapp',
+            'contact_address', 'social_instagram', 'social_youtube', 'social_telegram',
+            'social_facebook', 'social_linkedin', 'seo_meta_title', 'seo_meta_description',
+            'seo_meta_keywords', 'google_analytics_id', 'meta_pixel_id', 'header_scripts',
+        ] as $field) {
+            Setting::set($field, $validated[$field] ?? '');
+        }
+
+        ActivityLog::record(
+            'SETTINGS_GENERAL_UPDATED',
+            'content',
+            "Super Admin updated Site Branding, Contact Info & SEO Settings (Site: {$validated['site_name']})",
+            ['site_name' => $validated['site_name']],
+            $request
+        );
+
+        return redirect()->route('admin.settings', ['tab' => 'general'])
+            ->with('success', '✅ Site Name, Logo, Contact Details & SEO Settings successfully updated!');
+    }
+
+    /**
+     * Save Notification Channels & Message Templates (Super Admin Only).
+     */
+    public function updateNotificationSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'mail_from_name' => ['required', 'string', 'max:100'],
+            'mail_from_address' => ['required', 'email', 'max:100'],
+            'sms_enabled' => ['nullable', 'boolean'],
+            'sms_provider' => ['nullable', 'string', 'max:50'],
+            'sms_api_key' => ['nullable', 'string', 'max:255'],
+            'sms_sender_id' => ['nullable', 'string', 'max:20'],
+
+            'template_welcome_subject' => ['required', 'string', 'max:255'],
+            'template_welcome_email' => ['required', 'string', 'max:5000'],
+            'template_welcome_sms' => ['nullable', 'string', 'max:500'],
+
+            'template_order_subject' => ['required', 'string', 'max:255'],
+            'template_order_email' => ['required', 'string', 'max:5000'],
+            'template_order_sms' => ['nullable', 'string', 'max:500'],
+
+            'template_active_referral_subject' => ['required', 'string', 'max:255'],
+            'template_active_referral_email' => ['required', 'string', 'max:5000'],
+            'template_active_referral_sms' => ['nullable', 'string', 'max:500'],
+
+            'template_passive_referral_subject' => ['required', 'string', 'max:255'],
+            'template_passive_referral_email' => ['required', 'string', 'max:5000'],
+            'template_passive_referral_sms' => ['nullable', 'string', 'max:500'],
+
+            'template_password_reset_subject' => ['required', 'string', 'max:255'],
+            'template_password_reset_email' => ['required', 'string', 'max:5000'],
+            'template_password_reset_sms' => ['nullable', 'string', 'max:500'],
+
+            'template_kyc_subject' => ['required', 'string', 'max:255'],
+            'template_kyc_email' => ['required', 'string', 'max:5000'],
+            'template_kyc_sms' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $smsEnabled = $request->has('sms_enabled') ? '1' : '0';
+        Setting::set('sms_enabled', $smsEnabled);
+
+        foreach ($validated as $key => $value) {
+            Setting::set($key, $value ?? '');
+        }
+
+        ActivityLog::record(
+            'SETTINGS_NOTIFICATIONS_UPDATED',
+            'content',
+            'Super Admin updated Email, SMS & Notification message templates',
+            ['sms_enabled' => $smsEnabled],
+            $request
+        );
+
+        return redirect()->route('admin.settings', ['tab' => 'notifications'])
+            ->with('success', '✅ Email & SMS notification templates saved successfully!');
+    }
+
+    /**
+     * Save Tax & GST Invoicing Rules (Super Admin Only).
+     */
+    public function updateTaxSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'tax_enabled' => ['nullable', 'boolean'],
+            'tax_rate' => ['required', 'numeric', 'min:0', 'max:100'],
+            'tax_company_name' => ['required', 'string', 'max:255'],
+            'tax_gstin' => ['nullable', 'string', 'max:30'],
+            'tax_sac_code' => ['nullable', 'string', 'max:30'],
+            'tax_invoice_prefix' => ['nullable', 'string', 'max:30'],
+            'tax_registered_address' => ['nullable', 'string', 'max:500'],
+            'tax_state_code' => ['nullable', 'string', 'max:50'],
+            'tax_invoice_terms' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $taxEnabled = $request->has('tax_enabled') ? '1' : '0';
+        Setting::set('tax_enabled', $taxEnabled);
+        Setting::set('tax_rate', $validated['tax_rate']);
+        Setting::set('tax_company_name', $validated['tax_company_name']);
+        Setting::set('tax_gstin', $validated['tax_gstin'] ?? '');
+        Setting::set('tax_sac_code', $validated['tax_sac_code'] ?? '999293');
+        Setting::set('tax_invoice_prefix', $validated['tax_invoice_prefix'] ?? 'INV-SKL-');
+        Setting::set('tax_registered_address', $validated['tax_registered_address'] ?? '');
+        Setting::set('tax_state_code', $validated['tax_state_code'] ?? '');
+        Setting::set('tax_invoice_terms', $validated['tax_invoice_terms'] ?? '');
+
+        ActivityLog::record(
+            'SETTINGS_TAX_UPDATED',
+            'finance',
+            "Super Admin updated GST & Tax Invoicing configuration (GST Rate: {$validated['tax_rate']}%, GSTIN: {$validated['tax_gstin']})",
+            [
+                'tax_enabled' => $taxEnabled,
+                'tax_rate' => $validated['tax_rate'],
+                'tax_gstin' => $validated['tax_gstin'] ?? '',
+            ],
+            $request
+        );
+
+        return redirect()->route('admin.settings', ['tab' => 'tax'])
+            ->with('success', '✅ GST & Invoicing rules updated! Customer tax invoices will now calculate taxes with these settings.');
+    }
+
+    /**
+     * Save Maintenance Mode Configuration (Super Admin Only).
+     */
+    public function updateMaintenanceSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'maintenance_mode' => ['nullable', 'boolean'],
+            'maintenance_title' => ['required', 'string', 'max:255'],
+            'maintenance_message' => ['required', 'string', 'max:1000'],
+            'maintenance_bypass_key' => ['required', 'string', 'max:100'],
+            'maintenance_end_time' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $maintenanceMode = $request->has('maintenance_mode') ? '1' : '0';
+        Setting::set('maintenance_mode', $maintenanceMode);
+        Setting::set('maintenance_title', $validated['maintenance_title']);
+        Setting::set('maintenance_message', $validated['maintenance_message']);
+        Setting::set('maintenance_bypass_key', $validated['maintenance_bypass_key']);
+        Setting::set('maintenance_end_time', $validated['maintenance_end_time'] ?? 'Shortly');
+
+        ActivityLog::record(
+            'MAINTENANCE_TOGGLED',
+            'content',
+            'Super Admin updated Maintenance Mode (Status: '.($maintenanceMode === '1' ? 'ACTIVE (Site in Maintenance)' : 'DISABLED (Site Live)').')',
+            ['maintenance_mode' => $maintenanceMode],
+            $request
+        );
+
+        $msg = $maintenanceMode === '1'
+            ? '⚠️ Maintenance Mode is now ACTIVE! Public visitors will see the maintenance screen. Super Admins remain logged in.'
+            : '✅ Maintenance Mode has been TURNED OFF! Platform is live for all students and affiliates.';
+
+        return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+            ->with('success', $msg);
+    }
+
+    /**
+     * Create Instant Database Backup (Super Admin Only).
+     */
+    public function createBackup(Request $request): RedirectResponse
+    {
+        try {
+            $backup = BackupService::createBackup();
+
+            ActivityLog::record(
+                'BACKUP_CREATED',
+                'reports',
+                "Generated full platform database backup: {$backup['filename']} ({$backup['size']})",
+                $backup,
+                $request
+            );
+
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('success', "✅ Full database backup created successfully! File: {$backup['filename']} ({$backup['size']})");
+        } catch (\Throwable $e) {
+            Log::error('Backup creation failed: '.$e->getMessage());
+
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('error', 'Failed to generate database backup: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Download an existing Database Backup (Super Admin Only).
+     */
+    public function downloadBackup(Request $request, string $filename)
+    {
+        $path = BackupService::getBackupFullPath($filename);
+
+        if (! $path) {
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('error', 'Requested backup file could not be found.');
+        }
+
+        return response()->download($path);
+    }
+
+    /**
+     * Delete an existing Database Backup (Super Admin Only).
+     */
+    public function deleteBackup(Request $request, string $filename): RedirectResponse
+    {
+        $success = BackupService::deleteBackup($filename);
+
+        if ($success) {
+            ActivityLog::record(
+                'BACKUP_DELETED',
+                'reports',
+                "Deleted database backup file: {$filename}",
+                ['filename' => $filename],
+                $request
+            );
+
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('success', "Backup file '{$filename}' successfully deleted.");
+        }
+
+        return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+            ->with('error', "Could not delete backup file '{$filename}'.");
+    }
+
+    /**
+     * Clear Application Cache, Views & Configuration (Super Admin Only).
+     */
+    public function clearCache(Request $request): RedirectResponse
+    {
+        try {
+            Artisan::call('optimize:clear');
+
+            ActivityLog::record(
+                'CACHE_CLEARED',
+                'content',
+                'Super Admin flushed all application caches, routes, config and compiled blade views.',
+                [],
+                $request
+            );
+
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('success', '⚡ Application cache, compiled views, routes, and config have been completely cleared and refreshed!');
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.settings', ['tab' => 'maintenance'])
+                ->with('error', 'Cache clearing error: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Save Platform Settings (Financial & Video) (Super Admin Only).
      */
     public function updateSettings(Request $request): RedirectResponse
     {
@@ -768,7 +1155,6 @@ class AdminController extends Controller
             'tier1_commission' => ['required', 'numeric', 'min:0', 'max:100'],
             'tier2_commission' => ['required', 'numeric', 'min:0', 'max:100'],
             'min_payout_amount' => ['required', 'numeric', 'min:100'],
-            'maintenance_mode' => ['nullable', 'boolean'],
             'login_video_url' => ['nullable', 'string', 'max:500'],
             'login_video_title' => ['nullable', 'string', 'max:255'],
             'login_video_description' => ['nullable', 'string', 'max:1000'],
@@ -789,7 +1175,16 @@ class AdminController extends Controller
         $allSettings = Setting::allSettings();
         session(['platform_settings' => $allSettings]);
 
-        return back()->with('success', 'Platform settings and Login Video updated successfully by Super Admin.');
+        ActivityLog::record(
+            'SETTINGS_FINANCIAL_UPDATED',
+            'finance',
+            "Updated Platform Commission Rules: Tier-1 {$validated['tier1_commission']}%, Tier-2 {$validated['tier2_commission']}%, Min Payout ₹{$validated['min_payout_amount']}",
+            $validated,
+            $request
+        );
+
+        return redirect()->route('admin.settings', ['tab' => 'financial'])
+            ->with('success', 'Platform commission rules and login welcome video settings updated successfully!');
     }
 
     /**
@@ -945,12 +1340,23 @@ class AdminController extends Controller
         // Ensure unique tax invoice number
         $order->getOrGenerateInvoiceNumber();
 
-        // Calculate tax breakdown (18% GST standard on online education)
+        // Calculate tax breakdown dynamically based on System Settings (Default 18% GST)
+        $taxEnabled = (string) Setting::get('tax_enabled', '1') === '1';
+        $taxRate = $taxEnabled ? (float) Setting::get('tax_rate', 18) : 0.0;
         $totalPaid = (float) $order->amount;
-        $taxableValue = round($totalPaid / 1.18, 2);
-        $totalGst = round($totalPaid - $taxableValue, 2);
-        $cgst = round($totalGst / 2, 2);
-        $sgst = round($totalGst - $cgst, 2);
+
+        if ($taxRate > 0) {
+            $taxMultiplier = 1 + ($taxRate / 100);
+            $taxableValue = round($totalPaid / $taxMultiplier, 2);
+            $totalGst = round($totalPaid - $taxableValue, 2);
+            $cgst = round($totalGst / 2, 2);
+            $sgst = round($totalGst - $cgst, 2);
+        } else {
+            $taxableValue = $totalPaid;
+            $totalGst = 0.0;
+            $cgst = 0.0;
+            $sgst = 0.0;
+        }
 
         return view('admin.invoice', [
             'order' => $order,
@@ -959,6 +1365,14 @@ class AdminController extends Controller
             'cgst' => $cgst,
             'sgst' => $sgst,
             'totalPaid' => $totalPaid,
+            'taxRate' => $taxRate,
+            'taxEnabled' => $taxEnabled,
+            'companyName' => Setting::get('tax_company_name', 'SkillLearner EdTech Private Limited'),
+            'gstin' => Setting::get('tax_gstin', '07AABCS1429B1Z2'),
+            'sacCode' => Setting::get('tax_sac_code', '999293'),
+            'registeredAddress' => Setting::get('tax_registered_address', 'Tower B, Sector 62, Noida, Gautam Buddha Nagar, UP - 201301'),
+            'supportEmail' => Setting::get('contact_email', 'support@skilllearner.org'),
+            'invoiceTerms' => Setting::get('tax_invoice_terms', '1. Computer generated tax invoice, no physical signature required. 2. Educational digital course once activated is non-refundable per terms.'),
         ]);
     }
 
@@ -993,6 +1407,19 @@ class AdminController extends Controller
                 'refunded_at' => now(),
             ]);
 
+            ActivityLog::record(
+                'REFUND_APPROVED',
+                'orders',
+                "Approved refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+                [
+                    'order_id' => $order->id,
+                    'order_reference' => $order->order_id,
+                    'amount' => $amount,
+                    'reason' => $reason,
+                ],
+                $request
+            );
+
             Log::info("💳 [CASHFREE-REFUND] Refund APPROVED for Order #{$order->order_id} (Amount: ₹{$amount}) - Reason: {$reason} by Admin ID #{$currentUser?->id}");
 
             return back()->with('success', '✅ Refund of ₹'.number_format($amount, 2)." for Order #{$order->order_id} has been APPROVED.");
@@ -1003,6 +1430,18 @@ class AdminController extends Controller
                 'refund_status' => 'rejected',
                 'refund_reason' => $reason,
             ]);
+
+            ActivityLog::record(
+                'REFUND_REJECTED',
+                'orders',
+                "Rejected refund for Order #{$order->order_id}. Reason: {$reason}",
+                [
+                    'order_id' => $order->id,
+                    'order_reference' => $order->order_id,
+                    'reason' => $reason,
+                ],
+                $request
+            );
 
             Log::info("💳 [CASHFREE-REFUND] Refund REJECTED for Order #{$order->order_id} - Note: {$reason}");
 
@@ -1015,6 +1454,19 @@ class AdminController extends Controller
             'refund_amount' => $amount,
             'refund_reason' => $reason,
         ]);
+
+        ActivityLog::record(
+            'REFUND_REQUESTED',
+            'orders',
+            "Requested refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+            [
+                'order_id' => $order->id,
+                'order_reference' => $order->order_id,
+                'amount' => $amount,
+                'reason' => $reason,
+            ],
+            $request
+        );
 
         return back()->with('success', 'Refund request for ₹'.number_format($amount, 2)." submitted for Order #{$order->order_id}.");
     }
@@ -1069,6 +1521,19 @@ class AdminController extends Controller
             );
         }
 
+        ActivityLog::record(
+            'ORDER_MARKED_PAID',
+            'orders',
+            "Manually verified and marked Order #{$order->order_id} as PAID (Amount: ₹".number_format((float) $order->amount, 2).", Txn: {$transactionId})",
+            [
+                'order_id' => $order->id,
+                'order_reference' => $order->order_id,
+                'amount' => (float) $order->amount,
+                'transaction_id' => $transactionId,
+            ],
+            $request
+        );
+
         Log::info("💳 [ORDER-TRACKING] Order #{$order->order_id} manually marked as PAID by Admin #{$currentUser?->id}. Transaction: {$transactionId}");
 
         return back()->with('success', "✅ Order #{$order->order_id} has been marked as PAID! Account activated and courses unlocked.");
@@ -1119,6 +1584,17 @@ class AdminController extends Controller
         if (! empty($validated['cashfree_secret_key'])) {
             Setting::set('cashfree_secret_key', trim((string) $validated['cashfree_secret_key']));
         }
+
+        ActivityLog::record(
+            'GATEWAY_SETTINGS_UPDATED',
+            'finance',
+            "Updated Cashfree Payment Gateway settings (Environment: {$validated['cashfree_env']})",
+            [
+                'environment' => $validated['cashfree_env'],
+                'has_app_id' => ! empty($validated['cashfree_app_id']),
+            ],
+            $request
+        );
 
         Log::info("💳 [CASHFREE-SETTINGS] Super Admin updated Payment Gateway settings. Mode: {$validated['cashfree_env']}");
 
