@@ -209,12 +209,14 @@ class CashfreePaymentController extends Controller
 
         Log::info("💳 [CASHFREE-GATEWAY] Checkout view rendered for Order #{$orderId} | Session: {$paymentSessionId} | Mode: ".($isSimulated ? 'TEST SIMULATOR' : 'LIVE CASHFREE'));
 
+        $activeEnv = CashfreeService::getEnv();
+
         if ($request->expectsJson()) {
             return response()->json([
                 'success' => true,
                 'payment_session_id' => $paymentSessionId,
                 'order_id' => $orderId,
-                'environment' => config('cashfree.env', 'sandbox'),
+                'environment' => $activeEnv,
                 'is_simulated' => $isSimulated,
             ]);
         }
@@ -224,7 +226,7 @@ class CashfreePaymentController extends Controller
             'paymentSessionId' => $paymentSessionId,
             'orderId' => $orderId,
             'order' => $orderData,
-            'environment' => config('cashfree.env', 'sandbox'),
+            'environment' => $activeEnv,
             'isSimulated' => $isSimulated,
         ]);
     }
@@ -371,7 +373,7 @@ class CashfreePaymentController extends Controller
                 'progress_percent' => 0,
             ]);
         }
-        Log::info("💳 [CASHFREE-GATEWAY] 🔓 Unlocked " . count($courses) . " courses for User #{$user->id}");
+        Log::info('💳 [CASHFREE-GATEWAY] 🔓 Unlocked '.count($courses)." courses for User #{$user->id}");
 
         // 3. Distribute 2-Tier commissions in Credited status immediately
         $sponsorId = $user->sponsor_id ?? 'SL-ADMIN';
@@ -383,7 +385,7 @@ class CashfreePaymentController extends Controller
             $user,
             initialStatus: 'Credited'
         );
-        Log::info("💳 [CASHFREE-GATEWAY] ✅ Commissions successfully calculated and credited to sponsor wallet!");
+        Log::info('💳 [CASHFREE-GATEWAY] ✅ Commissions successfully calculated and credited to sponsor wallet!');
 
         // 4. Send branded welcome email notification
         try {
