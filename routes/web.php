@@ -18,6 +18,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\VideoController;
@@ -1060,8 +1061,20 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::get('/reports/printable', [ReportController::class, 'printable'])->name('admin.reports.printable');
 });
 
-// Super Admin Only System Settings & Video Management
+// Super Admin Only System Settings, Video Management & RBAC
 Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
+    // Roles & Permissions (RBAC) & Audit Trail
+    Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles');
+    Route::post('/roles/staff', [RoleController::class, 'storeStaff'])->name('admin.staff.store');
+    Route::put('/roles/staff/{id}', [RoleController::class, 'updateStaff'])->name('admin.staff.update');
+    Route::delete('/roles/staff/{id}', [RoleController::class, 'deleteStaff'])->name('admin.staff.delete');
+
+    Route::post('/roles', [RoleController::class, 'storeRole'])->name('admin.roles.store');
+    Route::put('/roles/{id}', [RoleController::class, 'updateRolePermissions'])->name('admin.roles.update');
+    Route::delete('/roles/{id}', [RoleController::class, 'deleteRole'])->name('admin.roles.delete');
+
+    Route::get('/activity-logs', [RoleController::class, 'activityLogs'])->name('admin.activity-logs');
+
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
 

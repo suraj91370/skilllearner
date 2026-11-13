@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Coupon;
 use App\Models\Offer;
 use App\Models\OfferRedemption;
@@ -456,9 +457,31 @@ class OfferController extends Controller
             'desc' => ['nullable', 'string', 'max:1000'],
         ]);
 
+        $oldPkg = PackageService::getPackageBySlug($slug, false);
+        $oldPrice = (float) ($oldPkg['price'] ?? 0);
+        $oldActive = (float) ($oldPkg['active_income'] ?? 0);
+        $oldPassive = (float) ($oldPkg['passive_income'] ?? 0);
+
         $success = PackageService::updatePackage($slug, $validated);
 
         if ($success) {
+            ActivityLog::record(
+                'PRICE_CHANGED',
+                'courses',
+                "Changed package price for '{$validated['name']}' ({$slug}): ₹".number_format($oldPrice)." → ₹".number_format($validated['price']).", Active Commission ₹{$validated['active_income']}, Passive Commission ₹{$validated['passive_income']}",
+                [
+                    'slug' => $slug,
+                    'name' => $validated['name'],
+                    'old_price' => $oldPrice,
+                    'new_price' => (float) $validated['price'],
+                    'old_active_income' => $oldActive,
+                    'new_active_income' => (float) $validated['active_income'],
+                    'old_passive_income' => $oldPassive,
+                    'new_passive_income' => (float) $validated['passive_income'],
+                ],
+                $request
+            );
+
             return redirect()->route('admin.offers', ['tab' => 'packages'])
                 ->with('success', "✅ {$validated['name']} pricing & commission updated! New price ₹".number_format($validated['price'])." is now active on the Homepage, Plans, and Checkout pages.");
         }

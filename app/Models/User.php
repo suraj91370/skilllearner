@@ -28,8 +28,10 @@ use Illuminate\Notifications\Notifiable;
     'kyc_status',
     'avatar',
     'role',
+    'role_id',
     'payment_status',
     'is_blocked',
+    'is_staff',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -55,6 +57,7 @@ class User extends Authenticatable
             'passive_earning' => 'decimal:2',
             'industry_revenue' => 'decimal:2',
             'is_blocked' => 'boolean',
+            'is_staff' => 'boolean',
         ];
     }
 
@@ -85,6 +88,16 @@ class User extends Authenticatable
         return $this->hasOne(KycVerification::class);
     }
 
+    public function roleModel()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class)->latest();
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->role === 'super_admin';
@@ -92,19 +105,83 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return in_array($this->role, ['admin', 'super_admin']);
+        return in_array($this->role, ['admin', 'super_admin']) || $this->is_staff;
+    }
+
+    public function isStaff(): bool
+    {
+        return (bool) $this->is_staff || in_array($this->role, ['super_admin', 'admin', 'support', 'finance', 'content_manager']);
     }
 
     public function isUser(): bool
     {
-        return in_array($this->role, ['user', 'affiliate', 'student']);
+        return in_array($this->role, ['user', 'affiliate', 'student']) && ! $this->is_staff;
+    }
+
+    /**
+     * Check if user has permission for a specific module and action.
+     */
+    public function hasPermission(string $module, string $action = 'view'): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (! $this->isStaff()) {
+            return false;
+        }
+
+        // Check assigned Role model
+        if ($this->roleModel) {
+            return $this->roleModel->hasPermission($module, $action);
+        }
+
+        // Fallback for role slug if role_id not linked
+        $role = Role::where('slug', $this->role)->first();
+        if ($role) {
+            return $role->hasPermission($module, $action);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user can access a module.
+     */
+    public function canAccessModule(string $module): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (! $this->isStaff()) {
+            return false;
+        }
+
+        if ($this->roleModel) {
+            return $this->roleModel->canAccessModule($module);
+        }
+
+        $role = Role::where('slug', $this->role)->first();
+        if ($role) {
+            return $role->canAccessModule($module);
+        }
+
+        return false;
     }
 
     public function getRoleBadgeAttribute(): string
     {
+        if ($this->roleModel) {
+            return $this->roleModel->name;
+        }
+
         return match ($this->role) {
             'super_admin' => 'Super Admin',
             'admin' => 'Admin',
+            'support' => 'Support Staff',
+            'finance' => 'Finance Manager',
+            'content_manager' => 'Content Manager',
             default => 'Student / Affiliate',
         };
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Commission;
 use App\Models\Course;
 use App\Models\KycVerification;
@@ -289,6 +290,19 @@ class AdminController extends Controller
         $newBlockStatus = ! $user->is_blocked;
         $user->update(['is_blocked' => $newBlockStatus]);
 
+        ActivityLog::record(
+            $newBlockStatus ? 'USER_BLOCKED' : 'USER_UNBLOCKED',
+            'users',
+            ($newBlockStatus ? 'Blocked' : 'Unblocked')." user account '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+                'new_status' => $newBlockStatus ? 'blocked' : 'active',
+            ],
+            $request
+        );
+
         $message = $newBlockStatus
             ? "🔒 User '{$user->name}' ko successfully BLOCK kar diya gaya hai. Ab yeh login nahi kar sakega."
             : "🔓 User '{$user->name}' ko successfully UNBLOCK kar diya gaya hai. Ab yeh normal login kar sakega.";
@@ -316,6 +330,18 @@ class AdminController extends Controller
         $user->update([
             'password' => Hash::make($newPassword),
         ]);
+
+        ActivityLog::record(
+            'PASSWORD_RESET',
+            'users',
+            "Reset password for user '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+            ],
+            $request
+        );
 
         return back()->with('success', "🔑 Password for '{$user->name}' has been successfully reset to: {$newPassword}");
     }
@@ -357,6 +383,18 @@ class AdminController extends Controller
             CommissionService::creditApprovedCommission($comm);
         }
 
+        ActivityLog::record(
+            'USER_VERIFIED',
+            'users',
+            "Manually verified account and marked paid for '{$user->name}' ({$user->email})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $user->email,
+                'target_user_name' => $user->name,
+            ],
+            $request
+        );
+
         return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.");
     }
 
@@ -378,6 +416,18 @@ class AdminController extends Controller
         ], [
             'progress_percent' => 0,
         ]);
+
+        ActivityLog::record(
+            'COURSE_ENROLLED',
+            'courses',
+            "Enrolled user '{$user->name}' into course '{$course->title}'",
+            [
+                'target_user_id' => $user->id,
+                'course_id' => $course->id,
+                'course_title' => $course->title,
+            ],
+            $request
+        );
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['success' => true, 'message' => "Enrolled in {$course->title}"]);
@@ -401,6 +451,18 @@ class AdminController extends Controller
         UserCourse::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->delete();
+
+        ActivityLog::record(
+            'COURSE_UNENROLLED',
+            'courses',
+            "Unenrolled user '{$user->name}' from course '{$course->title}'",
+            [
+                'target_user_id' => $user->id,
+                'course_id' => $course->id,
+                'course_title' => $course->title,
+            ],
+            $request
+        );
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['success' => true, 'message' => "Unenrolled from {$course->title}"]);
@@ -547,6 +609,19 @@ class AdminController extends Controller
         $userName = $user->name;
         $userEmail = $user->email;
         $userAffiliateId = $user->affiliate_id;
+
+        ActivityLog::record(
+            'USER_DELETED',
+            'users',
+            "Permanently deleted user account '{$userName}' ({$userEmail}, Affiliate ID: {$userAffiliateId})",
+            [
+                'target_user_id' => $user->id,
+                'target_user_email' => $userEmail,
+                'target_user_name' => $userName,
+                'affiliate_id' => $userAffiliateId,
+            ],
+            $request
+        );
 
         DB::transaction(function () use ($user) {
             $userId = $user->id;
@@ -993,6 +1068,19 @@ class AdminController extends Controller
                 'refunded_at' => now(),
             ]);
 
+            ActivityLog::record(
+                'REFUND_APPROVED',
+                'orders',
+                "Approved refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+                [
+                    'order_id' => $order->id,
+                    'order_reference' => $order->order_id,
+                    'amount' => $amount,
+                    'reason' => $reason,
+                ],
+                $request
+            );
+
             Log::info("💳 [CASHFREE-REFUND] Refund APPROVED for Order #{$order->order_id} (Amount: ₹{$amount}) - Reason: {$reason} by Admin ID #{$currentUser?->id}");
 
             return back()->with('success', '✅ Refund of ₹'.number_format($amount, 2)." for Order #{$order->order_id} has been APPROVED.");
@@ -1003,6 +1091,18 @@ class AdminController extends Controller
                 'refund_status' => 'rejected',
                 'refund_reason' => $reason,
             ]);
+
+            ActivityLog::record(
+                'REFUND_REJECTED',
+                'orders',
+                "Rejected refund for Order #{$order->order_id}. Reason: {$reason}",
+                [
+                    'order_id' => $order->id,
+                    'order_reference' => $order->order_id,
+                    'reason' => $reason,
+                ],
+                $request
+            );
 
             Log::info("💳 [CASHFREE-REFUND] Refund REJECTED for Order #{$order->order_id} - Note: {$reason}");
 
@@ -1015,6 +1115,19 @@ class AdminController extends Controller
             'refund_amount' => $amount,
             'refund_reason' => $reason,
         ]);
+
+        ActivityLog::record(
+            'REFUND_REQUESTED',
+            'orders',
+            "Requested refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+            [
+                'order_id' => $order->id,
+                'order_reference' => $order->order_id,
+                'amount' => $amount,
+                'reason' => $reason,
+            ],
+            $request
+        );
 
         return back()->with('success', 'Refund request for ₹'.number_format($amount, 2)." submitted for Order #{$order->order_id}.");
     }
@@ -1069,6 +1182,19 @@ class AdminController extends Controller
             );
         }
 
+        ActivityLog::record(
+            'ORDER_MARKED_PAID',
+            'orders',
+            "Manually verified and marked Order #{$order->order_id} as PAID (Amount: ₹".number_format((float) $order->amount, 2).", Txn: {$transactionId})",
+            [
+                'order_id' => $order->id,
+                'order_reference' => $order->order_id,
+                'amount' => (float) $order->amount,
+                'transaction_id' => $transactionId,
+            ],
+            $request
+        );
+
         Log::info("💳 [ORDER-TRACKING] Order #{$order->order_id} manually marked as PAID by Admin #{$currentUser?->id}. Transaction: {$transactionId}");
 
         return back()->with('success', "✅ Order #{$order->order_id} has been marked as PAID! Account activated and courses unlocked.");
@@ -1119,6 +1245,17 @@ class AdminController extends Controller
         if (! empty($validated['cashfree_secret_key'])) {
             Setting::set('cashfree_secret_key', trim((string) $validated['cashfree_secret_key']));
         }
+
+        ActivityLog::record(
+            'GATEWAY_SETTINGS_UPDATED',
+            'finance',
+            "Updated Cashfree Payment Gateway settings (Environment: {$validated['cashfree_env']})",
+            [
+                'environment' => $validated['cashfree_env'],
+                'has_app_id' => ! empty($validated['cashfree_app_id']),
+            ],
+            $request
+        );
 
         Log::info("💳 [CASHFREE-SETTINGS] Super Admin updated Payment Gateway settings. Mode: {$validated['cashfree_env']}");
 
