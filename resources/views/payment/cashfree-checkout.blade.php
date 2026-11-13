@@ -394,8 +394,8 @@
                 </div>
 
                 <div id="fallbackAction" style="display: none; margin-top: 1.2rem; text-align: center;">
-                    <p style="font-size: 0.85rem; color: #dc2626; margin-bottom: 0.5rem;">Window did not open automatically?</p>
-                    <button onclick="triggerCashfreeCheckout()" class="btn-pay-success" style="display: inline-block; width: auto; padding: 10px 24px;">Click to Pay Now</button>
+                    <p style="font-size: 0.85rem; color: #dc2626; margin-bottom: 0.5rem;">Payment window did not open?</p>
+                    <button onclick="triggerCashfreeSelf()" class="btn-pay-success" style="display: inline-block; width: auto; padding: 10px 24px;">Click Here to Pay (Full Screen)</button>
                     <br>
                     <a href="{{ url('/buy-now') }}" class="btn-cancel-link">Return to Checkout</a>
                 </div>
@@ -460,7 +460,17 @@
 
                 cashfree.checkout({
                     paymentSessionId: paymentSessionId,
-                    redirectTarget: "_self"
+                    redirectTarget: "_modal"
+                }).then(function(result) {
+                    if (result && result.error) {
+                        console.warn("Cashfree checkout modal notice:", result.error);
+                    }
+                    // Redirect to callback using current browser host
+                    const callbackUrl = "{{ route('payment.cashfree.callback') }}?order_id=" + encodeURIComponent(orderId);
+                    window.location.href = callbackUrl;
+                }).catch(function(err) {
+                    console.error("Modal failed, opening full-screen checkout:", err);
+                    triggerCashfreeSelf();
                 });
             } catch (err) {
                 console.error("Cashfree Checkout Error:", err);
@@ -470,12 +480,27 @@
             }
         }
 
+        function triggerCashfreeSelf() {
+            try {
+                if (!cashfree) {
+                    cashfree = Cashfree({ mode: cashfreeMode });
+                }
+                cashfree.checkout({
+                    paymentSessionId: paymentSessionId,
+                    redirectTarget: "_self"
+                });
+            } catch (err) {
+                console.error("Direct redirect failed:", err);
+                alert("Unable to open Cashfree. Please refresh and try again.");
+            }
+        }
+
         window.addEventListener('load', function() {
             setTimeout(triggerCashfreeCheckout, 600);
             setTimeout(function() {
                 const fallback = document.getElementById('fallbackAction');
                 if (fallback) fallback.style.display = 'block';
-            }, 4000);
+            }, 3500);
         });
         @endif
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -12,7 +13,7 @@ class CashfreeService
      */
     public static function getAppId(): string
     {
-        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_app_id', config('cashfree.app_id', env('CASHFREE_APP_ID', ''))) : config('cashfree.app_id', env('CASHFREE_APP_ID', '')));
+        return (string) (class_exists(Setting::class) ? Setting::get('cashfree_app_id', config('cashfree.app_id', env('CASHFREE_APP_ID', ''))) : config('cashfree.app_id', env('CASHFREE_APP_ID', '')));
     }
 
     /**
@@ -20,7 +21,7 @@ class CashfreeService
      */
     public static function getSecretKey(): string
     {
-        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_secret_key', config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', ''))) : config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', '')));
+        return (string) (class_exists(Setting::class) ? Setting::get('cashfree_secret_key', config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', ''))) : config('cashfree.secret_key', env('CASHFREE_SECRET_KEY', '')));
     }
 
     /**
@@ -28,7 +29,7 @@ class CashfreeService
      */
     public static function getEnv(): string
     {
-        return (string) (class_exists(\App\Models\Setting::class) ? \App\Models\Setting::get('cashfree_env', config('cashfree.env', env('CASHFREE_ENV', 'sandbox'))) : config('cashfree.env', env('CASHFREE_ENV', 'sandbox')));
+        return (string) (class_exists(Setting::class) ? Setting::get('cashfree_env', config('cashfree.env', env('CASHFREE_ENV', 'sandbox'))) : config('cashfree.env', env('CASHFREE_ENV', 'sandbox')));
     }
 
     /**
@@ -208,6 +209,14 @@ class CashfreeService
 
         $returnUrl = $params['return_url'] ?? url('/payment/cashfree/callback?order_id={order_id}');
         $notifyUrl = $params['notify_url'] ?? url('/payment/cashfree/webhook');
+
+        // Cashfree API (especially in Production) strictly requires HTTPS return_url & notify_url
+        if (str_starts_with($returnUrl, 'http://')) {
+            $returnUrl = 'https://'.substr($returnUrl, 7);
+        }
+        if (str_starts_with($notifyUrl, 'http://')) {
+            $notifyUrl = 'https://'.substr($notifyUrl, 7);
+        }
 
         $payload = [
             'order_id' => $orderId,

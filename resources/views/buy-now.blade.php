@@ -217,44 +217,26 @@
                         Payment Method
                     </h2>
 
-                    <!-- Payment Methods Selection (Cashfree Instant vs Manual Transfer) -->
-                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem;">
-                        <!-- Method 1: Cashfree Online Payment (Instant) -->
-                        <label 
-                            id="labelCashfree" 
-                            class="payment-method-box active" 
-                            onclick="setPaymentMethod('cashfree')"
-                            style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 2px solid #05B396; border-radius: 12px; background: #f0fdf9; cursor: pointer; transition: all 0.2s ease;"
-                        >
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <input type="radio" name="payment_method" value="cashfree" checked class="payment-radio-input" style="accent-color: #05B396; width: 17px; height: 17px;">
-                                <div style="text-align: left;">
-                                    <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
-                                        <span>Instant Online Payment</span>
-                                        <span style="background: #05B396; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Instant</span>
-                                    </div>
-                                    <div style="font-size: 0.78rem; color: #047857; font-weight: 600; margin-top: 2px;">
-                                        ⚡ Automatic Activation &bull; UPI (GPay, PhonePe, Paytm), Cards, NetBanking
-                                    </div>
+                    <!-- Single Unified Payment Method: 100% Cashfree Online Gateway -->
+                    <input type="hidden" name="payment_method" value="cashfree" id="paymentMethodInput">
+                    <div style="padding: 14px 16px; border: 2px solid #05B396; border-radius: 14px; background: #f0fdf9; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 15px rgba(5, 179, 150, 0.08);">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 42px; height: 42px; border-radius: 50%; background: #05B396; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(5, 179, 150, 0.25);">
+                                💳
+                            </div>
+                            <div style="text-align: left;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 0.98rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <span>Instant Online Payment</span>
+                                    <span style="background: #05B396; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">✓ 100% Secure</span>
+                                </div>
+                                <div style="font-size: 0.8rem; color: #047857; font-weight: 600; margin-top: 3px; line-height: 1.4;">
+                                    ⚡ Automatic Activation &bull; UPI (GPay, PhonePe, Paytm, QR), Cards &amp; NetBanking
                                 </div>
                             </div>
-                        </label>
-
-                        <!-- Method 2: Manual UPI / QR Transfer -->
-                        <label 
-                            id="labelManual" 
-                            class="payment-method-box" 
-                            onclick="setPaymentMethod('manual')"
-                            style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; background: #ffffff; cursor: pointer; transition: all 0.2s ease;"
-                        >
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <input type="radio" name="payment_method" value="manual" class="payment-radio-input" style="accent-color: #05B396; width: 17px; height: 17px;">
-                                <div style="text-align: left;">
-                                    <div style="font-weight: 700; color: #334155; font-size: 0.92rem;">Manual UPI / QR Transfer</div>
-                                    <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Pay via QR Code &amp; Submit UTR (Requires Admin Verification)</div>
-                                </div>
-                            </div>
-                        </label>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 4px; color: #05B396; font-weight: 900; font-size: 1.3rem;">
+                            <span>✓</span>
+                        </div>
                     </div>
 
                     @php
@@ -896,42 +878,9 @@
 
     function setPaymentMethod(method) {
         const form = document.getElementById('mainCheckoutForm');
-        const labelCashfree = document.getElementById('labelCashfree');
-        const labelManual = document.getElementById('labelManual');
-
-        if (method === 'cashfree') {
-            if (form) form.action = "{{ route('payment.cashfree.initiate') }}";
-            if (labelCashfree) {
-                labelCashfree.classList.add('active');
-                labelCashfree.style.borderColor = '#05B396';
-                labelCashfree.style.background = '#f0fdf9';
-                const radio = labelCashfree.querySelector('input[type="radio"]');
-                if (radio) radio.checked = true;
-            }
-            if (labelManual) {
-                labelManual.classList.remove('active');
-                labelManual.style.borderColor = '#cbd5e1';
-                labelManual.style.background = '#ffffff';
-                const radio = labelManual.querySelector('input[type="radio"]');
-                if (radio) radio.checked = false;
-            }
-        } else {
-            if (form) form.action = "{{ route('process.buynow') }}";
-            if (labelManual) {
-                labelManual.classList.add('active');
-                labelManual.style.borderColor = '#05B396';
-                labelManual.style.background = '#f0fdf9';
-                const radio = labelManual.querySelector('input[type="radio"]');
-                if (radio) radio.checked = true;
-            }
-            if (labelCashfree) {
-                labelCashfree.classList.remove('active');
-                labelCashfree.style.borderColor = '#cbd5e1';
-                labelCashfree.style.background = '#ffffff';
-                const radio = labelCashfree.querySelector('input[type="radio"]');
-                if (radio) radio.checked = false;
-            }
-        }
+        if (form) form.action = "{{ route('payment.cashfree.initiate') }}";
+        const input = document.getElementById('paymentMethodInput');
+        if (input) input.value = 'cashfree';
     }
 
     function toggleCreatePassword() {
