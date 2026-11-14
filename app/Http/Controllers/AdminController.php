@@ -17,6 +17,7 @@ use App\Models\UserCourse;
 use App\Services\BackupService;
 use App\Services\CashfreeService;
 use App\Services\CommissionService;
+use App\Services\PackageService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Throwable;
 
@@ -216,6 +218,7 @@ class AdminController extends Controller
             'counts' => $counts,
             'currentFilter' => $roleFilter ?? ($statusFilter ?? 'all'),
             'search' => $search,
+            'packages' => PackageService::getAllPackages(),
             'active' => 'admin-users',
         ]);
     }
@@ -265,6 +268,7 @@ class AdminController extends Controller
             'allCourses' => $allCourses,
             'userCourses' => $userCourses,
             'completedCoursesCount' => $completedCoursesCount,
+            'packages' => PackageService::getAllPackages(),
             'active' => 'admin-users',
         ]);
     }
@@ -398,6 +402,147 @@ class AdminController extends Controller
         );
 
         return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.");
+    }
+
+    /**
+     * Super Admin Manual ID Activation & Package Assignment (Without Payment).
+     */
+    public function assignPackage(Request $request, User $user): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $currentRole = $currentUser?->role ?? session('user.role', 'user');
+
+        if (! in_array($currentRole, ['super_admin', 'admin'])) {
+            return back()->with('error', 'Only Admins and Super Admins can assign packages and activate accounts.');
+        }
+
+        $validated = $request->validate([
+            'package_name' => ['required', 'string', 'max:100'],
+            'payment_status' => ['required', 'in:paid,pending'],
+            'unlock_courses' => ['nullable', 'in:package_only,all_courses,none'],
+            'distribute_commission' => ['nullable', 'boolean'],
+            'admin_note' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $packageName = $validated['package_name'];
+        $paymentStatus = $validated['payment_status'];
+        $unlockType = $validated['unlock_courses'] ?? 'package_only';
+        $distributeCommission = $request->boolean('distribute_commission');
+        $adminNote = trim((string) ($validated['admin_note'] ?? 'Activated by Super Admin without payment'));
+
+        $oldPackage = $user->active_package;
+        $oldPaymentStatus = $user->payment_status;
+
+        // 1. Ensure user has a valid affiliate ID
+        $affiliateId = $user->affiliate_id;
+        if (empty($affiliateId)) {
+            $affiliateId = 'SL-'.rand(1000, 9999);
+        }
+
+        // 2. Update user profile
+        $user->update([
+            'active_package' => $packageName,
+            'payment_status' => $paymentStatus,
+            'affiliate_id' => $affiliateId,
+            'is_blocked' => false,
+            'kyc_status' => $paymentStatus === 'paid' && empty($user->kyc_status) ? 'Verified' : ($user->kyc_status ?? 'Pending'),
+        ]);
+
+        // 3. Unlock courses
+        $unlockedCount = 0;
+        if ($unlockType === 'all_courses') {
+            $courses = Course::all();
+            foreach ($courses as $c) {
+                UserCourse::firstOrCreate([
+                    'user_id' => $user->id,
+                    'course_id' => $c->id,
+                ], [
+                    'progress_percent' => 0,
+                ]);
+                $unlockedCount++;
+            }
+        } elseif ($unlockType === 'package_only') {
+            $courses = Course::where(function ($q) use ($packageName) {
+                $q->where('package_name', $packageName);
+                $pLower = strtolower($packageName);
+                if (str_contains($pLower, 'infinity')) {
+                    $q->orWhereNotNull('id');
+                } elseif (str_contains($pLower, 'premium')) {
+                    $q->orWhereIn('package_name', ['Basic Package', 'Growth Package', 'Advance Package', 'Premium Package']);
+                } elseif (str_contains($pLower, 'advance')) {
+                    $q->orWhereIn('package_name', ['Basic Package', 'Growth Package', 'Advance Package']);
+                } elseif (str_contains($pLower, 'growth')) {
+                    $q->orWhereIn('package_name', ['Basic Package', 'Growth Package']);
+                }
+            })->get();
+
+            if ($courses->isEmpty()) {
+                $courses = Course::all();
+            }
+
+            foreach ($courses as $c) {
+                UserCourse::firstOrCreate([
+                    'user_id' => $user->id,
+                    'course_id' => $c->id,
+                ], [
+                    'progress_percent' => 0,
+                ]);
+                $unlockedCount++;
+            }
+        }
+
+        // 4. Create an audit Order record for transparent bookkeeping
+        $orderRef = 'FREE_ADM_'.strtoupper(Str::random(5)).'_'.time();
+        Order::create([
+            'order_id' => $orderRef,
+            'user_id' => $user->id,
+            'buyer_name' => $user->name,
+            'buyer_email' => $user->email,
+            'buyer_phone' => $user->phone,
+            'package_name' => $packageName,
+            'amount' => 0,
+            'payment_method' => 'manual_admin',
+            'payment_status' => $paymentStatus,
+            'transaction_id' => 'ADMIN_FREE_ACTIVATION_BY_'.($currentUser?->id ?? 'SUPER'),
+            'failure_reason' => $adminNote,
+            'invoice_number' => 'INV-SKL-'.date('Y').'-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+        ]);
+
+        // 5. If requested, distribute commissions to upline
+        if ($distributeCommission && $paymentStatus === 'paid') {
+            $sponsorId = $user->sponsor_id ?? 'SL-ADMIN';
+            CommissionService::processSale(
+                $packageName,
+                $user->name,
+                $sponsorId,
+                $user,
+                initialStatus: 'Credited'
+            );
+        }
+
+        // 6. Record Audit Log
+        ActivityLog::record(
+            'PACKAGE_ASSIGNED_MANUALLY',
+            'users',
+            "Super Admin manually activated user '{$user->name}' ({$user->email}) and assigned package '{$packageName}' without payment. Status: {$paymentStatus}. Note: {$adminNote}",
+            [
+                'target_user_id' => $user->id,
+                'target_user_name' => $user->name,
+                'target_user_email' => $user->email,
+                'old_package' => $oldPackage,
+                'new_package' => $packageName,
+                'old_payment_status' => $oldPaymentStatus,
+                'new_payment_status' => $paymentStatus,
+                'unlocked_courses' => $unlockedCount,
+                'commission_distributed' => $distributeCommission,
+                'admin_note' => $adminNote,
+            ],
+            $request
+        );
+
+        $statusMsg = $paymentStatus === 'paid' ? 'Paid & Active (ID Activated without payment)' : 'Pending Payment';
+
+        return back()->with('success', "⚡ User '{$user->name}' account successfully updated! Package: {$packageName}, Status: {$statusMsg}, {$unlockedCount} courses unlocked.");
     }
 
     /**
@@ -1074,7 +1219,7 @@ class AdminController extends Controller
 
             return redirect()->route('admin.settings', ['tab' => 'maintenance'])
                 ->with('success', "✅ Full database backup created successfully! File: {$backup['filename']} ({$backup['size']})");
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('Backup creation failed: '.$e->getMessage());
 
             return redirect()->route('admin.settings', ['tab' => 'maintenance'])
@@ -1139,7 +1284,7 @@ class AdminController extends Controller
 
             return redirect()->route('admin.settings', ['tab' => 'maintenance'])
                 ->with('success', '⚡ Application cache, compiled views, routes, and config have been completely cleared and refreshed!');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return redirect()->route('admin.settings', ['tab' => 'maintenance'])
                 ->with('error', 'Cache clearing error: '.$e->getMessage());
         }
@@ -1410,7 +1555,7 @@ class AdminController extends Controller
             ActivityLog::record(
                 'REFUND_APPROVED',
                 'orders',
-                "Approved refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+                'Approved refund of ₹'.number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
                 [
                     'order_id' => $order->id,
                     'order_reference' => $order->order_id,
@@ -1458,7 +1603,7 @@ class AdminController extends Controller
         ActivityLog::record(
             'REFUND_REQUESTED',
             'orders',
-            "Requested refund of ₹".number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
+            'Requested refund of ₹'.number_format($amount, 2)." for Order #{$order->order_id}. Reason: {$reason}",
             [
                 'order_id' => $order->id,
                 'order_reference' => $order->order_id,
