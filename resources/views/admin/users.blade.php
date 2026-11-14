@@ -211,8 +211,16 @@
 
                                     <!-- Active Package & Enrolled Courses -->
                                     <td style="padding: 0.95rem 0.8rem;">
-                                        <div style="font-weight: 700; color: #334155; font-size: 0.88rem;">{{ $u->active_package ?? 'Advance Package' }}</div>
-                                        <div style="margin-top: 3px;">
+                                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                            <span style="font-weight: 700; color: #334155; font-size: 0.88rem;">{{ $u->active_package ?? 'Advance Package' }}</span>
+                                            <button type="button" 
+                                                    onclick="openAssignPackageModal('{{ $u->id }}', '{{ addslashes($u->name) }}', '{{ addslashes($u->email) }}', '{{ addslashes($u->active_package ?? 'Advance Package') }}', '{{ $u->payment_status ?? 'paid' }}')" 
+                                                    title="Change Package or Free Activate without payment"
+                                                    style="background: #f0fdfa; border: 1px solid #05B396; color: #05B396; border-radius: 5px; padding: 2px 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease;">
+                                                ⚡ Assign
+                                            </button>
+                                        </div>
+                                        <div style="margin-top: 4px;">
                                             <a href="{{ route('admin.users.show', $u->id) }}" style="display: inline-flex; align-items: center; gap: 4px; background: #f0fdfa; border: 1px solid #a7f3d0; color: #05B396; font-size: 0.74rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; text-decoration: none;">
                                                 <span>🎓 {{ $u->user_courses_count ?? 0 }} Courses</span>
                                             </a>
@@ -268,7 +276,16 @@
                                                 <span>👁️ View</span>
                                             </a>
 
-                                            <!-- 2. Verify Account (if pending) -->
+                                            <!-- 2. Assign Package / Free Activate ID -->
+                                            <button type="button" 
+                                                    onclick="openAssignPackageModal('{{ $u->id }}', '{{ addslashes($u->name) }}', '{{ addslashes($u->email) }}', '{{ addslashes($u->active_package ?? 'Advance Package') }}', '{{ $u->payment_status ?? 'paid' }}')" 
+                                                    class="btn-action-pill"
+                                                    style="background: linear-gradient(135deg, #05B396 0%, #00137a 100%); color: #ffffff; border: none; font-weight: 800;"
+                                                    title="Assign any package or activate ID for free (without payment)">
+                                                <span>⚡ Package</span>
+                                            </button>
+
+                                            <!-- 3. Verify Account (if pending) -->
                                             @if(($u->payment_status ?? 'paid') === 'pending')
                                                 <form method="POST" action="{{ route('admin.users.verify-account', $u->id) }}" style="margin: 0;">
                                                     @csrf
@@ -443,6 +460,146 @@
                 </div>
             </div>
 
+            <!-- Super Admin: Assign Package & Free Activate Modal -->
+            <div id="assignPackageModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); z-index: 9999; backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 1rem;">
+                <div style="background: #ffffff; border-radius: 20px; max-width: 540px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); border: 1.5px solid #a7f3d0; overflow: hidden; animation: popIn 0.2s ease-out;">
+                    <!-- Modal Header -->
+                    <div style="background: linear-gradient(135deg, #00137a 0%, #05B396 100%); padding: 1.2rem 1.5rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                                ⚡
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #ffffff; line-height: 1.2;">Assign Package / Free Activate</h3>
+                                <div style="font-size: 0.78rem; color: #e2e8f0; margin-top: 2px;">Bina payment ke ID active karein &amp; package assign karein</div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="closeAssignPackageModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: background 0.15s ease;">&times;</button>
+                    </div>
+
+                    <!-- Modal Body Form -->
+                    <form id="assignPackageForm" method="POST" action="" style="padding: 1.4rem 1.5rem; max-height: calc(85vh - 70px); overflow-y: auto;">
+                        @csrf
+                        
+                        <!-- User Highlight Card -->
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                            <div>
+                                <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 800; color: #64748b; letter-spacing: 0.5px;">Target User</div>
+                                <div id="assignModalUserName" style="font-weight: 800; color: #0f172a; font-size: 0.95rem; margin-top: 2px;">User Name</div>
+                                <div id="assignModalUserEmail" style="font-size: 0.8rem; color: #64748b;">user@example.com</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 800; color: #64748b; letter-spacing: 0.5px;">Current Status</div>
+                                <div id="assignModalCurrentBadge" style="display: inline-block; margin-top: 2px; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #fffbeb; color: #b45309;">
+                                    Advance Package
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1. Select Package -->
+                        <div style="margin-bottom: 1.1rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                📦 Select Package to Assign <span style="color: #ef4444;">*</span>
+                            </label>
+                            <select name="package_name" id="assignModalPackageSelect" required style="width: 100%; box-sizing: border-box; padding: 0.75rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.92rem; font-weight: 700; color: #0f172a; outline: none; background: #ffffff; cursor: pointer;">
+                                @if(!empty($packages) && count($packages) > 0)
+                                    @foreach($packages as $pkg)
+                                        <option value="{{ $pkg['name'] }}">
+                                            {{ $pkg['name'] }} (₹{{ number_format($pkg['price']) }}) &mdash; {{ $pkg['access_badge'] ?? ($pkg['total_courses_count'] ?? 0).' Courses' }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="Basic Package">Basic Package (₹599) &mdash; 3 Courses</option>
+                                    <option value="Growth Package">Growth Package (₹1,199) &mdash; 6 Courses</option>
+                                    <option value="Advance Package">Advance Package (₹2,399) &mdash; 10+ Courses</option>
+                                    <option value="Premium Package">Premium Package (₹4,799) &mdash; 15+ Courses</option>
+                                    <option value="Infinity Package">Infinity Package (₹9,599) &mdash; All 20+ Courses</option>
+                                @endif
+                            </select>
+                            <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+                                User's active package will be updated immediately.
+                            </div>
+                        </div>
+
+                        <!-- 2. Payment & Activation Status -->
+                        <div style="margin-bottom: 1.1rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                🟢 Payment &amp; Activation Mode <span style="color: #ef4444;">*</span>
+                            </label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <label style="display: flex; align-items: flex-start; gap: 8px; border: 1.5px solid #a7f3d0; background: #f0fdf4; padding: 0.75rem; border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="payment_status" value="paid" id="assignStatusPaid" checked style="margin-top: 3px; accent-color: #05B396;">
+                                    <div>
+                                        <div style="font-weight: 800; color: #166534; font-size: 0.86rem;">🟢 Free Active (Paid)</div>
+                                        <div style="font-size: 0.72rem; color: #15803d; line-height: 1.3; margin-top: 2px;">
+                                            Account active instantly. User can login immediately without payment.
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label style="display: flex; align-items: flex-start; gap: 8px; border: 1.5px solid #e2e8f0; background: #f8fafc; padding: 0.75rem; border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="payment_status" value="pending" id="assignStatusPending" style="margin-top: 3px; accent-color: #05B396;">
+                                    <div>
+                                        <div style="font-weight: 800; color: #475569; font-size: 0.86rem;">⏳ Keep Pending</div>
+                                        <div style="font-size: 0.72rem; color: #64748b; line-height: 1.3; margin-top: 2px;">
+                                            Assign package only. Login remains gated until payment.
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 3. Course Access / Unlock Mode -->
+                        <div style="margin-bottom: 1.1rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                🎓 Course Access Unlock
+                            </label>
+                            <select name="unlock_courses" style="width: 100%; box-sizing: border-box; padding: 0.75rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: #0f172a; outline: none; background: #ffffff;">
+                                <option value="package_only" selected>🎓 Unlock all courses of selected package bundle (Recommended)</option>
+                                <option value="all_courses">🌟 Unlock ALL platform courses (Full Access)</option>
+                                <option value="none">🔒 Do not auto-unlock courses</option>
+                            </select>
+                        </div>
+
+                        <!-- 4. Sponsor Commission Toggle -->
+                        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 0.75rem 0.9rem; margin-bottom: 1.1rem;">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                                <input type="checkbox" name="distribute_commission" value="1" style="accent-color: #05B396; width: 16px; height: 16px;">
+                                <span style="font-weight: 700; color: #92400e; font-size: 0.84rem;">
+                                    Sponsor ko affiliate commission credit karein
+                                </span>
+                            </label>
+                            <div style="font-size: 0.73rem; color: #b45309; margin-top: 4px; padding-left: 24px; line-height: 1.3;">
+                                Default unchecked: Bina payment ki free activation me sponsor wallet me fake money add nahi hoga jab tak aap explicitly check na karein.
+                            </div>
+                        </div>
+
+                        <!-- 5. Admin Note / Remarks -->
+                        <div style="margin-bottom: 1.2rem;">
+                            <label style="display: block; font-size: 0.82rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                📝 Admin Remarks / Reason
+                            </label>
+                            <input type="text" 
+                                   name="admin_note" 
+                                   id="assignModalAdminNote" 
+                                   placeholder="Reason (e.g. Free activation by Super Admin, Special Onboarding, VIP pass)" 
+                                   value="Activated by Super Admin without payment"
+                                   style="width: 100%; box-sizing: border-box; padding: 0.7rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.88rem; outline: none;">
+                        </div>
+
+                        <!-- Modal Actions -->
+                        <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top: 0.8rem; border-top: 1px solid #e2e8f0;">
+                            <button type="button" onclick="closeAssignPackageModal()" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 0.7rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
+                                Cancel
+                            </button>
+                            <button type="submit" style="background: linear-gradient(135deg, #05B396 0%, #00137a 100%); color: #ffffff; border: none; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.4); display: inline-flex; align-items: center; gap: 6px;">
+                                <span>⚡ Activate &amp; Assign Package</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </main>
     </div>
 </div>
@@ -485,6 +642,61 @@
     function closeEditIndustryRevenueModal() {
         const modal = document.getElementById('industryRevenueModal');
         modal.style.display = 'none';
+    }
+
+    function openAssignPackageModal(userId, userName, userEmail, currentPackage, currentStatus) {
+        const modal = document.getElementById('assignPackageModal');
+        const form = document.getElementById('assignPackageForm');
+        const nameSpan = document.getElementById('assignModalUserName');
+        const emailSpan = document.getElementById('assignModalUserEmail');
+        const badgeDiv = document.getElementById('assignModalCurrentBadge');
+        const pkgSelect = document.getElementById('assignModalPackageSelect');
+        const statusPaidRadio = document.getElementById('assignStatusPaid');
+
+        if (form) form.action = '{{ url("/admin/users") }}/' + userId + '/assign-package';
+        if (nameSpan) nameSpan.textContent = userName;
+        if (emailSpan) emailSpan.textContent = userEmail || 'No email';
+        if (badgeDiv) {
+            badgeDiv.textContent = (currentPackage || 'None') + ' • ' + (currentStatus || 'pending').toUpperCase();
+            if (currentStatus === 'paid') {
+                badgeDiv.style.background = '#f0fdf4';
+                badgeDiv.style.color = '#166534';
+            } else {
+                badgeDiv.style.background = '#fffbeb';
+                badgeDiv.style.color = '#b45309';
+            }
+        }
+
+        // Set matching package option if exists
+        if (pkgSelect && currentPackage) {
+            let matched = false;
+            for (let i = 0; i < pkgSelect.options.length; i++) {
+                if (pkgSelect.options[i].value.toLowerCase() === currentPackage.toLowerCase()) {
+                    pkgSelect.selectedIndex = i;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                // If currentPackage doesn't match an exact option, leave current or select default
+            }
+        }
+
+        // Default to Free Active (Paid)
+        if (statusPaidRadio) {
+            statusPaidRadio.checked = true;
+        }
+
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeAssignPackageModal() {
+        const modal = document.getElementById('assignPackageModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
 </script>
 

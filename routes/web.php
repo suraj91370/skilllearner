@@ -28,6 +28,7 @@ use App\Mail\ForgotPasswordMail;
 use App\Mail\PassiveReferralMail;
 use App\Models\Commission;
 use App\Models\Course;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\Video;
@@ -1018,6 +1019,7 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/users/{user}/toggle-block', [AdminController::class, 'toggleUserBlock'])->name('admin.users.toggle-block');
     Route::post('/users/{user}/reset-password', [AdminController::class, 'resetUserPassword'])->name('admin.users.reset-password');
     Route::post('/users/{user}/verify-account', [AdminController::class, 'verifyUserAccount'])->name('admin.users.verify-account');
+    Route::post('/users/{user}/assign-package', [AdminController::class, 'assignPackage'])->name('admin.users.assign-package');
     Route::post('/users/{user}/industry-revenue', [AdminController::class, 'updateIndustryRevenue'])->name('admin.users.industry-revenue');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
@@ -1592,7 +1594,7 @@ Route::post('/process-buy-now', function (Request $request) {
 
     session(['last_order' => $orderData]);
 
-    \App\Models\Order::updateOrCreate([
+    Order::updateOrCreate([
         'order_id' => $orderId,
     ], [
         'user_id' => $user->id,
@@ -1646,7 +1648,7 @@ Route::post('/submit-utr', function (Request $request) {
     session(['last_order' => $order]);
 
     if (! empty($order['order_id'])) {
-        \App\Models\Order::where('order_id', $order['order_id'])->update([
+        Order::where('order_id', $order['order_id'])->update([
             'transaction_id' => $transactionId,
             'payment_status' => 'pending',
         ]);
