@@ -41,6 +41,19 @@ class PortalDataService
         if (Auth::check()) {
             /** @var User $user */
             $user = Auth::user();
+
+            $isAdminOrStaff = in_array($user->role, ['super_admin', 'admin']) || (bool) $user->is_staff;
+            $isPaid = strtolower((string) $user->payment_status) === 'paid';
+
+            if ($user->is_blocked || (! $isAdminOrStaff && ! $isPaid)) {
+                Auth::logout();
+                session()->forget('user');
+                session()->invalidate();
+                session()->regenerateToken();
+
+                return;
+            }
+
             $earnings = CommissionService::calculateUserEarnings($user);
             $kyc = $user->kyc;
             $pendingWithdrawal = $user->payouts()->whereIn('status', ['Pending', 'Processing'])->sum('amount');

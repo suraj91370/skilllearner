@@ -96,35 +96,53 @@ class CashfreePaymentController extends Controller
             // Guest checkout: Check if email already exists
             $existing = User::where('email', $email)->first();
             if ($existing) {
-                return $request->expectsJson()
-                    ? response()->json(['success' => false, 'message' => 'Is email ke sath account pehle se maujood hai. Kripya pehle Login karein!'], 422)
-                    : back()->withInput()->with('error', 'Is email ke sath account pehle se maujood hai. Kripya pehle Login karein!');
-            }
+                if (strtolower((string) $existing->payment_status) === 'paid') {
+                    return $request->expectsJson()
+                        ? response()->json(['success' => false, 'message' => 'Is email ke sath active account pehle se maujood hai. Kripya pehle Login karein!'], 422)
+                        : back()->withInput()->with('error', 'Is email ke sath active account pehle se maujood hai. Kripya pehle Login karein!');
+                }
 
-            // Create pending user account
-            $affiliateId = 'SKL-'.rand(1000, 9999);
-            while (User::where('affiliate_id', $affiliateId)->exists()) {
+                // If user has pending payment (e.g. backed out earlier), verify password or update details to retry payment
+                if (! empty($password) && ! Hash::check($password, $existing->password)) {
+                    return $request->expectsJson()
+                        ? response()->json(['success' => false, 'message' => 'Is email par pending account pehle se hai, par password match nahi hua. Kripya sahi password dalein.'], 422)
+                        : back()->withInput()->with('error', 'Is email par pending account pehle se hai, par password match nahi hua. Kripya sahi password dalein.');
+                }
+
+                $targetUser = $existing;
+                $targetUser->update([
+                    'name' => $name,
+                    'phone' => $phone,
+                    'active_package' => $packageName,
+                    'sponsor_id' => $sponsorId,
+                    'payment_status' => 'pending',
+                ]);
+            } else {
+                // Create pending user account
                 $affiliateId = 'SKL-'.rand(1000, 9999);
-            }
+                while (User::where('affiliate_id', $affiliateId)->exists()) {
+                    $affiliateId = 'SKL-'.rand(1000, 9999);
+                }
 
-            $targetUser = User::create([
-                'name' => $name,
-                'email' => $email,
-                'phone' => $phone,
-                'password' => Hash::make($password),
-                'affiliate_id' => $affiliateId,
-                'sponsor_id' => $sponsorId,
-                'active_package' => $packageName,
-                'payment_status' => 'pending', // Activated on successful Cashfree payment
-                'wallet_balance' => 0.00,
-                'today_earning' => 0.00,
-                'weekly_earning' => 0.00,
-                'monthly_earning' => 0.00,
-                'total_earning' => 0.00,
-                'passive_earning' => 0.00,
-                'kyc_status' => 'Pending Verification',
-                'role' => 'affiliate',
-            ]);
+                $targetUser = User::create([
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'password' => Hash::make($password),
+                    'affiliate_id' => $affiliateId,
+                    'sponsor_id' => $sponsorId,
+                    'active_package' => $packageName,
+                    'payment_status' => 'pending', // Activated on successful Cashfree payment
+                    'wallet_balance' => 0.00,
+                    'today_earning' => 0.00,
+                    'weekly_earning' => 0.00,
+                    'monthly_earning' => 0.00,
+                    'total_earning' => 0.00,
+                    'passive_earning' => 0.00,
+                    'kyc_status' => 'Pending Verification',
+                    'role' => 'affiliate',
+                ]);
+            }
         }
 
         // Apply coupon discount on final payable amount

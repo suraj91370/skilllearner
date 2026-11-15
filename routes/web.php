@@ -1356,6 +1356,29 @@ Route::post('/checkout/login', function (Request $request) {
     if (Auth::attempt([$field => $username, 'password' => $password], true)) {
         $user = Auth::user();
 
+        // 1. Check if user is blocked by admin
+        if ($user->is_blocked) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/buy-now?package='.urlencode($packageParam).'&ref='.urlencode($refParam))
+                ->with('error', '⚠️ Aapka account administration dwara BLOCK kar diya gaya hai. Kripya support/administration se sampark karein.');
+        }
+
+        // 2. Check if user is paid or admin/staff
+        $isAdminOrStaff = in_array($user->role, ['super_admin', 'admin']) || (bool) $user->is_staff;
+        $isPaid = strtolower((string) $user->payment_status) === 'paid';
+
+        if (! $isAdminOrStaff && ! $isPaid) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/buy-now?package='.urlencode($packageParam).'&ref='.urlencode($refParam))
+                ->with('error', '⚠️ Aapka account activate nahi hai (Payment Pending). Jab tak aapka payment verify nahi hota ya superadmin access nahi dete, tab tak aap login nahi kar sakte.');
+        }
+
         $request->session()->regenerate();
 
         session(['user' => [
@@ -1526,34 +1549,50 @@ Route::post('/process-buy-now', function (Request $request) {
     $existingUser = User::where('email', $email)->first();
 
     if ($existingUser) {
-        return back()->withInput()->with('error', 'Is email ke sath account pehle se maujood hai. Kripya pehle Log In karein taaki aapka current package value minus ho sake!');
-    }
+        if (strtolower((string) $existingUser->payment_status) === 'paid') {
+            return back()->withInput()->with('error', 'Is email ke sath active account pehle se maujood hai. Kripya pehle Log In karein taaki aapka current package value minus ho sake!');
+        }
 
-    // Generate unique affiliate ID
-    $affiliateId = 'SKL-'.rand(1000, 9999);
-    while (User::where('affiliate_id', $affiliateId)->exists()) {
+        // If existing user has pending payment (e.g. backed out of payment previously):
+        if (! empty($password) && ! Hash::check($password, $existingUser->password)) {
+            return back()->withInput()->with('error', 'Is email par pending order pehle se hai, par password match nahi hua. Kripya apna sahi password dalein.');
+        }
+
+        $user = $existingUser;
+        $user->update([
+            'name' => $name,
+            'phone' => $phone,
+            'active_package' => $activePackageName,
+            'sponsor_id' => $sponsorId,
+            'payment_status' => 'pending',
+        ]);
+    } else {
+        // Generate unique affiliate ID
         $affiliateId = 'SKL-'.rand(1000, 9999);
-    }
+        while (User::where('affiliate_id', $affiliateId)->exists()) {
+            $affiliateId = 'SKL-'.rand(1000, 9999);
+        }
 
-    // Create user with payment_status = 'paid'
-    $user = User::create([
-        'name' => $name,
-        'email' => $email,
-        'phone' => $phone,
-        'password' => Hash::make($password),
-        'affiliate_id' => $affiliateId,
-        'sponsor_id' => $sponsorId,
-        'active_package' => $activePackageName,
-        'payment_status' => 'paid',
-        'wallet_balance' => 0.00,
-        'today_earning' => 0.00,
-        'weekly_earning' => 0.00,
-        'monthly_earning' => 0.00,
-        'total_earning' => 0.00,
-        'passive_earning' => 0.00,
-        'kyc_status' => 'Pending Verification',
-        'role' => 'affiliate',
-    ]);
+        // Create user with payment_status = 'pending'
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => Hash::make($password),
+            'affiliate_id' => $affiliateId,
+            'sponsor_id' => $sponsorId,
+            'active_package' => $activePackageName,
+            'payment_status' => 'pending',
+            'wallet_balance' => 0.00,
+            'today_earning' => 0.00,
+            'weekly_earning' => 0.00,
+            'monthly_earning' => 0.00,
+            'total_earning' => 0.00,
+            'passive_earning' => 0.00,
+            'kyc_status' => 'Pending Verification',
+            'role' => 'affiliate',
+        ]);
+    }
 
     // Enroll into courses with 0% progress
     $courses = Course::all();

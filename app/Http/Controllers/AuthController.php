@@ -19,7 +19,21 @@ class AuthController extends Controller
      */
     public function showLoginForm(): View|RedirectResponse
     {
-        if (Auth::check() || session()->has('user')) {
+        if (Auth::check()) {
+            /** @var User $user */
+            $user = Auth::user();
+            $isAdminOrStaff = in_array($user->role, ['super_admin', 'admin']) || (bool) $user->is_staff;
+            $isPaid = strtolower((string) $user->payment_status) === 'paid';
+
+            if (! $isAdminOrStaff && ! $isPaid) {
+                Auth::logout();
+                session()->forget('user');
+                session()->invalidate();
+                session()->regenerateToken();
+
+                return view('login')->with('error', '⚠️ Aapka account activate nahi hai (Payment Pending). Jab tak aapka payment verify nahi hota ya superadmin access nahi dete, tab tak aap login nahi kar sakte.');
+            }
+
             return redirect()->route('portal.dashboard');
         }
 
@@ -88,6 +102,20 @@ class AuthController extends Controller
                     ->with('error', '⚠️ Aapka account administration dwara BLOCK kar diya gaya hai. Kripya support/administration se sampark karein.');
             }
 
+            // Verify payment status or admin/staff privilege
+            $isAdminOrStaff = in_array($user->role, ['super_admin', 'admin']) || (bool) $user->is_staff;
+            $isPaid = strtolower((string) $user->payment_status) === 'paid';
+
+            if (! $isAdminOrStaff && ! $isPaid) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()
+                    ->withInput($request->only('username', 'remember'))
+                    ->with('error', '⚠️ Aapka account activate nahi hai (Payment Pending). Jab tak aapka payment verify nahi hota ya superadmin access nahi dete, tab tak aap login nahi kar sakte.');
+            }
+
             $request->session()->regenerate();
             $this->syncUserSession($user);
 
@@ -142,6 +170,7 @@ class AuthController extends Controller
             'affiliate_id' => $affiliateId,
             'sponsor_id' => $validated['sponsor_id'] ?? 'SL-ADMIN',
             'active_package' => $validated['package'] ?? 'Advance Package',
+            'payment_status' => 'pending',
             'wallet_balance' => 0.00,
             'today_earning' => 0.00,
             'weekly_earning' => 0.00,
@@ -168,15 +197,11 @@ class AuthController extends Controller
             session()->flash('warning', "Account create ho gaya hai, lekin welcome email nahi bhej paye ({$err}). Kripya .env mein SMTP check karein.");
         }
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        // CRITICAL: DO NOT log in unpaid user! Redirect to checkout / buy-now page to complete payment
+        $packageSlug = strtolower(str_replace(' Package', '', (string) $user->active_package));
 
-        $this->syncUserSession($user);
-
-        // Trigger welcome video popup on registration
-        session()->flash('show_login_video_popup', true);
-
-        return redirect()->route('portal.dashboard')->with('alert', 'welcome');
+        return redirect('/buy-now?package='.urlencode($packageSlug).'&ref='.urlencode($user->sponsor_id))
+            ->with('info', '✅ Aapka account create ho gaya hai! Kripya access pane ke liye payment complete karein. Payment hone ya administration se activate hone ke baad hi aap login kar sakenge.');
     }
 
     /**
