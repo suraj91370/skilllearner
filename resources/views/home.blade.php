@@ -3,6 +3,21 @@
 @section('title', 'SkillLearner — Build Skill, Build Future')
 
 @section('content')
+{{-- 
+    =================================================================================
+    FULLSCREEN WELCOME INTRO (10s Countdown + 🎉 Side Emojis & Grand Welcome)
+    - FILHAL HIDE HAI: $showWelcomeIntro = false;
+    - UNHIDE KARNE KE LIYA: Niche 'false' ko 'true' kar dein (ya Admin Settings se on karein)
+    - TEST / PREVIEW: URL me '?intro=1' lagakar kabhi bhi check kar sakte hain
+    =================================================================================
+--}}
+@php
+    $showWelcomeIntro = false; // <-- Unhide karne ke liye yahan 'true' karein
+@endphp
+@if($showWelcomeIntro || request()->has('intro') || \App\Models\Setting::get('enable_welcome_intro', '0') === '1')
+    @include('partials.welcome-intro')
+@endif
+
 <!-- Top Announcement Ribbon Bar (Admin Controlled) -->
 @if(\App\Models\Setting::get('home_show_announcement', '1') === '1' && \App\Models\Setting::get('home_announcement_bar'))
     <div style="background: linear-gradient(90deg, #05B396 0%, #047857 100%); color: #ffffff; text-align: center; padding: 0.65rem 1rem; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.3px; box-shadow: 0 2px 10px rgba(5, 179, 150, 0.25);">
