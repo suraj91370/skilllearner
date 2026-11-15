@@ -17,6 +17,7 @@ use App\Models\UserCourse;
 use App\Services\BackupService;
 use App\Services\CashfreeService;
 use App\Services\CommissionService;
+use App\Services\EmailNotificationService;
 use App\Services\PackageService;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
@@ -135,6 +136,7 @@ class AdminController extends Controller
                 ->first();
             if ($buyerUser && $buyerUser->payment_status !== 'paid') {
                 $buyerUser->update(['payment_status' => 'paid']);
+                EmailNotificationService::sendAccountCreated($buyerUser, $commission->package_name, notifyAdminCopy: true);
             }
 
             $affiliateName = $commission->user?->name ?? 'Affiliate';
@@ -401,7 +403,11 @@ class AdminController extends Controller
             $request
         );
 
-        return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.");
+        // Send Welcome / Activation Email to user & admin copy
+        $mailSent = EmailNotificationService::sendAccountCreated($user, $user->active_package, notifyAdminCopy: true);
+        $emailNote = $mailSent ? ' 📧 Welcome email successfully sent to '.$user->email.'!' : '';
+
+        return back()->with('success', "✅ User '{$user->name}' has been fully verified and activated! ID active ho gayi hai aur sabhi courses unlock ho gaye hain.{$emailNote}");
     }
 
     /**
@@ -542,7 +548,15 @@ class AdminController extends Controller
 
         $statusMsg = $paymentStatus === 'paid' ? 'Paid & Active (ID Activated without payment)' : 'Pending Payment';
 
-        return back()->with('success', "⚡ User '{$user->name}' account successfully updated! Package: {$packageName}, Status: {$statusMsg}, {$unlockedCount} courses unlocked.");
+        $emailNote = '';
+        if ($paymentStatus === 'paid') {
+            $mailSent = EmailNotificationService::sendAccountCreated($user, $packageName, notifyAdminCopy: true);
+            if ($mailSent) {
+                $emailNote = ' 📧 Welcome email sent to '.$user->email.'!';
+            }
+        }
+
+        return back()->with('success', "⚡ User '{$user->name}' account successfully updated! Package: {$packageName}, Status: {$statusMsg}, {$unlockedCount} courses unlocked.{$emailNote}");
     }
 
     /**
@@ -696,6 +710,7 @@ class AdminController extends Controller
         $newStatus = $user->payment_status === 'paid' ? 'pending' : 'paid';
         $user->update(['payment_status' => $newStatus]);
 
+        $emailNote = '';
         if ($newStatus === 'paid') {
             $pendingComms = Commission::where('buyer_name', 'like', "%{$user->name}%")
                 ->where('status', 'Pending')
@@ -703,11 +718,17 @@ class AdminController extends Controller
             foreach ($pendingComms as $comm) {
                 CommissionService::creditApprovedCommission($comm);
             }
+
+            // Send Welcome / Activation email
+            $mailSent = EmailNotificationService::sendAccountCreated($user, $user->active_package, notifyAdminCopy: true);
+            if ($mailSent) {
+                $emailNote = ' 📧 Welcome email sent to '.$user->email.'!';
+            }
         }
 
         $statusLabel = $newStatus === 'paid' ? 'Paid & Active (User can now log in)' : 'Pending Payment (Login Blocked)';
 
-        return back()->with('success', "Payment status for {$user->name} updated to {$statusLabel}.");
+        return back()->with('success', "Payment status for {$user->name} updated to {$statusLabel}.{$emailNote}");
     }
 
     /**
@@ -1664,6 +1685,12 @@ class AdminController extends Controller
                 $user,
                 initialStatus: 'Credited'
             );
+
+            // Send Welcome / Activation Email to user & admin copy
+            $mailSent = EmailNotificationService::sendAccountCreated($user, $order->package_name, notifyAdminCopy: true);
+            if ($mailSent) {
+                $emailNote = ' 📧 Welcome email sent to '.$user->email.'!';
+            }
         }
 
         ActivityLog::record(
@@ -1681,7 +1708,7 @@ class AdminController extends Controller
 
         Log::info("💳 [ORDER-TRACKING] Order #{$order->order_id} manually marked as PAID by Admin #{$currentUser?->id}. Transaction: {$transactionId}");
 
-        return back()->with('success', "✅ Order #{$order->order_id} has been marked as PAID! Account activated and courses unlocked.");
+        return back()->with('success', "✅ Order #{$order->order_id} has been marked as PAID! Account activated and courses unlocked.".($emailNote ?? ''));
     }
 
     /**

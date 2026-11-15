@@ -106,8 +106,9 @@ class EmailNotificationService
 
     /**
      * Send Welcome / Account Created email notification to new user.
+     * Optionally sends a copy/BCC to administration.
      */
-    public static function sendAccountCreated(User $user, ?string $packageName = null): bool
+    public static function sendAccountCreated(User $user, ?string $packageName = null, bool $notifyAdminCopy = true): bool
     {
         self::$lastError = null;
 
@@ -119,16 +120,26 @@ class EmailNotificationService
         }
 
         try {
-            Mail::to($user->email, $user->name)->send(
-                new AccountCreatedMail(
-                    userName: $user->name,
-                    email: $user->email,
-                    affiliateId: $user->affiliate_id,
-                    packageName: $packageName ?? $user->active_package
-                )
+            $mailable = new AccountCreatedMail(
+                userName: $user->name,
+                email: $user->email,
+                affiliateId: $user->affiliate_id,
+                packageName: $packageName ?? $user->active_package
             );
 
-            Log::info("Account created welcome email sent to {$user->email}.");
+            $mail = Mail::to($user->email, $user->name);
+
+            // Send admin copy / BCC so Super Admin also receives notification of the activation
+            if ($notifyAdminCopy) {
+                $adminEmail = config('mail.from.address') ?: 'superadmin@skilllearne.org';
+                if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower($user->email)) {
+                    $mail->bcc($adminEmail);
+                }
+            }
+
+            $mail->send($mailable);
+
+            Log::info("Account created welcome email sent to {$user->email} (Admin BCC: ".($notifyAdminCopy ? ($adminEmail ?? 'none') : 'no').").");
 
             return true;
         } catch (Throwable $e) {

@@ -1605,9 +1605,6 @@ Route::post('/process-buy-now', function (Request $request) {
         ]);
     }
 
-    // Send branded welcome email notification
-    EmailNotificationService::sendAccountCreated($user, $activePackageName);
-
     // Generate unique Order ID
     $orderId = 'SKL-'.rand(100000, 999999);
 
