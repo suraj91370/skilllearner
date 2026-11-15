@@ -412,7 +412,7 @@ class CashfreePaymentController extends Controller
         // 5. Update database order record & generate invoice number
         $dbOrder = Order::where('order_id', $orderId)->first();
         if ($dbOrder) {
-            $invNumber = $dbOrder->invoice_number ?: ('INV-SKL-'.date('Y').'-'.str_pad((string) $dbOrder->id, 5, '0', STR_PAD_LEFT));
+            $invNumber = $dbOrder->invoice_number ?: Order::generateUniqueInvoiceNumber($dbOrder->id);
             $dbOrder->update([
                 'payment_status' => 'paid',
                 'transaction_id' => $orderId,

@@ -67,6 +67,23 @@ class Order extends Model
     }
 
     /**
+     * Generate a guaranteed unique invoice number that will never conflict or duplicate.
+     */
+    public static function generateUniqueInvoiceNumber(?int $orderId = null): string
+    {
+        $year = date('Y');
+        $base = $orderId ?: (self::max('id') + 1);
+        $candidate = 'INV-SKL-'.$year.'-'.str_pad((string) $base, 5, '0', STR_PAD_LEFT);
+
+        while (self::where('invoice_number', $candidate)->exists()) {
+            $base++;
+            $candidate = 'INV-SKL-'.$year.'-'.str_pad((string) $base, 5, '0', STR_PAD_LEFT);
+        }
+
+        return $candidate;
+    }
+
+    /**
      * Generate or return existing unique invoice number.
      */
     public function getOrGenerateInvoiceNumber(): string
@@ -75,7 +92,7 @@ class Order extends Model
             return $this->invoice_number;
         }
 
-        $inv = 'INV-SKL-'.date('Y').'-'.str_pad((string) $this->id, 5, '0', STR_PAD_LEFT);
+        $inv = self::generateUniqueInvoiceNumber($this->id);
         $this->update(['invoice_number' => $inv]);
 
         return $inv;

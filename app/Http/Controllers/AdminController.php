@@ -497,22 +497,30 @@ class AdminController extends Controller
             }
         }
 
-        // 4. Create an audit Order record for transparent bookkeeping
-        $orderRef = 'FREE_ADM_'.strtoupper(Str::random(5)).'_'.time();
-        Order::create([
-            'order_id' => $orderRef,
-            'user_id' => $user->id,
-            'buyer_name' => $user->name,
-            'buyer_email' => $user->email,
-            'buyer_phone' => $user->phone,
-            'package_name' => $packageName,
-            'amount' => 0,
-            'payment_method' => 'manual_admin',
-            'payment_status' => $paymentStatus,
-            'transaction_id' => 'ADMIN_FREE_ACTIVATION_BY_'.($currentUser?->id ?? 'SUPER'),
-            'failure_reason' => $adminNote,
-            'invoice_number' => 'INV-SKL-'.date('Y').'-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
-        ]);
+        // 4. Create an audit Order record for transparent bookkeeping (safe unique invoice generation)
+        try {
+            $orderRef = 'FREE_ADM_'.strtoupper(Str::random(5)).'_'.time();
+            $freeOrder = Order::create([
+                'order_id' => $orderRef,
+                'user_id' => $user->id,
+                'buyer_name' => $user->name,
+                'buyer_email' => $user->email,
+                'buyer_phone' => $user->phone,
+                'package_name' => $packageName,
+                'amount' => 0,
+                'payment_method' => 'manual_admin',
+                'payment_status' => $paymentStatus,
+                'transaction_id' => 'ADMIN_FREE_ACTIVATION_BY_'.($currentUser?->id ?? 'SUPER'),
+                'failure_reason' => $adminNote,
+                'invoice_number' => null,
+            ]);
+
+            $freeOrder->update([
+                'invoice_number' => Order::generateUniqueInvoiceNumber($freeOrder->id),
+            ]);
+        } catch (\Throwable $orderEx) {
+            Log::warning('Free admin order record failed: '.$orderEx->getMessage());
+        }
 
         // 5. If requested, distribute commissions to upline
         if ($distributeCommission && $paymentStatus === 'paid') {
@@ -553,6 +561,9 @@ class AdminController extends Controller
             $mailSent = EmailNotificationService::sendAccountCreated($user, $packageName, notifyAdminCopy: true);
             if ($mailSent) {
                 $emailNote = ' 📧 Welcome email sent to '.$user->email.'!';
+            } else {
+                $err = EmailNotificationService::getLastError();
+                $emailNote = ' ⚠️ (Email note: '.($err ?: 'Could not deliver email. Please check SMTP in .env').')';
             }
         }
 
@@ -1655,7 +1666,7 @@ class AdminController extends Controller
             'payment_status' => 'paid',
             'transaction_id' => $transactionId,
             'failure_reason' => null,
-            'invoice_number' => $order->invoice_number ?: ('INV-SKL-'.date('Y').'-'.str_pad((string) $order->id, 5, '0', STR_PAD_LEFT)),
+            'invoice_number' => $order->invoice_number ?: Order::generateUniqueInvoiceNumber($order->id),
         ]);
 
         // If user account is linked or exists, activate it
