@@ -9,11 +9,11 @@
     $isUser = ($userRole === 'user');
 @endphp
 
-<!-- Top Mobile Quick Tab Slider (Hidden on mobile per user request) -->
-<div class="mobile-portal-nav" style="display: none !important;">
-    <div class="mobile-nav-header-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box;">
+<!-- Top Mobile Quick Tab Slider (Visible on Mobile/Tablet <= 992px) -->
+<div class="mobile-portal-nav">
+    <div class="mobile-nav-header-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box; margin-bottom: 0.65rem;">
         <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0;">
-            <span class="mobile-nav-title" style="white-space: nowrap;">PORTAL NAVIGATION</span>
+            <span class="mobile-nav-title" style="white-space: nowrap; font-size: 0.78rem; font-weight: 800; color: #64748b; letter-spacing: 0.6px; text-transform: uppercase;">PORTAL MENU</span>
             @if ($isSuperAdmin)
                 <span style="background: #7c3aed; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap;">👑 SUPER ADMIN</span>
             @elseif ($isAdmin)
@@ -22,8 +22,9 @@
                 <span style="background: rgba(5, 179, 150, 0.15); color: #05B396; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap;">STUDENT</span>
             @endif
         </div>
-        <button type="button" onclick="window.toggleMobileMenu(event)" class="mobile-open-drawer-btn" style="border: 1px solid #cbd5e1; background: #ffffff; color: #475569; font-size: 0.76rem; padding: 3px 9px; border-radius: 6px; font-weight: 700; cursor: pointer; flex-shrink: 0;">
-            ☰ All Menu
+        <button type="button" onclick="window.toggleRightDrawer(event)" class="mobile-open-drawer-btn" style="border: 1.5px solid #05B396; background: #ffffff; color: #05B396; font-size: 0.78rem; padding: 4px 11px; border-radius: 20px; font-weight: 800; cursor: pointer; flex-shrink: 0; box-shadow: 0 2px 6px rgba(5, 179, 150, 0.15); display: inline-flex; align-items: center; gap: 5px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <span>All Features</span>
         </button>
     </div>
     <div class="mobile-tabs-scroll" style="width: 100%; max-width: 100%; box-sizing: border-box;">
