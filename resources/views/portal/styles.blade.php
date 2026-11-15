@@ -271,8 +271,8 @@
 
     /* Mobile Quick Tab Slider */
     .mobile-portal-nav {
-        display: none !important;
-        margin-bottom: 0 !important;
+        display: none;
+        margin-bottom: 1.25rem;
         width: 100%;
         max-width: 100%;
         overflow: hidden;
@@ -740,7 +740,7 @@
         }
 
         .mobile-portal-nav {
-            display: none !important;
+            display: block !important;
         }
 
         .courses-cards-grid {

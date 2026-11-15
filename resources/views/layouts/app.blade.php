@@ -644,7 +644,6 @@
             .user-menu-wrapper { display: none !important; }
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
         }
 
         @media (max-width: 640px) {
@@ -672,7 +671,6 @@
             .sl-circle-badge { display: none !important; }
             .website-nav-toggle-btn { display: none !important; }
             .user-menu-wrapper { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
             .profile-svg-btn { width: 32px; height: 32px; }
             .user-dropdown-card { right: 0; min-width: 195px; }
         }
@@ -687,7 +685,6 @@
             .brand-logo-img { max-width: 105px; }
             .nav-right-actions { gap: 0.25rem !important; }
             .user-menu-wrapper { display: none !important; }
-            .mobile-portal-nav { display: none !important; }
             .mobile-toggle { width: 32px; height: 32px; padding: 4px; }
         }
 
@@ -1227,8 +1224,26 @@
                         <span>Payout Approvals</span>
                     </a>
 
+                    <!-- 6. Orders & Payments -->
+                    <a href="{{ url('/admin/orders') }}" class="mobile-portal-link {{ request()->is('admin/orders*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><line x1="6" y1="15" x2="10" y2="15"></line>
+                        </svg>
+                        <span>Orders &amp; Payments</span>
+                        <span class="mob-badge-pill">Refunds</span>
+                    </a>
+
+                    <!-- 7. Reports & Analytics -->
+                    <a href="{{ route('admin.reports.index') }}" class="mobile-portal-link {{ request()->is('admin/reports*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Reports &amp; Analytics</span>
+                        <span class="mob-badge-pill" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;">Charts</span>
+                    </a>
+
                     @if ($drawerIsSuper)
-                        <!-- 6. Course Option (Super Admin ONLY) -->
+                        <!-- 8. Course Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
@@ -1237,7 +1252,7 @@
                             <span class="mob-badge-pill super">Show/Hide</span>
                         </a>
 
-                        <!-- 7. Offer & Discounts (Super Admin ONLY) -->
+                        <!-- 9. Offer & Discounts (Super Admin ONLY) -->
                         <a href="{{ url('/admin/offers') }}" class="mobile-portal-link {{ request()->is('admin/offers*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
@@ -1247,7 +1262,7 @@
                             <span class="mob-badge-pill super" style="background: rgba(245, 158, 11, 0.18); color: #d97706;">5 Packages</span>
                         </a>
 
-                        <!-- 8. Video Option (Super Admin ONLY) -->
+                        <!-- 10. Video Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/videos') }}" class="mobile-portal-link {{ request()->is('admin/videos*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
@@ -1256,7 +1271,46 @@
                             <span class="mob-badge-pill super">Show/Hide</span>
                         </a>
 
-                        <!-- 9. System Settings (Super Admin ONLY) -->
+                        <!-- 11. Payment Gateway (Cashfree) (Super Admin ONLY) -->
+                        <a href="{{ url('/admin/payment-gateway') }}" class="mobile-portal-link {{ request()->is('admin/payment-gateway*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <span>Payment Gateway</span>
+                            <span class="mob-badge-pill super" style="background: rgba(16, 185, 129, 0.18); color: #059669;">Cashfree</span>
+                        </a>
+
+                        <!-- 12. Content Management (Super Admin ONLY) -->
+                        <a href="{{ route('admin.content.categories') }}" class="mobile-portal-link {{ request()->is('admin/content*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                            <span>Content Manage</span>
+                            <span class="mob-badge-pill super" style="background: rgba(124, 58, 237, 0.18); color: #7c3aed;">CMS</span>
+                        </a>
+
+                        <!-- 13. Roles & Staff (RBAC) (Super Admin ONLY) -->
+                        <a href="{{ route('admin.roles') }}" class="mobile-portal-link {{ request()->is('admin/roles*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <span>Roles &amp; Staff</span>
+                            <span class="mob-badge-pill super" style="background: rgba(5, 179, 150, 0.18); color: #05B396;">RBAC</span>
+                        </a>
+
+                        <!-- 14. Activity Log & Audit Trail (Super Admin ONLY) -->
+                        <a href="{{ route('admin.activity-logs') }}" class="mobile-portal-link {{ request()->is('admin/activity-logs*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                            <span>Audit Trail</span>
+                            <span class="mob-badge-pill super" style="background: rgba(15, 23, 42, 0.12); color: #0f172a;">Logs</span>
+                        </a>
+
+                        <!-- 15. System Settings (Super Admin ONLY) -->
                         <a href="{{ url('/admin/settings') }}" class="mobile-portal-link {{ request()->is('admin/settings*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -1313,8 +1367,12 @@
                     </a>
                 </div>
                 @else
-                    {{-- Student / Affiliate Mobile Drawer Controls --}}
-                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                    {{-- Student / Affiliate Mobile Drawer Controls (100% Matches Desktop Sidebar Webview) --}}
+                    <!-- 1. CORE PORTAL & LEARNING SECTION -->
+                    <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
+                        Core Portal &amp; Learning
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px dashed #cbd5e1;">
                         <!-- 1. Dashboard -->
                         <a href="{{ url('/dashboard') }}" id="mob-link-dashboard" class="mobile-portal-link {{ request()->is('dashboard*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1332,7 +1390,7 @@
                             <span>My Course</span>
                         </a>
 
-                        <!-- 4. Profile -->
+                        <!-- 3. Profile -->
                         <a href="{{ url('/profile') }}" id="mob-link-profile" class="mobile-portal-link {{ request()->is('profile*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -1341,16 +1399,7 @@
                             <span>Profile</span>
                         </a>
 
-                        <!-- 5. Affiliate Link -->
-                        <a href="{{ url('/affiliate-link') }}" id="mob-link-affiliate-link" class="mobile-portal-link {{ request()->is('affiliate-link*') ? 'active' : '' }}">
-                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                            </svg>
-                            <span>Affiliate Link</span>
-                        </a>
-
-                        <!-- 6. Social Community -->
+                        <!-- 4. Social Community -->
                         <a href="{{ url('/social-community') }}" id="mob-link-community" class="mobile-portal-link {{ request()->is('social-community*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -1361,7 +1410,23 @@
                             <span>Social Community</span>
                         </a>
 
-                        <!-- 7. Kyc -->
+                        <!-- 5. Leaderboard -->
+                        <a href="{{ url('/leaderboard') }}" id="mob-link-leaderboard" class="mobile-portal-link {{ request()->is('leaderboard*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span>Leaderboard</span>
+                        </a>
+                    </div>
+
+                    <!-- 2. AFFILIATE & REWARDS SECTION -->
+                    <div style="font-size: 0.72rem; font-weight: 800; color: #05B396; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.35rem; padding-left: 0.3rem;">
+                        Affiliate &amp; Rewards
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <!-- 1. Kyc -->
                         <a href="{{ url('/kyc') }}" id="mob-link-kyc" class="mobile-portal-link {{ request()->is('kyc*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -1373,16 +1438,16 @@
                             <span>Kyc</span>
                         </a>
 
-                        <!-- 8. My Payout -->
-                        <a href="{{ url('/my-payout') }}" id="mob-link-payout" class="mobile-portal-link {{ request()->is('my-payout*') ? 'active' : '' }}">
+                        <!-- 2. Affiliate Link -->
+                        <a href="{{ url('/affiliate-link') }}" id="mob-link-affiliate-link" class="mobile-portal-link {{ request()->is('affiliate-link*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                             </svg>
-                            <span>My Payout</span>
+                            <span>Affiliate Link</span>
                         </a>
 
-                        <!-- Active Referral -->
+                        <!-- 3. Active Referral -->
                         <a href="{{ url('/active-referrals') }}" id="mob-link-active-referrals" class="mobile-portal-link {{ request()->is('active-referrals*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -1392,7 +1457,7 @@
                             <span>Active Referral</span>
                         </a>
 
-                        <!-- Passive Referral -->
+                        <!-- 4. Passive Referral -->
                         <a href="{{ url('/passive-referrals') }}" id="mob-link-passive-referrals" class="mobile-portal-link {{ request()->is('passive-referrals*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
@@ -1400,7 +1465,7 @@
                             <span>Passive Referral</span>
                         </a>
 
-                        <!-- Webinars -->
+                        <!-- 5. Webinars -->
                         <a href="{{ url('/webinars') }}" id="mob-link-webinars" class="mobile-portal-link {{ request()->is('webinars*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="23 7 16 12 23 17 23 7"></polygon>
@@ -1409,7 +1474,7 @@
                             <span>Webinars</span>
                         </a>
 
-                        <!-- Live Offers -->
+                        <!-- 6. Live Offers -->
                         <a href="{{ url('/live-offers') }}" id="mob-link-live-offers" class="mobile-portal-link {{ request()->is('live-offers*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
@@ -1419,7 +1484,7 @@
                             <span>Live Offers</span>
                         </a>
 
-                        <!-- Affiliate Training -->
+                        <!-- 7. Affiliate Training -->
                         <a href="{{ url('/affiliate-training') }}" id="mob-link-training" class="mobile-portal-link {{ request()->is('affiliate-training*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -1430,7 +1495,16 @@
                             <span>Affiliate Training</span>
                         </a>
 
-                        <!-- Marketing Tool -->
+                        <!-- 8. Upgrade Plan -->
+                        <a href="{{ url('/plans') }}" id="mob-link-upgrade" class="mobile-portal-link {{ request()->is('plans*') ? 'active' : '' }}">
+                            <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <span>Upgrade</span>
+                        </a>
+
+                        <!-- 9. Marketing Tool -->
                         <a href="{{ url('/marketing-tool') }}" id="mob-link-marketing" class="mobile-portal-link {{ request()->is('marketing-tool*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
@@ -1440,17 +1514,16 @@
                             <span>Marketing Tool</span>
                         </a>
 
-                        <!-- Leaderboard -->
-                        <a href="{{ url('/leaderboard') }}" id="mob-link-leaderboard" class="mobile-portal-link {{ request()->is('leaderboard*') ? 'active' : '' }}">
+                        <!-- 10. My Payout -->
+                        <a href="{{ url('/my-payout') }}" id="mob-link-payout" class="mobile-portal-link {{ request()->is('my-payout*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="20" x2="18" y2="10"></line>
-                                <line x1="12" y1="20" x2="12" y2="4"></line>
-                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
                             </svg>
-                            <span>Leaderboard</span>
+                            <span>My Payout</span>
                         </a>
 
-                        <!-- Qualification -->
+                        <!-- 11. Qualification -->
                         <a href="{{ url('/qualification') }}" id="mob-link-qualification" class="mobile-portal-link {{ request()->is('qualification*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="8" r="7"></circle>
