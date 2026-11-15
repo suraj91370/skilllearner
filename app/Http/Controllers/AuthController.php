@@ -190,13 +190,6 @@ class AuthController extends Controller
             ]);
         }
 
-        // Send branded welcome email notification
-        $emailSent = EmailNotificationService::sendAccountCreated($user, $user->active_package);
-        if (! $emailSent) {
-            $err = EmailNotificationService::getLastError();
-            session()->flash('warning', "Account create ho gaya hai, lekin welcome email nahi bhej paye ({$err}). Kripya .env mein SMTP check karein.");
-        }
-
         // CRITICAL: DO NOT log in unpaid user! Redirect to checkout / buy-now page to complete payment
         $packageSlug = strtolower(str_replace(' Package', '', (string) $user->active_package));
 
