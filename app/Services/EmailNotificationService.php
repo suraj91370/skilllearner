@@ -127,19 +127,22 @@ class EmailNotificationService
                 packageName: $packageName ?? $user->active_package
             );
 
-            $mail = Mail::to($user->email, $user->name);
+            // 1. Send welcome email directly to the student
+            Mail::to($user->email, $user->name)->send($mailable);
+            Log::info("Account created welcome email sent to student: {$user->email}.");
 
-            // Send admin copy / BCC so Super Admin also receives notification of the activation
+            // 2. Also send notification copy to Super Admin / Admin
             if ($notifyAdminCopy) {
                 $adminEmail = config('mail.from.address') ?: 'superadmin@skilllearne.org';
                 if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower($user->email)) {
-                    $mail->bcc($adminEmail);
+                    try {
+                        Mail::to($adminEmail)->send(clone $mailable);
+                        Log::info("Account created welcome email copy sent to admin: {$adminEmail}.");
+                    } catch (Throwable $adminEx) {
+                        Log::warning("Admin copy welcome email could not be sent to {$adminEmail}: ".$adminEx->getMessage());
+                    }
                 }
             }
-
-            $mail->send($mailable);
-
-            Log::info("Account created welcome email sent to {$user->email} (Admin BCC: ".($notifyAdminCopy ? ($adminEmail ?? 'none') : 'no').").");
 
             return true;
         } catch (Throwable $e) {
