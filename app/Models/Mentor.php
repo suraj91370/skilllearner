@@ -38,6 +38,10 @@ class Mentor extends Model
         'wallet_balance',
     ];
 
+    protected $appends = [
+        'photo_url',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -58,5 +62,18 @@ class Mentor extends Model
     public function payouts(): HasMany
     {
         return $this->hasMany(MentorPayout::class);
+    }
+
+    public function getPhotoUrlAttribute(): string
+    {
+        if (empty($this->photo)) {
+            return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&background=7c3aed&color=ffffff&bold=true';
+        }
+
+        if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://')) {
+            return $this->photo;
+        }
+
+        return asset($this->photo);
     }
 }

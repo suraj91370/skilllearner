@@ -225,8 +225,8 @@ class ContentManagementSeeder extends Seeder
         Setting::set('home_hero_subtitle', 'Master modern video editing, performance Meta ads, business automation, and high-converting funnels with India’s top digital mentors.');
         Setting::set('home_hero_cta_text', '🚀 Explore All Packages');
         Setting::set('home_hero_cta_link', '#packages');
-        Setting::set('home_announcement_bar', '🔥 New Flash Sale Live! Get Extra 10% Off with Code: SKILL10');
-        Setting::set('home_show_announcement', '1');
+        Setting::set('home_announcement_bar', '');
+        Setting::set('home_show_announcement', '0');
         Setting::set('home_show_packages', '1');
         Setting::set('home_show_mentors', '1');
         Setting::set('home_show_why_us', '1');

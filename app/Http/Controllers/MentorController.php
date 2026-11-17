@@ -94,6 +94,7 @@ class MentorController extends Controller
             'email' => 'required|email|unique:mentors,email',
             'phone' => 'nullable|string|max:50',
             'photo' => 'nullable|string|max:500',
+            'photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'bio' => 'nullable|string',
             'expertise' => 'nullable|string|max:255',
             'experience' => 'nullable|string|max:100',
@@ -124,6 +125,18 @@ class MentorController extends Controller
         ];
 
         $photo = $validated['photo'] ?? null;
+
+        if ($request->hasFile('photo_file')) {
+            $file = $request->file('photo_file');
+            $filename = 'mentor_'.time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/mentors');
+            if (! file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $file->move($destinationPath, $filename);
+            $photo = 'uploads/mentors/'.$filename;
+        }
+
         if (empty($photo)) {
             $photo = 'https://ui-avatars.com/api/?name='.urlencode($validated['name']).'&background=7c3aed&color=ffffff&bold=true';
         }
@@ -167,6 +180,7 @@ class MentorController extends Controller
             'email' => 'required|email|unique:mentors,email,'.$mentor->id,
             'phone' => 'nullable|string|max:50',
             'photo' => 'nullable|string|max:500',
+            'photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'bio' => 'nullable|string',
             'expertise' => 'nullable|string|max:255',
             'experience' => 'nullable|string|max:100',
@@ -196,11 +210,32 @@ class MentorController extends Controller
             'github' => $validated['github'] ?? ($mentor->social_links['github'] ?? ''),
         ];
 
+        $photo = $mentor->photo;
+
+        if ($request->hasFile('photo_file')) {
+            $file = $request->file('photo_file');
+            $filename = 'mentor_'.time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/mentors');
+            if (! file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $file->move($destinationPath, $filename);
+
+            // Delete old uploaded file if local in uploads/mentors
+            if ($mentor->photo && str_starts_with($mentor->photo, 'uploads/mentors/') && file_exists(public_path($mentor->photo))) {
+                @unlink(public_path($mentor->photo));
+            }
+
+            $photo = 'uploads/mentors/'.$filename;
+        } elseif ($request->filled('photo')) {
+            $photo = $validated['photo'];
+        }
+
         $mentor->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? $mentor->phone,
-            'photo' => ! empty($validated['photo']) ? $validated['photo'] : $mentor->photo,
+            'photo' => $photo,
             'bio' => $validated['bio'] ?? $mentor->bio,
             'expertise' => $validated['expertise'] ?? $mentor->expertise,
             'experience' => $validated['experience'] ?? $mentor->experience,
@@ -339,6 +374,10 @@ class MentorController extends Controller
      */
     protected function ensureSampleMentors(): void
     {
+        if (Mentor::count() > 0) {
+            return;
+        }
+
         $coreMentors = [
             [
                 'name' => 'Adarsh Pandey',

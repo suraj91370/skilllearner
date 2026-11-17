@@ -113,11 +113,20 @@
                                 <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
                                     Announcement Text
                                 </label>
-                                <input type="text" name="home_announcement_bar" value="{{ old('home_announcement_bar', $settings['home_announcement_bar'] ?? '🔥 New Flash Sale Live! Get Extra 10% Off with Code: SKILL10') }}" style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none;">
+                                @php
+                                    $annVal = $settings['home_announcement_bar'] ?? '';
+                                    if (str_contains((string) $annVal, 'SKILL10')) {
+                                        $annVal = '';
+                                    }
+                                @endphp
+                                <input type="text" name="home_announcement_bar" value="{{ old('home_announcement_bar', $annVal) }}" placeholder="e.g. Special offer or announcement text" style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none;">
                             </div>
 
+                            @php
+                                $showAnn = ($settings['home_show_announcement'] ?? '0') === '1' && !empty($annVal);
+                            @endphp
                             <label style="display: flex; align-items: center; gap: 8px; font-size: 0.86rem; font-weight: 700; color: #334155; cursor: pointer;">
-                                <input type="checkbox" name="home_show_announcement" value="1" {{ ($settings['home_show_announcement'] ?? '1') === '1' ? 'checked' : '' }} style="width: 18px; height: 18px; accent-color: #05B396;">
+                                <input type="checkbox" name="home_show_announcement" value="1" {{ $showAnn ? 'checked' : '' }} style="width: 18px; height: 18px; accent-color: #05B396;">
                                 <span>Show Announcement Bar across top of platform</span>
                             </label>
                         </div>

@@ -151,7 +151,7 @@
                                         <!-- Mentor Profile -->
                                         <td style="padding: 1rem;">
                                             <div style="display: flex; align-items: center; gap: 12px;">
-                                                <img src="{{ $mentor->photo ?: 'https://ui-avatars.com/api/?name='.urlencode($mentor->name).'&background=7c3aed&color=ffffff&bold=true' }}" alt="{{ $mentor->name }}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #7c3aed; flex-shrink: 0;">
+                                                <img src="{{ $mentor->photo_url }}" alt="{{ $mentor->name }}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #7c3aed; flex-shrink: 0;">
                                                 <div>
                                                     <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">{{ $mentor->name }}</div>
                                                     <div style="color: #64748b; font-size: 0.8rem;">{{ $mentor->email }}</div>
@@ -484,7 +484,7 @@
                         <button type="button" onclick="closeAddMentorModal()" style="background: rgba(255,255,255,0.2); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
                     </div>
 
-                    <form method="POST" action="{{ route('admin.mentors.store') }}" style="padding: 1.8rem;">
+                    <form method="POST" action="{{ route('admin.mentors.store') }}" enctype="multipart/form-data" style="padding: 1.8rem;">
                         @csrf
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
                             <!-- Name -->
@@ -505,10 +505,14 @@
                                 <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">Phone Number</label>
                                 <input type="text" name="phone" placeholder="e.g. +91 98765 43210" style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box;">
                             </div>
-                            <!-- Photo URL -->
+                            <!-- Photo Upload -->
                             <div>
-                                <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">Photo URL (Optional)</label>
-                                <input type="url" name="photo" placeholder="https://..." style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box;">
+                                <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">📷 Mentor Photo Upload</label>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <img id="add_photo_preview" src="" alt="Preview" style="display: none; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #05B396; flex-shrink: 0;">
+                                    <input type="file" id="add_photo_file" name="photo_file" accept="image/*" onchange="previewAddMentorPhoto(this)" style="width: 100%; padding: 0.5rem 0.7rem; border: 1.5px dashed #cbd5e1; border-radius: 8px; font-size: 0.85rem; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
+                                </div>
+                                <div style="font-size: 0.72rem; color: #64748b; margin-top: 3px;">Supports JPG, PNG, WEBP, GIF (Max 5MB)</div>
                             </div>
                         </div>
 
@@ -631,7 +635,7 @@
                         <button type="button" onclick="closeEditMentorModal()" style="background: rgba(255,255,255,0.2); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
                     </div>
 
-                    <form id="editMentorForm" method="POST" action="" style="padding: 1.8rem;">
+                    <form id="editMentorForm" method="POST" action="" enctype="multipart/form-data" style="padding: 1.8rem;">
                         @csrf
                         @method('PUT')
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
@@ -651,8 +655,15 @@
                                 <input type="text" id="edit_phone" name="phone" style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box;">
                             </div>
                             <div>
-                                <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">Photo URL</label>
-                                <input type="url" id="edit_photo" name="photo" style="width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box;">
+                                <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">📷 Mentor Photo</label>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <img id="edit_photo_preview" src="" alt="Photo" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #7c3aed; flex-shrink: 0; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);">
+                                    <div style="flex: 1;">
+                                        <input type="file" id="edit_photo_file" name="photo_file" accept="image/*" onchange="previewEditMentorPhoto(this)" style="width: 100%; padding: 0.45rem 0.7rem; border: 1.5px dashed #cbd5e1; border-radius: 8px; font-size: 0.82rem; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
+                                        <input type="hidden" id="edit_photo" name="photo">
+                                        <div style="font-size: 0.72rem; color: #64748b; margin-top: 3px;">Choose new photo file to replace (JPG, PNG, WEBP, max 5MB)</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -819,6 +830,19 @@
         document.getElementById('edit_email').value = mentor.email || '';
         document.getElementById('edit_phone').value = mentor.phone || '';
         document.getElementById('edit_photo').value = mentor.photo || '';
+        const previewImg = document.getElementById('edit_photo_preview');
+        const fileInput = document.getElementById('edit_photo_file');
+        if (fileInput) fileInput.value = '';
+
+        if (previewImg) {
+            let photoSrc = mentor.photo_url || mentor.photo || '';
+            if (!photoSrc) {
+                photoSrc = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(mentor.name || 'Mentor') + '&background=7c3aed&color=ffffff&bold=true';
+            } else if (!photoSrc.startsWith('http://') && !photoSrc.startsWith('https://')) {
+                photoSrc = '/' + photoSrc.replace(/^\/+/, '');
+            }
+            previewImg.src = photoSrc;
+        }
         document.getElementById('edit_expertise').value = mentor.expertise || '';
         document.getElementById('edit_experience').value = mentor.experience || '';
         document.getElementById('edit_qualification').value = mentor.qualification || '';
@@ -845,6 +869,31 @@
     }
     function closeEditMentorModal() {
         document.getElementById('editMentorModal').style.display = 'none';
+    }
+
+    function previewEditMentorPhoto(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('edit_photo_preview');
+                if (preview) preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewAddMentorPhoto(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('add_photo_preview');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     function openPayoutModal(mentorId, mentorName) {
