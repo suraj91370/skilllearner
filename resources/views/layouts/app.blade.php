@@ -1274,6 +1274,27 @@
                         <span class="mob-badge-pill" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">Links</span>
                     </a>
 
+                    <!-- 11. Live Offers & Posters -->
+                    <a href="{{ url('/admin/live-offers') }}" class="mobile-portal-link {{ request()->is('admin/live-offers*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                        <span>Live Offers</span>
+                        <span class="mob-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Posters</span>
+                    </a>
+
+                    <!-- 12. Webinars & Meetings -->
+                    <a href="{{ url('/admin/webinars') }}" class="mobile-portal-link {{ request()->is('admin/webinars*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Live Webinars</span>
+                        <span class="mob-badge-pill" style="background: rgba(2, 132, 199, 0.15); color: #0284c7;">Meeting</span>
+                    </a>
+
                     @if ($drawerIsSuper)
                         <!-- 8. Course Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}">

@@ -94,6 +94,14 @@
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 <span>Community</span>
             </a>
+            <a href="{{ url('/admin/live-offers') }}" class="m-portal-tab {{ $currentActive === 'admin-live-offers' ? 'active' : '' }}" style="{{ $currentActive === 'admin-live-offers' ? '' : 'border: 1.5px solid #05B396; color: #05B396; background: #f0fdf4;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <span>Offers</span>
+            </a>
+            <a href="{{ url('/admin/webinars') }}" class="m-portal-tab {{ $currentActive === 'admin-webinars' ? 'active' : '' }}" style="{{ $currentActive === 'admin-webinars' ? '' : 'border: 1.5px solid #0284c7; color: #0284c7; background: #f0f9ff;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                <span>Webinars</span>
+            </a>
             @if ($isSuperAdmin)
                 <a href="{{ url('/admin/payment-gateway') }}" class="m-portal-tab {{ $currentActive === 'admin-payment-gateway' ? 'active' : '' }}" style="{{ $currentActive === 'admin-payment-gateway' ? '' : 'border: 1.5px solid #10b981; color: #10b981; background: #ecfdf5;' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
