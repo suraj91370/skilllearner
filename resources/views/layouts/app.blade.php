@@ -1253,6 +1253,16 @@
                         <span class="mob-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Upload</span>
                     </a>
 
+                    <!-- 9. Affiliate Training (YouTube / Photos) -->
+                    <a href="{{ url('/admin/affiliate-training') }}" class="mobile-portal-link {{ request()->is('admin/affiliate-training*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                        <span>Affiliate Training</span>
+                        <span class="mob-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">Curriculum</span>
+                    </a>
+
                     @if ($drawerIsSuper)
                         <!-- 8. Course Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}">

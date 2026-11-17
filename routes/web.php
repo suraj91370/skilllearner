@@ -1069,6 +1069,13 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::put('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'update'])->name('admin.marketing-tools.update');
     Route::post('/marketing-tools/{marketingTool}/toggle-visibility', [MarketingToolController::class, 'toggleVisibility'])->name('admin.marketing-tools.toggle-visibility');
     Route::delete('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'destroy'])->name('admin.marketing-tools.destroy');
+
+    // Affiliate Training Masterclasses (YouTube Videos & Photo Management)
+    Route::get('/affiliate-training', [AffiliateTrainingController::class, 'adminIndex'])->name('admin.affiliate-training');
+    Route::post('/affiliate-training', [AffiliateTrainingController::class, 'store'])->name('admin.affiliate-training.store');
+    Route::put('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'update'])->name('admin.affiliate-training.update');
+    Route::post('/affiliate-training/{affiliateTraining}/toggle-visibility', [AffiliateTrainingController::class, 'toggleVisibility'])->name('admin.affiliate-training.toggle-visibility');
+    Route::delete('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'destroy'])->name('admin.affiliate-training.destroy');
 });
 
 // Super Admin Only System Settings, Video Management & RBAC

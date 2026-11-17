@@ -86,6 +86,10 @@
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                 <span>Marketing</span>
             </a>
+            <a href="{{ url('/admin/affiliate-training') }}" class="m-portal-tab {{ $currentActive === 'admin-training' ? 'active' : '' }}" style="{{ $currentActive === 'admin-training' ? '' : 'border: 1.5px solid #7c3aed; color: #7c3aed; background: #faf5ff;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <span>Training</span>
+            </a>
             @if ($isSuperAdmin)
                 <a href="{{ url('/admin/payment-gateway') }}" class="m-portal-tab {{ $currentActive === 'admin-payment-gateway' ? 'active' : '' }}" style="{{ $currentActive === 'admin-payment-gateway' ? '' : 'border: 1.5px solid #10b981; color: #10b981; background: #ecfdf5;' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>

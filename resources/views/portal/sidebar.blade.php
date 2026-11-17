@@ -140,6 +140,16 @@
                 <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Shorts/Photos</span>
             </a>
 
+            <!-- Affiliate Training Management (Super Admin & Admin) -->
+            <a href="{{ url('/admin/affiliate-training') }}" class="sidebar-item {{ $currentActive === 'admin-training' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+                <span>Affiliate Training</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">YouTube/Photo</span>
+            </a>
+
             @if ($isSuperAdmin)
                 <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
