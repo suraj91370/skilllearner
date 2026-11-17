@@ -977,6 +977,7 @@ Route::get('/certificates', fn () => redirect()->route('portal.courses'));
 Route::get('/team-leaderboard', fn () => redirect()->route('portal.leaderboard'));
 Route::get('/affiliate-training', [AffiliateTrainingController::class, 'index'])->name('portal.training');
 Route::get('/marketing-tool', [MarketingToolController::class, 'index'])->name('portal.marketing');
+Route::get('/marketing-tool/{tool}/download', [MarketingToolController::class, 'download'])->name('portal.marketing.download');
 Route::get('/my-payout', [PayoutController::class, 'index'])->name('portal.payout');
 Route::post('/payout-request', [PayoutController::class, 'requestPayout'])->name('portal.payout-request');
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('portal.leaderboard');
@@ -1061,6 +1062,13 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::get('/reports/export/excel', [ReportController::class, 'exportExcel'])->name('admin.reports.export.excel');
     Route::get('/reports/export/pdf', [ReportController::class, 'printable'])->name('admin.reports.export.pdf');
     Route::get('/reports/printable', [ReportController::class, 'printable'])->name('admin.reports.printable');
+
+    // Marketing Tools & Promotional Creatives (Short Videos, Photos, Banners)
+    Route::get('/marketing-tools', [MarketingToolController::class, 'adminIndex'])->name('admin.marketing-tools');
+    Route::post('/marketing-tools', [MarketingToolController::class, 'store'])->name('admin.marketing-tools.store');
+    Route::put('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'update'])->name('admin.marketing-tools.update');
+    Route::post('/marketing-tools/{marketingTool}/toggle-visibility', [MarketingToolController::class, 'toggleVisibility'])->name('admin.marketing-tools.toggle-visibility');
+    Route::delete('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'destroy'])->name('admin.marketing-tools.destroy');
 });
 
 // Super Admin Only System Settings, Video Management & RBAC
