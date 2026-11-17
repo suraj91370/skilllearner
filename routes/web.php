@@ -1076,6 +1076,13 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::put('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'update'])->name('admin.affiliate-training.update');
     Route::post('/affiliate-training/{affiliateTraining}/toggle-visibility', [AffiliateTrainingController::class, 'toggleVisibility'])->name('admin.affiliate-training.toggle-visibility');
     Route::delete('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'destroy'])->name('admin.affiliate-training.destroy');
+
+    // Social Communities Management
+    Route::get('/social-communities', [SocialCommunityController::class, 'adminIndex'])->name('admin.social-communities');
+    Route::post('/social-communities', [SocialCommunityController::class, 'store'])->name('admin.social-communities.store');
+    Route::put('/social-communities/{socialCommunity}', [SocialCommunityController::class, 'update'])->name('admin.social-communities.update');
+    Route::post('/social-communities/{socialCommunity}/toggle-visibility', [SocialCommunityController::class, 'toggleVisibility'])->name('admin.social-communities.toggle-visibility');
+    Route::delete('/social-communities/{socialCommunity}', [SocialCommunityController::class, 'destroy'])->name('admin.social-communities.destroy');
 });
 
 // Super Admin Only System Settings, Video Management & RBAC

@@ -150,6 +150,17 @@
                 <span class="sidebar-item-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">YouTube/Photo</span>
             </a>
 
+            <!-- Social Community Management (Super Admin & Admin) -->
+            <a href="{{ url('/admin/social-communities') }}" class="sidebar-item {{ $currentActive === 'admin-communities' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>Social Community</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">Links</span>
+            </a>
+
             @if ($isSuperAdmin)
                 <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">

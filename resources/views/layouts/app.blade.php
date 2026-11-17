@@ -1263,6 +1263,17 @@
                         <span class="mob-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">Curriculum</span>
                     </a>
 
+                    <!-- 10. Social Communities Management -->
+                    <a href="{{ url('/admin/social-communities') }}" class="mobile-portal-link {{ request()->is('admin/social-communities*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span>Social Community</span>
+                        <span class="mob-badge-pill" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">Links</span>
+                    </a>
+
                     @if ($drawerIsSuper)
                         <!-- 8. Course Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}">

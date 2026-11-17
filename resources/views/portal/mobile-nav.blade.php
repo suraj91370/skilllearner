@@ -90,6 +90,10 @@
                 <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
                 <span>Training</span>
             </a>
+            <a href="{{ url('/admin/social-communities') }}" class="m-portal-tab {{ $currentActive === 'admin-communities' ? 'active' : '' }}" style="{{ $currentActive === 'admin-communities' ? '' : 'border: 1.5px solid #2563eb; color: #2563eb; background: #eff6ff;' }}">
+                <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>Community</span>
+            </a>
             @if ($isSuperAdmin)
                 <a href="{{ url('/admin/payment-gateway') }}" class="m-portal-tab {{ $currentActive === 'admin-payment-gateway' ? 'active' : '' }}" style="{{ $currentActive === 'admin-payment-gateway' ? '' : 'border: 1.5px solid #10b981; color: #10b981; background: #ecfdf5;' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
