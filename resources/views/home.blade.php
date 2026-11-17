@@ -19,9 +19,13 @@
 @endif
 
 <!-- Top Announcement Ribbon Bar (Admin Controlled) -->
-@if(\App\Models\Setting::get('home_show_announcement', '1') === '1' && \App\Models\Setting::get('home_announcement_bar'))
+@php
+    $announcementText = trim((string) \App\Models\Setting::get('home_announcement_bar', ''));
+    $showAnnouncement = \App\Models\Setting::get('home_show_announcement', '0') === '1';
+@endphp
+@if($showAnnouncement && !empty($announcementText) && !str_contains($announcementText, 'SKILL10'))
     <div style="background: linear-gradient(90deg, #05B396 0%, #047857 100%); color: #ffffff; text-align: center; padding: 0.65rem 1rem; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.3px; box-shadow: 0 2px 10px rgba(5, 179, 150, 0.25);">
-        {{ \App\Models\Setting::get('home_announcement_bar') }}
+        {{ $announcementText }}
     </div>
 @endif
 
@@ -427,12 +431,16 @@
         </div>
 
         <!-- Founders Horizontal Scroll Slider (Left to Right) -->
+        @php
+            $founderMentor = \App\Models\Mentor::where('email', 'adarsh.pandey@skilllearner.com')->first();
+            $coFounderMentor = \App\Models\Mentor::where('email', 'ravi.gond@skilllearner.com')->first();
+        @endphp
         <div id="foundersScrollTrack" class="horizontal-scroll-slider founders-slider" style="display: flex; gap: 2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; padding: 0.5rem 0.25rem 1.8rem;">
             
             <!-- Founder Card (Adarsh Pandey) -->
             <div class="founder-card" style="flex: 0 0 calc(50% - 1rem); min-width: 320px; max-width: 560px; scroll-snap-align: start; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
                 <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/founder.jpg') }}" alt="Adarsh Pandey — Founder & CEO" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
+                    <img src="{{ $founderMentor ? $founderMentor->photo_url : asset('images/founder.jpg') }}" alt="Adarsh Pandey — Founder & CEO" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.4s ease;">
                     <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
                     
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(11, 79, 74, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
@@ -449,10 +457,10 @@
                             ADARSH PANDEY
                         </h3>
                         <div style="font-size: 1.02rem; font-weight: 700; color: #0A6B5C; margin-bottom: 1.25rem;">
-                            Founder &amp; CEO – Skilllearner
+                            {{ $founderMentor && $founderMentor->designation ? $founderMentor->designation : 'Founder & CEO – Skilllearner' }}
                         </div>
                         <p style="color: #334155; font-size: 0.95rem; line-height: 1.65; margin-bottom: 1rem; font-weight: 500;">
-                            Adarsh Pandey is the Founder and CEO of Skilllearner, an online learning platform focused on digital education, skill development, and entrepreneurship.
+                            {{ $founderMentor && $founderMentor->bio ? $founderMentor->bio : 'Adarsh Pandey is the Founder and CEO of Skilllearner, an online learning platform focused on digital education, skill development, and entrepreneurship.' }}
                         </p>
                         <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin-bottom: 0;">
                             With 5+ years of experience in Digital Marketing and the Online Business Industry, he brings knowledge of digital growth, branding, online marketing, and business development.
@@ -464,7 +472,7 @@
             <!-- Co-Founder Card (Ravi Gond) -->
             <div class="founder-card" style="flex: 0 0 calc(50% - 1rem); min-width: 320px; max-width: 560px; scroll-snap-align: start; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(0, 0, 0, 0.02); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;">
                 <div style="width: 100%; height: 380px; position: relative; overflow: hidden; background: #0f172a;">
-                    <img src="{{ asset('images/co-founder.jpg') }}" alt="Ravi Gond — Co-Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
+                    <img src="{{ $coFounderMentor ? $coFounderMentor->photo_url : asset('images/co-founder.jpg') }}" alt="Ravi Gond — Co-Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s ease;">
                     <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 40%);"></div>
                     
                     <span style="position: absolute; top: 16px; left: 16px; background: rgba(217, 119, 6, 0.95); backdrop-filter: blur(8px); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; border: 1px solid rgba(255, 255, 255, 0.2);">
@@ -481,10 +489,10 @@
                             RAVI GOND
                         </h3>
                         <div style="font-size: 1.02rem; font-weight: 700; color: #D97706; margin-bottom: 1.25rem;">
-                            Co-Founder – Skilllearner
+                            {{ $coFounderMentor && $coFounderMentor->designation ? $coFounderMentor->designation : 'Co-Founder – Skilllearner' }}
                         </div>
                         <p style="color: #334155; font-size: 0.95rem; line-height: 1.65; margin-bottom: 1rem; font-weight: 500;">
-                            Ravi Gond is the Co-Founder of Skilllearner, an online learning platform focused on digital education, skill development, and entrepreneurship.
+                            {{ $coFounderMentor && $coFounderMentor->bio ? $coFounderMentor->bio : 'Ravi Gond is the Co-Founder of Skilllearner, an online learning platform focused on digital education, skill development, and entrepreneurship.' }}
                         </p>
                         <p style="color: #64748b; font-size: 0.92rem; line-height: 1.65; margin-bottom: 0;">
                             With 4+ years of experience in Digital Marketing and Online Business, he has developed knowledge of digital marketing, online branding, business development, and sales strategies.
@@ -535,7 +543,7 @@
         <div class="expert-team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem; margin: 0 auto;">
             @forelse($featuredMentors as $m)
                 @php
-                    $photoUrl = $m->photo;
+                    $photoUrl = $m->photo_url ?? $m->photo;
                     if (empty($photoUrl)) {
                         $photoUrl = asset('images/mentor-1.jpg');
                     } elseif (!str_starts_with($photoUrl, 'http://') && !str_starts_with($photoUrl, 'https://')) {

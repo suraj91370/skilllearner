@@ -119,6 +119,18 @@ class ContentManagementController extends Controller
 
         $settings = Setting::allSettings();
 
+        // Automatically clean up legacy flash sale SKILL10 announcement bar
+        if (isset($settings['home_announcement_bar']) && str_contains((string) $settings['home_announcement_bar'], 'SKILL10')) {
+            $settings['home_announcement_bar'] = '';
+            $settings['home_show_announcement'] = '0';
+            try {
+                Setting::set('home_announcement_bar', '');
+                Setting::set('home_show_announcement', '0');
+            } catch (\Throwable $e) {
+                // Ignore any DB exception if offline
+            }
+        }
+
         return view('admin.content.homepage', [
             'settings' => $settings,
             'active' => 'admin-content-homepage',

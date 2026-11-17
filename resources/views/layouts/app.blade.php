@@ -1242,6 +1242,59 @@
                         <span class="mob-badge-pill" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;">Charts</span>
                     </a>
 
+                    <!-- 8. Marketing Tools (Shorts / Photos) -->
+                    <a href="{{ url('/admin/marketing-tools') }}" class="mobile-portal-link {{ request()->is('admin/marketing-tools*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        <span>Marketing Tools</span>
+                        <span class="mob-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Upload</span>
+                    </a>
+
+                    <!-- 9. Affiliate Training (YouTube / Photos) -->
+                    <a href="{{ url('/admin/affiliate-training') }}" class="mobile-portal-link {{ request()->is('admin/affiliate-training*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                        <span>Affiliate Training</span>
+                        <span class="mob-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">Curriculum</span>
+                    </a>
+
+                    <!-- 10. Social Communities Management -->
+                    <a href="{{ url('/admin/social-communities') }}" class="mobile-portal-link {{ request()->is('admin/social-communities*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span>Social Community</span>
+                        <span class="mob-badge-pill" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">Links</span>
+                    </a>
+
+                    <!-- 11. Live Offers & Posters -->
+                    <a href="{{ url('/admin/live-offers') }}" class="mobile-portal-link {{ request()->is('admin/live-offers*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                        <span>Live Offers</span>
+                        <span class="mob-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Posters</span>
+                    </a>
+
+                    <!-- 12. Webinars & Meetings -->
+                    <a href="{{ url('/admin/webinars') }}" class="mobile-portal-link {{ request()->is('admin/webinars*') ? 'active' : '' }}">
+                        <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Live Webinars</span>
+                        <span class="mob-badge-pill" style="background: rgba(2, 132, 199, 0.15); color: #0284c7;">Meeting</span>
+                    </a>
+
                     @if ($drawerIsSuper)
                         <!-- 8. Course Option (Super Admin ONLY) -->
                         <a href="{{ url('/admin/courses') }}" class="mobile-portal-link {{ request()->is('admin/courses*') ? 'active' : '' }}">

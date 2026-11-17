@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\KycController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\LiveOfferController;
 use App\Http\Controllers\MarketingToolController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\OfferController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SocialCommunityController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\WebinarController;
 use App\Mail\AccountCreatedMail;
 use App\Mail\ActiveReferralMail;
 use App\Mail\ForgotPasswordMail;
@@ -35,7 +37,6 @@ use App\Models\Video;
 use App\Services\CommissionService;
 use App\Services\EmailNotificationService;
 use App\Services\PackageService;
-use App\Services\PortalDataService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -977,6 +978,7 @@ Route::get('/certificates', fn () => redirect()->route('portal.courses'));
 Route::get('/team-leaderboard', fn () => redirect()->route('portal.leaderboard'));
 Route::get('/affiliate-training', [AffiliateTrainingController::class, 'index'])->name('portal.training');
 Route::get('/marketing-tool', [MarketingToolController::class, 'index'])->name('portal.marketing');
+Route::get('/marketing-tool/{tool}/download', [MarketingToolController::class, 'download'])->name('portal.marketing.download');
 Route::get('/my-payout', [PayoutController::class, 'index'])->name('portal.payout');
 Route::post('/payout-request', [PayoutController::class, 'requestPayout'])->name('portal.payout-request');
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('portal.leaderboard');
@@ -985,22 +987,10 @@ Route::get('/orders/{order}/invoice', [AdminController::class, 'downloadInvoice'
 Route::get('/blogs', [ContentManagementController::class, 'publicBlogs'])->name('blogs.index');
 Route::get('/blogs/{slug}', [ContentManagementController::class, 'publicBlogShow'])->name('blogs.show');
 Route::get('/announcements', fn () => redirect()->route('blogs.index'));
-Route::get('/webinars', function () {
-    PortalDataService::ensureUserSession();
-
-    return view('portal.webinars', [
-        'active' => 'webinars',
-        'webinars' => [],
-    ]);
-})->name('portal.webinars');
-Route::get('/live-offers', function () {
-    PortalDataService::ensureUserSession();
-
-    return view('portal.live-offers', [
-        'active' => 'live-offers',
-        'offers' => [],
-    ]);
-})->name('portal.live-offers');
+Route::get('/webinars', [WebinarController::class, 'index'])->name('portal.webinars');
+Route::get('/webinars/{webinar}/download', [WebinarController::class, 'download'])->name('portal.webinars.download');
+Route::get('/live-offers', [LiveOfferController::class, 'index'])->name('portal.live-offers');
+Route::get('/live-offers/{liveOffer}/download', [LiveOfferController::class, 'download'])->name('portal.live-offers.download');
 
 // 7.1 Admin & Super Admin Management Routes (Protected by role middleware)
 Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function () {
@@ -1061,6 +1051,41 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::get('/reports/export/excel', [ReportController::class, 'exportExcel'])->name('admin.reports.export.excel');
     Route::get('/reports/export/pdf', [ReportController::class, 'printable'])->name('admin.reports.export.pdf');
     Route::get('/reports/printable', [ReportController::class, 'printable'])->name('admin.reports.printable');
+
+    // Marketing Tools & Promotional Creatives (Short Videos, Photos, Banners)
+    Route::get('/marketing-tools', [MarketingToolController::class, 'adminIndex'])->name('admin.marketing-tools');
+    Route::post('/marketing-tools', [MarketingToolController::class, 'store'])->name('admin.marketing-tools.store');
+    Route::put('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'update'])->name('admin.marketing-tools.update');
+    Route::post('/marketing-tools/{marketingTool}/toggle-visibility', [MarketingToolController::class, 'toggleVisibility'])->name('admin.marketing-tools.toggle-visibility');
+    Route::delete('/marketing-tools/{marketingTool}', [MarketingToolController::class, 'destroy'])->name('admin.marketing-tools.destroy');
+
+    // Affiliate Training Masterclasses (YouTube Videos & Photo Management)
+    Route::get('/affiliate-training', [AffiliateTrainingController::class, 'adminIndex'])->name('admin.affiliate-training');
+    Route::post('/affiliate-training', [AffiliateTrainingController::class, 'store'])->name('admin.affiliate-training.store');
+    Route::put('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'update'])->name('admin.affiliate-training.update');
+    Route::post('/affiliate-training/{affiliateTraining}/toggle-visibility', [AffiliateTrainingController::class, 'toggleVisibility'])->name('admin.affiliate-training.toggle-visibility');
+    Route::delete('/affiliate-training/{affiliateTraining}', [AffiliateTrainingController::class, 'destroy'])->name('admin.affiliate-training.destroy');
+
+    // Social Communities Management
+    Route::get('/social-communities', [SocialCommunityController::class, 'adminIndex'])->name('admin.social-communities');
+    Route::post('/social-communities', [SocialCommunityController::class, 'store'])->name('admin.social-communities.store');
+    Route::put('/social-communities/{socialCommunity}', [SocialCommunityController::class, 'update'])->name('admin.social-communities.update');
+    Route::post('/social-communities/{socialCommunity}/toggle-visibility', [SocialCommunityController::class, 'toggleVisibility'])->name('admin.social-communities.toggle-visibility');
+    Route::delete('/social-communities/{socialCommunity}', [SocialCommunityController::class, 'destroy'])->name('admin.social-communities.destroy');
+
+    // Live Offers & Contests Management (Poster Upload)
+    Route::get('/live-offers', [LiveOfferController::class, 'adminIndex'])->name('admin.live-offers');
+    Route::post('/live-offers', [LiveOfferController::class, 'store'])->name('admin.live-offers.store');
+    Route::put('/live-offers/{liveOffer}', [LiveOfferController::class, 'update'])->name('admin.live-offers.update');
+    Route::post('/live-offers/{liveOffer}/toggle-status', [LiveOfferController::class, 'toggleStatus'])->name('admin.live-offers.toggle-status');
+    Route::delete('/live-offers/{liveOffer}', [LiveOfferController::class, 'destroy'])->name('admin.live-offers.destroy');
+
+    // Webinars Management (Poster Upload, Meeting Link & Download)
+    Route::get('/webinars', [WebinarController::class, 'adminIndex'])->name('admin.webinars');
+    Route::post('/webinars', [WebinarController::class, 'store'])->name('admin.webinars.store');
+    Route::put('/webinars/{webinar}', [WebinarController::class, 'update'])->name('admin.webinars.update');
+    Route::post('/webinars/{webinar}/toggle-status', [WebinarController::class, 'toggleStatus'])->name('admin.webinars.toggle-status');
+    Route::delete('/webinars/{webinar}', [WebinarController::class, 'destroy'])->name('admin.webinars.destroy');
 });
 
 // Super Admin Only System Settings, Video Management & RBAC

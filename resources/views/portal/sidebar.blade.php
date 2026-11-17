@@ -129,6 +129,59 @@
                 <span class="sidebar-item-badge-pill" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;">Charts</span>
             </a>
 
+            <!-- Marketing Tools Management (Super Admin & Admin) -->
+            <a href="{{ url('/admin/marketing-tools') }}" class="sidebar-item {{ $currentActive === 'admin-marketing' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span>Marketing Tools</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Shorts/Photos</span>
+            </a>
+
+            <!-- Affiliate Training Management (Super Admin & Admin) -->
+            <a href="{{ url('/admin/affiliate-training') }}" class="sidebar-item {{ $currentActive === 'admin-training' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+                <span>Affiliate Training</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed;">YouTube/Photo</span>
+            </a>
+
+            <!-- Social Community Management (Super Admin & Admin) -->
+            <a href="{{ url('/admin/social-communities') }}" class="sidebar-item {{ $currentActive === 'admin-communities' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>Social Community</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">Links</span>
+            </a>
+
+            <!-- Live Offers & Poster Upload (Super Admin & Admin) -->
+            <a href="{{ url('/admin/live-offers') }}" class="sidebar-item {{ $currentActive === 'admin-live-offers' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <span>Live Offers</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(5, 179, 150, 0.15); color: #05B396;">Posters</span>
+            </a>
+
+            <!-- Webinars & Meetings (Super Admin & Admin) -->
+            <a href="{{ url('/admin/webinars') }}" class="sidebar-item {{ $currentActive === 'admin-webinars' ? 'active' : '' }}">
+                <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+                <span>Live Webinars</span>
+                <span class="sidebar-item-badge-pill" style="background: rgba(2, 132, 199, 0.15); color: #0284c7;">Meeting</span>
+            </a>
+
             @if ($isSuperAdmin)
                 <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
