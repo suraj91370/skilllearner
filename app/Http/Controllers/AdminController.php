@@ -518,7 +518,7 @@ class AdminController extends Controller
             $freeOrder->update([
                 'invoice_number' => Order::generateUniqueInvoiceNumber($freeOrder->id),
             ]);
-        } catch (\Throwable $orderEx) {
+        } catch (Throwable $orderEx) {
             Log::warning('Free admin order record failed: '.$orderEx->getMessage());
         }
 
@@ -944,8 +944,14 @@ class AdminController extends Controller
             'total_requests' => Payout::count(),
         ];
 
+        $users = User::select('id', 'name', 'email', 'affiliate_id', 'wallet_balance')
+            ->with('kyc:id,user_id,upi_id,bank_name,account_number,ifsc_code')
+            ->orderBy('name')
+            ->get();
+
         return view('admin.payout-requests', [
             'payouts' => $payouts,
+            'users' => $users,
             'stats' => $stats,
             'currentFilter' => $statusFilter,
             'active' => 'admin-payouts',
@@ -959,6 +965,8 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'status' => ['required', 'in:Transferred,Processing,Rejected,Approved'],
+            'utr_number' => ['nullable', 'string', 'max:100'],
+            'remarks' => ['nullable', 'string', 'max:500'],
         ]);
 
         $newStatus = $validated['status'] === 'Approved' ? 'Transferred' : $validated['status'];
@@ -978,10 +986,50 @@ class AdminController extends Controller
             }
         }
 
-        $payout->update([
+        $updateData = [
             'status' => $newStatus,
             'processed_at' => $newStatus === 'Transferred' ? now() : null,
-        ]);
+        ];
+
+        if ($request->filled('utr_number')) {
+            $updateData['utr_number'] = $request->input('utr_number');
+        }
+        if ($request->filled('remarks')) {
+            $updateData['remarks'] = $request->input('remarks');
+        }
+
+        $payout->update($updateData);
+
+        $emailSent = false;
+        // When payout is successfully transferred, send automated notification email to the user
+        if ($newStatus === 'Transferred') {
+            $payout->loadMissing('user');
+            if ($payout->user) {
+                $emailSent = EmailNotificationService::sendPayoutProcessed(
+                    user: $payout->user,
+                    amount: (float) $payout->amount,
+                    payoutCode: $payout->payout_code,
+                    paymentMethod: $payout->payment_method,
+                    utrNumber: $payout->utr_number,
+                    remarks: $payout->remarks,
+                    processedAt: $payout->processed_at ? $payout->processed_at->format('d M Y, h:i A') : now()->format('d M Y, h:i A')
+                );
+            }
+
+            self::logActivity(
+                'PAYOUT_TRANSFERRED',
+                'finance',
+                "Approved payout #{$payout->payout_code} for ₹".number_format($payout->amount)." to {$payout->user?->name} ({$payout->user?->email})".($emailSent ? ' [Email Dispatched]' : ''),
+                [
+                    'payout_id' => $payout->id,
+                    'payout_code' => $payout->payout_code,
+                    'amount' => $payout->amount,
+                    'utr_number' => $payout->utr_number,
+                    'email_sent' => $emailSent,
+                ],
+                $request
+            );
+        }
 
         // Refresh user session if modifying the current logged-in user
         if (Auth::id() === $payout->user_id) {
@@ -989,12 +1037,92 @@ class AdminController extends Controller
         }
 
         $message = match ($newStatus) {
-            'Transferred' => "Payout #{$payout->payout_code} (₹".number_format($payout->amount).') approved and marked as Transferred! ✅',
+            'Transferred' => "Payout #{$payout->payout_code} (₹".number_format($payout->amount).') approved and marked as Transferred! '.($emailSent ? 'Confirmation email sent to user. ✉️💸' : '✅'),
             'Rejected' => "Payout #{$payout->payout_code} rejected. ₹".number_format($payout->amount).' refunded to affiliate wallet. ❌',
             default => "Payout #{$payout->payout_code} status updated to {$newStatus}.",
         };
 
         return back()->with('success', $message);
+    }
+
+    /**
+     * Super Admin manual payout disbursement to any user.
+     */
+    public function storeManualPayout(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'amount' => ['required', 'numeric', 'min:1'],
+            'payment_method' => ['required', 'string', 'max:255'],
+            'utr_number' => ['nullable', 'string', 'max:100'],
+            'remarks' => ['nullable', 'string', 'max:500'],
+            'deduct_wallet' => ['nullable'],
+        ]);
+
+        $user = User::findOrFail($validated['user_id']);
+        $amount = (float) $validated['amount'];
+        $deductWallet = $request->boolean('deduct_wallet');
+
+        // If requested to deduct from wallet
+        if ($deductWallet) {
+            $deductAmount = min($amount, (float) $user->wallet_balance);
+            if ($deductAmount > 0) {
+                $user->decrement('wallet_balance', $deductAmount);
+                $user->refresh();
+            }
+        }
+
+        // Generate unique manual payout code
+        do {
+            $payoutCode = 'PAY-M-'.rand(10000, 99999);
+        } while (Payout::where('payout_code', $payoutCode)->exists());
+
+        $payout = Payout::create([
+            'payout_code' => $payoutCode,
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'payment_method' => $validated['payment_method'],
+            'utr_number' => $validated['utr_number'] ?? null,
+            'remarks' => $validated['remarks'] ?? 'Manual direct payout disbursed by Super Admin',
+            'status' => 'Transferred',
+            'processed_at' => now(),
+        ]);
+
+        // Send automated notification email to the user
+        $emailSent = EmailNotificationService::sendPayoutProcessed(
+            user: $user,
+            amount: $amount,
+            payoutCode: $payoutCode,
+            paymentMethod: $validated['payment_method'],
+            utrNumber: $validated['utr_number'] ?? null,
+            remarks: $validated['remarks'] ?? null,
+            processedAt: now()->format('d M Y, h:i A')
+        );
+
+        // Refresh user session if current logged in user
+        if (Auth::id() === $user->id) {
+            PortalDataService::ensureUserSession();
+        }
+
+        self::logActivity(
+            'PAYOUT_MANUAL_DISBURSED',
+            'finance',
+            "Disbursed manual payout #{$payoutCode} for ₹".number_format($amount)." to {$user->name} ({$user->email})".($emailSent ? ' [Email Dispatched]' : ''),
+            [
+                'payout_id' => $payout->id,
+                'payout_code' => $payoutCode,
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'utr_number' => $validated['utr_number'] ?? null,
+                'deduct_wallet' => $deductWallet,
+                'email_sent' => $emailSent,
+            ],
+            $request
+        );
+
+        $msg = 'Manual payout of ₹'.number_format($amount)." to {$user->name} recorded as Transferred! ".($emailSent ? "Email notification sent to {$user->email}. ✉️💸" : '💸');
+
+        return back()->with('success', $msg);
     }
 
     /**

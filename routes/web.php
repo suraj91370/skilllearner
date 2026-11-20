@@ -1022,6 +1022,7 @@ Route::middleware(['role:admin,super_admin'])->prefix('admin')->group(function (
     Route::post('/kyc/{kyc}/reject', [AdminController::class, 'rejectKyc'])->name('admin.kyc.reject');
     Route::get('/payout-requests', [AdminController::class, 'payoutRequests'])->name('admin.payouts');
     Route::post('/payout/{payout}/status', [AdminController::class, 'updatePayoutStatus'])->name('admin.payouts.status');
+    Route::post('/payouts/manual', [AdminController::class, 'storeManualPayout'])->name('admin.payouts.manual');
 
     // Order, Transaction & Refund Management
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');

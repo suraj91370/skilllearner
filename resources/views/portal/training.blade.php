@@ -14,22 +14,6 @@
 
         <!-- Right Content Area -->
         <main class="portal-content-area">
-            <!-- Header Banner -->
-            <div class="portal-box-card" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%); color: #ffffff; padding: 2rem 2.2rem; border-radius: 20px; margin-bottom: 1.8rem; box-shadow: 0 10px 30px rgba(67, 56, 202, 0.25); position: relative; overflow: hidden;">
-                <div style="position: absolute; right: -20px; top: -30px; font-size: 8rem; opacity: 0.08; pointer-events: none;">🎓</div>
-                <div style="position: relative; z-index: 2; max-width: 720px;">
-                    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); color: #c7d2fe; font-size: 0.78rem; font-weight: 800; padding: 4px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem;">
-                        <span>🎓 ELITE AFFILIATE ACADEMY</span>
-                    </div>
-                    <h2 style="font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 0.5rem; letter-spacing: -0.5px; line-height: 1.25;">
-                        Affiliate Training Masterclasses
-                    </h2>
-                    <p style="font-size: 0.98rem; opacity: 0.9; line-height: 1.6; margin: 0; color: #e0e7ff;">
-                        Step-by-step masterclasses designed to take your affiliate revenue from zero to ₹50,000+ per month. Master organic lead generation, Instagram growth, WhatsApp funnels, and high-ticket sales closing.
-                    </p>
-                </div>
-            </div>
-
             <!-- Filters & Categories Toolbar -->
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.1rem 1.4rem; margin-bottom: 1.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
                 <form method="GET" action="{{ url('/affiliate-training') }}" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">

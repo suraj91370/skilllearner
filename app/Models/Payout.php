@@ -11,6 +11,8 @@ class Payout extends Model
         'user_id',
         'amount',
         'payment_method',
+        'utr_number',
+        'remarks',
         'status',
         'processed_at',
     ];

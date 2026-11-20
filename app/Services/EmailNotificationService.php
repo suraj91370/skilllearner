@@ -6,6 +6,7 @@ use App\Mail\AccountCreatedMail;
 use App\Mail\ActiveReferralMail;
 use App\Mail\ForgotPasswordMail;
 use App\Mail\PassiveReferralMail;
+use App\Mail\PayoutProcessedMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -181,6 +182,51 @@ class EmailNotificationService
         } catch (Throwable $e) {
             self::$lastError = $e->getMessage();
             Log::error("Failed to send Password Reset email to {$user->email}: ".$e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Send Payout Processed / Transferred email notification to affiliate.
+     */
+    public static function sendPayoutProcessed(
+        User $user,
+        float $amount,
+        string $payoutCode,
+        string $paymentMethod,
+        ?string $utrNumber = null,
+        ?string $remarks = null,
+        ?string $processedAt = null
+    ): bool {
+        self::$lastError = null;
+
+        if (empty($user->email)) {
+            self::$lastError = "User #{$user->id} has no registered email address.";
+            Log::warning('Skipped sending Payout Processed email: '.self::$lastError);
+
+            return false;
+        }
+
+        try {
+            Mail::to($user->email, $user->name)->send(
+                new PayoutProcessedMail(
+                    userName: $user->name,
+                    amount: $amount,
+                    payoutCode: $payoutCode,
+                    paymentMethod: $paymentMethod,
+                    utrNumber: $utrNumber,
+                    remarks: $remarks,
+                    processedAt: $processedAt ?? now()->format('d M Y, h:i A')
+                )
+            );
+
+            Log::info("Payout processed email sent to {$user->email} for payout #{$payoutCode} (₹{$amount}).");
+
+            return true;
+        } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
+            Log::error("Failed to send Payout Processed email to {$user->email}: ".$e->getMessage());
 
             return false;
         }
