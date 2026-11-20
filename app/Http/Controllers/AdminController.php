@@ -758,15 +758,30 @@ class AdminController extends Controller
             'industry_revenue' => ['required', 'numeric', 'min:0'],
         ]);
 
+        $oldAmount = (float) ($user->industry_revenue ?? 0);
         $newAmount = (float) $validated['industry_revenue'];
         $user->update(['industry_revenue' => $newAmount]);
 
         // If currently logged in as this user or in session, update session too
-        if (session('user.id') === $user->id) {
+        if (session('user.id') === $user->id || Auth::id() === $user->id) {
             session(['user.industry_revenue' => $newAmount]);
+            PortalDataService::ensureUserSession();
         }
 
-        return back()->with('success', "Industry Revenue for {$user->name} successfully updated to ₹".number_format($newAmount, 2).'.');
+        self::logActivity(
+            'INDUSTRY_REVENUE_UPDATED',
+            'users',
+            "Updated Industry Revenue for {$user->name} ({$user->email}) from ₹".number_format($oldAmount, 2).' to ₹'.number_format($newAmount, 2),
+            [
+                'user_id' => $user->id,
+                'old_industry_revenue' => $oldAmount,
+                'new_industry_revenue' => $newAmount,
+                'total_earning' => (float) $user->total_earning,
+            ],
+            $request
+        );
+
+        return back()->with('success', "Industry Revenue for {$user->name} updated to ₹".number_format($newAmount, 2).'. Future earnings will add on top of this amount! 🚀');
     }
 
     /**

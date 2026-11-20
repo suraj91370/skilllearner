@@ -27,6 +27,9 @@ class DashboardController extends Controller
             $totalEarning = $earnings['total'];
             $passiveEarning = $earnings['passive'];
             $industryRevenue = (float) ($authUser->industry_revenue ?? 0.00);
+            if ($industryRevenue == 0.00 && $totalEarning > 0) {
+                $industryRevenue = $totalEarning;
+            }
         } else {
             $todayEarning = (float) session('user.today_earning', 0);
             $weeklyEarning = (float) session('user.weekly_earning', 0);
@@ -70,7 +73,7 @@ class DashboardController extends Controller
 
         // Calculate Y-scale and points for SVG
         $amounts = array_column($sevenDays, 'amount');
-        $maxVal = !empty($amounts) ? max($amounts) : 0;
+        $maxVal = ! empty($amounts) ? max($amounts) : 0;
 
         $maxScale = 100;
         if ($maxVal > 0) {
@@ -104,17 +107,17 @@ class DashboardController extends Controller
             $idx++;
         }
 
-        $polylinePoints = implode(' ', array_map(fn($p) => "{$p['x']},{$p['y']}", $graphPoints));
+        $polylinePoints = implode(' ', array_map(fn ($p) => "{$p['x']},{$p['y']}", $graphPoints));
         $firstX = $graphPoints[0]['x'] ?? 75;
         $lastX = $graphPoints[count($graphPoints) - 1]['x'] ?? 795;
         $polygonPoints = "{$polylinePoints} {$lastX},295 {$firstX},295";
 
         $yAxisTicks = [
-            ['y' => 35,  'label' => '₹' . number_format($maxScale)],
-            ['y' => 87,  'label' => '₹' . number_format(round($maxScale * 0.8))],
-            ['y' => 139, 'label' => '₹' . number_format(round($maxScale * 0.6))],
-            ['y' => 191, 'label' => '₹' . number_format(round($maxScale * 0.4))],
-            ['y' => 243, 'label' => '₹' . number_format(round($maxScale * 0.2))],
+            ['y' => 35,  'label' => '₹'.number_format($maxScale)],
+            ['y' => 87,  'label' => '₹'.number_format(round($maxScale * 0.8))],
+            ['y' => 139, 'label' => '₹'.number_format(round($maxScale * 0.6))],
+            ['y' => 191, 'label' => '₹'.number_format(round($maxScale * 0.4))],
+            ['y' => 243, 'label' => '₹'.number_format(round($maxScale * 0.2))],
             ['y' => 295, 'label' => '₹0'],
         ];
 
