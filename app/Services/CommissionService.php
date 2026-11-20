@@ -441,6 +441,7 @@ class CommissionService
     {
         $user->increment('wallet_balance', $amount);
         $user->increment('total_earning', $amount);
+        $user->increment('industry_revenue', $amount);
 
         if ($isPassive) {
             $user->increment('passive_earning', $amount);
@@ -532,6 +533,12 @@ class CommissionService
             'total_earning' => $total,
             'passive_earning' => $passive,
         ]);
+
+        // If industry revenue was never set (0.00) but user has work earnings, default it to total earnings
+        if (((float) ($user->industry_revenue ?? 0)) == 0.00 && $total > 0) {
+            $user->update(['industry_revenue' => $total]);
+            $user->industry_revenue = $total;
+        }
 
         return [
             'today' => $today,
@@ -691,6 +698,7 @@ class CommissionService
             $user['weekly_earning'] = ((float) ($user['weekly_earning'] ?? 0)) + $amount;
             $user['monthly_earning'] = ((float) ($user['monthly_earning'] ?? 0)) + $amount;
             $user['total_earning'] = ((float) ($user['total_earning'] ?? 0)) + $amount;
+            $user['industry_revenue'] = ((float) ($user['industry_revenue'] ?? 0)) + $amount;
 
             if ($isPassive) {
                 $user['passive_earning'] = ((float) ($user['passive_earning'] ?? 0)) + $amount;

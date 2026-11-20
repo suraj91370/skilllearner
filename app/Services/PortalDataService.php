@@ -57,6 +57,10 @@ class PortalDataService
             $earnings = CommissionService::calculateUserEarnings($user);
             $kyc = $user->kyc;
             $pendingWithdrawal = $user->payouts()->whereIn('status', ['Pending', 'Processing'])->sum('amount');
+            $industryRevenue = (float) ($user->industry_revenue ?? 0.00);
+            if ($industryRevenue == 0.00 && (float) $earnings['total'] > 0) {
+                $industryRevenue = (float) $earnings['total'];
+            }
             session(['user' => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -72,7 +76,7 @@ class PortalDataService
                 'monthly_earning' => (float) $earnings['monthly'],
                 'total_earning' => (float) $earnings['total'],
                 'passive_earning' => (float) $earnings['passive'],
-                'industry_revenue' => (float) ($user->industry_revenue ?? 0.00),
+                'industry_revenue' => $industryRevenue,
                 'kyc_status' => $user->kyc_status ?? ($kyc?->status === 'Approved' ? 'Verified ✅' : ($kyc ? $kyc->status : 'Pending')),
                 'holder_name' => $kyc?->holder_name ?? session('user.holder_name', ''),
                 'upi_id' => $kyc?->upi_id ?? session('user.upi_id', ''),

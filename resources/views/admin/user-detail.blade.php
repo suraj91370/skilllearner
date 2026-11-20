@@ -170,7 +170,14 @@
                     </div>
                     <div>
                         <div style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Industry Revenue</div>
-                        <div style="font-size: 1.15rem; font-weight: 900; color: #0284c7; margin-top: 2px;">₹{{ number_format((float) ($user->industry_revenue ?? 0), 2) }}</div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
+                            <span style="font-size: 1.15rem; font-weight: 900; color: #0284c7;">₹{{ number_format((float) ($user->industry_revenue ?? 0), 2) }}</span>
+                            <button type="button" 
+                                    onclick="openEditIndustryRevenueModal('{{ $user->id }}', '{{ addslashes($user->name) }}', '{{ (float) ($user->industry_revenue ?? 0) }}', '{{ (float) ($user->total_earning ?? 0) }}')"
+                                    style="background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">
+                                ✏️ Edit
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -690,7 +697,128 @@
             modal.style.display = 'none';
         }
     }
+
+    let currentModalBaseRevenue = 0;
+    let currentModalRealEarned = 0;
+
+    function openEditIndustryRevenueModal(userId, userName, currentAmount, realEarned = 0) {
+        const modal = document.getElementById('industryRevenueModal');
+        const form = document.getElementById('industryRevenueForm');
+        const nameSpan = document.getElementById('modalUserName');
+        const input = document.getElementById('modalIndustryRevenueInput');
+        const currentIndRevEl = document.getElementById('modalCurrentIndRev');
+        const realEarnedEl = document.getElementById('modalRealEarned');
+
+        currentModalBaseRevenue = parseFloat(currentAmount) || 0;
+        currentModalRealEarned = parseFloat(realEarned) || 0;
+
+        form.action = '{{ url("/admin/users") }}/' + userId + '/industry-revenue';
+        if (nameSpan) nameSpan.textContent = userName;
+        if (currentIndRevEl) {
+            currentIndRevEl.textContent = '₹' + currentModalBaseRevenue.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        }
+        if (realEarnedEl) {
+            realEarnedEl.textContent = '₹' + currentModalRealEarned.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        }
+
+        input.value = currentModalBaseRevenue.toFixed(2);
+
+        modal.style.display = 'flex';
+        setTimeout(() => input.focus(), 100);
+    }
+
+    function adjustIndustryRevenue(delta) {
+        const input = document.getElementById('modalIndustryRevenueInput');
+        let current = parseFloat(input.value) || 0;
+        let updated = Math.max(0, current + delta);
+        input.value = updated.toFixed(2);
+    }
+
+    function resetToRealEarnings() {
+        const input = document.getElementById('modalIndustryRevenueInput');
+        input.value = currentModalRealEarned.toFixed(2);
+    }
+
+    function closeEditIndustryRevenueModal() {
+        const modal = document.getElementById('industryRevenueModal');
+        if (modal) modal.style.display = 'none';
+    }
 </script>
+
+<!-- Super Admin: Edit Industry Revenue Modal -->
+<div id="industryRevenueModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); z-index: 9999; backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: #ffffff; border-radius: 20px; max-width: 520px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); border: 1.5px solid #a7f3d0; overflow: hidden; animation: popIn 0.2s ease-out;">
+        <div style="background: linear-gradient(135deg, #00137a 0%, #05B396 100%); padding: 1.2rem 1.4rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">🏢</span>
+                <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Adjust &amp; Edit Industry Revenue</h3>
+            </div>
+            <button type="button" onclick="closeEditIndustryRevenueModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">&times;</button>
+        </div>
+
+        <form id="industryRevenueForm" method="POST" action="" style="padding: 1.4rem;">
+            @csrf
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 1.2rem;">
+                <div style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;" id="modalUserName">User Name</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; flex-wrap: wrap; gap: 8px;">
+                    <div style="font-size: 0.8rem; color: #64748b;">
+                        Current Industry Rev: <strong id="modalCurrentIndRev" style="color: #0284c7; font-size: 0.9rem;">₹0.00</strong>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b;">
+                        Real Work Earnings: <strong id="modalRealEarned" style="color: #05B396; font-size: 0.9rem;">₹0.00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Increment / Decrement Buttons -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Quick Adjustment (Increase / Decrease)
+                </label>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <button type="button" onclick="adjustIndustryRevenue(500)" style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">+ ₹500</button>
+                    <button type="button" onclick="adjustIndustryRevenue(1000)" style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">+ ₹1,000</button>
+                    <button type="button" onclick="adjustIndustryRevenue(5000)" style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">+ ₹5,000</button>
+                    <button type="button" onclick="adjustIndustryRevenue(10000)" style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">+ ₹10,000</button>
+                    <button type="button" onclick="adjustIndustryRevenue(50000)" style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">+ ₹50,000</button>
+                    <button type="button" onclick="adjustIndustryRevenue(-1000)" style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">- ₹1,000</button>
+                    <button type="button" onclick="adjustIndustryRevenue(-5000)" style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">- ₹5,000</button>
+                    <button type="button" onclick="resetToRealEarnings()" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;">Reset to Real Earnings</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                    New Industry Revenue Amount (₹)
+                </label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: #05B396; font-size: 1.05rem;">₹</span>
+                    <input type="number" 
+                           step="0.01" 
+                           min="0" 
+                           name="industry_revenue" 
+                           id="modalIndustryRevenueInput" 
+                           required 
+                           placeholder="0.00"
+                           style="width: 100%; box-sizing: border-box; padding: 0.75rem 1rem 0.75rem 2rem; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1.05rem; font-weight: 800; color: #0f172a; outline: none;">
+                </div>
+                <!-- Live Info Note -->
+                <div style="margin-top: 8px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 12px; font-size: 0.78rem; color: #166534; line-height: 1.4;">
+                    💡 <strong>How it works:</strong> Setting this will immediately update the user's Industry Revenue card. Any future commissions this affiliate earns will <strong>add on top of this amount</strong>.
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="button" onclick="closeEditIndustryRevenueModal()" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 0.65rem 1.1rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
+                    Cancel
+                </button>
+                <button type="submit" style="background: #05B396; color: #ffffff; border: none; padding: 0.65rem 1.3rem; border-radius: 8px; font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 12px rgba(5, 179, 150, 0.35);">
+                    Save Industry Revenue 🚀
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @include('portal.styles')
 @endsection

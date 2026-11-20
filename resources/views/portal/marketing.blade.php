@@ -14,30 +14,6 @@
 
         <!-- Right Content Area -->
         <main class="portal-content-area">
-            <!-- Header Banner -->
-            <div class="portal-box-card" style="background: linear-gradient(135deg, #0f172a 0%, #0A6B5C 100%); color: #ffffff; padding: 2rem 2.2rem; border-radius: 20px; margin-bottom: 1.8rem; box-shadow: 0 10px 30px rgba(10, 107, 92, 0.2); position: relative; overflow: hidden;">
-                <div style="position: absolute; right: -20px; top: -30px; font-size: 8rem; opacity: 0.08; pointer-events: none;">🚀</div>
-                <div style="position: relative; z-index: 2; max-width: 720px;">
-                    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(5, 179, 150, 0.25); border: 1px solid rgba(5, 179, 150, 0.4); color: #2dd4bf; font-size: 0.78rem; font-weight: 800; padding: 4px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem;">
-                        <span>🎨 AFFILIATE GROWTH SUITE</span>
-                    </div>
-                    <h2 style="font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 0.5rem; letter-spacing: -0.5px; line-height: 1.25;">
-                        Official Marketing Kit &amp; Viral Creatives
-                    </h2>
-                    <p style="font-size: 0.98rem; opacity: 0.9; line-height: 1.6; margin: 0 0 1.2rem; color: #e2e8f0;">
-                        Download high-converting 9:16 short videos, reels, WhatsApp story flyers, and HD promotional posters. Copy ready-made captions and post directly on Instagram, YouTube Shorts, and WhatsApp to maximize your affiliate commissions!
-                    </p>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem; font-weight: 700;">
-                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 8px;">
-                            <span>🎥 {{ $counts['video'] }} Short Videos &amp; Reels</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 8px;">
-                            <span>🖼️ {{ $counts['photo'] }} HD Posters &amp; Banners</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Filters & Search Toolbar -->
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.2rem 1.4rem; margin-bottom: 1.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
                 <form method="GET" action="{{ url('/marketing-tool') }}" style="display: flex; flex-direction: column; gap: 1rem;">
