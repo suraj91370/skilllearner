@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Commission;
 use App\Models\User;
 use App\Services\PortalDataService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LeaderboardController extends Controller
@@ -13,42 +14,45 @@ class LeaderboardController extends Controller
     {
         PortalDataService::ensureUserSession();
 
-        $dailyLeaderboard = $this->getLeaderboard('today');
-        $weeklyLeaderboard = $this->getLeaderboard('7days');
-        $monthlyLeaderboard = $this->getLeaderboard('30days');
-        $allTimeLeaderboard = $this->getLeaderboard('alltime');
+        $activeTab = (string) $request->query('tab', 'today');
+        if (! in_array($activeTab, ['today', '7days', '30days', 'alltime'])) {
+            $activeTab = 'today';
+        }
+
+        $leaderboards = [
+            'today' => $this->getDynamicLeaderboard('today'),
+            '7days' => $this->getDynamicLeaderboard('7days'),
+            '30days' => $this->getDynamicLeaderboard('30days'),
+            'alltime' => $this->getDynamicLeaderboard('alltime'),
+        ];
 
         return view('portal.leaderboard', [
-            'dailyLeaderboard' => $dailyLeaderboard,
-            'weeklyLeaderboard' => $weeklyLeaderboard,
-            'monthlyLeaderboard' => $monthlyLeaderboard,
-            'allTimeLeaderboard' => $allTimeLeaderboard,
+            'activeTab' => $activeTab,
+            'leaderboards' => $leaderboards,
+            'currentLeaderboard' => $leaderboards[$activeTab] ?? [],
             'active' => 'leaderboard',
         ]);
     }
 
     /**
-     * Get dynamic leaderboard rankings for a given timeframe.
+     * Get 100% dynamic leaderboard rankings from real database earnings & commissions.
+     * Only returns users who have earnings > 0 in this timeframe. No static dummy data.
      *
      * @param  string  $timeframe  'today' | '7days' | '30days' | 'alltime'
      */
-    protected function getLeaderboard(string $timeframe = 'today', int $limit = 10): array
+    protected function getDynamicLeaderboard(string $timeframe = 'today', int $limit = 50): array
     {
-        $column = match ($timeframe) {
-            'today' => 'today_earning',
-            '7days' => 'weekly_earning',
-            '30days' => 'monthly_earning',
-            default => 'total_earning',
-        };
+        $timezone = 'Asia/Kolkata';
+        $nowIst = Carbon::now($timezone);
 
         $startDate = match ($timeframe) {
-            'today' => now()->startOfDay(),
-            '7days' => now()->subDays(6)->startOfDay(),
-            '30days' => now()->subDays(29)->startOfDay(),
+            'today' => (clone $nowIst)->startOfDay(),
+            '7days' => (clone $nowIst)->subDays(6)->startOfDay(),
+            '30days' => (clone $nowIst)->subDays(29)->startOfDay(),
             default => null,
         };
 
-        // Query commissions in date range where status is 'Credited'
+        // Query real credited commissions within timeframe
         $commQuery = Commission::where('status', 'Credited');
         if ($startDate) {
             $commQuery->where('created_at', '>=', $startDate);
@@ -58,18 +62,27 @@ class LeaderboardController extends Controller
             ->groupBy('user_id')
             ->pluck('total', 'user_id');
 
-        $users = User::select(['id', 'name', 'avatar', 'today_earning', 'weekly_earning', 'monthly_earning', 'total_earning'])->get();
+        $users = User::select(['id', 'name', 'avatar', 'today_earning', 'weekly_earning', 'monthly_earning', 'total_earning', 'industry_revenue'])->get();
 
         $ranked = [];
+        $currentAuthId = auth()->id() ?? session('user.id');
+
         foreach ($users as $user) {
-            $colVal = (float) ($user->{$column} ?? 0);
+            $colVal = match ($timeframe) {
+                'today' => (float) ($user->today_earning ?? 0),
+                '7days' => (float) ($user->weekly_earning ?? 0),
+                '30days' => (float) ($user->monthly_earning ?? 0),
+                default => (float) max($user->total_earning ?? 0, $user->industry_revenue ?? 0),
+            };
+
             $commVal = (float) ($commissionSums[$user->id] ?? 0);
             $earnings = max($colVal, $commVal);
 
+            // ONLY include users who have ACTUAL earnings > 0 in this timeframe
             if ($earnings > 0) {
                 $avatar = $user->avatar;
                 if (empty($avatar)) {
-                    $avatar = 'https://ui-avatars.com/api/?name='.urlencode($user->name ?: 'Student').'&background=0284c7&color=ffffff&bold=true';
+                    $avatar = 'https://ui-avatars.com/api/?name='.urlencode($user->name ?: 'User').'&background=0070f3&color=ffffff&bold=true';
                 } elseif (! str_starts_with($avatar, 'http')) {
                     $avatar = url($avatar);
                 }
@@ -79,6 +92,7 @@ class LeaderboardController extends Controller
                     'name' => $user->name,
                     'earnings' => $earnings,
                     'avatar' => $avatar,
+                    'is_current_user' => $currentAuthId && ((int) $currentAuthId === (int) $user->id),
                 ];
             }
         }
@@ -86,7 +100,7 @@ class LeaderboardController extends Controller
         // Sort descending by earnings
         usort($ranked, fn ($a, $b) => $b['earnings'] <=> $a['earnings']);
 
-        // Assign ranks (1-based)
+        // Assign ranks 1 to limit
         $leaderboard = [];
         $rank = 1;
         foreach (array_slice($ranked, 0, $limit) as $item) {
