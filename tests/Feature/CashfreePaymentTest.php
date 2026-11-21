@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\UserCourse;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
@@ -120,4 +119,3 @@ class CashfreePaymentTest extends TestCase
         $this->assertStringContainsString('Payment FAILED for Order', $logContent);
     }
 }
-

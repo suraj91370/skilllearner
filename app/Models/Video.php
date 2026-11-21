@@ -19,6 +19,7 @@ class Video extends Model
         'duration',
         'category',
         'badge',
+        'package_id',
         'is_visible',
         'views_count',
         'sort_order',
@@ -32,10 +33,27 @@ class Video extends Model
     protected function casts(): array
     {
         return [
+            'package_id' => 'integer',
             'is_visible' => 'boolean',
             'views_count' => 'integer',
             'sort_order' => 'integer',
         ];
+    }
+
+    /**
+     * Target Package relationship.
+     */
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    /**
+     * Get displayable package badge name.
+     */
+    public function getPackageBadgeNameAttribute(): string
+    {
+        return $this->package ? $this->package->name : 'All Packages';
     }
 
     /**

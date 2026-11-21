@@ -12,8 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -468,7 +468,7 @@ class OfferController extends Controller
             ActivityLog::record(
                 'PRICE_CHANGED',
                 'courses',
-                "Changed package price for '{$validated['name']}' ({$slug}): ₹".number_format($oldPrice)." → ₹".number_format($validated['price']).", Active Commission ₹{$validated['active_income']}, Passive Commission ₹{$validated['passive_income']}",
+                "Changed package price for '{$validated['name']}' ({$slug}): ₹".number_format($oldPrice).' → ₹'.number_format($validated['price']).", Active Commission ₹{$validated['active_income']}, Passive Commission ₹{$validated['passive_income']}",
                 [
                     'slug' => $slug,
                     'name' => $validated['name'],
@@ -483,7 +483,7 @@ class OfferController extends Controller
             );
 
             return redirect()->route('admin.offers', ['tab' => 'packages'])
-                ->with('success', "✅ {$validated['name']} pricing & commission updated! New price ₹".number_format($validated['price'])." is now active on the Homepage, Plans, and Checkout pages.");
+                ->with('success', "✅ {$validated['name']} pricing & commission updated! New price ₹".number_format($validated['price']).' is now active on the Homepage, Plans, and Checkout pages.');
         }
 
         return redirect()->route('admin.offers', ['tab' => 'packages'])
@@ -542,7 +542,7 @@ class OfferController extends Controller
     /**
      * Internal JSON Fallback helpers for zero-downtime hosting resilience.
      */
-    protected function loadOffersFromJson(): \Illuminate\Support\Collection
+    protected function loadOffersFromJson(): Collection
     {
         $file = storage_path('app/offers.json');
         if (! File::exists($file)) {
@@ -580,7 +580,7 @@ class OfferController extends Controller
         }
     }
 
-    protected function loadCouponsFromJson(): \Illuminate\Support\Collection
+    protected function loadCouponsFromJson(): Collection
     {
         $file = storage_path('app/coupons.json');
         if (! File::exists($file)) {
@@ -622,9 +622,13 @@ class OfferController extends Controller
     {
         try {
             $file = storage_path('app/offers.json');
-            if (! File::exists($file)) return null;
+            if (! File::exists($file)) {
+                return null;
+            }
             $offers = json_decode(File::get($file), true);
-            if (! is_array($offers)) return null;
+            if (! is_array($offers)) {
+                return null;
+            }
 
             $title = null;
             foreach ($offers as &$o) {
@@ -635,6 +639,7 @@ class OfferController extends Controller
                 }
             }
             File::put($file, json_encode($offers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $title;
         } catch (\Throwable $e) {
             return null;
@@ -645,9 +650,13 @@ class OfferController extends Controller
     {
         try {
             $file = storage_path('app/offers.json');
-            if (! File::exists($file)) return null;
+            if (! File::exists($file)) {
+                return null;
+            }
             $offers = json_decode(File::get($file), true);
-            if (! is_array($offers)) return null;
+            if (! is_array($offers)) {
+                return null;
+            }
 
             $title = null;
             foreach ($offers as &$o) {
@@ -659,6 +668,7 @@ class OfferController extends Controller
                 }
             }
             File::put($file, json_encode($offers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $title;
         } catch (\Throwable $e) {
             return null;
@@ -669,9 +679,13 @@ class OfferController extends Controller
     {
         try {
             $file = storage_path('app/offers.json');
-            if (! File::exists($file)) return null;
+            if (! File::exists($file)) {
+                return null;
+            }
             $offers = json_decode(File::get($file), true);
-            if (! is_array($offers)) return null;
+            if (! is_array($offers)) {
+                return null;
+            }
 
             $title = null;
             $filtered = [];
@@ -683,6 +697,7 @@ class OfferController extends Controller
                 }
             }
             File::put($file, json_encode(array_values($filtered), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $title;
         } catch (\Throwable $e) {
             return null;
@@ -693,9 +708,13 @@ class OfferController extends Controller
     {
         try {
             $file = storage_path('app/coupons.json');
-            if (! File::exists($file)) return null;
+            if (! File::exists($file)) {
+                return null;
+            }
             $coupons = json_decode(File::get($file), true);
-            if (! is_array($coupons)) return null;
+            if (! is_array($coupons)) {
+                return null;
+            }
 
             $code = null;
             foreach ($coupons as &$c) {
@@ -706,6 +725,7 @@ class OfferController extends Controller
                 }
             }
             File::put($file, json_encode($coupons, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $code;
         } catch (\Throwable $e) {
             return null;
@@ -716,9 +736,13 @@ class OfferController extends Controller
     {
         try {
             $file = storage_path('app/coupons.json');
-            if (! File::exists($file)) return null;
+            if (! File::exists($file)) {
+                return null;
+            }
             $coupons = json_decode(File::get($file), true);
-            if (! is_array($coupons)) return null;
+            if (! is_array($coupons)) {
+                return null;
+            }
 
             $code = null;
             $filtered = [];
@@ -730,10 +754,10 @@ class OfferController extends Controller
                 }
             }
             File::put($file, json_encode(array_values($filtered), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
             return $code;
         } catch (\Throwable $e) {
             return null;
         }
     }
 }
-

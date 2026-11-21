@@ -92,4 +92,3 @@ class Coupon extends Model
         return min($discount, $orderAmount);
     }
 }
-

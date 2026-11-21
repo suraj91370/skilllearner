@@ -17,14 +17,19 @@
             <!-- Header Banner -->
             <div class="portal-greeting-row" style="margin-bottom: 1.5rem;">
                 <div>
-                    <span style="background: rgba(5, 179, 150, 0.12); color: #05B396; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem;">
-                        🎓 SKILL MASTERCLASSES &amp; LESSONS
-                    </span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 0.4rem;">
+                        <span style="background: rgba(5, 179, 150, 0.12); color: #05B396; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">
+                            🎓 SKILL MASTERCLASSES &amp; LESSONS
+                        </span>
+                        <span style="background: rgba(124, 58, 237, 0.1); color: #7c3aed; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;">
+                            📦 Your Plan: {{ $userPackageName ?? 'Basic Package' }}
+                        </span>
+                    </div>
                     <h2 class="welcome-heading" style="font-size: clamp(1.2rem, 4.5vw, 1.6rem); word-break: break-word; overflow-wrap: anywhere; margin-bottom: 0.25rem;">
                         🎥 Video Training &amp; Masterclasses
                     </h2>
                     <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
-                        High-definition practical video lessons and expert recorded sessions curated for your success.
+                        High-definition practical video lessons unlocked based on your enrolled package level.
                     </p>
                 </div>
             </div>
@@ -83,10 +88,19 @@
                             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.6rem; margin-top: 1.2rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.8rem;">
                                     <div>
-                                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;">
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 0.4rem;">
                                             <span style="background: rgba(5, 179, 150, 0.1); color: #05B396; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
                                                 {{ $activeVideo->category }}
                                             </span>
+                                            @if($activeVideo->package)
+                                                <span style="background: rgba(14, 165, 233, 0.1); color: #0284c7; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
+                                                    📦 {{ $activeVideo->package->name }}
+                                                </span>
+                                            @else
+                                                <span style="background: #f1f5f9; color: #475569; font-size: 0.74rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;">
+                                                    🌐 All Packages
+                                                </span>
+                                            @endif
                                             @if($activeVideo->badge)
                                                 <span style="background: rgba(124, 58, 237, 0.1); color: #7c3aed; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
                                                     ⭐ {{ $activeVideo->badge }}
@@ -149,10 +163,14 @@
                                             <div style="font-size: 0.84rem; font-weight: 800; color: {{ $isPlaying ? '#05B396' : '#0f172a' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">
                                                 {{ $vid->title }}
                                             </div>
-                                            <div style="font-size: 0.72rem; color: #64748b; display: flex; gap: 6px;">
+                                            <div style="font-size: 0.72rem; color: #64748b; display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
                                                 <span>{{ $vid->duration ?: '15m' }}</span>
                                                 <span>•</span>
                                                 <span>{{ $vid->category }}</span>
+                                                @if($vid->package)
+                                                    <span>•</span>
+                                                    <span style="color: #0284c7; font-weight: 700;">📦 {{ $vid->package->name }}</span>
+                                                @endif
                                             </div>
                                         </div>
 

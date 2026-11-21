@@ -41,7 +41,7 @@ class ActivityLog extends Model
     /**
      * Helper to log an administrative action into the audit trail.
      *
-     * @param array<string, mixed> $properties
+     * @param  array<string, mixed>  $properties
      */
     public static function record(string $action, string $module, string $description, array $properties = []): self
     {
@@ -61,4 +61,3 @@ class ActivityLog extends Model
         ]);
     }
 }
-

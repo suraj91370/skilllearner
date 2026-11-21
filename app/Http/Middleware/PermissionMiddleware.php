@@ -42,4 +42,3 @@ class PermissionMiddleware
         return redirect()->route('admin.dashboard')->with('error', "⚠️ Access Restricted: Aapke paas '{$module}' module ({$action}) access karne ki permission nahi hai. Kripya Super Admin se sampark karein.");
     }
 }
-
