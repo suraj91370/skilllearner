@@ -1123,6 +1123,7 @@ Route::middleware(['role:super_admin'])->prefix('admin')->group(function () {
     // Video Management & Show/Hide Control
     Route::get('/videos', [VideoController::class, 'index'])->name('admin.videos');
     Route::post('/videos', [VideoController::class, 'store'])->name('admin.videos.store');
+    Route::post('/videos/welcome-video', [VideoController::class, 'updateWelcomeVideo'])->name('admin.videos.welcome-video');
     Route::put('/videos/{video}', [VideoController::class, 'update'])->name('admin.videos.update');
     Route::post('/videos/{video}/toggle-visibility', [VideoController::class, 'toggleVisibility'])->name('admin.videos.toggle-visibility');
     Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('admin.videos.destroy');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Package;
+use App\Models\Setting;
 use App\Models\Video;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
@@ -56,10 +58,19 @@ class VideoController extends Controller
             'hidden' => Video::where('is_visible', false)->count(),
         ];
 
+        $welcomeVideo = [
+            'title' => Setting::get('login_video_title', 'Welcome to SkillLearner! Watch This First'),
+            'url' => Setting::get('login_video_url', 'https://youtu.be/0VKDTph4Kqw?si=T7r0ira8-vQd-lUc'),
+            'embed_url' => Setting::formatEmbedUrl(Setting::get('login_video_url', 'https://youtu.be/0VKDTph4Kqw?si=T7r0ira8-vQd-lUc')),
+            'description' => Setting::get('login_video_description', 'Get started with your courses, explore your affiliate dashboard, and maximize your learning journey.'),
+            'enabled' => (string) Setting::get('login_video_enabled', '1') === '1',
+        ];
+
         return view('admin.videos', [
             'videos' => $videos,
             'packages' => $packages,
             'counts' => $counts,
+            'welcomeVideo' => $welcomeVideo,
             'currentFilter' => $filter,
             'currentPackageFilter' => $packageFilter,
             'search' => $search,
@@ -118,6 +129,52 @@ class VideoController extends Controller
         $video->update($validated);
 
         return back()->with('success', "Video '{$video->title}' updated successfully.");
+    }
+
+    /**
+     * Update Welcome Orientation Video ("Watch This First" Login Popup).
+     */
+    public function updateWelcomeVideo(Request $request): RedirectResponse|JsonResponse
+    {
+        $validated = $request->validate([
+            'login_video_title' => ['required', 'string', 'max:255'],
+            'login_video_url' => ['required', 'string', 'max:500'],
+            'login_video_description' => ['nullable', 'string', 'max:1000'],
+            'login_video_enabled' => ['nullable'],
+        ]);
+
+        $loginVideoEnabled = $request->boolean('login_video_enabled') ? '1' : '0';
+
+        Setting::set('login_video_title', $validated['login_video_title']);
+        Setting::set('login_video_url', $validated['login_video_url']);
+        Setting::set('login_video_description', $validated['login_video_description'] ?? '');
+        Setting::set('login_video_enabled', $loginVideoEnabled);
+
+        session(['platform_settings' => Setting::allSettings()]);
+
+        ActivityLog::record(
+            'SETTINGS_WELCOME_VIDEO_UPDATED',
+            'content',
+            "Updated Welcome Orientation Video: {$validated['login_video_title']}",
+            $validated,
+            $request
+        );
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Welcome orientation video updated successfully!',
+                'data' => [
+                    'title' => Setting::get('login_video_title'),
+                    'url' => Setting::get('login_video_url'),
+                    'embed_url' => Setting::formatEmbedUrl(Setting::get('login_video_url')),
+                    'description' => Setting::get('login_video_description'),
+                    'enabled' => Setting::get('login_video_enabled') === '1',
+                ],
+            ]);
+        }
+
+        return redirect()->route('admin.videos')->with('success', 'Welcome orientation video updated successfully!');
     }
 
     /**

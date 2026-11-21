@@ -76,6 +76,51 @@
                 </div>
             </div>
 
+            <!-- 🎬 Welcome Orientation Video Hero Banner ("Watch This First" Popup) -->
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%); border: 1.5px solid rgba(124, 58, 237, 0.4); border-radius: 18px; padding: 1.35rem 1.6rem; margin-bottom: 1.6rem; color: #ffffff; box-shadow: 0 10px 25px rgba(30, 27, 75, 0.25); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.2rem;">
+                <div style="display: flex; gap: 14px; align-items: center; min-width: 0; flex: 1;">
+                    <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(124, 58, 237, 0.25); border: 1.5px solid rgba(167, 139, 250, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">
+                        🎬
+                    </div>
+                    <div style="min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+                            <span style="font-size: 0.72rem; font-weight: 800; background: rgba(5, 179, 150, 0.25); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.4); padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                STUDENT WELCOME POPUP
+                            </span>
+                            <span id="welcomeAutoStatusBadge">
+                                @if(!empty($welcomeVideo['enabled']))
+                                    <span style="font-size: 0.72rem; font-weight: 700; color: #34d399; display: inline-flex; align-items: center; gap: 4px;">
+                                        <span style="width: 7px; height: 7px; border-radius: 50%; background: #34d399;"></span> Auto-Popup Active on Login
+                                    </span>
+                                @else
+                                    <span style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; display: inline-flex; align-items: center; gap: 4px;">
+                                        <span style="width: 7px; height: 7px; border-radius: 50%; background: #94a3b8;"></span> Auto-Popup Disabled
+                                    </span>
+                                @endif
+                            </span>
+                        </div>
+                        <h3 id="adminWelcomeBannerTitle" style="font-size: 1.15rem; font-weight: 800; margin: 0 0 3px; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ $welcomeVideo['title'] ?? 'Welcome to SkillLearner! Watch This First' }}
+                        </h3>
+                        <p id="adminWelcomeBannerDesc" style="font-size: 0.82rem; color: #cbd5e1; margin: 0; line-height: 1.4; max-width: 620px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ $welcomeVideo['description'] ?? 'Watch this introductory guide to navigate your courses and explore your student portal.' }}
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <!-- Preview Button (Opens real login video popup) -->
+                    <button type="button" onclick="previewWelcomeVideoPopup()" style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; font-size: 0.84rem; font-weight: 700; padding: 8px 15px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s;" title="Preview the live popup as students see it">
+                        <span>👁️ Preview Popup</span>
+                    </button>
+
+                    <!-- Edit Button (Opens Edit Welcome Video Modal Popup) -->
+                    <button type="button" onclick="openEditWelcomeVideoModal()" style="background: #05B396; border: none; color: #ffffff; font-size: 0.84rem; font-weight: 700; padding: 8px 18px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(5, 179, 150, 0.4); transition: transform 0.15s;" title="Change Video URL, Title, and Description">
+                        <span>✏️ Change Welcome Video</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Filters & Search Toolbar -->
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; margin-bottom: 1.5rem;">
                 <form method="GET" action="{{ url('/admin/videos') }}" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
@@ -586,6 +631,73 @@
     </div>
 </div>
 
+<!-- ============================================================== -->
+<!-- 4. EDIT WELCOME ORIENTATION VIDEO MODAL ("Watch This First")  -->
+<!-- ============================================================== -->
+<div id="editWelcomeVideoModal" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); z-index: 9999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: #ffffff; border-radius: 18px; max-width: 580px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); position: relative;">
+        <!-- Modal Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+            <div>
+                <span style="font-size: 0.74rem; font-weight: 800; color: #05B396; text-transform: uppercase;">ORIENTATION LOGIN POPUP</span>
+                <h3 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin: 2px 0 0;">Change "Watch This First" Welcome Video</h3>
+            </div>
+            <button type="button" onclick="closeEditWelcomeVideoModal()" style="background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">&times;</button>
+        </div>
+
+        <form method="POST" action="{{ url('/admin/videos/welcome-video') }}" id="welcomeVideoAdminForm" onsubmit="handleWelcomeVideoSubmit(event)">
+            @csrf
+            
+            <!-- Video Title -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                    Video Popup Title <span style="color: #e11d48;">*</span>
+                </label>
+                <input type="text" name="login_video_title" id="admin_welcome_title" required value="{{ $welcomeVideo['title'] ?? 'Welcome to SkillLearner! Watch This First' }}" placeholder="e.g. Welcome to SkillLearner! Watch This First" class="clean-form-input">
+            </div>
+
+            <!-- Video URL -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                    Video Stream / YouTube URL <span style="color: #e11d48;">*</span>
+                </label>
+                <input type="url" name="login_video_url" id="admin_welcome_url" required value="{{ $welcomeVideo['url'] ?? '' }}" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..." class="clean-form-input">
+                <span style="font-size: 0.74rem; color: #64748b; display: block; margin-top: 4px;">
+                    Supports YouTube (watch links, youtu.be, shorts), Vimeo, or direct MP4 stream URL.
+                </span>
+            </div>
+
+            <!-- Description -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                    Subtitle / Description
+                </label>
+                <textarea name="login_video_description" id="admin_welcome_desc" rows="3" placeholder="Brief orientation guide text shown in the popup header..." class="clean-form-input" style="resize: vertical;">{{ $welcomeVideo['description'] ?? '' }}</textarea>
+            </div>
+
+            <!-- Auto Popup Switch -->
+            <div style="margin-bottom: 1.6rem; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 0.9rem 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Automatic Popup on Student Login</div>
+                    <div style="font-size: 0.76rem; color: #64748b;">Automatically show this video popup when students log into their portal.</div>
+                </div>
+                <label style="display: inline-flex; align-items: center; cursor: pointer; margin: 0;">
+                    <input type="checkbox" name="login_video_enabled" id="admin_welcome_enabled" value="1" {{ !empty($welcomeVideo['enabled']) ? 'checked' : '' }} style="accent-color: #05B396; width: 20px; height: 20px; cursor: pointer;">
+                </label>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" onclick="closeEditWelcomeVideoModal()" style="background: #f1f5f9; border: none; padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 700; color: #475569; cursor: pointer;">
+                    Cancel
+                </button>
+                <button type="submit" id="welcomeVideoSubmitBtn" style="background: #05B396; color: #ffffff; border: none; padding: 0.75rem 1.6rem; border-radius: 8px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    <span>Save Welcome Video ➔</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <style>
     .clean-form-input {
         width: 100%;
@@ -786,6 +898,88 @@
         const container = document.getElementById('videoContainer');
         container.innerHTML = '';
         document.getElementById('previewVideoModal').classList.remove('active');
+    }
+
+    // Modal Control: Welcome Orientation Video Popup
+    function openEditWelcomeVideoModal() {
+        document.getElementById('editWelcomeVideoModal').classList.add('active');
+    }
+    function closeEditWelcomeVideoModal() {
+        document.getElementById('editWelcomeVideoModal').classList.remove('active');
+    }
+    function previewWelcomeVideoPopup() {
+        if (typeof window.openLoginVideoModal === 'function') {
+            window.openLoginVideoModal();
+        } else {
+            alert('Welcome video popup player not found on page.');
+        }
+    }
+
+    function handleWelcomeVideoSubmit(e) {
+        e.preventDefault();
+        const btn = document.getElementById('welcomeVideoSubmitBtn');
+        const origText = btn ? btn.innerText : 'Save';
+        if (btn) { btn.disabled = true; btn.innerText = 'Saving...'; }
+
+        const title = document.getElementById('admin_welcome_title').value;
+        const url = document.getElementById('admin_welcome_url').value;
+        const desc = document.getElementById('admin_welcome_desc').value;
+        const enabled = document.getElementById('admin_welcome_enabled').checked ? 1 : 0;
+
+        fetch('{{ url("/admin/videos/welcome-video") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                login_video_title: title,
+                login_video_url: url,
+                login_video_description: desc,
+                login_video_enabled: enabled
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success && data.data) {
+                // Update hero card in real time
+                const bannerTitle = document.getElementById('adminWelcomeBannerTitle');
+                if (bannerTitle) bannerTitle.innerText = data.data.title;
+                const bannerDesc = document.getElementById('adminWelcomeBannerDesc');
+                if (bannerDesc) bannerDesc.innerText = data.data.description;
+
+                const statusBadge = document.getElementById('welcomeAutoStatusBadge');
+                if (statusBadge) {
+                    if (data.data.enabled) {
+                        statusBadge.innerHTML = '<span style="font-size: 0.72rem; font-weight: 700; color: #34d399; display: inline-flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #34d399;"></span> Auto-Popup Active on Login</span>';
+                    } else {
+                        statusBadge.innerHTML = '<span style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; display: inline-flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #94a3b8;"></span> Auto-Popup Disabled</span>';
+                    }
+                }
+
+                // Also update the global popup modal if present
+                const iframe = document.getElementById('loginVideoIframe');
+                if (iframe) {
+                    iframe.setAttribute('data-embed-url', data.data.embed_url);
+                }
+                const modalTitle = document.getElementById('loginVideoModalTitle');
+                if (modalTitle) modalTitle.innerText = data.data.title;
+                const modalSub = document.querySelector('.login-video-subtitle');
+                if (modalSub) modalSub.innerText = data.data.description;
+
+                closeEditWelcomeVideoModal();
+                alert('✅ Welcome video popup settings updated successfully!');
+            } else {
+                alert(data.message || 'Error updating welcome video.');
+            }
+        })
+        .catch(err => {
+            document.getElementById('welcomeVideoAdminForm').submit();
+        })
+        .finally(() => {
+            if (btn) { btn.disabled = false; btn.innerText = origText; }
+        });
     }
 
     // Close modals on clicking backdrop
