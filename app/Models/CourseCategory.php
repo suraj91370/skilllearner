@@ -63,4 +63,3 @@ class CourseCategory extends Model
         return $query->whereNull('parent_id');
     }
 }
-

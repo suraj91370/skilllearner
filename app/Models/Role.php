@@ -113,4 +113,3 @@ class Role extends Model
         return ! empty($perms[$module]);
     }
 }
-

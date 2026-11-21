@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Package;
 use App\Models\Video;
 use App\Services\PortalDataService;
 use Illuminate\Http\JsonResponse;
@@ -20,13 +21,22 @@ class VideoController extends Controller
 
         $filter = $request->query('filter', 'all');
         $search = trim((string) $request->query('search', ''));
+        $packageFilter = $request->query('package', 'all');
 
-        $query = Video::query()->orderBy('sort_order')->latest();
+        $query = Video::query()->with('package')->orderBy('sort_order')->latest();
 
         if ($filter === 'visible') {
             $query->where('is_visible', true);
         } elseif ($filter === 'hidden') {
             $query->where('is_visible', false);
+        }
+
+        if ($packageFilter !== 'all') {
+            if ($packageFilter === 'universal') {
+                $query->whereNull('package_id');
+            } else {
+                $query->where('package_id', (int) $packageFilter);
+            }
         }
 
         if (! empty($search)) {
@@ -38,6 +48,7 @@ class VideoController extends Controller
         }
 
         $videos = $query->get();
+        $packages = Package::orderBy('price', 'asc')->get();
 
         $counts = [
             'total' => Video::count(),
@@ -47,8 +58,10 @@ class VideoController extends Controller
 
         return view('admin.videos', [
             'videos' => $videos,
+            'packages' => $packages,
             'counts' => $counts,
             'currentFilter' => $filter,
+            'currentPackageFilter' => $packageFilter,
             'search' => $search,
             'active' => 'admin-videos',
         ]);
@@ -67,11 +80,13 @@ class VideoController extends Controller
             'duration' => ['nullable', 'string', 'max:50'],
             'category' => ['nullable', 'string', 'max:100'],
             'badge' => ['nullable', 'string', 'max:50'],
+            'package_id' => ['nullable', 'integer', 'exists:packages,id'],
             'is_visible' => ['nullable', 'boolean'],
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible', true);
         $validated['category'] = $validated['category'] ?? 'Training';
+        $validated['package_id'] = ! empty($validated['package_id']) ? (int) $validated['package_id'] : null;
         $validated['thumbnail_url'] = ($validated['thumbnail_url'] ?? null) ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80';
 
         Video::create($validated);
@@ -92,10 +107,12 @@ class VideoController extends Controller
             'duration' => ['nullable', 'string', 'max:50'],
             'category' => ['nullable', 'string', 'max:100'],
             'badge' => ['nullable', 'string', 'max:50'],
+            'package_id' => ['nullable', 'integer', 'exists:packages,id'],
             'is_visible' => ['nullable', 'boolean'],
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible', false);
+        $validated['package_id'] = ! empty($validated['package_id']) ? (int) $validated['package_id'] : null;
         $validated['thumbnail_url'] = ($validated['thumbnail_url'] ?? null) ?: $video->thumbnail_url;
 
         $video->update($validated);
@@ -138,7 +155,8 @@ class VideoController extends Controller
     }
 
     /**
-     * Display visible videos for Users / Students in the Student Portal.
+     * Display visible videos for Users / Students with Hierarchical Package-Level Access.
+     * Higher packages automatically unlock all lower packages.
      */
     public function userIndex(Request $request): View
     {
@@ -147,7 +165,49 @@ class VideoController extends Controller
         $category = $request->query('category', 'all');
         $videoId = $request->query('v');
 
-        $query = Video::visible()->orderBy('sort_order')->latest();
+        $user = auth()->user() ?? session('user');
+        $isStaffOrAdmin = false;
+        if ($user) {
+            $role = strtolower((string) ($user->role ?? $user['role'] ?? ''));
+            $isStaffOrAdmin = in_array($role, ['super_admin', 'admin', 'staff']) || (! empty($user->is_staff ?? $user['is_staff'] ?? false));
+        }
+
+        // All packages in ascending order of price (hierarchy: Basic -> Growth -> Advance -> Premium -> Infinity)
+        $allPackages = Package::orderBy('price', 'asc')->get();
+
+        $accessiblePackageIds = [];
+        $userPackageName = 'Basic Package';
+
+        if ($isStaffOrAdmin) {
+            // Full master access for Admin
+            $accessiblePackageIds = $allPackages->pluck('id')->all();
+            $userPackageName = 'Master Access (Admin)';
+        } else {
+            $activePackageRaw = trim((string) ($user->active_package ?? $user['active_package'] ?? 'Basic Package'));
+            $userPackageName = $activePackageRaw ?: 'Basic Package';
+
+            // Match package in packages table by name or slug
+            $matchedPackage = $allPackages->first(function ($pkg) use ($activePackageRaw) {
+                return strtolower(trim($pkg->name)) === strtolower(trim($activePackageRaw))
+                    || strtolower(trim($pkg->slug)) === strtolower(trim($activePackageRaw));
+            });
+
+            // Default to lowest price package if not matched
+            $currentPrice = $matchedPackage ? (float) $matchedPackage->price : (float) ($allPackages->first()->price ?? 0);
+
+            // Hierarchical Access: all packages where price <= current package's price
+            $accessiblePackageIds = $allPackages->where('price', '<=', $currentPrice)->pluck('id')->all();
+        }
+
+        // Fetch videos accessible to user (their package + lower packages + universal videos)
+        $query = Video::visible()
+            ->with('package')
+            ->where(function ($q) use ($accessiblePackageIds) {
+                $q->whereNull('package_id')
+                    ->orWhereIn('package_id', $accessiblePackageIds);
+            })
+            ->orderBy('sort_order')
+            ->latest();
 
         if ($category !== 'all') {
             $query->where('category', $category);
@@ -168,13 +228,23 @@ class VideoController extends Controller
             $activeVideo = $videos->first();
         }
 
-        $categories = Video::visible()->distinct()->pluck('category')->filter()->values();
+        $categories = Video::visible()
+            ->where(function ($q) use ($accessiblePackageIds) {
+                $q->whereNull('package_id')
+                    ->orWhereIn('package_id', $accessiblePackageIds);
+            })
+            ->distinct()
+            ->pluck('category')
+            ->filter()
+            ->values();
 
         return view('portal.videos', [
             'videos' => $videos,
             'activeVideo' => $activeVideo,
             'categories' => $categories,
             'currentCategory' => $category,
+            'userPackageName' => $userPackageName,
+            'isStaffOrAdmin' => $isStaffOrAdmin,
             'active' => 'videos',
         ]);
     }

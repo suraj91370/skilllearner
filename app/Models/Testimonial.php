@@ -38,4 +38,3 @@ class Testimonial extends Model
         return $query->where('is_active', true)->where('is_featured', true)->orderBy('sort_order');
     }
 }
-

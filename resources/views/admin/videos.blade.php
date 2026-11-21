@@ -80,8 +80,8 @@
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; margin-bottom: 1.5rem;">
                 <form method="GET" action="{{ url('/admin/videos') }}" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
                     <!-- Filter Pills -->
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <a href="{{ url('/admin/videos') }}" class="admin-filter-pill {{ $currentFilter === 'all' ? 'active' : '' }}">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <a href="{{ url('/admin/videos') }}" class="admin-filter-pill {{ $currentFilter === 'all' && ($currentPackageFilter ?? 'all') === 'all' ? 'active' : '' }}">
                             All Videos ({{ $counts['total'] }})
                         </a>
                         <a href="{{ url('/admin/videos?filter=visible') }}" class="admin-filter-pill {{ $currentFilter === 'visible' ? 'active' : '' }}" style="{{ $currentFilter === 'visible' ? 'background: #05B396; border-color: #05B396;' : '' }}">
@@ -90,6 +90,23 @@
                         <a href="{{ url('/admin/videos?filter=hidden') }}" class="admin-filter-pill {{ $currentFilter === 'hidden' ? 'active' : '' }}" style="{{ $currentFilter === 'hidden' ? 'background: #f59e0b; border-color: #f59e0b;' : '' }}">
                             🙈 Hidden Only ({{ $counts['hidden'] }})
                         </a>
+
+                        <!-- Package Filter Dropdown -->
+                        @if(!empty($packages) && $packages->isNotEmpty())
+                            <select onchange="window.location.href = this.value" style="padding: 0.45rem 0.8rem; border-radius: 20px; font-size: 0.82rem; font-weight: 700; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; outline: none;">
+                                <option value="{{ url('/admin/videos?filter=' . $currentFilter) }}" {{ ($currentPackageFilter ?? 'all') === 'all' ? 'selected' : '' }}>
+                                    📦 Filter by Package (All)
+                                </option>
+                                <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=universal') }}" {{ ($currentPackageFilter ?? '') === 'universal' ? 'selected' : '' }}>
+                                    🌐 Universal (All Packages)
+                                </option>
+                                @foreach($packages as $pkg)
+                                    <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=' . $pkg->id) }}" {{ ($currentPackageFilter ?? '') == $pkg->id ? 'selected' : '' }}>
+                                        📦 {{ $pkg->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
 
                     <!-- Search Input -->
@@ -133,6 +150,7 @@
                                 <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; color: #475569; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">
                                     <th style="padding: 0.85rem 1.4rem;">Video Details</th>
                                     <th style="padding: 0.85rem 1rem;">Category &amp; Meta</th>
+                                    <th style="padding: 0.85rem 1rem;">Package Access</th>
                                     <th style="padding: 0.85rem 1rem;">User Visibility (Show / Hide)</th>
                                     <th style="padding: 0.85rem 1rem;">Views</th>
                                     <th style="padding: 0.85rem 1.4rem; text-align: right;">Actions</th>
@@ -175,6 +193,20 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                        </td>
+
+                                        <!-- Target Package Access -->
+                                        <td style="padding: 1rem 1rem;">
+                                            @if($v->package)
+                                                <span style="display: inline-flex; align-items: center; gap: 5px; background: rgba(14, 165, 233, 0.1); color: #0284c7; font-weight: 800; font-size: 0.78rem; padding: 3px 9px; border-radius: 6px; border: 1px solid rgba(14, 165, 233, 0.25);">
+                                                    <span>📦</span> {{ $v->package->name }}
+                                                </span>
+                                                <div style="font-size: 0.72rem; color: #64748b; margin-top: 3px;">₹{{ number_format($v->package->price) }}+ Tiers</div>
+                                            @else
+                                                <span style="display: inline-flex; align-items: center; gap: 5px; background: #f1f5f9; color: #475569; font-weight: 700; font-size: 0.78rem; padding: 3px 9px; border-radius: 6px;">
+                                                    <span>🌐</span> All Packages
+                                                </span>
+                                            @endif
                                         </td>
 
                                         <!-- Interactive Show / Hide Toggle Control -->
@@ -257,10 +289,16 @@
                                         <h4 style="margin: 0 0 3px; font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.3;">
                                             {{ $v->title }}
                                         </h4>
-                                        <div style="font-size: 0.74rem; color: #64748b; display: flex; flex-wrap: wrap; gap: 6px;">
+                                        <div style="font-size: 0.74rem; color: #64748b; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
                                             <span style="background: rgba(124,58,237,0.1); color: #7c3aed; padding: 1px 6px; border-radius: 4px; font-weight: 700;">{{ $v->category }}</span>
                                             <span>•</span>
                                             <span>⏱️ {{ $v->duration ?: 'Self-Paced' }}</span>
+                                            <span>•</span>
+                                            @if($v->package)
+                                                <span style="background: rgba(14, 165, 233, 0.1); color: #0284c7; font-weight: 800; padding: 1px 6px; border-radius: 4px;">📦 {{ $v->package->name }}</span>
+                                            @else
+                                                <span style="background: #f1f5f9; color: #475569; font-weight: 700; padding: 1px 6px; border-radius: 4px;">🌐 All Packages</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -388,6 +426,24 @@
                 </div>
             </div>
 
+            <!-- Target Package Access -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                    Target Package Access <span style="color: #7c3aed;">★</span>
+                </label>
+                <select name="package_id" class="clean-form-input">
+                    <option value="">🌐 Universal (All Packages Can Watch)</option>
+                    @if(!empty($packages))
+                        @foreach($packages as $pkg)
+                            <option value="{{ $pkg->id }}">📦 {{ $pkg->name }} (₹{{ number_format($pkg->price) }}+ Tiers)</option>
+                        @endforeach
+                    @endif
+                </select>
+                <span style="font-size: 0.74rem; color: #64748b; display: block; margin-top: 4px;">
+                    Users with this package and all higher tiers will automatically unlock this video. Lower packages won't have access.
+                </span>
+            </div>
+
             <!-- Description -->
             <div style="margin-bottom: 1.4rem;">
                 <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
@@ -470,6 +526,24 @@
                 </div>
             </div>
 
+            <!-- Edit Target Package Access -->
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                    Target Package Access <span style="color: #7c3aed;">★</span>
+                </label>
+                <select id="edit_package_id" name="package_id" class="clean-form-input">
+                    <option value="">🌐 Universal (All Packages Can Watch)</option>
+                    @if(!empty($packages))
+                        @foreach($packages as $pkg)
+                            <option value="{{ $pkg->id }}">📦 {{ $pkg->name }} (₹{{ number_format($pkg->price) }}+ Tiers)</option>
+                        @endforeach
+                    @endif
+                </select>
+                <span style="font-size: 0.74rem; color: #64748b; display: block; margin-top: 4px;">
+                    Users with this package and all higher tiers will automatically unlock this video. Lower packages won't have access.
+                </span>
+            </div>
+
             <div style="margin-bottom: 1.4rem;">
                 <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">Description</label>
                 <textarea id="edit_description" name="description" rows="3" class="clean-form-input" style="resize: vertical;"></textarea>
@@ -512,7 +586,6 @@
     </div>
 </div>
 
-@push('styles')
 <style>
     .clean-form-input {
         width: 100%;
@@ -531,22 +604,29 @@
     .modal-backdrop.active {
         display: flex !important;
     }
-    .admin-videos-mobile-list { display: none; }
+    .admin-videos-desktop-table {
+        display: block !important;
+    }
+    .admin-videos-mobile-list {
+        display: none !important;
+    }
     @media (max-width: 768px) {
-        .admin-videos-desktop-table { display: none !important; }
-        .admin-videos-mobile-list { display: flex !important; flex-direction: column; gap: 0.9rem; padding: 0.85rem; }
+        .admin-videos-desktop-table {
+            display: none !important;
+        }
+        .admin-videos-mobile-list {
+            display: flex !important;
+            flex-direction: column;
+            gap: 0.9rem;
+            padding: 0.85rem;
+        }
     }
     @media (max-width: 600px) {
         .admin-stats-grid {
             grid-template-columns: 1fr !important;
         }
     }
-    @media (min-width: 769px) {
-        .admin-videos-desktop-table { display: block !important; }
-        .admin-videos-mobile-list { display: none !important; }
-    }
 </style>
-@endpush
 
 @push('scripts')
 <script>
@@ -681,6 +761,7 @@
         document.getElementById('edit_duration').value = video.duration || '';
         document.getElementById('edit_thumbnail_url').value = video.thumbnail_url || '';
         document.getElementById('edit_badge').value = video.badge || '';
+        document.getElementById('edit_package_id').value = video.package_id || '';
         document.getElementById('edit_description').value = video.description || '';
         document.getElementById('edit_is_visible').checked = Boolean(video.is_visible);
 

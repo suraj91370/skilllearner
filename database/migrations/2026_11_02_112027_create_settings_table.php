@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,7 +20,7 @@ return new class extends Migration
         });
 
         // Insert default initial settings
-        \Illuminate\Support\Facades\DB::table('settings')->insert([
+        DB::table('settings')->insert([
             [
                 'key' => 'login_video_url',
                 'value' => 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',

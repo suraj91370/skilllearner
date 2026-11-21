@@ -89,4 +89,3 @@ class Offer extends Model
         return min($discount, $originalPrice);
     }
 }
-

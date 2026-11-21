@@ -27,10 +27,12 @@ class Setting extends Model
 
                 // Fallback to local json backup if DB record not found
                 $json = static::readJsonBackup();
+
                 return $json[$key] ?? $default;
             });
         } catch (\Throwable $e) {
             $json = static::readJsonBackup();
+
             return $json[$key] ?? session("platform_settings.{$key}", $default);
         }
     }
@@ -57,6 +59,7 @@ class Setting extends Model
             );
         } catch (\Throwable $e) {
             $inst = new static(['key' => $key, 'value' => $valString]);
+
             return $inst;
         }
     }
@@ -160,6 +163,7 @@ class Setting extends Model
 
         try {
             $dbSettings = static::pluck('value', 'key')->toArray();
+
             return array_merge($defaults, static::readJsonBackup(), $dbSettings);
         } catch (\Throwable $e) {
             return array_merge($defaults, static::readJsonBackup(), session('platform_settings', []));
@@ -180,12 +184,14 @@ class Setting extends Model
         // YouTube: https://www.youtube.com/watch?v=VIDEO_ID or youtu.be/VIDEO_ID or shorts/VIDEO_ID
         if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches)) {
             $videoId = $matches[1];
+
             return "https://www.youtube.com/embed/{$videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1";
         }
 
         // Vimeo: https://vimeo.com/VIDEO_ID
         if (preg_match('/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/', $url, $matches)) {
             $videoId = $matches[1];
+
             return "https://player.vimeo.com/video/{$videoId}?autoplay=1";
         }
 
@@ -201,11 +207,13 @@ class Setting extends Model
         if (File::exists($path)) {
             try {
                 $decoded = json_decode(File::get($path), true);
+
                 return is_array($decoded) ? $decoded : [];
             } catch (\Throwable $e) {
                 return [];
             }
         }
+
         return [];
     }
 
