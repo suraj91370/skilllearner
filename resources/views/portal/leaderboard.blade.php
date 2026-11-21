@@ -49,7 +49,7 @@
                         $rank1 = $data->firstWhere('rank', 1);
                         $rank2 = $data->firstWhere('rank', 2);
                         $rank3 = $data->firstWhere('rank', 3);
-                        $rest  = $data->where('rank', '>', 3);
+                        $rest  = $data->where('rank', '>=', 4)->where('rank', '<=', 10);
                     @endphp
 
                     @if($count === 0)
@@ -717,7 +717,7 @@
             const rank1 = data.find(i => i.rank === 1);
             const rank2 = data.find(i => i.rank === 2);
             const rank3 = data.find(i => i.rank === 3);
-            const rest = data.filter(i => i.rank > 3);
+            const rest = data.filter(i => i.rank >= 4 && i.rank <= 10);
 
             let podiumHtml = `<div class="lb-podium-wrap count-${Math.min(count, 3)}">`;
 
