@@ -49,10 +49,10 @@
                     <span>Course Option (Show/Hide)</span>
                 </a>
 
-                <!-- Super Admin Video Option (Show/Hide) -->
+                <!-- Super Admin Videos Management (Show/Hide) -->
                 <a href="{{ url('/admin/videos') }}" class="m-portal-tab {{ $currentActive === 'admin-videos' ? 'active' : '' }}" style="{{ $currentActive === 'admin-videos' ? '' : 'border: 1.5px solid #7c3aed; color: #7c3aed; background: #faf5ff;' }}">
                     <svg width="15" height="15" style="width: 15px; height: 15px; min-width: 15px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                    <span>Video Option (Show/Hide)</span>
+                    <span>Videos Management</span>
                 </a>
 
                 <!-- Super Admin Offers & Discounts -->

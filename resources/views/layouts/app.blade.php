@@ -1315,12 +1315,12 @@
                             <span class="mob-badge-pill super" style="background: rgba(245, 158, 11, 0.18); color: #d97706;">5 Packages</span>
                         </a>
 
-                        <!-- 10. Video Option (Super Admin ONLY) -->
+                        <!-- 10. Videos Management (Super Admin ONLY) -->
                         <a href="{{ url('/admin/videos') }}" class="mobile-portal-link {{ request()->is('admin/videos*') ? 'active' : '' }}">
                             <svg class="mob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                             </svg>
-                            <span>Video Option</span>
+                            <span>Videos Management</span>
                             <span class="mob-badge-pill super">Show/Hide</span>
                         </a>
 
