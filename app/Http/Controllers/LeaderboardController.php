@@ -14,22 +14,16 @@ class LeaderboardController extends Controller
     {
         PortalDataService::ensureUserSession();
 
-        $activeTab = (string) $request->query('tab', 'today');
-        if (! in_array($activeTab, ['today', '7days', '30days', 'alltime'])) {
-            $activeTab = 'today';
-        }
-
-        $leaderboards = [
-            'today' => $this->getDynamicLeaderboard('today', 10),
-            '7days' => $this->getDynamicLeaderboard('7days', 10),
-            '30days' => $this->getDynamicLeaderboard('30days', 10),
-            'alltime' => $this->getDynamicLeaderboard('alltime', 10),
-        ];
+        $dailyLeaderboard = $this->getDynamicLeaderboard('today', 10);
+        $weeklyLeaderboard = $this->getDynamicLeaderboard('7days', 10);
+        $monthlyLeaderboard = $this->getDynamicLeaderboard('30days', 10);
+        $allTimeLeaderboard = $this->getDynamicLeaderboard('alltime', 10);
 
         return view('portal.leaderboard', [
-            'activeTab' => $activeTab,
-            'leaderboards' => $leaderboards,
-            'currentLeaderboard' => $leaderboards[$activeTab] ?? [],
+            'dailyLeaderboard' => $dailyLeaderboard,
+            'weeklyLeaderboard' => $weeklyLeaderboard,
+            'monthlyLeaderboard' => $monthlyLeaderboard,
+            'allTimeLeaderboard' => $allTimeLeaderboard,
             'active' => 'leaderboard',
         ]);
     }
@@ -37,6 +31,7 @@ class LeaderboardController extends Controller
     /**
      * Get 100% dynamic Top 10 leaderboard rankings from the database.
      * Queries real database users & commissions. No static arrays.
+     * Pure all-time affiliate earnings; industry_revenue is excluded.
      *
      * @param  string  $timeframe  'today' | '7days' | '30days' | 'alltime'
      */
@@ -62,8 +57,8 @@ class LeaderboardController extends Controller
             ->groupBy('user_id')
             ->pluck('total', 'user_id');
 
-        // Fetch users dynamically from database
-        $users = User::select(['id', 'name', 'avatar', 'today_earning', 'weekly_earning', 'monthly_earning', 'total_earning', 'industry_revenue'])->get();
+        // Fetch users dynamically from database - PURE total_earning, NO industry_revenue!
+        $users = User::select(['id', 'name', 'avatar', 'today_earning', 'weekly_earning', 'monthly_earning', 'total_earning'])->get();
 
         $ranked = [];
         $currentAuthId = auth()->id() ?? session('user.id');
@@ -73,7 +68,7 @@ class LeaderboardController extends Controller
                 'today' => (float) ($user->today_earning ?? 0),
                 '7days' => (float) ($user->weekly_earning ?? 0),
                 '30days' => (float) ($user->monthly_earning ?? 0),
-                default => (float) max($user->total_earning ?? 0, $user->industry_revenue ?? 0),
+                default => (float) ($user->total_earning ?? 0),
             };
 
             $commVal = (float) ($commissionSums[$user->id] ?? 0);

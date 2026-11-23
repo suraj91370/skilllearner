@@ -183,6 +183,21 @@
             </a>
 
             @if ($isSuperAdmin)
+                <div class="sidebar-section-label" style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px; color: #7c3aed;">
+                    <span>Super Admin Controls</span>
+                    <span style="font-size: 0.65rem; background: #7c3aed; color: #fff; padding: 1px 7px; border-radius: 8px; font-weight: 800;">👑 ONLY</span>
+                </div>
+
+                <!-- Video Management (Super Admin ONLY) -->
+                <a href="{{ url('/admin/videos') }}" class="sidebar-item {{ $currentActive === 'admin-videos' ? 'active' : '' }}" style="{{ $currentActive === 'admin-videos' ? '' : 'background: rgba(124, 58, 237, 0.05);' }}">
+                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0; color: #7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    <span style="font-weight: 700;">Videos Management</span>
+                    <span class="sidebar-item-badge-pill super" style="background: rgba(124, 58, 237, 0.18); color: #7c3aed;">Show/Hide</span>
+                </a>
+
                 <!-- Course Option & Show/Hide Control (Super Admin ONLY) -->
                 <a href="{{ url('/admin/courses') }}" class="sidebar-item {{ $currentActive === 'admin-courses' ? 'active' : '' }}">
                     <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -201,16 +216,6 @@
                     </svg>
                     <span>Offer &amp; Discounts</span>
                     <span class="sidebar-item-badge-pill super" style="background: rgba(245, 158, 11, 0.18); color: #d97706;">5 Packages</span>
-                </a>
-
-                <!-- Video Option & Show/Hide Control (Super Admin ONLY) -->
-                <a href="{{ url('/admin/videos') }}" class="sidebar-item {{ $currentActive === 'admin-videos' ? 'active' : '' }}">
-                    <svg class="side-icon" width="18" height="18" style="width: 18px; height: 18px; min-width: 18px; max-width: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                    </svg>
-                    <span>Video Option</span>
-                    <span class="sidebar-item-badge-pill super">Show/Hide</span>
                 </a>
 
                 <!-- Payment Gateway (Cashfree) (Super Admin ONLY) -->
