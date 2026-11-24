@@ -146,8 +146,22 @@
                                     🌐 Universal (All Packages)
                                 </option>
                                 @foreach($packages as $pkg)
-                                    <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=' . $pkg->id) }}" {{ ($currentPackageFilter ?? '') == $pkg->id ? 'selected' : '' }}>
+                                    <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=' . $pkg->id . (($currentModuleFilter ?? 'all') !== 'all' ? '&module=' . urlencode($currentModuleFilter) : '')) }}" {{ ($currentPackageFilter ?? '') == $pkg->id ? 'selected' : '' }}>
                                         📦 {{ $pkg->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
+
+                        <!-- Module Filter Dropdown -->
+                        @if(!empty($modules) && $modules->isNotEmpty())
+                            <select onchange="window.location.href = this.value" style="padding: 0.45rem 0.8rem; border-radius: 20px; font-size: 0.82rem; font-weight: 700; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; outline: none;">
+                                <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=' . ($currentPackageFilter ?? 'all')) }}" {{ ($currentModuleFilter ?? 'all') === 'all' ? 'selected' : '' }}>
+                                    📂 Filter by Module (All)
+                                </option>
+                                @foreach($modules as $mName)
+                                    <option value="{{ url('/admin/videos?filter=' . $currentFilter . '&package=' . ($currentPackageFilter ?? 'all') . '&module=' . urlencode($mName)) }}" {{ ($currentModuleFilter ?? '') === $mName ? 'selected' : '' }}>
+                                        📂 {{ $mName }}
                                     </option>
                                 @endforeach
                             </select>
@@ -230,6 +244,12 @@
                                                 <span style="background: rgba(124, 58, 237, 0.08); color: #7c3aed; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
                                                     {{ $v->category }}
                                                 </span>
+                                                <!-- Module & Sub-Module Badge -->
+                                                <div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2); color: #4338ca; font-size: 0.72rem; font-weight: 800; padding: 2px 7px; border-radius: 5px;">
+                                                    <span>📂 {{ $v->module_name ?: 'General Module' }}</span>
+                                                    <span style="color: #94a3b8;">❯</span>
+                                                    <span>📁 {{ $v->sub_module_name ?: 'Main Lessons' }}</span>
+                                                </div>
                                                 <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #64748b;">
                                                     <span>⏱️ {{ $v->duration ?: 'Self-Paced' }}</span>
                                                     @if($v->badge)
@@ -334,6 +354,12 @@
                                         <h4 style="margin: 0 0 3px; font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.3;">
                                             {{ $v->title }}
                                         </h4>
+                                        <!-- Module & Sub-Module Badge -->
+                                        <div style="display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(79,70,229,0.08)); border: 1px solid rgba(124,58,237,0.22); padding: 3px 8px; border-radius: 6px; font-size: 0.73rem; font-weight: 800; color: #4338ca; margin: 2px 0 5px;">
+                                            <span>📂 {{ $v->module_name ?: 'General Module' }}</span>
+                                            <span style="color: #94a3b8;">❯</span>
+                                            <span>📁 {{ $v->sub_module_name ?: 'Main Lessons' }}</span>
+                                        </div>
                                         <div style="font-size: 0.74rem; color: #64748b; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
                                             <span style="background: rgba(124,58,237,0.1); color: #7c3aed; padding: 1px 6px; border-radius: 4px; font-weight: 700;">{{ $v->category }}</span>
                                             <span>•</span>
@@ -398,6 +424,22 @@
     </div>
 </div>
 
+<!-- Autocomplete Datalists for Modules & Sub-Modules -->
+<datalist id="existingModulesList">
+    @if(!empty($modules))
+        @foreach($modules as $mOption)
+            <option value="{{ $mOption }}"></option>
+        @endforeach
+    @endif
+</datalist>
+<datalist id="existingSubModulesList">
+    @if(!empty($subModules))
+        @foreach($subModules as $smOption)
+            <option value="{{ $smOption }}"></option>
+        @endforeach
+    @endif
+</datalist>
+
 <!-- ============================================================== -->
 <!-- 1. ADD VIDEO MODAL                                             -->
 <!-- ============================================================== -->
@@ -430,6 +472,24 @@
                 </label>
                 <input type="url" name="video_url" required placeholder="https://... (MP4 direct link, YouTube URL, or Vimeo)" class="clean-form-input">
                 <span style="font-size: 0.74rem; color: #64748b;">Supports direct MP4 links, YouTube (watch/shorts), or Vimeo links.</span>
+            </div>
+
+            <!-- Module & Sub-Module Hierarchy -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
+                <div>
+                    <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                        📂 Module Name
+                    </label>
+                    <input type="text" name="module_name" list="existingModulesList" placeholder="e.g. Module 1: Affiliate Mastery" class="clean-form-input">
+                    <span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 3px;">Select existing or type a new module</span>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                        📁 Sub-Module Name
+                    </label>
+                    <input type="text" name="sub_module_name" list="existingSubModulesList" placeholder="e.g. 1.1 Profile Setup" class="clean-form-input">
+                    <span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 3px;">Sub-unit inside this module</span>
+                </div>
             </div>
 
             <!-- Category & Duration Grid -->
@@ -547,6 +607,24 @@
             <div style="margin-bottom: 1.2rem;">
                 <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">Video Stream / Embed URL</label>
                 <input type="url" id="edit_video_url" name="video_url" required class="clean-form-input">
+            </div>
+
+            <!-- Edit Module & Sub-Module Hierarchy -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
+                <div>
+                    <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                        📂 Module Name
+                    </label>
+                    <input type="text" id="edit_module_name" name="module_name" list="existingModulesList" placeholder="e.g. Module 1: Affiliate Mastery" class="clean-form-input">
+                    <span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 3px;">Select existing or type a new module</span>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.86rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem;">
+                        📁 Sub-Module Name
+                    </label>
+                    <input type="text" id="edit_sub_module_name" name="sub_module_name" list="existingSubModulesList" placeholder="e.g. 1.1 Profile Setup" class="clean-form-input">
+                    <span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 3px;">Sub-unit inside this module</span>
+                </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
@@ -869,6 +947,8 @@
 
         document.getElementById('edit_title').value = video.title || '';
         document.getElementById('edit_video_url').value = video.video_url || '';
+        document.getElementById('edit_module_name').value = video.module_name || '';
+        document.getElementById('edit_sub_module_name').value = video.sub_module_name || '';
         document.getElementById('edit_category').value = video.category || '';
         document.getElementById('edit_duration').value = video.duration || '';
         document.getElementById('edit_thumbnail_url').value = video.thumbnail_url || '';
