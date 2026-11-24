@@ -1492,6 +1492,19 @@ class AdminController extends Controller
         Setting::set('login_video_description', $validated['login_video_description'] ?? '');
         Setting::set('login_video_enabled', $loginVideoEnabled);
 
+        if ($request->has('enable_welcome_intro')) {
+            Setting::set('enable_welcome_intro', $request->input('enable_welcome_intro') ? '1' : '0');
+        }
+        if ($request->filled('welcome_intro_seconds')) {
+            Setting::set('welcome_intro_seconds', (string) max(3, (int) $request->input('welcome_intro_seconds')));
+        }
+        if ($request->filled('welcome_intro_start')) {
+            Setting::set('welcome_intro_start', (string) $request->input('welcome_intro_start'));
+        }
+        if ($request->filled('welcome_intro_end')) {
+            Setting::set('welcome_intro_end', (string) $request->input('welcome_intro_end'));
+        }
+
         $allSettings = Setting::allSettings();
         session(['platform_settings' => $allSettings]);
 

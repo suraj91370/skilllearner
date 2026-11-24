@@ -636,6 +636,51 @@
                             </div>
                         </div>
 
+                        <!-- Website Homepage Welcome Intro & 30s Countdown Timer -->
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 1.4rem; margin-top: 1.5rem; margin-bottom: 1.8rem;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 1.4rem;">⏳</span>
+                                    <div>
+                                        <h4 style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin: 0;">
+                                            Website Welcome Intro &amp; 30-Second Countdown Timer
+                                        </h4>
+                                        <span style="font-size: 0.78rem; color: #64748b;">
+                                            Fullscreen intro popup when visitors arrive at skilllearner.org with countdown ring &amp; welcome celebration
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <a href="{{ url('/?test=1') }}" target="_blank" class="btn" style="background: #05B396; color: #ffffff; font-size: 0.76rem; font-weight: 800; padding: 5px 12px; border-radius: 6px; text-decoration: none;">
+                                        👁️ Test / Preview Intro
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 1.1rem; display: flex; align-items: center; gap: 10px; background: #ffffff; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <input type="hidden" name="enable_welcome_intro" value="0">
+                                <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.88rem; font-weight: 700; color: #0f172a; margin: 0;">
+                                    <input type="checkbox" name="enable_welcome_intro" value="1" {{ ($settings['enable_welcome_intro'] ?? '1') === '1' ? 'checked' : '' }} style="width: 17px; height: 17px; accent-color: #05B396;">
+                                    <span>Enable Welcome Intro Popup on Homepage</span>
+                                </label>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <div>
+                                    <label class="clean-form-label">Countdown Timer (Seconds)</label>
+                                    <input type="number" name="welcome_intro_seconds" value="{{ old('welcome_intro_seconds', $settings['welcome_intro_seconds'] ?? '30') }}" min="3" max="120" class="clean-form-input" style="font-weight: 800;">
+                                </div>
+                                <div>
+                                    <label class="clean-form-label">Schedule Start (Date &amp; Time)</label>
+                                    <input type="text" name="welcome_intro_start" value="{{ old('welcome_intro_start', $settings['welcome_intro_start'] ?? '2026-11-24 00:00:00') }}" placeholder="YYYY-MM-DD HH:MM:SS" class="clean-form-input" style="font-family: monospace;">
+                                </div>
+                                <div>
+                                    <label class="clean-form-label">Schedule End (Date &amp; Time)</label>
+                                    <input type="text" name="welcome_intro_end" value="{{ old('welcome_intro_end', $settings['welcome_intro_end'] ?? '2026-11-24 12:00:00') }}" placeholder="YYYY-MM-DD HH:MM:SS" class="clean-form-input" style="font-family: monospace;">
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn-primary-action">
                             Save Commission &amp; Video Rules 💾
                         </button>
