@@ -1,6 +1,7 @@
 <!-- ===================================================================
      FULLSCREEN WELCOME INTRO OVERLAY
-     Sequence: 10s Countdown -> Side 🎉 Emojis & Fullscreen Welcome -> Reveal Website
+     Design: "Bas Welcome Wala" (Grand Welcome Card + 30s Countdown Timer + 🎉 Side Emojis)
+     Schedule: 12:00 PM Indian Standard Time (IST) on 24/11/2026
      =================================================================== -->
 <div id="siteWelcomeIntro" class="welcome-intro-overlay" role="dialog" aria-modal="true" aria-label="Welcome to SkillLearner">
     <!-- Ambient Background Glow Accents -->
@@ -21,20 +22,40 @@
     <div id="introRightEmojiStream" class="side-emoji-stream stream-right" aria-hidden="true"></div>
 
     <!-- ===============================================================
-         STAGE 1: 10 SECONDS COUNTDOWN
+         GRAND WELCOME CARD (BAS WELCOME WALA WITH 30S TIMER)
          =============================================================== -->
-    <div id="introCountdownStage" class="intro-stage active">
+    <div class="welcome-card-inner">
+        <!-- Celebration Top Icons -->
+        <div class="welcome-emojis-header">
+            <span class="welcome-icon-pop left-pop">🎉</span>
+            <span class="welcome-icon-pop center-pop">🥳</span>
+            <span class="welcome-icon-pop right-pop">🎉</span>
+        </div>
+
         <!-- Brand Logo -->
-        <div class="intro-logo-box">
+        <div class="intro-logo-box" style="margin-bottom: 0.9rem;">
             <img src="{{ asset(\App\Models\Setting::get('site_logo', 'images/logo.png')) }}" alt="SkillLearner" class="intro-brand-logo">
         </div>
 
-        <div class="intro-pill-badge">
-            <span class="intro-pill-dot"></span>
-            <span>GET READY TO LEARN &amp; EARN</span>
+        <div class="welcome-badge-glow">
+            <span>✨ SPECIAL WELCOME ✨</span>
         </div>
 
-        <!-- Animated Circular Countdown Ring -->
+        <!-- Grand Headline -->
+        <h1 class="welcome-grand-heading">
+            Welcome to Our Website!
+        </h1>
+
+        <!-- Brand Slogan -->
+        <p class="welcome-grand-tagline">
+            Build Skill, Build Future with <span class="brand-highlight">SkillLearner</span>
+        </p>
+
+        <p class="welcome-grand-description">
+            Unlock high-demand courses, certified mentorship, and practical digital income opportunities.
+        </p>
+
+        <!-- Animated Circular Countdown Ring (30 SEC TIMER) -->
         <div class="intro-timer-container">
             <svg class="intro-timer-svg" viewBox="0 0 200 200">
                 <defs>
@@ -50,55 +71,21 @@
                 <circle class="timer-circle-bar" id="introTimerCircle" cx="100" cy="100" r="86" />
             </svg>
             <div class="intro-timer-content">
-                <span id="introCountdownNumber" class="timer-number">10</span>
+                <span id="introCountdownNumber" class="timer-number">{{ (int) \App\Models\Setting::get('welcome_intro_seconds', 30) }}</span>
                 <span class="timer-unit">SEC</span>
             </div>
         </div>
 
-        <!-- Tagline below timer -->
-        <h2 class="intro-countdown-title">
-            Preparing Your Learning Experience...
-        </h2>
-        <p class="intro-countdown-subtitle">
-            Welcome to India's trusted platform for digital skills &amp; career growth.
-        </p>
-    </div>
+        <!-- Auto-entry progress status -->
+        <div style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 1.4rem; font-weight: 600;">
+            Opening website in <span id="introSecondsText" style="color: #34d399; font-weight: 800;">{{ (int) \App\Models\Setting::get('welcome_intro_seconds', 30) }}</span> seconds...
+        </div>
 
-    <!-- ===============================================================
-         STAGE 2: GRAND FULLSCREEN WELCOME & 🎉 EMOJI BURST
-         =============================================================== -->
-    <div id="introWelcomeStage" class="intro-stage">
-        <div class="welcome-card-inner">
-            <!-- Celebration Top Icons -->
-            <div class="welcome-emojis-header">
-                <span class="welcome-icon-pop left-pop">🎉</span>
-                <span class="welcome-icon-pop center-pop">🥳</span>
-                <span class="welcome-icon-pop right-pop">🎉</span>
-            </div>
-
-            <div class="welcome-badge-glow">
-                <span>✨ SPECIAL WELCOME ✨</span>
-            </div>
-
-            <!-- Grand Headline -->
-            <h1 class="welcome-grand-heading">
-                Welcome to Our Website!
-            </h1>
-
-            <!-- Brand Slogan -->
-            <p class="welcome-grand-tagline">
-                Build Skill, Build Future with <span class="brand-highlight">SkillLearner</span>
-            </p>
-
-            <p class="welcome-grand-description">
-                Unlock high-demand courses, certified mentorship, and practical digital income opportunities.
-            </p>
-
-            <!-- Loading / Entering Indicator -->
-            <div class="welcome-entering-pill">
-                <span class="entering-spinner"></span>
-                <span>Opening Website Now...</span>
-            </div>
+        <!-- Direct Enter Button -->
+        <div>
+            <button type="button" id="enterWebsiteBtn" class="welcome-enter-btn">
+                <span>🚀 Enter Website Now</span>
+            </button>
         </div>
     </div>
 </div>
@@ -118,13 +105,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     color: #ffffff;
     font-family: inherit;
     box-sizing: border-box;
     opacity: 1;
     transform: scale(1);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), filter 0.85s ease;
+    padding: 1.5rem;
 }
 
 .welcome-intro-overlay.fade-out {
@@ -196,78 +185,119 @@
     box-shadow: 0 6px 22px rgba(5, 179, 150, 0.45);
 }
 
-/* Stage containers */
-.intro-stage {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    max-width: 850px;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 10;
-}
-.intro-stage.active {
-    display: flex;
-    animation: stageFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes stageFadeIn {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Stage 1: Countdown Layout */
+/* Brand Logo */
 .intro-logo-box {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.8rem;
 }
 .intro-brand-logo {
-    max-width: 190px;
+    max-width: 175px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 6px 20px rgba(5, 179, 150, 0.4));
 }
 
-.intro-pill-badge {
+/* Grand Welcome Card */
+.welcome-card-inner {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(5, 179, 150, 0.4);
+    border-radius: 28px;
+    padding: 2.8rem 2.2rem 2.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 50px rgba(5, 179, 150, 0.2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    max-width: 680px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+    animation: welcomeCardZoom 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes welcomeCardZoom {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.welcome-emojis-header {
+    display: flex;
+    gap: 16px;
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+}
+.welcome-icon-pop {
+    display: inline-block;
+    animation: popBounce 2s ease-in-out infinite;
+}
+.left-pop { animation-delay: 0s; }
+.center-pop { animation-delay: 0.3s; }
+.right-pop { animation-delay: 0.6s; }
+
+@keyframes popBounce {
+    0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+    50% { transform: translateY(-10px) scale(1.15) rotate(6deg); }
+}
+
+.welcome-badge-glow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(5, 179, 150, 0.15);
-    border: 1px solid rgba(5, 179, 150, 0.4);
-    color: #34d399;
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    padding: 5px 15px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.3) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.6);
+    color: #fbbf24;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    padding: 6px 18px;
     border-radius: 30px;
-    margin-bottom: 1.8rem;
-    text-transform: uppercase;
-}
-.intro-pill-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #34d399;
-    box-shadow: 0 0 10px #34d399;
-    animation: dotPulse 1.2s infinite ease-in-out;
-}
-@keyframes dotPulse {
-    0%, 100% { opacity: 0.4; transform: scale(0.9); }
-    50% { opacity: 1; transform: scale(1.3); }
+    margin-bottom: 1.2rem;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 }
 
-/* Circular Timer */
+.welcome-grand-heading {
+    font-size: 2.35rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.welcome-grand-tagline {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0 0 0.75rem;
+}
+.brand-highlight {
+    color: #34d399;
+    font-weight: 900;
+    text-shadow: 0 0 16px rgba(52, 211, 153, 0.6);
+}
+
+.welcome-grand-description {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    max-width: 520px;
+    margin: 0 auto 1.4rem;
+    line-height: 1.55;
+}
+
+/* 30-Second Circular Countdown Timer Ring */
 .intro-timer-container {
     position: relative;
-    width: 190px;
-    height: 190px;
+    width: 150px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.8rem;
+    margin: 0 auto 1.2rem;
 }
 .intro-timer-svg {
     position: absolute;
@@ -279,15 +309,14 @@
 }
 .timer-circle-track {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 9;
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 8;
 }
 .timer-circle-bar {
     fill: none;
     stroke: url(#timerGrad);
-    stroke-width: 9;
+    stroke-width: 8;
     stroke-linecap: round;
-    /* Circumference for r=86 is ~540.35 */
     stroke-dasharray: 540.35;
     stroke-dashoffset: 0;
     transition: stroke-dashoffset 1s linear;
@@ -302,19 +331,19 @@
     justify-content: center;
 }
 .timer-number {
-    font-size: 4.8rem;
+    font-size: 3.4rem;
     font-weight: 950;
     line-height: 1;
     color: #ffffff;
-    letter-spacing: -2px;
-    text-shadow: 0 0 35px rgba(5, 179, 150, 0.7);
+    letter-spacing: -1.5px;
+    text-shadow: 0 0 25px rgba(5, 179, 150, 0.7);
     transition: transform 0.2s ease;
 }
 .timer-number.pop {
     animation: numberTickPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes numberTickPop {
-    0% { transform: scale(1.28); color: #34d399; }
+    0% { transform: scale(1.25); color: #34d399; }
     100% { transform: scale(1); color: #ffffff; }
 }
 
@@ -323,156 +352,41 @@
     font-weight: 900;
     color: #94a3b8;
     letter-spacing: 1.8px;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
-.intro-countdown-title {
-    font-size: 1.55rem;
-    font-weight: 800;
+/* Direct Enter Button */
+.welcome-enter-btn {
+    background: linear-gradient(135deg, #05B396 0%, #047857 100%);
     color: #ffffff;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.3px;
-}
-.intro-countdown-subtitle {
-    font-size: 0.95rem;
-    color: #94a3b8;
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.5;
-}
-
-/* Stage 2: Grand Welcome Card */
-.welcome-card-inner {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1.5px solid rgba(5, 179, 150, 0.35);
-    border-radius: 28px;
-    padding: 3rem 2.2rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(5, 179, 150, 0.15);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    max-width: 760px;
-    width: 100%;
-    animation: welcomeCardZoom 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes welcomeCardZoom {
-    0% { transform: scale(0.85); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.welcome-emojis-header {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    font-size: 3.2rem;
-    margin-bottom: 0.8rem;
-}
-.welcome-icon-pop {
-    display: inline-block;
-    filter: drop-shadow(0 4px 15px rgba(245, 158, 11, 0.5));
-}
-.left-pop { animation: popBounceLeft 1s infinite alternate ease-in-out; }
-.center-pop { animation: popBounceCenter 1.1s infinite alternate ease-in-out 0.2s; }
-.right-pop { animation: popBounceRight 1s infinite alternate ease-in-out 0.4s; }
-
-@keyframes popBounceLeft {
-    from { transform: translateY(0) rotate(-15deg); }
-    to { transform: translateY(-12px) rotate(-5deg); }
-}
-@keyframes popBounceCenter {
-    from { transform: translateY(0) scale(1); }
-    to { transform: translateY(-16px) scale(1.15); }
-}
-@keyframes popBounceRight {
-    from { transform: translateY(0) rotate(15deg); }
-    to { transform: translateY(-12px) rotate(5deg); }
-}
-
-.welcome-badge-glow {
-    display: inline-flex;
-    padding: 4px 14px;
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(5, 179, 150, 0.2) 100%);
-    border: 1px solid rgba(245, 158, 11, 0.5);
-    border-radius: 20px;
-    font-size: 0.76rem;
+    border: none;
+    font-size: 1rem;
     font-weight: 800;
-    color: #fef08a;
-    letter-spacing: 1px;
-    margin-bottom: 1.25rem;
-}
-
-.welcome-grand-heading {
-    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
-    font-weight: 950;
-    line-height: 1.15;
-    letter-spacing: -1px;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #ffffff 0%, #34d399 38%, #fef08a 70%, #ffffff 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shineHeading 4s linear infinite;
-    text-shadow: 0 0 35px rgba(5, 179, 150, 0.5);
-}
-@keyframes shineHeading {
-    to { background-position: 200% center; }
-}
-
-.welcome-grand-tagline {
-    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-    font-weight: 700;
-    color: #e2e8f0;
-    margin-bottom: 0.8rem;
-}
-.brand-highlight {
-    color: #34d399;
-    text-decoration: underline;
-    text-decoration-color: #f59e0b;
-}
-
-.welcome-grand-description {
-    font-size: 0.98rem;
-    color: #94a3b8;
-    max-width: 580px;
-    margin: 0 auto 1.8rem;
-    line-height: 1.6;
-}
-
-.welcome-entering-pill {
+    padding: 12px 34px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(5, 179, 150, 0.45);
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(5, 179, 150, 0.16);
-    border: 1.5px solid #05B396;
-    color: #34d399;
-    font-size: 0.88rem;
-    font-weight: 800;
-    padding: 8px 22px;
-    border-radius: 50px;
-    box-shadow: 0 4px 18px rgba(5, 179, 150, 0.3);
+    gap: 8px;
+    letter-spacing: 0.3px;
 }
-.entering-spinner {
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(52, 211, 153, 0.3);
-    border-top-color: #34d399;
-    border-radius: 50%;
-    animation: enterSpin 0.75s linear infinite;
-}
-@keyframes enterSpin {
-    to { transform: rotate(360deg); }
+.welcome-enter-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(5, 179, 150, 0.65);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
-/* ===================================================================
-   SIDE FLYING 🎉 EMOJIS (FROM LEFT & RIGHT SIDES)
-   =================================================================== */
+/* Side Flying Emojis */
 .side-emoji-stream {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 50vw;
+    width: 140px;
     pointer-events: none;
     overflow: hidden;
-    z-index: 15;
+    z-index: 5;
 }
 .stream-left { left: 0; }
 .stream-right { right: 0; }
@@ -481,39 +395,30 @@
     position: absolute;
     user-select: none;
     pointer-events: none;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
     will-change: transform, opacity;
 }
 
-/* Left fly-in animation */
 @keyframes flyFromLeft {
     0% {
         opacity: 0;
         transform: translate3d(-60px, var(--flyY), 0) scale(0.3) rotate(0deg);
     }
-    15% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 1;
-    }
+    15% { opacity: 1; }
+    75% { opacity: 1; }
     100% {
         opacity: 0;
         transform: translate3d(calc(32vw + 60px), calc(var(--flyY) + var(--driftY)), 0) scale(var(--finalScale)) rotate(var(--rot));
     }
 }
 
-/* Right fly-in animation */
 @keyframes flyFromRight {
     0% {
         opacity: 0;
         transform: translate3d(60px, var(--flyY), 0) scale(0.3) rotate(0deg);
     }
-    15% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 1;
-    }
+    15% { opacity: 1; }
+    75% { opacity: 1; }
     100% {
         opacity: 0;
         transform: translate3d(calc(-32vw - 60px), calc(var(--flyY) + var(--driftY)), 0) scale(var(--finalScale)) rotate(var(--rot));
@@ -522,20 +427,27 @@
 
 /* Responsive adjust */
 @media (max-width: 640px) {
-    .intro-timer-container {
-        width: 160px;
-        height: 160px;
-        margin-bottom: 1.4rem;
-    }
-    .timer-number {
-        font-size: 3.8rem;
-    }
     .welcome-card-inner {
-        padding: 2rem 1.25rem;
-        border-radius: 20px;
+        padding: 2rem 1.25rem 1.8rem;
+        border-radius: 22px;
+    }
+    .welcome-grand-heading {
+        font-size: 1.85rem;
     }
     .welcome-emojis-header {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
+    }
+    .intro-timer-container {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 1rem;
+    }
+    .timer-number {
+        font-size: 2.8rem;
+    }
+    .welcome-enter-btn {
+        padding: 10px 26px;
+        font-size: 0.92rem;
     }
     .intro-skip-btn {
         top: 14px;
@@ -560,14 +472,14 @@
     document.body.style.overflow = 'hidden';
 
     const skipBtn = document.getElementById('skipIntroBtn');
-    const countdownStage = document.getElementById('introCountdownStage');
-    const welcomeStage = document.getElementById('introWelcomeStage');
+    const enterBtn = document.getElementById('enterWebsiteBtn');
     const countdownNum = document.getElementById('introCountdownNumber');
+    const secondsText = document.getElementById('introSecondsText');
     const timerCircle = document.getElementById('introTimerCircle');
     const leftStream = document.getElementById('introLeftEmojiStream');
     const rightStream = document.getElementById('introRightEmojiStream');
 
-    const totalSeconds = 10;
+    const totalSeconds = {{ (int) \App\Models\Setting::get('welcome_intro_seconds', 30) }};
     let remainingSeconds = totalSeconds;
     const circumference = 540.35; // 2 * PI * 86
     let countdownInterval = null;
@@ -595,9 +507,16 @@
         }, 900);
     }
 
-    // Skip Button Event
+    // Enter & Skip Button Events
     if (skipBtn) {
         skipBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            completeIntro();
+        });
+    }
+
+    if (enterBtn) {
+        enterBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             completeIntro();
         });
@@ -621,15 +540,13 @@
         const emojiEl = document.createElement('div');
         emojiEl.className = 'flying-emoji-item';
 
-        // Pick random emoji
         const randomChar = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
         emojiEl.textContent = randomChar;
 
-        // Random Y start between 5% and 90% of screen height
         const startY = Math.random() * (window.innerHeight * 0.85) + 30;
-        const driftY = (Math.random() - 0.5) * 160; // Up/down drift
-        const duration = (Math.random() * 1.2 + 1.6).toFixed(2); // 1.6s to 2.8s
-        const size = Math.floor(Math.random() * 26 + 28); // 28px to 54px
+        const driftY = (Math.random() - 0.5) * 160;
+        const duration = (Math.random() * 1.2 + 1.6).toFixed(2);
+        const size = Math.floor(Math.random() * 26 + 28);
         const finalScale = (Math.random() * 0.5 + 1.0).toFixed(2);
         const rot = side === 'left' ? Math.floor(Math.random() * 360 + 180) + 'deg' : '-' + Math.floor(Math.random() * 360 + 180) + 'deg';
 
@@ -650,7 +567,6 @@
 
         container.appendChild(emojiEl);
 
-        // Remove element after flight completes
         setTimeout(function() {
             if (emojiEl.parentNode) {
                 emojiEl.parentNode.removeChild(emojiEl);
@@ -658,34 +574,18 @@
         }, duration * 1000 + 100);
     }
 
-    // Function to start Stage 2: Grand Fullscreen Welcome
-    function startWelcomeStage() {
-        if (countdownInterval) clearInterval(countdownInterval);
-
-        // Switch stages
-        countdownStage.classList.remove('active');
-        welcomeStage.classList.add('active');
-
-        // Continuous streams of side emojis (Left & Right)
-        // Fire initial wave immediately
-        for (let i = 0; i < 6; i++) {
-            setTimeout(function() {
-                spawnSideEmoji('left');
-                spawnSideEmoji('right');
-            }, i * 80);
-        }
-
-        // Loop side emojis every 160ms
-        emojiInterval = setInterval(function() {
+    // Start celebration emojis immediately
+    for (let i = 0; i < 5; i++) {
+        setTimeout(function() {
             spawnSideEmoji('left');
             spawnSideEmoji('right');
-        }, 160);
-
-        // Keep welcome stage visible for ~4 seconds ("kuch sec tak") then open website
-        setTimeout(function() {
-            completeIntro();
-        }, 4000);
+        }, i * 100);
     }
+
+    emojiInterval = setInterval(function() {
+        spawnSideEmoji('left');
+        spawnSideEmoji('right');
+    }, 280);
 
     // Update timer circle stroke
     function updateTimerProgress(sec) {
@@ -695,25 +595,28 @@
         timerCircle.style.strokeDashoffset = offset;
     }
 
-    // Start 10-second Countdown loop
+    // Start 30-second Countdown loop
     countdownInterval = setInterval(function() {
         remainingSeconds--;
 
         if (countdownNum) {
             countdownNum.textContent = remainingSeconds;
             countdownNum.classList.remove('pop');
-            void countdownNum.offsetWidth; // Reflow for restart animation
+            void countdownNum.offsetWidth;
             countdownNum.classList.add('pop');
+        }
+
+        if (secondsText) {
+            secondsText.textContent = remainingSeconds;
         }
 
         updateTimerProgress(remainingSeconds);
 
         if (remainingSeconds <= 0) {
             clearInterval(countdownInterval);
-            // Brief 200ms delay before exploding into welcome stage
             setTimeout(function() {
-                startWelcomeStage();
-            }, 250);
+                completeIntro();
+            }, 300);
         }
     }, 1000);
 

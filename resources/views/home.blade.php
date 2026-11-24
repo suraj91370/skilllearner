@@ -5,16 +5,26 @@
 @section('content')
 {{-- 
     =================================================================================
-    FULLSCREEN WELCOME INTRO (10s Countdown + 🎉 Side Emojis & Grand Welcome)
-    - FILHAL HIDE HAI: $showWelcomeIntro = false;
-    - UNHIDE KARNE KE LIYA: Niche 'false' ko 'true' kar dein (ya Admin Settings se on karein)
-    - TEST / PREVIEW: URL me '?intro=1' lagakar kabhi bhi check kar sakte hain
+    FULLSCREEN WELCOME INTRO (Bas Welcome Wala + 30s Countdown Timer)
+    - SCHEDULE: STRICTLY 12:00 PM Indian Standard Time (IST) on 24/11/2026
+    - Opens automatically ONLY when clock hits 12:00 PM IST today!
+    - Before 12:00 PM IST, it is completely hidden from all visitors.
     =================================================================================
 --}}
 @php
-    $showWelcomeIntro = false; // <-- Unhide karne ke liye yahan 'true' karein
+    $nowIst = \Carbon\Carbon::now('Asia/Kolkata');
+    $introEnabled = \App\Models\Setting::get('enable_welcome_intro', '1') === '1';
+
+    $startStr = \App\Models\Setting::get('welcome_intro_start', '2026-11-24 12:00:00');
+    $endStr   = \App\Models\Setting::get('welcome_intro_end', '2026-11-24 23:59:59');
+
+    $startTime = \Carbon\Carbon::parse($startStr, 'Asia/Kolkata');
+    $endTime   = \Carbon\Carbon::parse($endStr, 'Asia/Kolkata');
+
+    // STRICT: Only shows once Indian Standard Time (Asia/Kolkata) reaches 12:00 PM (24/11/2026)
+    $showWelcomeIntro = $introEnabled && $nowIst->between($startTime, $endTime);
 @endphp
-@if($showWelcomeIntro || request()->has('intro') || \App\Models\Setting::get('enable_welcome_intro', '0') === '1')
+@if($showWelcomeIntro)
     @include('partials.welcome-intro')
 @endif
 
