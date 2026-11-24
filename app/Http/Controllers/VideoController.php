@@ -24,6 +24,7 @@ class VideoController extends Controller
         $filter = $request->query('filter', 'all');
         $search = trim((string) $request->query('search', ''));
         $packageFilter = $request->query('package', 'all');
+        $moduleFilter = $request->query('module', 'all');
 
         $query = Video::query()->with('package')->orderBy('sort_order')->latest();
 
@@ -41,16 +42,36 @@ class VideoController extends Controller
             }
         }
 
+        if ($moduleFilter !== 'all') {
+            $query->where('module_name', $moduleFilter);
+        }
+
         if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('module_name', 'like', "%{$search}%")
+                    ->orWhere('sub_module_name', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
         $videos = $query->get();
         $packages = Package::orderBy('price', 'asc')->get();
+
+        $modules = Video::whereNotNull('module_name')
+            ->where('module_name', '!=', '')
+            ->distinct()
+            ->orderBy('module_name')
+            ->pluck('module_name')
+            ->values();
+
+        $subModules = Video::whereNotNull('sub_module_name')
+            ->where('sub_module_name', '!=', '')
+            ->distinct()
+            ->orderBy('sub_module_name')
+            ->pluck('sub_module_name')
+            ->values();
 
         $counts = [
             'total' => Video::count(),
@@ -69,10 +90,13 @@ class VideoController extends Controller
         return view('admin.videos', [
             'videos' => $videos,
             'packages' => $packages,
+            'modules' => $modules,
+            'subModules' => $subModules,
             'counts' => $counts,
             'welcomeVideo' => $welcomeVideo,
             'currentFilter' => $filter,
             'currentPackageFilter' => $packageFilter,
+            'currentModuleFilter' => $moduleFilter,
             'search' => $search,
             'active' => 'admin-videos',
         ]);
@@ -90,6 +114,8 @@ class VideoController extends Controller
             'thumbnail_url' => ['nullable', 'url', 'max:500'],
             'duration' => ['nullable', 'string', 'max:50'],
             'category' => ['nullable', 'string', 'max:100'],
+            'module_name' => ['nullable', 'string', 'max:255'],
+            'sub_module_name' => ['nullable', 'string', 'max:255'],
             'badge' => ['nullable', 'string', 'max:50'],
             'package_id' => ['nullable', 'integer', 'exists:packages,id'],
             'is_visible' => ['nullable', 'boolean'],
@@ -97,6 +123,8 @@ class VideoController extends Controller
 
         $validated['is_visible'] = $request->boolean('is_visible', true);
         $validated['category'] = $validated['category'] ?? 'Training';
+        $validated['module_name'] = ! empty($validated['module_name']) ? trim($validated['module_name']) : null;
+        $validated['sub_module_name'] = ! empty($validated['sub_module_name']) ? trim($validated['sub_module_name']) : null;
         $validated['package_id'] = ! empty($validated['package_id']) ? (int) $validated['package_id'] : null;
         $validated['thumbnail_url'] = ($validated['thumbnail_url'] ?? null) ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80';
 
@@ -117,12 +145,16 @@ class VideoController extends Controller
             'thumbnail_url' => ['nullable', 'url', 'max:500'],
             'duration' => ['nullable', 'string', 'max:50'],
             'category' => ['nullable', 'string', 'max:100'],
+            'module_name' => ['nullable', 'string', 'max:255'],
+            'sub_module_name' => ['nullable', 'string', 'max:255'],
             'badge' => ['nullable', 'string', 'max:50'],
             'package_id' => ['nullable', 'integer', 'exists:packages,id'],
             'is_visible' => ['nullable', 'boolean'],
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible', false);
+        $validated['module_name'] = ! empty($validated['module_name']) ? trim($validated['module_name']) : null;
+        $validated['sub_module_name'] = ! empty($validated['sub_module_name']) ? trim($validated['sub_module_name']) : null;
         $validated['package_id'] = ! empty($validated['package_id']) ? (int) $validated['package_id'] : null;
         $validated['thumbnail_url'] = ($validated['thumbnail_url'] ?? null) ?: $video->thumbnail_url;
 
@@ -295,8 +327,17 @@ class VideoController extends Controller
             ->filter()
             ->values();
 
+        $groupedVideos = $videos->groupBy(function ($v) {
+            return trim((string) $v->module_name) !== '' ? $v->module_name : ($v->category ?: 'General Module');
+        })->map(function ($mVideos) {
+            return $mVideos->groupBy(function ($v) {
+                return trim((string) $v->sub_module_name) !== '' ? $v->sub_module_name : 'Main Lessons';
+            });
+        });
+
         return view('portal.videos', [
             'videos' => $videos,
+            'groupedVideos' => $groupedVideos,
             'activeVideo' => $activeVideo,
             'categories' => $categories,
             'currentCategory' => $category,

@@ -88,6 +88,12 @@
                             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.6rem; margin-top: 1.2rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.8rem;">
                                     <div>
+                                        <!-- Module & Sub-Module Breadcrumb -->
+                                        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.2); color: #6d28d9; font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.5rem;">
+                                            <span>📂 {{ $activeVideo->module_name ?: ($activeVideo->category ?: 'General Module') }}</span>
+                                            <span style="opacity: 0.4;">❯</span>
+                                            <span>📁 {{ $activeVideo->sub_module_name ?: 'Main Lessons' }}</span>
+                                        </div>
                                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 0.4rem;">
                                             <span style="background: rgba(5, 179, 150, 0.1); color: #05B396; font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
                                                 {{ $activeVideo->category }}
@@ -129,57 +135,114 @@
                         @endif
                     </div>
 
-                    <!-- Right: Up Next Playlist (Visible Videos) -->
+                    <!-- Right: Up Next Playlist (Hierarchical Module & Sub-Module Accordion) -->
                     <div>
                         <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.3rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02); height: fit-content;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem;">
-                                <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0;">
-                                    Course Videos ({{ count($videos) }})
-                                </h4>
-                                <span style="font-size: 0.75rem; color: #05B396; font-weight: 700;">
-                                    ✓ All Visible
+                                <div>
+                                    <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0;">
+                                        Course Modules
+                                    </h4>
+                                    <span style="font-size: 0.72rem; color: #64748b;">
+                                        {{ count($groupedVideos) }} Modules • {{ count($videos) }} Lessons
+                                    </span>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #05B396; font-weight: 700; background: #ecfdf5; padding: 2px 8px; border-radius: 12px;">
+                                    ✓ Unlocked
                                 </span>
                             </div>
 
-                            <div style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 600px; overflow-y: auto; padding-right: 4px;">
-                                @foreach($videos as $vid)
+                            <div style="display: flex; flex-direction: column; gap: 0.85rem; max-height: 640px; overflow-y: auto; padding-right: 4px;">
+                                @foreach($groupedVideos as $moduleName => $subModulesGroup)
                                     @php
-                                        $isPlaying = ($activeVideo && $activeVideo->id === $vid->id);
+                                        $allModuleVideos = $subModulesGroup->flatten();
+                                        $moduleVideoCount = $allModuleVideos->count();
+                                        $hasActiveInModule = $allModuleVideos->contains('id', optional($activeVideo)->id);
+                                        $modKey = 'mod-' . substr(md5($moduleName), 0, 10);
                                     @endphp
-                                    <a href="{{ url('/videos?v=' . $vid->id . ($currentCategory !== 'all' ? '&category=' . urlencode($currentCategory) : '')) }}" 
-                                       style="display: flex; gap: 10px; align-items: center; padding: 0.65rem; border-radius: 10px; text-decoration: none; border: 1.5px solid {{ $isPlaying ? '#05B396' : 'transparent' }}; background: {{ $isPlaying ? '#f0fdfa' : '#f8fafc' }}; transition: all 0.2s ease;">
-                                        <!-- Mini Thumb -->
-                                        <div style="position: relative; width: 72px; height: 46px; border-radius: 6px; overflow: hidden; background: #000; flex-shrink: 0;">
-                                            <img src="{{ $vid->thumbnail_url ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200' }}" alt="{{ $vid->title }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="{{ $isPlaying ? '#05B396' : '#ffffff' }}">
-                                                    <polygon points="6,3 20,12 6,21"></polygon>
-                                                </svg>
+                                    <!-- Module Card Accordion -->
+                                    <div class="module-accordion-card" style="border: 1.5px solid {{ $hasActiveInModule ? '#a7f3d0' : '#e2e8f0' }}; border-radius: 12px; overflow: hidden; background: #ffffff;">
+                                        <!-- Module Header Toggle -->
+                                        <button type="button" 
+                                                onclick="toggleModuleAccordion('{{ $modKey }}')" 
+                                                style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0.9rem; background: {{ $hasActiveInModule ? '#f0fdf4' : '#f8fafc' }}; border: none; cursor: pointer; text-align: left; font-family: inherit; transition: background 0.15s ease;">
+                                            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                                                <span style="font-size: 1.1rem; flex-shrink: 0;">📂</span>
+                                                <div style="min-width: 0;">
+                                                    <div style="font-size: 0.86rem; font-weight: 800; color: {{ $hasActiveInModule ? '#059669' : '#0f172a' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        {{ $moduleName }}
+                                                    </div>
+                                                    <div style="font-size: 0.7rem; color: #64748b;">
+                                                        {{ $subModulesGroup->count() }} Sub-{{ Str::plural('Module', $subModulesGroup->count()) }} • {{ $moduleVideoCount }} {{ Str::plural('Lesson', $moduleVideoCount) }}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Title & Meta -->
-                                        <div style="flex: 1; min-width: 0;">
-                                            <div style="font-size: 0.84rem; font-weight: 800; color: {{ $isPlaying ? '#05B396' : '#0f172a' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">
-                                                {{ $vid->title }}
-                                            </div>
-                                            <div style="font-size: 0.72rem; color: #64748b; display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                                                <span>{{ $vid->duration ?: '15m' }}</span>
-                                                <span>•</span>
-                                                <span>{{ $vid->category }}</span>
-                                                @if($vid->package)
-                                                    <span>•</span>
-                                                    <span style="color: #0284c7; font-weight: 700;">📦 {{ $vid->package->name }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        @if($isPlaying)
-                                            <span style="font-size: 0.7rem; font-weight: 800; color: #05B396; background: rgba(5,179,150,0.15); padding: 2px 6px; border-radius: 4px;">
-                                                PLAYING
+                                            <span id="icon-{{ $modKey }}" style="font-size: 0.75rem; color: #64748b; font-weight: 800; margin-left: 8px; flex-shrink: 0;">
+                                                {{ $hasActiveInModule ? '▲' : '▼' }}
                                             </span>
-                                        @endif
-                                    </a>
+                                        </button>
+
+                                        <!-- Sub-Modules Container -->
+                                        <div id="content-{{ $modKey }}" style="display: {{ $hasActiveInModule ? 'block' : 'none' }}; padding: 0.6rem 0.75rem; background: #ffffff; border-top: 1px solid #f1f5f9;">
+                                            @foreach($subModulesGroup as $subModuleName => $subVideos)
+                                                @php
+                                                    $hasActiveInSub = $subVideos->contains('id', optional($activeVideo)->id);
+                                                @endphp
+                                                <div style="margin-bottom: 0.85rem;">
+                                                    <!-- Sub-Module Title Header -->
+                                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 3px 6px; background: rgba(241, 245, 249, 0.7); border-left: 3px solid {{ $hasActiveInSub ? '#05B396' : '#94a3b8' }}; border-radius: 4px; margin-bottom: 0.45rem;">
+                                                        <span style="font-size: 0.74rem; font-weight: 800; color: #334155; display: inline-flex; align-items: center; gap: 5px;">
+                                                            <span>📁</span> {{ $subModuleName }}
+                                                        </span>
+                                                        <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">
+                                                            {{ count($subVideos) }}
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Video Lessons under Sub-Module -->
+                                                    <div style="display: flex; flex-direction: column; gap: 0.45rem; padding-left: 4px;">
+                                                        @foreach($subVideos as $vid)
+                                                            @php
+                                                                $isPlaying = ($activeVideo && $activeVideo->id === $vid->id);
+                                                            @endphp
+                                                            <a href="{{ url('/videos?v=' . $vid->id . ($currentCategory !== 'all' ? '&category=' . urlencode($currentCategory) : '')) }}" 
+                                                               style="display: flex; gap: 8px; align-items: center; padding: 0.45rem 0.55rem; border-radius: 8px; text-decoration: none; border: 1.5px solid {{ $isPlaying ? '#05B396' : 'transparent' }}; background: {{ $isPlaying ? '#f0fdfa' : '#f8fafc' }}; transition: all 0.15s ease;">
+                                                                <!-- Mini Thumb -->
+                                                                <div style="position: relative; width: 62px; height: 38px; border-radius: 5px; overflow: hidden; background: #000; flex-shrink: 0;">
+                                                                    <img src="{{ $vid->thumbnail_url ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200' }}" alt="{{ $vid->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                                    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
+                                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="{{ $isPlaying ? '#05B396' : '#ffffff' }}">
+                                                                            <polygon points="6,3 20,12 6,21"></polygon>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Title & Meta -->
+                                                                <div style="flex: 1; min-width: 0;">
+                                                                    <div style="font-size: 0.8rem; font-weight: 800; color: {{ $isPlaying ? '#05B396' : '#0f172a' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">
+                                                                        {{ $vid->title }}
+                                                                    </div>
+                                                                    <div style="font-size: 0.68rem; color: #64748b; display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
+                                                                        <span>⏱️ {{ $vid->duration ?: 'Self-Paced' }}</span>
+                                                                        @if($vid->package)
+                                                                            <span>•</span>
+                                                                            <span style="color: #0284c7; font-weight: 700;">📦 {{ $vid->package->name }}</span>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+
+                                                                @if($isPlaying)
+                                                                    <span style="font-size: 0.65rem; font-weight: 800; color: #05B396; background: rgba(5,179,150,0.15); padding: 2px 5px; border-radius: 4px; flex-shrink: 0;">
+                                                                        PLAYING
+                                                                    </span>
+                                                                @endif
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -222,6 +285,20 @@
             alert('🔗 Direct video link copied to clipboard!\n"' + title + '"');
         } else {
             alert('Video link: ' + window.location.href);
+        }
+    }
+
+    function toggleModuleAccordion(modKey) {
+        const content = document.getElementById('content-' + modKey);
+        const icon = document.getElementById('icon-' + modKey);
+        if (content) {
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                if (icon) icon.innerText = '▲';
+            } else {
+                content.style.display = 'none';
+                if (icon) icon.innerText = '▼';
+            }
         }
     }
 </script>

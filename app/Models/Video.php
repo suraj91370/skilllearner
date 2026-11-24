@@ -19,6 +19,8 @@ class Video extends Model
         'duration',
         'category',
         'badge',
+        'module_name',
+        'sub_module_name',
         'package_id',
         'is_visible',
         'views_count',
