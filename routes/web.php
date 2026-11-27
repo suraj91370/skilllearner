@@ -960,6 +960,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout.perform'
 
 // 7. Student Portal & Affiliate Center Routes (Dedicated Controllers & Blade Views)
 Route::get('/my-courses', [StudentCourseController::class, 'index'])->name('portal.courses');
+Route::get('/my-courses/{slug}', [StudentCourseController::class, 'show'])->name('portal.courses.show');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('portal.dashboard');
 Route::get('/simulate-sale', [DashboardController::class, 'simulateSale'])->name('portal.simulate-sale');
 Route::get('/profile', [ProfileController::class, 'index'])->name('portal.profile');
@@ -1204,18 +1205,8 @@ Route::get('/impersonate-leave', [ImpersonateController::class, 'leave'])->name(
 // Student & User Videos Hub (Shows only visible videos)
 Route::get('/videos', [VideoController::class, 'userIndex'])->name('portal.videos');
 
-// 8. Video Classroom LMS (Protected: requires login)
-Route::get('/classroom', function () {
-    if (! session()->has('user')) {
-        return redirect('/login')->with('info', 'Please log in to access your classroom courses.');
-    }
-
-    $visibleVideos = Video::visible()->orderBy('sort_order')->get();
-
-    return view('classroom', [
-        'videos' => $visibleVideos,
-    ]);
-});
+// 8. Video Classroom LMS (Protected: redirects to active course player)
+Route::get('/classroom', [StudentCourseController::class, 'classroom'])->name('portal.classroom');
 
 // 9. Registration Page & Action
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');

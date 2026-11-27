@@ -29,4 +29,46 @@ class StudentCourseController extends Controller
             'active' => 'courses',
         ]);
     }
+
+    /**
+     * Display Single Course Video Player & Lessons Submenu (Matches Image 2).
+     */
+    public function show(Request $request, string $slug): View
+    {
+        PortalDataService::ensureUserSession();
+
+        $userRole = Auth::user()?->role ?? session('user.role', 'user');
+        $isSuperAdmin = ($userRole === 'super_admin');
+
+        $courses = PortalDataService::getEnrolledCourses(! $isSuperAdmin);
+        $course = PortalDataService::getCourseBySlug($slug, ! $isSuperAdmin);
+
+        $lessons = $course['lessons_list'] ?? [];
+        $lessonIndex = (int) $request->query('lesson', 0);
+        if ($lessonIndex < 0 || $lessonIndex >= count($lessons)) {
+            $lessonIndex = 0;
+        }
+
+        $activeLesson = $lessons[$lessonIndex] ?? ($lessons[0] ?? null);
+
+        return view('portal.course-player', [
+            'course' => $course,
+            'courses' => $courses,
+            'lessons' => $lessons,
+            'activeLesson' => $activeLesson,
+            'activeLessonIndex' => $lessonIndex,
+            'isSuperAdmin' => $isSuperAdmin,
+            'active' => 'courses',
+        ]);
+    }
+
+    /**
+     * Classroom route proxy to show the course player.
+     */
+    public function classroom(Request $request): View
+    {
+        $slug = (string) $request->query('course', 'reel-mastery-by-canva');
+
+        return $this->show($request, $slug);
+    }
 }
